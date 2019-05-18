@@ -4,20 +4,41 @@
     <hr>
 
     <div class="form-group">
-      <button class="btn btn-primary">Add</button>
-      <button class="btn btn-primary">Remove</button>
+      <button class="btn btn-primary" @click="add">Add</button>
+      <button class="btn btn-primary" @click="remove">Remove</button>
     </div>
 
-    <draggable :list="list"></draggable>
+      <draggable v-model="myArray">
+        <div v-for="element in myArray" :key="key">{{element}}</div>
+      </draggable>
 
   </div>
 </template>
 
 <script>
-  
+  import draggable from 'vuedraggable'
 
   export default {
-
+    data() {
+      return {
+        myArray: ['pos-1','pos-2','pos-3'],
+        element: '',
+        key: 3
+      }
+    },
+    components: {
+      draggable
+    },
+    methods: {
+      add() {
+        this.key++;
+        this.myArray.push("pos-" + this.key);
+      },
+      remove() {
+        this.myArray.pop();
+        this.key--;
+      }
+    },
   }
 </script>
 
