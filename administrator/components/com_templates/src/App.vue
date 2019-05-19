@@ -8,15 +8,18 @@
       <button class="btn btn-primary" @click="remove">Remove</button>
     </div>
 
-      <draggable v-model="myArray">
-        <div v-for="element in myArray" :key="key">{{element}}</div>
-      </draggable>
+    <draggable v-model="myArray">
+      <div class="list-group-item" v-for="element in myArray" :key="key">{{element}}</div>
+    </draggable>
+
+    <rawDisplayer class="col-3" :value="myArray" title="List" />
 
   </div>
 </template>
 
 <script>
   import draggable from 'vuedraggable'
+  import rawDisplayer from './components/raw-displayer'
 
   export default {
     data() {
@@ -27,7 +30,8 @@
       }
     },
     components: {
-      draggable
+      draggable,
+      rawDisplayer
     },
     methods: {
       add() {
