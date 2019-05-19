@@ -9,7 +9,7 @@
     </div>
 
     <draggable v-model="myArray">
-      <div class="list-group-item" v-for="element in myArray" :key="key">{{element}}</div>
+      <div class='list-group-item' v-for="element in myArray" :key="key" :class="element.size">{{element.name}}</div>
     </draggable>
 
     <rawDisplayer class="col-3" :value="myArray" title="List" />
@@ -24,7 +24,22 @@
   export default {
     data() {
       return {
-        myArray: ['pos-1','pos-2','pos-3'],
+        myArray: [
+        {
+          name: 'pos-1',
+          module_chrome: 'none',
+          size: 'col-sm-3'
+        },
+        {
+          name: 'pos-2',
+          module_chrome: 'none',
+          size: 'col-sm-3'
+        },
+        {
+          name: 'pos-3',
+          module_chrome: 'none',
+          size: 'col-sm-3'
+        }],
         element: '',
         key: 3
       }
@@ -36,7 +51,13 @@
     methods: {
       add() {
         this.key++;
-        this.myArray.push("pos-" + this.key);
+        this.myArray.push(
+        {
+          name: "pos-" + this.key ,
+          module_chrome: 'none',
+          size: 'col-sm-4'
+        }
+        );
       },
       remove() {
         this.myArray.pop();
