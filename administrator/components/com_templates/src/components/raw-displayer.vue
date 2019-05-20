@@ -8,7 +8,7 @@
 const props = {
   name: "raw-displayer",
   title: {
-    required: true,
+    required: false,
     type: String
   },
   value: {

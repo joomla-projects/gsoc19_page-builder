@@ -4,6 +4,8 @@
       <h2>Settings</h2>
       <hr>
 
+      <p v-if="selected"><strong>Edit a module position</strong></p>
+
       <label for="module_chrome">Select module chrome</label>
       <br>
       <select id="module_chrome" name="module_chrome" v-model="module_chrome">
@@ -33,7 +35,15 @@
     <h2>View</h2>
     <hr>
     <draggable v-model="myArray">
-      <div class='list-group-item' v-for="element in myArray" :key="key" :class="element.size" @click="selected = !selected">{{element.name}}</div>
+      <div class='list-group-item'
+                  tabindex="-1"
+                  v-for="element in myArray"
+                  :key="key"
+                  :class="element.size"
+                  @focus="makeActive(element)"
+                  @blur="removeActive">
+                  {{element.name}}
+      </div>
     </draggable>
   </div>
   
@@ -73,7 +83,7 @@
         key: 3,
         module_chrome: 'none',
         size_input: '3',
-        selected: false
+        selected: false,
       }
     },
     components: {
@@ -97,6 +107,16 @@
         this.key--;
         this.module_chrome = 'none';
         this.size_input = '3';
+      },
+      makeActive(element) {
+        this.selected = true;
+        this.module_chrome = element.module_chrome;
+        this.size_input = element.size[7];
+      },
+      removeActive() {
+        this.selected = false;
+        this.module_chrome = 'none';
+        this.size_input = '3';
       }
     },
   }
@@ -113,6 +133,9 @@
     margin-top: 0.5em
   }
   .list-group-item:hover {
+    background-color: lightgray
+  }
+  .list-group-item:focus {
     background-color: grey
   }
 </style>
