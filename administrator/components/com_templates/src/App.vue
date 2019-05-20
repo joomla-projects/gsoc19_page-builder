@@ -4,7 +4,7 @@
       <h2>Settings</h2>
       <hr>
 
-      <p v-if="selected"><strong>Edit a module position</strong></p>
+      <p v-if="selected"><strong>Edit module position - {{ selected_pos }}</strong></p>
 
       <label for="module_chrome">Select module chrome</label>
       <br>
@@ -27,7 +27,8 @@
         <button class="btn btn-primary" @click="remove">Remove</button>
       </div>
       <div v-else>
-        <button class="btn btn-primary" @click="">Save</button>
+        <button class="btn btn-primary" @click="save">Save</button>
+        <button class="btn btn-secondary" @click="removeActive">Back</button>
       </div>
   </div>
 
@@ -36,12 +37,10 @@
     <hr>
     <draggable v-model="myArray">
       <div class='list-group-item'
-                  tabindex="-1"
                   v-for="element in myArray"
                   :key="key"
-                  :class="element.size"
-                  @focus="makeActive(element)"
-                  @blur="removeActive">
+                  :class="[element.size]"
+                  @click="makeActive(element,$event)">
                   {{element.name}}
       </div>
     </draggable>
@@ -84,6 +83,7 @@
         module_chrome: 'none',
         size_input: '3',
         selected: false,
+        selected_pos: ''
       }
     },
     components: {
@@ -108,15 +108,21 @@
         this.module_chrome = 'none';
         this.size_input = '3';
       },
-      makeActive(element) {
+      makeActive(element,event) {
         this.selected = true;
         this.module_chrome = element.module_chrome;
         this.size_input = element.size[7];
+        this.selected_pos = element.name;
       },
       removeActive() {
         this.selected = false;
         this.module_chrome = 'none';
         this.size_input = '3';
+        this.selected_pos = '';
+      },
+      save() {
+        this.myArray[this.selected_pos[4]-1].module_chrome = this.module_chrome;
+        this.myArray[this.selected_pos[4]-1].size = "col-sm-" + this.size_input;
       }
     },
   }
@@ -134,8 +140,5 @@
   }
   .list-group-item:hover {
     background-color: lightgray
-  }
-  .list-group-item:focus {
-    background-color: grey
   }
 </style>
