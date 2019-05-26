@@ -32,10 +32,10 @@
       </div>
   </div>
 
-  <div id="View" class="col-sm-7">
+  <div id="View" class="col-sm-10">
     <h2>View</h2>
     <hr>
-    <draggable v-model="myArray">
+    <draggable v-model="myArray" class="draggable row">
       <div class='list-group-item'
                   v-for="element in myArray"
                   :key="key"
@@ -45,13 +45,6 @@
       </div>
     </draggable>
   </div>
-  
-  <div class="col-sm-3">
-    <h2>List</h2>
-    <hr>
-    <rawDisplayer :value="myArray" />
-  </div>
-
 </div>
 </template>
 
@@ -138,7 +131,14 @@
   h2 {
     margin-top: 0.5em
   }
+  .list-group-item {
+    margin: 15px 2.5px 15px 2.5px ;
+  }
   .list-group-item:hover {
     background-color: lightgray
+  }
+  .draggable {
+    cursor: grab;
+    background-color: aqua;
   }
 </style>
