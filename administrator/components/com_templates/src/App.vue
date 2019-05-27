@@ -75,39 +75,17 @@
             children: 
             [
               {
-                name: 'pos-1',
+                name: 'pos',
                 module_chrome: 'none',
                 size: 'col-sm-3'
               },
               {
-                name: 'pos-2',
+                name: 'pos',
                 module_chrome: 'none',
                 size: 'col-sm-3'
               },
               {
-                name: 'pos-3',
-                module_chrome: 'none',
-                size: 'col-sm-3'
-              }
-            ]
-          },
-          {
-            type: 'grid',
-            options: [],
-            children: 
-            [
-              {
-                name: 'pos-1',
-                module_chrome: 'none',
-                size: 'col-sm-3'
-              },
-              {
-                name: 'pos-2',
-                module_chrome: 'none',
-                size: 'col-sm-3'
-              },
-              {
-                name: 'pos-3',
+                name: 'pos',
                 module_chrome: 'none',
                 size: 'col-sm-3'
               }
