@@ -90,12 +90,12 @@
         grid_system: '',
         grid_selected: '',
         column_size: '',
-        gridArray: 
+        gridArray:
         [
           {
             type: 'grid',
             options: {},
-            children: 
+            children:
             [
               {
                 type: 'column',
@@ -184,7 +184,7 @@
       },
       editColumn(element,grid) {
         this.edit_column = true;
-        
+
       },
       editGrid(grid,submit) {
         if(submit){
