@@ -4,46 +4,50 @@
       <h2>Settings</h2>
       <hr>
 
-      <p v-if="selected"><strong>Edit module position - {{ selected_pos }}</strong></p>
+      <div v-if="selected">
+        <strong>Edit module position - {{ selected_pos }}</strong>
+        <br>
+        <label for="module_chrome">Select module chrome</label>
+        <br>
+        <select id="module_chrome" name="module_chrome" v-model="module_chrome">
+          <option value="none">none</option>
+          <option value="rounded">rounded</option>
+          <option value="table">table</option>
+          <option value="horz">horz</option>
+          <option value="xhtml">xhtml</option>
+          <option value="html5">html5</option>
+          <option value="outline">outline</option>
+        </select>
+        <br>
 
-      <label for="module_chrome">Select module chrome</label>
-      <br>
-      <select id="module_chrome" name="module_chrome" v-model="module_chrome">
-        <option value="none">none</option>
-        <option value="rounded">rounded</option>
-        <option value="table">table</option>
-        <option value="horz">horz</option>
-        <option value="xhtml">xhtml</option>
-        <option value="html5">html5</option>
-        <option value="outline">outline</option>
-      </select>
-      <br>
+        <label for="size_input">Select module size</label>
+        <input id="size_input" name="size_input" type="text" v-model="size_input">
 
-      <label for="size_input">Select module size</label>
-      <input id="size_input" name="size_input" type="text" v-model="size_input">
-
-      <div v-if="!selected">
-        <button class="btn btn-primary" @click="add">Add</button>
-        <button class="btn btn-primary" @click="remove">Remove</button>
-      </div>
-      <div v-else>
         <button class="btn btn-primary" @click="save">Save</button>
         <button class="btn btn-secondary" @click="removeActive">Back</button>
+      </div>
+
+      <div v-else>
+        <strong>Add new grid</strong>
+        <br>
+        <label for="gridType">Select grid system(should add to 12)</label>
+        <input id="gridType" name="gridType" type="text" v-model="grid_system">
+        <br>
+        <button class="btn btn-primary" @click="addGrid">Add</button>
+        <button class="btn btn-primary" @click="removeGrid">Remove</button>
       </div>
   </div>
 
   <div id="View" class="col-sm-10">
     <h2>View</h2>
     <hr>
-    <draggable v-model="myArray" class="draggable row">
-      <div class='list-group-item'
-                  v-for="element in myArray"
-                  :key="key"
-                  :class="[element.size]"
-                  @click="makeActive(element,$event)">
-                  {{element.name}}
-      </div>
-    </draggable>
+    <div v-for="grid in gridArray" v-model="gridArray">
+      <draggable v-model="grid.children" class="draggable row">
+        <div class="list-group-item" v-for="element in grid.children" :class="[element.size]" @click="makeActive(element,$event)">
+          {{element.name}}
+        </div>
+      </draggable>
+    </div>
   </div>
 </div>
 </template>
@@ -55,28 +59,61 @@
   export default {
     data() {
       return {
-        myArray: [
-        {
-          name: 'pos-1',
-          module_chrome: 'none',
-          size: 'col-sm-3'
-        },
-        {
-          name: 'pos-2',
-          module_chrome: 'none',
-          size: 'col-sm-3'
-        },
-        {
-          name: 'pos-3',
-          module_chrome: 'none',
-          size: 'col-sm-3'
-        }],
+        myArray: [],
         element: '',
         key: 3,
         module_chrome: 'none',
         size_input: '3',
         selected: false,
-        selected_pos: ''
+        selected_pos: '',
+        grid_system: '',
+        gridArray: 
+        [
+          {
+            type: 'grid',
+            options: [],
+            children: 
+            [
+              {
+                name: 'pos-1',
+                module_chrome: 'none',
+                size: 'col-sm-3'
+              },
+              {
+                name: 'pos-2',
+                module_chrome: 'none',
+                size: 'col-sm-3'
+              },
+              {
+                name: 'pos-3',
+                module_chrome: 'none',
+                size: 'col-sm-3'
+              }
+            ]
+          },
+          {
+            type: 'grid',
+            options: [],
+            children: 
+            [
+              {
+                name: 'pos-1',
+                module_chrome: 'none',
+                size: 'col-sm-3'
+              },
+              {
+                name: 'pos-2',
+                module_chrome: 'none',
+                size: 'col-sm-3'
+              },
+              {
+                name: 'pos-3',
+                module_chrome: 'none',
+                size: 'col-sm-3'
+              }
+            ]
+          }
+        ]
       }
     },
     components: {
@@ -95,11 +132,30 @@
         this.module_chrome = 'none';
         this.size_input = '3';
       },
+      addGrid() {
+        var gridSize = this.grid_system.split(" ");
+        this.myArray = []
+        gridSize.forEach(element => {
+          this.myArray.push({
+            name: 'pos',
+            module_chrome: 'none',
+            size: "col-sm-" + element
+          })
+        });
+        this.gridArray.push({
+          type: 'grid',
+          options: [],
+          children: this.myArray
+        })
+      },
       remove() {
         this.myArray.pop();
         this.key--;
         this.module_chrome = 'none';
         this.size_input = '3';
+      },
+      removeGrid() {
+        this.gridArray.pop();
       },
       makeActive(element,event) {
         this.selected = true;
@@ -116,8 +172,8 @@
       save() {
         this.myArray[this.selected_pos[4]-1].module_chrome = this.module_chrome;
         this.myArray[this.selected_pos[4]-1].size = "col-sm-" + this.size_input;
-      }
-    },
+      },
+    }
   }
 </script>
 
@@ -134,11 +190,15 @@
   .list-group-item {
     margin: 15px 2.5px 15px 2.5px ;
   }
+  .list-group-item:last-child {
+    margin: 15px 2.5px 15px 2.5px ;
+  }
   .list-group-item:hover {
     background-color: lightgray
   }
   .draggable {
     cursor: grab;
     background-color: aqua;
+    margin-top: 10px;
   }
 </style>
