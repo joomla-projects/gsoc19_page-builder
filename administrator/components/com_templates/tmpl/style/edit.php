@@ -99,8 +99,9 @@ $user = Factory::getUser();
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_TEMPLATES_PAGE_BUILDER')); ?>
-		<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'pagebuilder', Text::_('COM_TEMPLATES_PAGE_BUILDER')); ?>
+		<?php echo $this->loadTemplate('pagebuilder'); ?>
+        <?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
