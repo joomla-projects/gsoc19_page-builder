@@ -41,13 +41,15 @@
   <div id="View" class="col-sm-10">
     <h2>View</h2>
     <hr>
-    <div v-for="grid in gridArray" v-model="gridArray">
-      <draggable v-model="grid.children" class="draggable row">
-        <div class="list-group-item" v-for="element in grid.children" :class="[element.size]" @click="makeActive(element,$event)">
-          {{element.name}}
-        </div>
-      </draggable>
-    </div>
+    <draggable v-model="gridArray">
+      <div v-for="grid in gridArray" v-model="gridArray">
+        <draggable v-model="grid.children" class="draggable row">
+          <div class="list-group-item" v-for="element in grid.children" :class="[element.size]" @click="makeActive(element,$event)">
+            {{element.size}}
+          </div>
+        </draggable>
+      </div>
+    </draggable>
   </div>
 </div>
 </template>
@@ -77,17 +79,17 @@
               {
                 name: 'pos',
                 module_chrome: 'none',
-                size: 'col-sm-3'
+                size: 'col-sm-4'
               },
               {
                 name: 'pos',
                 module_chrome: 'none',
-                size: 'col-sm-3'
+                size: 'col-sm-4'
               },
               {
                 name: 'pos',
                 module_chrome: 'none',
-                size: 'col-sm-3'
+                size: 'col-sm-4'
               }
             ]
           }
@@ -125,6 +127,7 @@
           options: [],
           children: this.myArray
         })
+        this.grid_system = '';
       },
       remove() {
         this.myArray.pop();
@@ -134,6 +137,7 @@
       },
       removeGrid() {
         this.gridArray.pop();
+        this.grid_system = '';
       },
       makeActive(element,event) {
         this.selected = true;
@@ -172,11 +176,11 @@
     margin: 15px 2.5px 15px 2.5px ;
   }
   .list-group-item:hover {
-    background-color: lightgray
+    background-color: lightgray;
+    cursor: grab
   }
   .draggable {
-    cursor: grab;
-    background-color: aqua;
+    background-color: gray;
     margin-top: 10px;
   }
 </style>
