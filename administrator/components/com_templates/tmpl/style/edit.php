@@ -89,7 +89,7 @@ $user = Factory::getUser();
 
 		<?php
 		$this->fieldsets = array();
-		$this->ignore_fieldsets = array('basic', 'description');
+		$this->ignore_fieldsets = array('basic', 'description', 'pagebuilder');
 		echo LayoutHelper::render('joomla.edit.params', $this);
 		?>
 

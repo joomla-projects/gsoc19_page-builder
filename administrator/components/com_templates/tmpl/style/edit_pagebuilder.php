@@ -16,6 +16,10 @@ HTMLHelper::_('script', 'media/com_templates/js/pagebuilder.js');
 
 // Add stylesheet
 HTMLHelper::_('stylesheet', 'media/com_templates/css/pagebuilder.css');
-?>
 
+$fieldset = $this->form->getFieldset('pagebuilder');
+foreach ($fieldset as $field) {
+    echo $field->renderField();
+}
+?>
 <div id="com-templates"></div>
