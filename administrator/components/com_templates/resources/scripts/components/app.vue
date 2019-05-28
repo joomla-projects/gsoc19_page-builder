@@ -1,61 +1,72 @@
 <template>
 <div class="container-fluid row">
-  <div id="Settings" class="col-sm-2">
+  <div id="Settings" class="settings col-sm-2">
       <h2>Settings</h2>
       <hr>
+      <form>
+        <div v-if="edit_position">
+            <fieldset>
+                <legend>Edit module position - {{ selected_pos }}</legend>
 
-      <div v-if="edit_position">
-        <strong>Edit module position - {{ selected_pos }}</strong>
-        <br>
-        <label for="module_chrome">Select module chrome</label>
-        <br>
-        <select id="module_chrome" name="module_chrome" v-model="module_chrome">
-          <option value="none">none</option>
-          <option value="rounded">rounded</option>
-          <option value="table">table</option>
-          <option value="horz">horz</option>
-          <option value="xhtml">xhtml</option>
-          <option value="html5">html5</option>
-          <option value="outline">outline</option>
-        </select>
-        <br>
+                <div class="form-group">
+                    <label for="module_chrome">Select module chrome</label>
+                    <select id="module_chrome" name="module_chrome" v-model="module_chrome">
+                      <option value="none">none</option>
+                      <option value="rounded">rounded</option>
+                      <option value="table">table</option>
+                      <option value="horz">horz</option>
+                      <option value="xhtml">xhtml</option>
+                      <option value="html5">html5</option>
+                      <option value="outline">outline</option>
+                    </select>
+                </div>
 
-        <label for="size_input">Select module size</label>
-        <input id="size_input" name="size_input" type="text" v-model="size_input">
+                <div class="form-group">
+                  <label for="size_input">Select module size</label>
+                  <input id="size_input" name="size_input" type="text" v-model="size_input" class="form-control">
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-success" @click="save">Save</button>
+                    <button class="btn btn-secondary" @click="removeActive">Back</button>
+                </div>
+            </fieldset>
+        </div>
 
-        <button class="btn btn-success" @click="save">Save</button>
-        <button class="btn btn-secondary" @click="removeActive">Back</button>
-      </div>
+        <div v-else-if="edit_column" class="btn-group">
+            <button class="btn btn-success" @click="">Save</button>
+            <button class="btn btn-secondary" @click="">Back</button>
+        </div>
 
-      <div v-else-if="edit_column">
-        <button class="btn btn-success" @click="">Save</button>
-        <button class="btn btn-secondary" @click="">Back</button>
-      </div>
+      <div v-else-if="edit_grid" class="form-group">
+        <fieldset>
+            <legend>Edit Grid</legend>
+            <label for="column_size">Add new column</label>
+            <input id="column_size" name="column_size" type="text" v-model="column_size">
 
-      <div v-else-if="edit_grid">
-        <strong>Edit Grid</strong>
-        <br>
-        <label for="column_size">Add new column</label>
-        <input id="column_size" name="column_size" type="text" v-model="column_size">
-        <br>
-        <button class="btn btn-success" @click="editGrid('',true)">Save</button>
-        <button class="btn btn-danger" @click="back">Back</button>
+            <div class="btn-group">
+                <button class="btn btn-success" @click="editGrid('',true)">Save</button>
+                <button class="btn btn-danger" @click="back">Back</button>
+            </div>
+        </fieldset>
       </div>
 
       <div v-else>
-        <strong>Add new grid</strong>
-        <br>
-        <label for="grid_type">Select grid system(should add to 12)</label>
-        <input id="grid_type" name="grid_type" type="text" v-model="grid_system">
-        <br>
-        <button class="btn btn-primary" @click="addGrid">Add</button>
-        <button class="btn btn-secondary" @click="grid_system = ''">Reset</button>
+          <fieldset>
+            <legend>Add new grid</legend>
+            <label for="grid_type">Select grid system(should add to 12)</label>
+            <input id="grid_type" name="grid_type" type="text" v-model="grid_system">
+
+            <div class="btn-group">
+                <button class="btn btn-primary" @click="addGrid">Add</button>
+                <button class="btn btn-secondary" @click="grid_system = ''">Reset</button>
+            </div>
+          </fieldset>
       </div>
+    </form>
   </div>
 
   <div id="View" class="col-sm-10">
     <h2>View</h2>
-    <hr>
     <draggable v-model="gridArray">
       <div v-for="grid in gridArray" v-model="gridArray" class="draggable">
         <draggable v-model="grid.children" class="row grid-row">
@@ -146,7 +157,7 @@
       },
       addGrid() {
         var gridSize = this.grid_system.split(" ");
-        this.myArray = []
+        this.myArray = [];
         gridSize.forEach(element => {
           this.myArray.push({
             type: 'column',
@@ -162,7 +173,7 @@
           type: 'grid',
           options: {},
           children: this.myArray
-        })
+        });
         this.grid_system = '';
       },
       remove() {

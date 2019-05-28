@@ -1,9 +1,10 @@
 <template>
-  <div>
+  <div class="raw">
     <h3>{{ title }}</h3>
     <pre>{{ valueString }}</pre>
   </div>
 </template>
+
 <script>
 const props = {
   name: "raw-displayer",
@@ -15,6 +16,7 @@ const props = {
     required: true
   }
 };
+
 export default {
   props,
   computed: {
@@ -24,8 +26,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-pre {
-  text-align: start;
-}
-</style>
