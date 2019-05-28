@@ -4,7 +4,7 @@
       <h2>Settings</h2>
       <hr>
 
-      <div v-if="selected">
+      <div v-if="edit_position">
         <strong>Edit module position - {{ selected_pos }}</strong>
         <br>
         <label for="module_chrome">Select module chrome</label>
@@ -27,11 +27,26 @@
         <button class="btn btn-secondary" @click="removeActive">Back</button>
       </div>
 
+      <div v-else-if="edit_column">
+        <button class="btn btn-primary" @click="">Save</button>
+        <button class="btn btn-secondary" @click="">Back</button>
+      </div>
+
+      <div v-else-if="edit_grid">
+        <strong>Edit Grid</strong>
+        <br>
+        <label for="column_size">Add new column</label>
+        <input id="column_size" name="column_size" type="text" v-model="column_size">
+        <br>
+        <button class="btn btn-primary" @click="editGrid('',true)">Save</button>
+        <button class="btn btn-secondary" @click="">Back</button>
+      </div>
+
       <div v-else>
         <strong>Add new grid</strong>
         <br>
-        <label for="gridType">Select grid system(should add to 12)</label>
-        <input id="gridType" name="gridType" type="text" v-model="grid_system">
+        <label for="grid_type">Select grid system(should add to 12)</label>
+        <input id="grid_type" name="grid_type" type="text" v-model="grid_system">
         <br>
         <button class="btn btn-primary" @click="addGrid">Add</button>
         <button class="btn btn-primary" @click="removeGrid">Remove</button>
@@ -42,12 +57,14 @@
     <h2>View</h2>
     <hr>
     <draggable v-model="gridArray">
-      <div v-for="grid in gridArray" v-model="gridArray">
-        <draggable v-model="grid.children" class="draggable row">
-          <div class="list-group-item" v-for="element in grid.children" :class="[element.size]" @click="makeActive(element,$event)">
-            {{element.size}}
+      <div v-for="grid in gridArray" v-model="gridArray" class="draggable">
+        <draggable v-model="grid.children" class="row grid-row">
+          <div class="list-group-item" v-for="column in grid.children" :class="[column.options.size]" @click="">
+            {{column.options.size}}
+            (<i>{{column.type}}</i>)
           </div>
         </draggable>
+        <button class="btn-primary btn editGrid" @click="editGrid(grid,false)">Edit Grid</button>
       </div>
     </draggable>
   </div>
@@ -56,7 +73,6 @@
 
 <script>
   import draggable from 'vuedraggable'
-  import rawDisplayer from './components/raw-displayer'
 
   export default {
     data() {
@@ -66,30 +82,46 @@
         key: 3,
         module_chrome: 'none',
         size_input: '3',
-        selected: false,
+        edit_grid: false,
+        edit_column: false,
+        edit_position: false,
         selected_pos: '',
         grid_system: '',
+        grid_selected: '',
+        column_size: '',
         gridArray: 
         [
           {
             type: 'grid',
-            options: [],
+            options: {},
             children: 
             [
               {
-                name: 'pos',
-                module_chrome: 'none',
-                size: 'col-sm-4'
+                type: 'column',
+                options: {
+                  size: 'col-sm-4'
+                },
+                children: {
+
+                }
               },
               {
-                name: 'pos',
-                module_chrome: 'none',
-                size: 'col-sm-4'
+                type: 'column',
+                options: {
+                  size: 'col-sm-4'
+                },
+                children: {
+
+                }
               },
               {
-                name: 'pos',
-                module_chrome: 'none',
-                size: 'col-sm-4'
+                type: 'column',
+                options: {
+                  size: 'col-sm-4'
+                },
+                children: {
+
+                }
               }
             ]
           }
@@ -97,8 +129,7 @@
       }
     },
     components: {
-      draggable,
-      rawDisplayer
+      draggable
     },
     methods: {
       add() {
@@ -117,14 +148,18 @@
         this.myArray = []
         gridSize.forEach(element => {
           this.myArray.push({
-            name: 'pos',
-            module_chrome: 'none',
-            size: "col-sm-" + element
+            type: 'column',
+            options: {
+              size: "col-sm-" + element
+            },
+            children: {
+
+            }
           })
         });
         this.gridArray.push({
           type: 'grid',
-          options: [],
+          options: {},
           children: this.myArray
         })
         this.grid_system = '';
@@ -139,11 +174,29 @@
         this.gridArray.pop();
         this.grid_system = '';
       },
-      makeActive(element,event) {
-        this.selected = true;
-        this.module_chrome = element.module_chrome;
-        this.size_input = element.size[7];
-        this.selected_pos = element.name;
+      editColumn(element,grid) {
+        this.edit_column = true;
+        
+      },
+      editGrid(grid,submit) {
+        if(submit){
+          this.grid_selected.children.push({
+            type: 'column',
+            options: {
+              size: "col-sm-" + this.column_size
+            },
+            children: {
+
+            }
+          })
+          console.log(this.grid_selected);
+          this.grid_selected = ''
+        }
+        else{
+          this.edit_grid = true;
+          this.grid_selected = grid;
+          console.log(grid);
+        }
       },
       removeActive() {
         this.selected = false;
@@ -155,6 +208,9 @@
         this.myArray[this.selected_pos[4]-1].module_chrome = this.module_chrome;
         this.myArray[this.selected_pos[4]-1].size = "col-sm-" + this.size_input;
       },
+      log(el) {
+        console.log(el);
+      }
     }
   }
 </script>
@@ -182,5 +238,11 @@
   .draggable {
     background-color: gray;
     margin-top: 10px;
+  }
+  .editGrid {
+    height: 35px;
+  }
+  .grid-row {
+    margin-left: 15px;
   }
 </style>
