@@ -197,21 +197,19 @@
 
             }
           })
-          this.grid_selected = ''
+          this.grid_selected = '';
+          this.column_size = '';
+          this.edit_grid = false;
         }
         else{
           this.edit_grid = true;
           this.grid_selected = grid;
-          console.log(grid);
         }
       },
       back() {
         this.edit_grid = false;
         this.edit_column = false;
         this.edit_position = false;
-      },
-      log(el) {
-        console.log(el);
       }
     }
   }
@@ -248,5 +246,6 @@
     float: right;
     margin: 0em;
     padding: 0em 0.2em 0em 0.2em;
+    cursor: pointer;
   }
 </style>
