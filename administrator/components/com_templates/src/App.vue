@@ -23,12 +23,12 @@
         <label for="size_input">Select module size</label>
         <input id="size_input" name="size_input" type="text" v-model="size_input">
 
-        <button class="btn btn-primary" @click="save">Save</button>
+        <button class="btn btn-success" @click="save">Save</button>
         <button class="btn btn-secondary" @click="removeActive">Back</button>
       </div>
 
       <div v-else-if="edit_column">
-        <button class="btn btn-primary" @click="">Save</button>
+        <button class="btn btn-success" @click="">Save</button>
         <button class="btn btn-secondary" @click="">Back</button>
       </div>
 
@@ -38,8 +38,8 @@
         <label for="column_size">Add new column</label>
         <input id="column_size" name="column_size" type="text" v-model="column_size">
         <br>
-        <button class="btn btn-primary" @click="editGrid('',true)">Save</button>
-        <button class="btn btn-secondary" @click="">Back</button>
+        <button class="btn btn-success" @click="editGrid('',true)">Save</button>
+        <button class="btn btn-danger" @click="back">Back</button>
       </div>
 
       <div v-else>
@@ -49,7 +49,7 @@
         <input id="grid_type" name="grid_type" type="text" v-model="grid_system">
         <br>
         <button class="btn btn-primary" @click="addGrid">Add</button>
-        <button class="btn btn-primary" @click="removeGrid">Remove</button>
+        <button class="btn btn-secondary" @click="grid_system = ''">Reset</button>
       </div>
   </div>
 
@@ -61,10 +61,11 @@
         <draggable v-model="grid.children" class="row grid-row">
           <div class="list-group-item" v-for="column in grid.children" :class="[column.options.size]" @click="">
             {{column.options.size}}
-            (<i>{{column.type}}</i>)
+            (<i>{{column.type}}</i>)<button class="remove" @click="deleteColumn(grid,column)">X</button>
           </div>
         </draggable>
         <button class="btn-primary btn editGrid" @click="editGrid(grid,false)">Edit Grid</button>
+        <button class="btn btn-danger" @click="deleteGrid(grid)">Delete Grid</button>
       </div>
     </draggable>
   </div>
@@ -170,9 +171,16 @@
         this.module_chrome = 'none';
         this.size_input = '3';
       },
-      removeGrid() {
-        this.gridArray.pop();
-        this.grid_system = '';
+      deleteGrid(grid) {
+        var index = this.gridArray.indexOf(grid);
+        if(index > -1)
+          this.gridArray.splice(index,1);
+      },
+      deleteColumn(grid,column) {
+        var index = grid.children.indexOf(column);
+        if(index > -1){
+          grid.children.splice(index,1);
+        }
       },
       editColumn(element,grid) {
         this.edit_column = true;
@@ -189,7 +197,6 @@
 
             }
           })
-          console.log(this.grid_selected);
           this.grid_selected = ''
         }
         else{
@@ -198,15 +205,10 @@
           console.log(grid);
         }
       },
-      removeActive() {
-        this.selected = false;
-        this.module_chrome = 'none';
-        this.size_input = '3';
-        this.selected_pos = '';
-      },
-      save() {
-        this.myArray[this.selected_pos[4]-1].module_chrome = this.module_chrome;
-        this.myArray[this.selected_pos[4]-1].size = "col-sm-" + this.size_input;
+      back() {
+        this.edit_grid = false;
+        this.edit_column = false;
+        this.edit_position = false;
       },
       log(el) {
         console.log(el);
@@ -239,10 +241,12 @@
     background-color: gray;
     margin-top: 10px;
   }
-  .editGrid {
-    height: 35px;
-  }
   .grid-row {
     margin-left: 15px;
+  }
+  .remove {
+    float: right;
+    margin: 0em;
+    padding: 0em 0.2em 0em 0.2em;
   }
 </style>
