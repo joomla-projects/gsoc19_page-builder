@@ -24,12 +24,12 @@
         <input id="size_input" name="size_input" type="text" v-model="size_input">
 
         <button class="btn btn-success" @click="save">Save</button>
-        <button class="btn btn-secondary" @click="removeActive">Back</button>
+        <button class="btn btn-secondary" @click="back">Back</button>
       </div>
 
       <div v-else-if="edit_column">
         <button class="btn btn-success" @click="">Save</button>
-        <button class="btn btn-secondary" @click="">Back</button>
+        <button class="btn btn-secondary" @click="back">Back</button>
       </div>
 
       <div v-else-if="edit_grid">
@@ -68,7 +68,28 @@
         <button class="btn btn-danger" @click="deleteGrid(grid)">Delete Grid</button>
       </div>
     </draggable>
+    <button class="btn btn-outline-info btn-block" data-toggle="modal" data-target="#newgrid">+</button>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="newgrid" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5>Select layout</h5>
+            <button class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            y
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
 </div>
 </template>
 
@@ -133,17 +154,6 @@
       draggable
     },
     methods: {
-      add() {
-        this.key++;
-        this.myArray.push({
-          name: "pos-" + this.key ,
-          module_chrome: this.module_chrome,
-          size: "col-sm-" + this.size_input
-        }
-        );
-        this.module_chrome = 'none';
-        this.size_input = '3';
-      },
       addGrid() {
         var gridSize = this.grid_system.split(" ");
         this.myArray = []
@@ -164,12 +174,6 @@
           children: this.myArray
         })
         this.grid_system = '';
-      },
-      remove() {
-        this.myArray.pop();
-        this.key--;
-        this.module_chrome = 'none';
-        this.size_input = '3';
       },
       deleteGrid(grid) {
         var index = this.gridArray.indexOf(grid);
