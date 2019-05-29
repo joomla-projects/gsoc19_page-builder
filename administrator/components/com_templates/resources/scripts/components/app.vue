@@ -225,38 +225,3 @@
     }
   }
 </script>
-
-<style>
-  button {
-    margin: 0.1em
-  }
-  select,input {
-    margin: 0.5em
-  }
-  h2 {
-    margin-top: 0.5em
-  }
-  .list-group-item {
-    margin: 15px 2.5px 15px 2.5px ;
-  }
-  .list-group-item:last-child {
-    margin: 15px 2.5px 15px 2.5px ;
-  }
-  .list-group-item:hover {
-    background-color: lightgray;
-    cursor: grab
-  }
-  .draggable {
-    background-color: gray;
-    margin-top: 10px;
-  }
-  .grid-row {
-    margin-left: 15px;
-  }
-  .remove {
-    float: right;
-    margin: 0em;
-    padding: 0em 0.2em 0em 0.2em;
-    cursor: pointer;
-  }
-</style>

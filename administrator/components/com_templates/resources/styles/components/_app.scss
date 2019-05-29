@@ -24,4 +24,15 @@
       cursor: grab
     }
   }
+
+  .grid-row {
+    margin-left: 15px;
+  }
+
+  .remove {
+    float: right;
+    margin: 0;
+    padding: 0 0.2em 0 0.2em;
+    cursor: pointer;
+  }
 }
