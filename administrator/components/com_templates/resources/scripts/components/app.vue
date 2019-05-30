@@ -87,6 +87,43 @@
   import draggable from 'vuedraggable'
 
   export default {
+    props: {
+      grid: {
+        type: Array,
+        default: function () {
+          return [
+            {
+              type: 'grid',
+              options: {},
+              children: [
+                  {
+                    type: 'column',
+                    options: {
+                      size: 'col-sm-4'
+                    },
+                    children: {}
+                  },
+                  {
+                    type: 'column',
+                    options: {
+                      size: 'col-sm-4'
+                    },
+                    children: {}
+                  },
+                  {
+                    type: 'column',
+                    options: {
+                      size: 'col-sm-4'
+                    },
+                    children: {}
+                  }
+              ]
+            }
+          ];
+        },
+        required: false
+      }
+    },
     data() {
       return {
         myArray: [],
@@ -101,44 +138,16 @@
         grid_system: '',
         grid_selected: '',
         column_size: '',
-        gridArray:
-        [
-          {
-            type: 'grid',
-            options: {},
-            children:
-            [
-              {
-                type: 'column',
-                options: {
-                  size: 'col-sm-4'
-                },
-                children: {
-
-                }
-              },
-              {
-                type: 'column',
-                options: {
-                  size: 'col-sm-4'
-                },
-                children: {
-
-                }
-              },
-              {
-                type: 'column',
-                options: {
-                  size: 'col-sm-4'
-                },
-                children: {
-
-                }
-              }
-            ]
-          }
-        ]
+        gridArray: this.grid,
       }
+    },
+    watch: {
+      grid: {
+        handler: function(newVal, oldVal) {
+          document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
+        },
+        deep: true,
+      },
     },
     components: {
       draggable
@@ -207,7 +216,7 @@
             children: {
 
             }
-          })
+          });
           this.grid_selected = '';
           this.column_size = '';
           this.edit_grid = false;
