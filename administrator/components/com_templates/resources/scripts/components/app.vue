@@ -72,7 +72,8 @@
         <draggable v-model="grid.children" class="row grid-row">
           <div class="list-group-item" v-for="column in grid.children" :class="[column.options.size]" @click="">
             {{column.options.size}}
-            (<i>{{column.type}}</i>)<button type="button" class="remove" @click="deleteColumn(grid,column)">X</button>
+            (<i>{{column.type}}</i>)
+            <button type="button" class="close" aria-label="Remove" @click="deleteColumn(grid,column)">X</button>
           </div>
         </draggable>
         <button type="button" class="btn-primary btn editGrid" @click="editGrid(grid,false)">Edit Grid</button>
