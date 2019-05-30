@@ -26,15 +26,15 @@
                   <input id="size_input" name="size_input" type="text" v-model="size_input" class="form-control">
                 </div>
                 <div class="btn-group">
-                    <button class="btn btn-success" @click="save">Save</button>
-                    <button class="btn btn-secondary" @click="removeActive">Back</button>
+                    <button type="button" class="btn btn-success" @click="save">Save</button>
+                    <button type="button" class="btn btn-secondary" @click="removeActive">Back</button>
                 </div>
             </fieldset>
         </div>
 
         <div v-else-if="edit_column" class="btn-group">
-            <button class="btn btn-success" @click="">Save</button>
-            <button class="btn btn-secondary" @click="">Back</button>
+            <button type="button" class="btn btn-success" @click="">Save</button>
+            <button type="button" class="btn btn-secondary" @click="">Back</button>
         </div>
 
       <div v-else-if="edit_grid" class="form-group">
@@ -44,8 +44,8 @@
             <input id="column_size" name="column_size" type="text" v-model="column_size">
 
             <div class="btn-group">
-                <button class="btn btn-success" @click="editGrid('',true)">Save</button>
-                <button class="btn btn-danger" @click="back">Back</button>
+                <button type="button" class="btn btn-success" @click="editGrid('',true)">Save</button>
+                <button type="button" class="btn btn-danger" @click="back">Back</button>
             </div>
         </fieldset>
       </div>
@@ -57,8 +57,8 @@
             <input id="grid_type" name="grid_type" type="text" v-model="grid_system">
 
             <div class="btn-group">
-                <button class="btn btn-primary" @click="addGrid">Add</button>
-                <button class="btn btn-secondary" @click="grid_system = ''">Reset</button>
+                <button type="button" class="btn btn-primary" @click="addGrid">Add</button>
+                <button type="button" class="btn btn-secondary" @click="grid_system = ''">Reset</button>
             </div>
           </fieldset>
       </div>
@@ -72,11 +72,11 @@
         <draggable v-model="grid.children" class="row grid-row">
           <div class="list-group-item" v-for="column in grid.children" :class="[column.options.size]" @click="">
             {{column.options.size}}
-            (<i>{{column.type}}</i>)<button class="remove" @click="deleteColumn(grid,column)">X</button>
+            (<i>{{column.type}}</i>)<button type="button" class="remove" @click="deleteColumn(grid,column)">X</button>
           </div>
         </draggable>
-        <button class="btn-primary btn editGrid" @click="editGrid(grid,false)">Edit Grid</button>
-        <button class="btn btn-danger" @click="deleteGrid(grid)">Delete Grid</button>
+        <button type="button" class="btn-primary btn editGrid" @click="editGrid(grid,false)">Edit Grid</button>
+        <button type="button" class="btn btn-danger" @click="deleteGrid(grid)">Delete Grid</button>
       </div>
     </draggable>
   </div>
