@@ -7,6 +7,7 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
+    "bootstrap": "^4.3.1",
     "core-js": "^2.6.5",
     "vue": "^2.6.10",
     "vuedraggable": "^2.20.0"
