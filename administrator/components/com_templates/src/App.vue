@@ -103,7 +103,6 @@
     </div>
     <!-- Modal ends -->
   </div>
-
 </div>
 </template>
 
@@ -137,27 +136,33 @@
                 options: {
                   size: 'col-sm-4'
                 },
-                children: {
-
-                }
+                children: [{
+                  type: 'position',
+                  options: {},
+                  children: []
+                }]
               },
               {
                 type: 'column',
                 options: {
                   size: 'col-sm-4'
                 },
-                children: {
-
-                }
+                children: [{
+                  type: 'position',
+                  options: {},
+                  children: []
+                }]
               },
               {
                 type: 'column',
                 options: {
                   size: 'col-sm-4'
                 },
-                children: {
-
-                }
+                children: [{
+                  type: 'position',
+                  options: {},
+                  children: []
+                }]
               }
             ]
           }
@@ -177,9 +182,11 @@
             options: {
               size: "col-sm-" + element
             },
-            children: {
-
-            }
+            children: [{
+              type: 'position',
+              options: {},
+              children: []
+            }]
           })
         });
         this.gridArray.push({
@@ -188,6 +195,7 @@
           children: this.myArray
         })
         this.grid_system = '';
+        console.log(this.gridArray);
       },
       deleteGrid(grid) {
         var index = this.gridArray.indexOf(grid);
@@ -211,9 +219,11 @@
             options: {
               size: "col-sm-" + this.column_size
             },
-            children: {
-
-            }
+            children: [{
+              type: 'position',
+              options: {},
+              children: []
+            }]
           })
           this.grid_selected = '';
           this.column_size = '';
