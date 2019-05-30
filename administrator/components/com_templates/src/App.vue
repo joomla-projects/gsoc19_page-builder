@@ -61,7 +61,7 @@
         <draggable v-model="grid.children" class="row grid-row">
           <div class="list-group-item" v-for="column in grid.children" :class="[column.options.size]" @click="">
             {{column.options.size}}
-            (<i>{{column.type}}</i>)<button class="remove" @click="deleteColumn(grid,column)">X</button>
+            (<i>{{column.type}}</i>)<button class="remove" @click="deleteColumn(grid,column)">&times;</button>
           </div>
         </draggable>
         <button class="btn-primary btn editGrid" @click="editGrid(grid,false)">Edit Grid</button>
@@ -79,15 +79,29 @@
             <button class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
           </div>
           <div class="modal-body">
-            y
+            Predefined
+            <div class="row">
+              <div class="col-sm"><img src="./icons/row_12.png" height="25" width="25" @click="grid_system = '12'"></div>
+              <div class="col-sm"><img src="./icons/row_6_6.png" height="25" width="25" @click="grid_system = '6 6'"></div>
+              <div class="col-sm"><img src="./icons/row_4_8.png" height="25" width="25" @click="grid_system = '4 8'"></div>
+              <div class="col-sm"><img src="./icons/row_8_4.png" height="25" width="25" @click="grid_system = '8 4'"></div>
+              <div class="col-sm"><img src="./icons/row_3_3_3_3.png" height="25" width="25" @click="grid_system = '3 3 3 3'"></div>
+              <div class="col-sm"><img src="./icons/row_4_4_4.png" height="25" width="25" @click="grid_system = '4 4 4'"></div>
+              <div class="col-sm"><img src="./icons/row_3_6_3.png" height="25" width="25" @click="grid_system = '3 6 3'"></div>
+            </div>
+            <div>
+              <label>Custom</label>
+              <input name="column_size" type="text" v-model="grid_system">
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary" @click="addGrid" data-dismiss="modal">Add</button>
           </div>
         </div>
       </div>
     </div>
+    <!-- Modal ends -->
   </div>
 
 </div>
@@ -214,6 +228,9 @@
         this.edit_grid = false;
         this.edit_column = false;
         this.edit_position = false;
+      },
+      log(el) {
+        console.log(el);
       }
     }
   }
@@ -248,8 +265,10 @@
   }
   .remove {
     float: right;
-    margin: 0em;
-    padding: 0em 0.2em 0em 0.2em;
+    cursor: pointer;
+  }
+  img {
+    margin: 0.4em;
     cursor: pointer;
   }
 </style>
