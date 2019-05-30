@@ -86,7 +86,7 @@
 					name="grid"
 					type="text"
 					default="[]"
-					label="JSON_PARAMETER"
+					label="TPL_CASSIOPEIA_JSON_PARAMETER"
 					filter="string"
 				/>
 			</fieldset>
