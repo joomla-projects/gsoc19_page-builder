@@ -1,6 +1,6 @@
 <template>
-<div class="container-fluid row">
-  <div id="Settings" class="settings col-sm-2">
+<div class="container-fluid">
+  <!--<div id="Settings" class="settings col-sm-2">
       <h2>Settings</h2>
       <hr>
       <form>
@@ -62,21 +62,22 @@
           </fieldset>
       </div>
     </form>
-  </div>
+  </div>-->
 
-  <div id="View" class="col-sm-10">
+  <div id="View">
     <h2>View</h2>
     <draggable v-model="gridArray">
       <div v-for="grid in gridArray" v-model="gridArray" class="draggable">
+        <button v-if="gridArray.length" type="button" class="icon-cancel close" @click="deleteGrid(grid)"></button>
+        <button v-if="gridArray.length" type="button" class="icon-apply close" @click="editGrid(grid,false)"></button>
         <draggable v-model="grid.children" class="row grid-row">
           <div class="list-group-item" v-for="column in grid.children" :class="[column.options.size]" @click="">
             {{column.options.size}}
             (<i>{{column.type}}</i>)
-            <button type="button" class="close" aria-label="Remove" @click="deleteColumn(grid,column)">&times;</button>
+            <button type="button" class="icon-cancel close" @click="deleteColumn(grid,column)"></button>
+            <button type="button" class="icon-apply close" @click="editGrid(grid,false)"></button>
           </div>
         </draggable>
-        <button v-if="grid.children.length" type="button" class="btn-primary btn editGrid" @click="editGrid(grid,false)">Edit Grid</button>
-        <button v-if="grid.children.length" type="button" class="btn btn-danger" @click="deleteGrid(grid)">Delete Grid</button>
       </div>
     </draggable>
     <button type="button" class="btn btn-outline-info btn-block" data-toggle="modal" data-target="#newgrid">+</button>
@@ -125,13 +126,7 @@
         type: Array,
         required: false,
         default: function () {
-          return [
-            {
-              type: 'grid',
-              options: {},
-              children: []
-            }
-          ];
+          return [];
         },
       }
     },
