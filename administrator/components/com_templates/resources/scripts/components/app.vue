@@ -75,8 +75,8 @@
             <button type="button" class="close" aria-label="Remove" @click="deleteColumn(grid,column)">&times;</button>
           </div>
         </draggable>
-        <button type="button" class="btn-primary btn editGrid" @click="editGrid(grid,false)">Edit Grid</button>
-        <button type="button" class="btn btn-danger" @click="deleteGrid(grid)">Delete Grid</button>
+        <button v-if="grid.children.length" type="button" class="btn-primary btn editGrid" @click="editGrid(grid,false)">Edit Grid</button>
+        <button v-if="grid.children.length" type="button" class="btn btn-danger" @click="deleteGrid(grid)">Delete Grid</button>
       </div>
     </draggable>
     <button type="button" class="btn btn-outline-info btn-block" data-toggle="modal" data-target="#newgrid">+</button>
@@ -129,42 +129,7 @@
             {
               type: 'grid',
               options: {},
-              children:
-                [
-                  {
-                    type: 'column',
-                    options: {
-                      size: 'col-sm-4'
-                    },
-                    children: [{
-                      type: 'position',
-                      options: {},
-                      children: []
-                    }]
-                  },
-                  {
-                    type: 'column',
-                    options: {
-                      size: 'col-sm-4'
-                    },
-                    children: [{
-                      type: 'position',
-                      options: {},
-                      children: []
-                    }]
-                  },
-                  {
-                    type: 'column',
-                    options: {
-                      size: 'col-sm-4'
-                    },
-                    children: [{
-                      type: 'position',
-                      options: {},
-                      children: []
-                    }]
-                  }
-                ]
+              children: []
             }
           ];
         },
