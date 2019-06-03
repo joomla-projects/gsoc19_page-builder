@@ -93,13 +93,13 @@
           <div class="modal-body">
             Predefined
             <div class="row">
-              <div class="col-sm"><img src="./icons/row_12.png" height="25" width="25" @click="grid_system = '12'"></div>
-              <div class="col-sm"><img src="./icons/row_6_6.png" height="25" width="25" @click="grid_system = '6 6'"></div>
-              <div class="col-sm"><img src="./icons/row_4_8.png" height="25" width="25" @click="grid_system = '4 8'"></div>
-              <div class="col-sm"><img src="./icons/row_8_4.png" height="25" width="25" @click="grid_system = '8 4'"></div>
-              <div class="col-sm"><img src="./icons/row_3_3_3_3.png" height="25" width="25" @click="grid_system = '3 3 3 3'"></div>
-              <div class="col-sm"><img src="./icons/row_4_4_4.png" height="25" width="25" @click="grid_system = '4 4 4'"></div>
-              <div class="col-sm"><img src="./icons/row_3_6_3.png" height="25" width="25" @click="grid_system = '3 6 3'"></div>
+              <div class="col-sm" v-html="images.row12" @click="grid_system = '12'"></div>
+              <div class="col-sm" v-html="images.row66" @click="grid_system = '6 6'"></div>
+              <div class="col-sm" v-html="images.row48" @click="grid_system = '4 8'"></div>
+              <div class="col-sm" v-html="images.row84" @click="grid_system = '8 4'"></div>
+              <div class="col-sm" v-html="images.row3333" @click="grid_system = '3 3 3 3'"></div>
+              <div class="col-sm" v-html="images.row444" @click="grid_system = '4 4 4'"></div>
+              <div class="col-sm" v-html="images.row363" @click="grid_system = '3 6 3'"></div>
             </div>
             <div>
               <label>Custom</label>
@@ -128,7 +128,21 @@
         default: function () {
           return [];
         },
-      }
+      },
+      joptions: {
+        type: Object,
+        required: false,
+        default: function () {
+          return window.Joomla.getOptions('com_templates');
+        },
+      },
+      images: {
+        type: Object,
+        required: false,
+        default: function () {
+          return this.joptions.images;
+        },
+      },
     },
     data() {
       return {
