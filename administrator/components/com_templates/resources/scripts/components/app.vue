@@ -32,8 +32,14 @@
         </div>
 
         <div v-else-if="edit_column" class="btn-group">
-            <button type="button" class="btn btn-success" @click="">Save</button>
-            <button type="button" class="btn btn-secondary" @click="">Back</button>
+          <fieldset>
+            <legend>Edit Column</legend>
+            <label for="column_class">Add a custom class</label>
+            <input id="column_class" name="column_class" type="text" v-model="column_class">
+            
+            <button type="button" class="btn btn-success" @click="editColumn('','',true)">Save</button>
+            <button type="button" class="btn btn-secondary" @click="back">Back</button>
+          </fieldset>
         </div>
 
       <div v-else-if="edit_grid" class="form-group">
@@ -66,7 +72,7 @@
             {{column.options.size}}
             (<i>{{column.type}}</i>)
             <button type="button" class="icon-cancel close" @click="deleteColumn(grid,column)"></button>
-            <button type="button" class="icon-apply close" @click="editColumn(grid,column)"></button>
+            <button type="button" class="icon-apply close" @click="editColumn(grid,column,false)"></button>
           </div>
         </draggable>
       </div>
@@ -148,8 +154,10 @@
         selected_pos: '',
         grid_system: '',
         grid_selected: '',
+        column_selected: '',
         column_size: '',
         grid_class: '',
+        column_class: '',
         gridArray: this.grid,
         showSettings: false
       }
@@ -200,8 +208,25 @@
           grid.children.splice(index,1);
         }
       },
-      editColumn(element,grid) {
-        this.edit_column = true;
+      editColumn(grid,column,submit) {
+        if(submit){
+          if(this.column_class != ''){
+            var index = this.grid_selected.children.indexOf(this.column_selected);
+            if(index > -1){
+              this.grid_selected.children[index].options.class = this.column_class;
+            }
+          }
+          this.back();
+          this.column_class = '';
+          this.grid_selected = '';
+          this.column_selected = '';
+        }
+        else{
+          this.edit_column = true;
+          this.showSettings = true;
+          this.column_selected = column;
+          this.grid_selected = grid;
+        }
       },
       editGrid(grid,submit) {
         if(submit){
@@ -226,8 +251,7 @@
           this.grid_selected = '';
           this.column_size = '';
           this.grid_class = '';
-          this.showSettings = false;
-          this.edit_grid = false;
+          this.back();
         }
         else{
           this.edit_grid = true;
