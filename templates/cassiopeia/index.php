@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Templates\Administrator\Helper\RenderHelper;
 
 /** @var JDocumentHtml $this */
 
@@ -21,14 +22,15 @@ $lang = $app->getLanguage();
 $wa   = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option   = $app->input->getCmd('option', '');
-$view     = $app->input->getCmd('view', '');
-$layout   = $app->input->getCmd('layout', '');
-$task     = $app->input->getCmd('task', '');
-$itemid   = $app->input->getCmd('Itemid', '');
-$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
-$menu     = $app->getMenu()->getActive();
+$option    = $app->input->getCmd('option', '');
+$view      = $app->input->getCmd('view', '');
+$layout    = $app->input->getCmd('layout', '');
+$task      = $app->input->getCmd('task', '');
+$itemid    = $app->input->getCmd('Itemid', '');
+$sitename  = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
+$menu      = $app->getMenu()->getActive();
 $pageclass = $menu->params->get('pageclass_sfx');
+$pageGrid  = $this->params->get('grid');
 
 // Enable assets
 $wa->enableAsset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
@@ -75,6 +77,10 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ' ' . $pageclass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
+
+<?php if (!empty($pageGrid)) : ?>
+	<?php echo RenderHelper::renderElements($pageGrid); ?>
+<?php else : ?>
 	<div class="grid-child container-header full-width">
 		<header class="header">
 			<nav class="grid-child navbar navbar-expand-lg">
@@ -179,6 +185,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
+
+<?php // Pagebuilder ?>
+<?php endif; ?>
 
 </body>
 </html>
