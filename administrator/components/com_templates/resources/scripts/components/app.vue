@@ -1,6 +1,6 @@
 <template>
-<div class="container-fluid">
-  <!--<div id="Settings" class="settings col-sm-2">
+<div class="container-fluid row">
+  <div v-if="showSettings" id="Settings" class="settings col-sm-2">
       <h2>Settings</h2>
       <hr>
       <form>
@@ -42,6 +42,9 @@
             <label for="column_size">Add new column</label>
             <input id="column_size" name="column_size" type="text" v-model="column_size">
 
+            <label for="grid_class">Add a custom class</label>
+            <input id="grid_class" name="grid_class" type="text" v-model="grid_class">
+
             <div class="btn-group">
                 <button type="button" class="btn btn-success" @click="editGrid('',true)">Save</button>
                 <button type="button" class="btn btn-danger" @click="back">Back</button>
@@ -49,22 +52,10 @@
         </fieldset>
       </div>
 
-      <div v-else>
-          <fieldset>
-            <legend>Add new grid</legend>
-            <label for="grid_type">Select grid system(should add to 12)</label>
-            <input id="grid_type" name="grid_type" type="text" v-model="grid_system">
-
-            <div class="btn-group">
-                <button type="button" class="btn btn-primary" @click="addGrid">Add</button>
-                <button type="button" class="btn btn-secondary" @click="grid_system = ''">Reset</button>
-            </div>
-          </fieldset>
-      </div>
     </form>
-  </div>-->
+  </div>
 
-  <div id="View">
+  <div id="View" class="container-fluid">
     <h2>View</h2>
     <draggable v-model="gridArray">
       <div v-for="grid in gridArray" v-model="gridArray" class="draggable">
@@ -75,7 +66,7 @@
             {{column.options.size}}
             (<i>{{column.type}}</i>)
             <button type="button" class="icon-cancel close" @click="deleteColumn(grid,column)"></button>
-            <button type="button" class="icon-apply close" @click="editGrid(grid,false)"></button>
+            <button type="button" class="icon-apply close" @click="editColumn(grid,column)"></button>
           </div>
         </draggable>
       </div>
@@ -158,7 +149,9 @@
         grid_system: '',
         grid_selected: '',
         column_size: '',
+        grid_class: '',
         gridArray: this.grid,
+        showSettings: false
       }
     },
     watch: {
@@ -212,30 +205,41 @@
       },
       editGrid(grid,submit) {
         if(submit){
-          this.grid_selected.children.push({
-            type: 'column',
-            options: {
-              size: "col-sm-" + this.column_size
-            },
-            children: [{
-              type: 'position',
-              options: {},
-              children: []
-            }]
-          });
+          if(this.grid_class != ''){
+            this.grid_selected.options.class = this.grid_class;
+          }
+          
+          if(this.column_size != ''){
+            this.grid_selected.children.push({
+              type: 'column',
+              options: {
+                size: "col-sm-" + this.column_size
+              },
+              children: [{
+                type: 'position',
+                options: {},
+                children: []
+              }]
+            });
+          }
+
           this.grid_selected = '';
           this.column_size = '';
+          this.grid_class = '';
+          this.showSettings = false;
           this.edit_grid = false;
         }
         else{
           this.edit_grid = true;
           this.grid_selected = grid;
+          this.showSettings = true;
         }
       },
       back() {
         this.edit_grid = false;
         this.edit_column = false;
         this.edit_position = false;
+        this.showSettings = false;
       },
       log(el) {
         console.log(el);
