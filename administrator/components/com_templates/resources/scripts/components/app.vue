@@ -4,6 +4,7 @@
       <h2>Settings</h2>
       <hr>
       <form>
+        <!-- Settings for editing positions -->
         <div v-if="edit_position">
             <fieldset>
                 <legend>Edit module position - {{ selected_pos }}</legend>
@@ -31,6 +32,7 @@
             </fieldset>
         </div>
 
+        <!-- Settings for editing columns -->
         <div v-else-if="edit_column" class="btn-group">
           <fieldset>
             <legend>Edit Column</legend>
@@ -42,6 +44,7 @@
           </fieldset>
         </div>
 
+      <!-- Settings for editing grids -->
       <div v-else-if="edit_grid" class="form-group">
         <fieldset>
             <legend>Edit Grid</legend>
@@ -63,10 +66,13 @@
 
   <div id="View" class="container-fluid">
     <h2>View</h2>
+    <!-- Grid -->
     <draggable v-model="gridArray">
       <div v-for="grid in gridArray" v-model="gridArray" class="draggable">
         <button v-if="gridArray.length" type="button" class="icon-cancel close" @click="deleteGrid(grid)"></button>
         <button v-if="gridArray.length" type="button" class="icon-apply close" @click="editGrid(grid,false)"></button>
+
+        <!-- Column -->
         <draggable v-model="grid.children" class="row grid-row">
           <div class="list-group-item" v-for="column in grid.children" :class="[column.options.size]" @click="">
             {{column.options.size}}
@@ -75,8 +81,12 @@
             <button type="button" class="icon-apply close" @click="editColumn(grid,column,false)"></button>
           </div>
         </draggable>
+        <!-- Column Ends-->
+
       </div>
     </draggable>
+    <!-- Grid Ends -->
+
     <button type="button" class="btn btn-outline-info btn-block" data-toggle="modal" data-target="#newgrid">+</button>
 
     <!-- Modal -->
@@ -111,6 +121,7 @@
       </div>
     </div>
     <!-- Modal ends -->
+    
   </div>
 </div>
 </template>
