@@ -76,7 +76,8 @@
             <button type="button" class="icon-cancel close" @click="deleteColumn(grid,column)"></button>
             <button type="button" class="icon-apply close" @click="editColumn(grid,column,false)"></button>
             <br>
-            <button type="button" class="postion btn btn-outline-info btn-block" data-toggle="modal" data-target="#newmodule">+</button>
+            <!-- Module Position -->
+            <button type="button" class="postion btn btn-outline-primary" data-toggle="modal" data-target="#newmodule">+</button>
           </div>
         </draggable>
         <!-- Column Ends-->
@@ -87,7 +88,7 @@
 
     <button type="button" class="btn btn-outline-info btn-block" data-toggle="modal" data-target="#newgrid">+</button>
 
-    <!-- Modal -->
+    <!-- Modal for adding grid -->
     <div class="modal fade" id="newgrid" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -264,17 +265,26 @@
           }
           
           if(this.column_size != ''){
-            this.grid_selected.children.push({
-              type: 'column',
-              options: {
-                size: "col-sm-" + this.column_size
-              },
-              children: [{
-                type: 'position',
-                options: {},
-                children: []
-              }]
-            });
+            var sum = 0;
+            this.grid_selected.children.forEach(element => {
+              sum += Number(element.options.size.split('-')[2]);
+            })
+            if(sum + Number(this.column_size) <= 12){
+              this.grid_selected.children.push({
+                type: 'column',
+                options: {
+                  size: "col-sm-" + this.column_size
+                },
+                children: [{
+                  type: 'position',
+                  options: {},
+                  children: []
+                }]
+              });
+            }
+            else {
+              alert('Grid size cannot be greter than 12');
+            }
           }
 
           this.grid_selected = '';
