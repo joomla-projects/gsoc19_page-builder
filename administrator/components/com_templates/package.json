@@ -1,6 +1,8 @@
 {
   "name": "com_templates",
-  "version": "0.1.0",
+  "version": "4.0.0",
+  "description": "Component to build a page in template style",
+  "license": "GPL-2.0+",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --progress --hide-modules",
     "watch": "cross-env NODE_ENV=development webpack --progress --hide-modules --watch",
