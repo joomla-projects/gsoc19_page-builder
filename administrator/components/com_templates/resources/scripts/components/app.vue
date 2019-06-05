@@ -21,10 +21,6 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                  <label for="size_input">Select module size</label>
-                  <input id="size_input" name="size_input" type="text" v-model="size_input" class="form-control">
-                </div>
                 <div class="btn-group">
                     <button type="button" class="btn btn-success" @click="save">Save</button>
                     <button type="button" class="btn btn-secondary" @click="back">Back</button>
@@ -79,6 +75,8 @@
             (<i>{{column.type}}</i>)
             <button type="button" class="icon-cancel close" @click="deleteColumn(grid,column)"></button>
             <button type="button" class="icon-apply close" @click="editColumn(grid,column,false)"></button>
+            <br>
+            <button type="button" class="postion btn btn-outline-info btn-block" data-toggle="modal" data-target="#newmodule">+</button>
           </div>
         </draggable>
         <!-- Column Ends-->
@@ -115,13 +113,23 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" @click="addGrid" data-dismiss="modal">Add</button>
+            <button v-if="gridValidate" type="button" class="btn btn-primary" @click="addGrid" data-dismiss="modal">Add</button>
           </div>
         </div>
       </div>
     </div>
     <!-- Modal ends -->
-    
+    <!-- Modal for adding modules -->
+    <div class="modal fade" id="newmodule" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5>Select Module</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal ends -->
   </div>
 </div>
 </template>
@@ -180,6 +188,16 @@
         },
         deep: true,
       },
+    },
+    computed: {
+      gridValidate() {
+        var sum = 0;
+        var gridSize = this.grid_system.split(" ");
+        gridSize.forEach(element => {
+          sum = sum + Number(element);
+        });
+        return (sum === 12);
+      }
     },
     components: {
       draggable
