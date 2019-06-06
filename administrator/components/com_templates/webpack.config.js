@@ -37,6 +37,13 @@ module.exports = (env, argv) => {
   if (argv.mode === 'development') {
     config.watch = true;
     config.watchOptions = {ignored: /node_modules/};
+
+    config.module.rules.push({
+      enforce: 'pre',
+      test: /\.(js|vue)$/,
+      loader: 'eslint-loader',
+      exclude: /node_modules/,
+    });
   }
 
   return config;
