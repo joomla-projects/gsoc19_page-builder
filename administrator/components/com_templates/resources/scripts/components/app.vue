@@ -7,7 +7,7 @@
         <!-- Settings for editing positions -->
         <div v-if="edit_position">
             <fieldset>
-                <legend>Edit module position - {{ selected_pos }}</legend>
+                <legend>Edit module position</legend>
                 <div class="form-group">
                     <label for="module_chrome">Select module chrome</label>
                     <select id="module_chrome" name="module_chrome" v-model="module_chrome">
@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="btn-group">
-                    <button type="button" class="btn btn-success" @click="save">Save</button>
+                    <button type="button" class="btn btn-success" @click="editPosition('','',true)">Save</button>
                     <button type="button" class="btn btn-secondary" @click="back">Back</button>
                 </div>
             </fieldset>
@@ -77,7 +77,10 @@
             <button type="button" class="icon-apply close" @click="editColumn(grid,column,false)"></button>
             <br>
             <!-- Module Position -->
-            <button type="button" class="postion btn btn-outline-primary" data-toggle="modal" data-target="#newmodule">+</button>
+            <div class="position container-fluid">
+            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#newmodule">+</button>
+            <button type="button" class="icon-apply close" @click="editPosition(grid,column,false)"></button>
+            </div>
           </div>
         </draggable>
         <!-- Column Ends-->
@@ -164,14 +167,11 @@
     data() {
       return {
         myArray: [],
-        element: '',
-        key: 3,
         module_chrome: 'none',
         size_input: '3',
         edit_grid: false,
         edit_column: false,
         edit_position: false,
-        selected_pos: '',
         grid_system: '',
         grid_selected: '',
         column_selected: '',
@@ -215,7 +215,9 @@
             },
             children: [{
               type: 'position',
-              options: {},
+              options: {
+                module_chrome: 'none'
+              },
               children: []
             }]
           })
@@ -225,7 +227,7 @@
           options: {},
           children: this.myArray
         });
-        this.grid_system = '';
+        this.back();
       },
       deleteGrid(grid) {
         var index = this.gridArray.indexOf(grid);
@@ -238,6 +240,21 @@
           grid.children.splice(index,1);
         }
       },
+      editPosition(grid,column,submit) {
+        if(submit){
+          if(this.module_chrome != 'none'){
+            this.column_selected.children[0].options.module_chrome = this.module_chrome;
+          }
+          this.module_chrome = 'none';
+          this.back();
+        }
+        else{
+          this.showSettings = true;
+          this.edit_position = true;
+          this.column_selected = column;
+          this.grid_selected = grid;
+        }
+      },
       editColumn(grid,column,submit) {
         if(submit){
           if(this.column_class != ''){
@@ -247,9 +264,6 @@
             }
           }
           this.back();
-          this.column_class = '';
-          this.grid_selected = '';
-          this.column_selected = '';
         }
         else{
           this.edit_column = true;
@@ -286,10 +300,6 @@
               alert('Grid size cannot be greter than 12');
             }
           }
-
-          this.grid_selected = '';
-          this.column_size = '';
-          this.grid_class = '';
           this.back();
         }
         else{
@@ -303,6 +313,12 @@
         this.edit_column = false;
         this.edit_position = false;
         this.showSettings = false;
+        this.grid_selected = '';
+        this.column_selected = '';
+        this.column_size = '';
+        this.column_class = '';
+        this.grid_class = '';
+        this.grid_system = '';
       },
       log(el) {
         console.log(el);
