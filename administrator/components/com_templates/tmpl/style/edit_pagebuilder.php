@@ -18,6 +18,9 @@ HTMLHelper::_('script', 'media/com_templates/js/pagebuilder.js');
 // Add stylesheet
 HTMLHelper::_('stylesheet', 'media/com_templates/css/pagebuilder.css');
 
+// Populate the language
+$this->loadTemplate('texts');
+
 // Images to select new elements
 Factory::getDocument()->addScriptOptions('com_templates', [
 		'images' => [
