@@ -1,0 +1,40 @@
+@import "../../../media/vendor/bootstrap/scss/bootstrap";
+
+.container {
+  background-color: green;
+  border: 1px solid green;
+}
+
+.col {
+  border: 1px solid black;
+}
+
+.col-12,
+.col-sm-12 {
+  background-color: #ff4c12;
+}
+
+.col-8,
+.col-sm-8 {
+  background-color: #3c43ff;
+}
+
+.col-4,
+.col-sm-4 {
+  background-color: #1dffe7;
+}
+
+.col-3,
+.col-sm-3 {
+  background-color: #eeff44;
+}
+
+.col-2,
+.col-sm-2 {
+  background-color: #ff2ce7;
+}
+
+.col-1,
+.col-sm-1 {
+  background-color: #ff9135;
+}
