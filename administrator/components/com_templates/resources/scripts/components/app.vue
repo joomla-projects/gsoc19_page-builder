@@ -1,29 +1,29 @@
 <template>
 <div class="container-fluid row">
   <div v-if="showSettings" id="Settings" class="settings col-sm-2">
-      <h2>Settings</h2>
+      <h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
       <hr>
       <form>
         <!-- Settings for editing positions -->
         <div v-if="edit_position">
             <fieldset>
-                <legend>Edit module position</legend>
+                <legend>{{ translate('COM_TEMPLATES_EDIT_POSITION') }}</legend>
                 <div class="form-group">
-                    <label for="module_chrome">Select module chrome</label>
+                    <label for="module_chrome">{{ translate('COM_TEMPLATES_SELECT_MODULE_CHROME') }}</label>
                     <select id="module_chrome" name="module_chrome" v-model="module_chrome">
-                      <option value="none">none</option>
-                      <option value="rounded">rounded</option>
-                      <option value="table">table</option>
-                      <option value="horz">horz</option>
-                      <option value="xhtml">xhtml</option>
-                      <option value="html5">html5</option>
-                      <option value="outline">outline</option>
+                      <option value="none">{{ translate('COM_TEMPLATES_NONE') }}</option>
+                      <option value="rounded">{{ translate('COM_TEMPLATES_ROUNDED') }}</option>
+                      <option value="table">{{ translate('COM_TEMPLATES_TABLE') }}</option>
+                      <option value="horz">{{ translate('COM_TEMPLATES_HORZ') }}</option>
+                      <option value="xhtml">{{ translate('COM_TEMPLATES_XHTML') }}</option>
+                      <option value="html5">{{ translate('COM_TEMPLATES_HTML5') }}</option>
+                      <option value="outline">{{ translate('COM_TEMPLATES_OUTLINE') }}</option>
                     </select>
                 </div>
 
                 <div class="btn-group">
-                    <button type="button" class="btn btn-success" @click="editPosition('','',true)">Save</button>
-                    <button type="button" class="btn btn-secondary" @click="back">Back</button>
+                    <button type="button" class="btn btn-success" @click="editPosition('','',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
+                    <button type="button" class="btn btn-secondary" @click="back">{{ translate('COM_TEMPLATES_BACK') }}</button>
                 </div>
             </fieldset>
         </div>
@@ -31,28 +31,28 @@
         <!-- Settings for editing columns -->
         <div v-else-if="edit_column" class="btn-group">
           <fieldset>
-            <legend>Edit Column</legend>
-            <label for="column_class">Add a custom class</label>
+            <legend>{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</legend>
+            <label for="column_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
             <input id="column_class" name="column_class" type="text" v-model="column_class">
             
-            <button type="button" class="btn btn-success" @click="editColumn('','',true)">Save</button>
-            <button type="button" class="btn btn-secondary" @click="back">Back</button>
+            <button type="button" class="btn btn-success" @click="editColumn('','',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
+            <button type="button" class="btn btn-secondary" @click="back">{{ translate('COM_TEMPLATES_BACK') }}</button>
           </fieldset>
         </div>
 
       <!-- Settings for editing grids -->
       <div v-else-if="edit_grid" class="form-group">
         <fieldset>
-            <legend>Edit Grid</legend>
-            <label for="column_size">Add new column</label>
+            <legend>{{ translate('COM_TEMPLATES_EDIT_GRID') }}</legend>
+            <label for="column_size">{{ translate('COM_TEMPLATES_ADD_COLUMN') }}</label>
             <input id="column_size" name="column_size" type="text" v-model="column_size">
 
-            <label for="grid_class">Add a custom class</label>
+            <label for="grid_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
             <input id="grid_class" name="grid_class" type="text" v-model="grid_class">
 
             <div class="btn-group">
-                <button type="button" class="btn btn-success" @click="editGrid('',true)">Save</button>
-                <button type="button" class="btn btn-danger" @click="back">Back</button>
+                <button type="button" class="btn btn-success" @click="editGrid('',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
+                <button type="button" class="btn btn-danger" @click="back">{{ translate('COM_TEMPLATES_BACK') }}</button>
             </div>
         </fieldset>
       </div>
@@ -61,7 +61,7 @@
   </div>
 
   <div id="View" class="container-fluid">
-    <h2>View</h2>
+    <h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
     <!-- Grid -->
     <draggable v-model="gridArray">
       <div v-for="grid in gridArray" v-model="gridArray" class="draggable">
@@ -96,11 +96,11 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5>Select layout</h5>
+            <h5>{{ translate('COM_TEMPLATES_SELECT_LAYOUT') }}</h5>
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
           </div>
           <div class="modal-body">
-            Predefined
+            {{ translate('COM_TEMPLATES_PREDEFINED') }}
             <div class="row">
               <div class="col-sm" v-html="images.row12" @click="grid_system = '12'"></div>
               <div class="col-sm" v-html="images.row66" @click="grid_system = '6 6'"></div>
@@ -111,13 +111,13 @@
               <div class="col-sm" v-html="images.row363" @click="grid_system = '3 6 3'"></div>
             </div>
             <div>
-              <label>Custom</label>
+              <label>{{ translate('COM_TEMPLATES_CUSTOM') }}</label>
               <input name="column_size" type="text" v-model="grid_system">
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button v-if="gridValidate" type="button" class="btn btn-primary" @click="addGrid" data-dismiss="modal">Add</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ translate('COM_TEMPLATES_CLOSE') }}</button>
+            <button v-if="gridValidate" type="button" class="btn btn-primary" @click="addGrid" data-dismiss="modal">{{ translate('COM_TEMPLATES_ADD') }}</button>
           </div>
         </div>
       </div>
@@ -128,7 +128,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5>Select Module</h5>
+            <h5>{{ translate('COM_TEMPLATES_SELECT_MODULE') }}</h5>
           </div>
         </div>
       </div>
