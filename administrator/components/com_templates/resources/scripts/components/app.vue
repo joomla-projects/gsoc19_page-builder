@@ -1,5 +1,5 @@
 <template>
-<div class="container-fluid row">
+<div class="container-fluid row" id="pageBuilder">
   <div v-if="showSettings" id="Settings" class="settings col-sm-2">
       <h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
       <hr>
