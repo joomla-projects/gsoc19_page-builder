@@ -2,41 +2,31 @@
  * Translate plugin
  */
 
-let Translate = {};
+const Translate = {};
 
-Translate.translate = function (key) {
-	// Translate from Joomla text
-	return Joomla.JText._(key, key);
+Translate.translate = key => Joomla.JText._(key, key);
+
+Translate.sprintf = (string, ...args) => {
+  const translated = this.translate(string);
+  let i = 0;
+  return translated.replace(/%((%)|s|d)/g, (m) => {
+    let val = args[i];
+
+    if (m === '%d') {
+      val = parseFloat(val) || 0;
+    }
+    i += 1;
+    return val;
+  });
 };
 
-Translate.sprintf = function (string, ...args) {
-	string = this.translate(string);
-	var i = 0;
-	return string.replace(/%((%)|s|d)/g, function (m) {
-		var val = args[i];
-
-		if (m === '%d') {
-			val = parseFloat(val);
-			if (isNaN(val)) {
-				val = 0;
-			}
-		}
-		i++;
-		return val;
-	});
-};
-
-Translate.install = function (Vue, options) {
-	Vue.mixin({
-		methods: {
-			translate: function (key) {
-				return Translate.translate(key);
-			},
-			sprintf: function (key, ...args) {
-				return Translate.sprintf(key, args);
-			},
-		}
-	})
+Translate.install = (Vue) => {
+  Vue.mixin({
+    methods: {
+      translate: key => Translate.translate(key),
+      sprintf: (key, ...args) => Translate.sprintf(key, args),
+    },
+  });
 };
 
 export default Translate;

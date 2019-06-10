@@ -34,7 +34,7 @@
             <legend>{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</legend>
             <label for="column_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
             <input id="column_class" name="column_class" type="text" v-model="column_class">
-            
+
             <button type="button" class="btn btn-success" @click="editColumn('','',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
             <button type="button" class="btn btn-danger" @click="back">{{ translate('JTOOLBAR_BACK') }}</button>
           </fieldset>
@@ -154,7 +154,8 @@
 </template>
 
 <script>
-  import draggable from 'vuedraggable'
+  import draggable from 'vuedraggable';
+
   export default {
     props: {
       grid: {
@@ -196,11 +197,11 @@
         column_class: '',
         gridArray: this.grid,
         showSettings: false
-      }
+      };
     },
     watch: {
       grid: {
-        handler: function(newVal, oldVal) {
+        handler: function (newVal) {
           document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
         },
         deep: true,
@@ -208,8 +209,8 @@
     },
     computed: {
       gridValidate() {
-        var sum = 0;
-        var gridSize = this.grid_system.split(" ");
+        let sum = 0;
+        const gridSize = this.grid_system.split(' ');
         gridSize.forEach(element => {
           sum = sum + Number(element);
         });
@@ -221,13 +222,13 @@
     },
     methods: {
       addGrid() {
-        var gridSize = this.grid_system.split(" ");
+        const gridSize = this.grid_system.split(' ');
         this.myArray = [];
         gridSize.forEach(element => {
           this.myArray.push({
             type: 'column',
             options: {
-              size: "col-sm-" + element
+              size: 'col-sm-' + element
             },
             children: [{
               type: 'position',
@@ -236,7 +237,7 @@
               },
               children: []
             }]
-          })
+          });
         });
         this.gridArray.push({
           type: 'grid',
@@ -246,96 +247,22 @@
         this.back();
       },
       deleteGrid(grid) {
-        var index = this.gridArray.indexOf(grid);
-        if(index > -1)
-          this.gridArray.splice(index,1);
+        const index = this.gridArray.indexOf(grid);
+        if (index > -1)
+          this.gridArray.splice(index, 1);
       },
-      addColumn(grid,submit) {
-          if(submit){
-              if(this.column_size != ''){
-                var sum = 0;
-                this.grid_selected.children.forEach(element => {
-                sum += Number(element.options.size.split('-')[2]);
-                })
-                if(sum + Number(this.column_size) <= 12){
-                this.grid_selected.children.push({
-                    type: 'column',
-                    options: {
-                    size: "col-sm-" + this.column_size
-                    },
-                    children: [{
-                    type: 'position',
-                    options: {},
-                    children: []
-                    }]
-                });
-                }
-                else {
-                alert('Grid size cannot be greter than 12');
-                }
-            }
-            this.back();
-          }
-          else{
-              this.showSettings = true;
-              this.add_column = true;
-              this.grid_selected = grid;
-          }
-      },
-      deleteColumn(grid,column) {
-        var index = grid.children.indexOf(column);
-        if(index > -1){
-          grid.children.splice(index,1);
-        }
-      },
-      editPosition(grid,column,submit) {
-        if(submit){
-          if(this.module_chrome != 'none'){
-            this.column_selected.children[0].options.module_chrome = this.module_chrome;
-          }
-          this.module_chrome = 'none';
-          this.back();
-        }
-        else{
-          this.showSettings = true;
-          this.edit_position = true;
-          this.column_selected = column;
-          this.grid_selected = grid;
-        }
-      },
-      editColumn(grid,column,submit) {
-        if(submit){
-          if(this.column_class != ''){
-            var index = this.grid_selected.children.indexOf(this.column_selected);
-            if(index > -1){
-              this.grid_selected.children[index].options.class = this.column_class;
-            }
-          }
-          this.back();
-        }
-        else{
-          this.edit_column = true;
-          this.showSettings = true;
-          this.column_selected = column;
-          this.grid_selected = grid;
-        }
-      },
-      editGrid(grid,submit) {
-        if(submit){
-          if(this.grid_class != ''){
-            this.grid_selected.options.class = this.grid_class;
-          }
-          
-          if(this.column_size != ''){
-            var sum = 0;
+      addColumn(grid, submit) {
+        if (submit) {
+          if (this.column_size !== '') {
+            let sum = 0;
             this.grid_selected.children.forEach(element => {
               sum += Number(element.options.size.split('-')[2]);
-            })
-            if(sum + Number(this.column_size) <= 12){
+            });
+            if (sum + Number(this.column_size) <= 12) {
               this.grid_selected.children.push({
                 type: 'column',
                 options: {
-                  size: "col-sm-" + this.column_size
+                  size: 'col-sm-' + this.column_size
                 },
                 children: [{
                   type: 'position',
@@ -350,7 +277,81 @@
           }
           this.back();
         }
-        else{
+        else {
+          this.showSettings = true;
+          this.add_column = true;
+          this.grid_selected = grid;
+        }
+      },
+      deleteColumn(grid, column) {
+        const index = grid.children.indexOf(column);
+        if (index > -1) {
+          grid.children.splice(index, 1);
+        }
+      },
+      editPosition(grid, column, submit) {
+        if (submit) {
+          if (this.module_chrome !== 'none') {
+            this.column_selected.children[0].options.module_chrome = this.module_chrome;
+          }
+          this.module_chrome = 'none';
+          this.back();
+        }
+        else {
+          this.showSettings = true;
+          this.edit_position = true;
+          this.column_selected = column;
+          this.grid_selected = grid;
+        }
+      },
+      editColumn(grid, column, submit) {
+        if (submit) {
+          if (this.column_class !== '') {
+            const index = this.grid_selected.children.indexOf(this.column_selected);
+            if (index > -1) {
+              this.grid_selected.children[index].options.class = this.column_class;
+            }
+          }
+          this.back();
+        }
+        else {
+          this.edit_column = true;
+          this.showSettings = true;
+          this.column_selected = column;
+          this.grid_selected = grid;
+        }
+      },
+      editGrid(grid, submit) {
+        if (submit) {
+          if (this.grid_class !== '') {
+            this.grid_selected.options.class = this.grid_class;
+          }
+
+          if (this.column_size !== '') {
+            let sum = 0;
+            this.grid_selected.children.forEach(element => {
+              sum += Number(element.options.size.split('-')[2]);
+            });
+            if (sum + Number(this.column_size) <= 12) {
+              this.grid_selected.children.push({
+                type: 'column',
+                options: {
+                  size: 'col-sm-' + this.column_size
+                },
+                children: [{
+                  type: 'position',
+                  options: {},
+                  children: []
+                }]
+              });
+            }
+            else {
+              alert('Grid size cannot be greater than 12');
+            }
+          }
+          this.back();
+        }
+        else {
           this.edit_grid = true;
           this.grid_selected = grid;
           this.showSettings = true;
@@ -373,5 +374,5 @@
         console.log(el);
       }
     }
-  }
+  };
 </script>
