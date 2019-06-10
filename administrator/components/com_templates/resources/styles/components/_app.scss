@@ -41,6 +41,13 @@
     padding: 0 0.2em 0 0.2em;
     cursor: pointer;
   }
+
+  button[type=button].list-group-item {
+        cursor: pointer;
+        &:hover {
+            cursor: pointer;
+        }
+    }
 }
 
 #newgrid .modal-body img {

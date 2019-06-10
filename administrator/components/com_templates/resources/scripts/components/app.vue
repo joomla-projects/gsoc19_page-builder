@@ -36,7 +36,7 @@
             <input id="column_class" name="column_class" type="text" v-model="column_class">
             
             <button type="button" class="btn btn-success" @click="editColumn('','',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-            <button type="button" class="btn btn-secondary" @click="back">{{ translate('COM_TEMPLATES_BACK') }}</button>
+            <button type="button" class="btn btn-danger" @click="back">{{ translate('COM_TEMPLATES_BACK') }}</button>
           </fieldset>
         </div>
 
@@ -55,6 +55,20 @@
                 <button type="button" class="btn btn-danger" @click="back">{{ translate('COM_TEMPLATES_BACK') }}</button>
             </div>
         </fieldset>
+      </div>
+
+      <!-- Settings for adding columns -->
+      <div v-else-if="add_column" class="form-group">
+          <fieldset>
+                <legend>{{ translate('COM_TEMPLATES_ADD_COLUMN') }}</legend>
+                <label for="column_size">{{ translate('COM_TEMPLATES_ADD_COLUMN') }}</label>
+                <input id="column_size" name="column_size" type="text" v-model="column_size">
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success" @click="addColumn('',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
+                    <button type="button" class="btn btn-danger" @click="back">{{ translate('COM_TEMPLATES_BACK') }}</button>
+                </div>
+          </fieldset>
       </div>
 
     </form>
@@ -82,6 +96,7 @@
             <button type="button" class="icon-apply close" @click="editPosition(grid,column,false)"></button>
             </div>
           </div>
+          <button class="list-group-item" type="button" @click="addColumn(grid,false)">+</button>
         </draggable>
         <!-- Column Ends-->
 
@@ -169,6 +184,7 @@
         myArray: [],
         module_chrome: 'none',
         size_input: '3',
+        add_column: false,
         edit_grid: false,
         edit_column: false,
         edit_position: false,
@@ -233,6 +249,38 @@
         var index = this.gridArray.indexOf(grid);
         if(index > -1)
           this.gridArray.splice(index,1);
+      },
+      addColumn(grid,submit) {
+          if(submit){
+              if(this.column_size != ''){
+                var sum = 0;
+                this.grid_selected.children.forEach(element => {
+                sum += Number(element.options.size.split('-')[2]);
+                })
+                if(sum + Number(this.column_size) <= 12){
+                this.grid_selected.children.push({
+                    type: 'column',
+                    options: {
+                    size: "col-sm-" + this.column_size
+                    },
+                    children: [{
+                    type: 'position',
+                    options: {},
+                    children: []
+                    }]
+                });
+                }
+                else {
+                alert('Grid size cannot be greter than 12');
+                }
+            }
+            this.back();
+          }
+          else{
+              this.showSettings = true;
+              this.add_column = true;
+              this.grid_selected = grid;
+          }
       },
       deleteColumn(grid,column) {
         var index = grid.children.indexOf(column);
@@ -313,6 +361,7 @@
         this.edit_column = false;
         this.edit_position = false;
         this.showSettings = false;
+        this.add_column = false;
         this.grid_selected = '';
         this.column_selected = '';
         this.column_size = '';
