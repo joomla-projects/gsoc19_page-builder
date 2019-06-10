@@ -117,13 +117,13 @@
           <div class="modal-body">
             {{ translate('COM_TEMPLATES_PREDEFINED') }}
             <div class="row">
-              <div class="col-sm" v-html="images.row12" @click="grid_system = '12'"></div>
-              <div class="col-sm" v-html="images.row66" @click="grid_system = '6 6'"></div>
-              <div class="col-sm" v-html="images.row48" @click="grid_system = '4 8'"></div>
-              <div class="col-sm" v-html="images.row84" @click="grid_system = '8 4'"></div>
-              <div class="col-sm" v-html="images.row3333" @click="grid_system = '3 3 3 3'"></div>
-              <div class="col-sm" v-html="images.row444" @click="grid_system = '4 4 4'"></div>
-              <div class="col-sm" v-html="images.row363" @click="grid_system = '3 6 3'"></div>
+              <div class="col-sm" v-html="images.row12" @click="(grid_system = '12'); addGrid();"></div>
+              <div class="col-sm" v-html="images.row66" @click="(grid_system = '6 6')"></div>
+              <div class="col-sm" v-html="images.row48" @click="(grid_system = '4 8'); addGrid();"></div>
+              <div class="col-sm" v-html="images.row84" @click="(grid_system = '8 4'); addGrid();"></div>
+              <div class="col-sm" v-html="images.row3333" @click="(grid_system = '3 3 3 3'); addGrid();"></div>
+              <div class="col-sm" v-html="images.row444" @click="(grid_system = '4 4 4'); addGrid();"></div>
+              <div class="col-sm" v-html="images.row363" @click="(grid_system = '3 6 3'); addGrid();"></div>
             </div>
             <div>
               <label>{{ translate('COM_TEMPLATES_CUSTOM') }}</label>

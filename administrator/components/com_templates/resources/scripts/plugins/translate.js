@@ -9,7 +9,6 @@ Translate.translate = function (key) {
 	return Joomla.JText._(key, key);
 };
 
-
 Translate.sprintf = function (string, ...args) {
 	string = this.translate(string);
 	var i = 0;
