@@ -23,7 +23,7 @@
 
                 <div class="btn-group">
                     <button type="button" class="btn btn-success" @click="editPosition('','',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                    <button type="button" class="btn btn-secondary" @click="back">{{ translate('COM_TEMPLATES_BACK') }}</button>
+                    <button type="button" class="btn btn-secondary" @click="back">{{ translate('JTOOLBAR_BACK') }}</button>
                 </div>
             </fieldset>
         </div>
@@ -36,7 +36,7 @@
             <input id="column_class" name="column_class" type="text" v-model="column_class">
             
             <button type="button" class="btn btn-success" @click="editColumn('','',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-            <button type="button" class="btn btn-danger" @click="back">{{ translate('COM_TEMPLATES_BACK') }}</button>
+            <button type="button" class="btn btn-danger" @click="back">{{ translate('JTOOLBAR_BACK') }}</button>
           </fieldset>
         </div>
 
@@ -52,7 +52,7 @@
 
             <div class="btn-group">
                 <button type="button" class="btn btn-success" @click="editGrid('',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                <button type="button" class="btn btn-danger" @click="back">{{ translate('COM_TEMPLATES_BACK') }}</button>
+                <button type="button" class="btn btn-danger" @click="back">{{ translate('JTOOLBAR_BACK') }}</button>
             </div>
         </fieldset>
       </div>
@@ -66,7 +66,7 @@
 
                 <div class="btn-group">
                     <button type="button" class="btn btn-success" @click="addColumn('',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                    <button type="button" class="btn btn-danger" @click="back">{{ translate('COM_TEMPLATES_BACK') }}</button>
+                    <button type="button" class="btn btn-danger" @click="back">{{ translate('JTOOLBAR_BACK') }}</button>
                 </div>
           </fieldset>
       </div>
