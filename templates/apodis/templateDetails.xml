@@ -70,7 +70,7 @@
 			<fieldset name="pagebuilder">
 				<field
 					name="grid"
-					type="text"
+					type="hidden"
 					default="[]"
 					label="TPL_APODIS_JSON_PARAMETER"
 					filter="string"
