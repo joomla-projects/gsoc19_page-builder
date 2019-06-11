@@ -88,17 +88,11 @@
       return {
         currentColumn: {options:{class:''}},
         myArray: [],
-        module_chrome: 'none',
-        size_input: '3',
         add_column: false,
         edit_grid: false,
         edit_position: false,
-        grid_system: '',
         grid_selected: '',
         column_selected: '',
-        column_size: '',
-        grid_class: '',
-        column_class: '',
         gridArray: this.grid,
         showSettings: false
       };
@@ -183,10 +177,6 @@
         this.add_column = false;
         this.grid_selected = '';
         this.column_selected = '';
-        this.column_size = '';
-        this.column_class = '';
-        this.grid_class = '';
-        this.grid_system = '';
       },
       log(el) {
         console.log(el);
