@@ -32,6 +32,7 @@ Text::script('COM_TEMPLATES_SELECT_MODULE_CHROME', true);
 Text::script('COM_TEMPLATES_SETTINGS', true);
 Text::script('COM_TEMPLATES_TABLE', true);
 Text::script('COM_TEMPLATES_VIEW', true);
+Text::script('COM_TEMPLATES_XHTML', true);
 Text::script('JCANCEL', true);
 Text::script('JSEARCH_RESET', true);
 Text::script('JTOOLBAR_BACK', true);

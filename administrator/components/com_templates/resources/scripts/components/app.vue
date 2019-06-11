@@ -5,13 +5,13 @@
     <hr>
     <form>
         <!-- Settings for editing positions -->
-        <edit-position v-if="edit_position" class="form-group" v-bind:grid="grid_selected" v-bind:column="column_selected" v-on:reset="reset"></edit-position>
+        <edit-position v-if="edit_position" class="form-group" :grid="grid_selected" :column="column_selected" @reset="reset"></edit-position>
 
         <!-- Settings for editing grids -->
-        <edit-grid v-if="edit_grid" class="form-group" v-bind:grid="grid_selected" v-on:reset="reset"></edit-grid>
+        <edit-grid v-if="edit_grid" class="form-group" :grid="grid_selected" @reset="reset"></edit-grid>
 
         <!-- Settings for adding columns -->
-        <add-column v-if="add_column" class="form-group" v-bind:grid="grid_selected" v-on:reset="reset"></add-column>
+        <add-column v-if="add_column" class="form-group" :grid="grid_selected" @:reset="reset"></add-column>
 
     </form>
   </div>
@@ -49,8 +49,8 @@
     <button type="button" class="btn btn-outline-info btn-block" @click="show('add-grid')">+</button>
 
     <!-- Modals -->
-    <add-grid-modal id="add-grid" v-on:selection="addGrid"></add-grid-modal>
-    <edit-column-modal id="edit-column" v-bind:column="currentColumn"></edit-column-modal>
+    <add-grid-modal id="add-grid" @selection="addGrid"></add-grid-modal>
+    <edit-column-modal id="edit-column" :column="currentColumn"></edit-column-modal>
 
     <!-- Modal for adding modules -->
     <div class="modal fade" id="newmodule" tabindex="-1" role="dialog">
@@ -64,7 +64,6 @@
     </div>
     <!-- Modal ends -->
   </div>
-  {{gridArray}}
 </div>
 </template>
 
