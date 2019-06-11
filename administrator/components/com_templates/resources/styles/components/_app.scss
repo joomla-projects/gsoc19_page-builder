@@ -3,6 +3,10 @@
 #pageBuilder {
   border: 0.1em solid;
   min-height: 50em;
+
+  .icon-cancel:before {
+    font-size: larger;
+  }
 }
 
 .settings {
@@ -57,11 +61,4 @@
 
 .position {
   border: 0.1em solid;
-}
-
-#pageBuilder {
-
-    .icon-cancel:before {
-      font-size: larger;
-    }
 }

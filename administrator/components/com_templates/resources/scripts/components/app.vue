@@ -23,7 +23,7 @@
 
                 <div class="btn-group">
                     <button type="button" class="btn btn-success" @click="editPosition('','',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                    <button type="button" class="btn btn-secondary" @click="back">{{ translate('JTOOLBAR_BACK') }}</button>
+                    <button type="button" class="btn btn-secondary" @click="reset">{{ translate('JTOOLBAR_BACK') }}</button>
                 </div>
             </fieldset>
         </div>
@@ -36,7 +36,7 @@
             <input id="column_class" name="column_class" type="text" v-model="column_class">
 
             <button type="button" class="btn btn-success" @click="editColumn('','',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-            <button type="button" class="btn btn-danger" @click="back">{{ translate('JTOOLBAR_BACK') }}</button>
+            <button type="button" class="btn btn-danger" @click="reset">{{ translate('JTOOLBAR_BACK') }}</button>
           </fieldset>
         </div>
 
@@ -52,7 +52,7 @@
 
             <div class="btn-group">
                 <button type="button" class="btn btn-success" @click="editGrid('',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                <button type="button" class="btn btn-danger" @click="back">{{ translate('JTOOLBAR_BACK') }}</button>
+                <button type="button" class="btn btn-danger" @click="reset">{{ translate('JTOOLBAR_BACK') }}</button>
             </div>
         </fieldset>
       </div>
@@ -66,7 +66,7 @@
 
                 <div class="btn-group">
                     <button type="button" class="btn btn-success" @click="addColumn('',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                    <button type="button" class="btn btn-danger" @click="back">{{ translate('JTOOLBAR_BACK') }}</button>
+                    <button type="button" class="btn btn-danger" @click="reset">{{ translate('JTOOLBAR_BACK') }}</button>
                 </div>
           </fieldset>
       </div>
@@ -155,6 +155,7 @@
 
 <script>
   import draggable from 'vuedraggable';
+  import {notifications} from "./../app/Notifications";
 
   export default {
     props: {
@@ -244,7 +245,7 @@
           options: {},
           children: this.myArray
         });
-        this.back();
+        this.reset();
       },
       deleteGrid(grid) {
         const index = this.gridArray.indexOf(grid);
@@ -272,10 +273,10 @@
               });
             }
             else {
-              alert('Grid size cannot be greter than 12');
+                notifications.error('COM_TEMPLATES_MAX_COLUMN_SIZE');
             }
           }
-          this.back();
+          this.reset();
         }
         else {
           this.showSettings = true;
@@ -295,7 +296,7 @@
             this.column_selected.children[0].options.module_chrome = this.module_chrome;
           }
           this.module_chrome = 'none';
-          this.back();
+          this.reset();
         }
         else {
           this.showSettings = true;
@@ -312,7 +313,7 @@
               this.grid_selected.children[index].options.class = this.column_class;
             }
           }
-          this.back();
+          this.reset();
         }
         else {
           this.edit_column = true;
@@ -346,10 +347,10 @@
               });
             }
             else {
-              alert('Grid size cannot be greater than 12');
+                notifications.error('COM_TEMPLATES_MAX_COLUMN_SIZE');
             }
           }
-          this.back();
+          this.reset();
         }
         else {
           this.edit_grid = true;
@@ -357,7 +358,7 @@
           this.showSettings = true;
         }
       },
-      back() {
+      reset() {
         this.edit_grid = false;
         this.edit_column = false;
         this.edit_position = false;

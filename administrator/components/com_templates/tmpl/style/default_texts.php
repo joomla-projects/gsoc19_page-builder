@@ -20,6 +20,7 @@ Text::script('COM_TEMPLATES_EDIT_GRID', true);
 Text::script('COM_TEMPLATES_EDIT_POSITION', true);
 Text::script('COM_TEMPLATES_HORZ', true);
 Text::script('COM_TEMPLATES_HTML5', true);
+Text::script('COM_TEMPLATES_MAX_COLUMN_SIZE', true);
 Text::script('COM_TEMPLATES_NONE', true);
 Text::script('COM_TEMPLATES_OUTLINE', true);
 Text::script('COM_TEMPLATES_PREDEFINED', true);
