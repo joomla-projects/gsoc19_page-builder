@@ -104,40 +104,11 @@
     </draggable>
     <!-- Grid Ends -->
 
-    <button type="button" class="btn btn-outline-info btn-block" data-toggle="modal" data-target="#newgrid">+</button>
+    <button type="button" class="btn btn-outline-info btn-block" @click="show('add-grid')">+</button>
 
-    <!-- Modal for adding grid -->
-    <div class="modal fade" id="newgrid" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5>{{ translate('COM_TEMPLATES_SELECT_LAYOUT') }}</h5>
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-          </div>
-          <div class="modal-body">
-            {{ translate('COM_TEMPLATES_PREDEFINED') }}
-            <div class="row">
-              <div class="col-sm" v-html="images.row12" @click="(grid_system = '12'); addGrid();"></div>
-              <div class="col-sm" v-html="images.row66" @click="(grid_system = '6 6'); addGrid();"></div>
-              <div class="col-sm" v-html="images.row48" @click="(grid_system = '4 8'); addGrid();"></div>
-              <div class="col-sm" v-html="images.row84" @click="(grid_system = '8 4'); addGrid();"></div>
-              <div class="col-sm" v-html="images.row3333" @click="(grid_system = '3 3 3 3'); addGrid();"></div>
-              <div class="col-sm" v-html="images.row444" @click="(grid_system = '4 4 4'); addGrid();"></div>
-              <div class="col-sm" v-html="images.row363" @click="(grid_system = '3 6 3'); addGrid();"></div>
-            </div>
-            <div>
-              <label>{{ translate('COM_TEMPLATES_CUSTOM') }}</label>
-              <input name="column_size" type="text" v-model="grid_system">
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ translate('COM_TEMPLATES_CLOSE') }}</button>
-            <button v-if="gridValidate" type="button" class="btn btn-primary" @click="addGrid" data-dismiss="modal">{{ translate('COM_TEMPLATES_ADD') }}</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Modal ends -->
+    <!-- Modals -->
+    <add-grid-modal id="add-grid" v-on:selection="addGrid"></add-grid-modal>
+
     <!-- Modal for adding modules -->
     <div class="modal fade" id="newmodule" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
@@ -156,6 +127,7 @@
 <script>
   import draggable from 'vuedraggable';
   import {notifications} from "./../app/Notifications";
+  import AddGridModal from './modals/modal-add-grid.vue';
 
   export default {
     props: {
@@ -164,20 +136,6 @@
         required: false,
         default: function () {
           return [];
-        },
-      },
-      joptions: {
-        type: Object,
-        required: false,
-        default: function () {
-          return window.Joomla.getOptions('com_templates');
-        },
-      },
-      images: {
-        type: Object,
-        required: false,
-        default: function () {
-          return this.joptions.images;
         },
       },
     },
@@ -219,17 +177,17 @@
       }
     },
     components: {
+      AddGridModal,
       draggable
     },
     methods: {
-      addGrid() {
-        const gridSize = this.grid_system.split(' ');
+      addGrid(sizes) {
         this.myArray = [];
-        gridSize.forEach(element => {
+        sizes.forEach(size => {
           this.myArray.push({
             type: 'column',
             options: {
-              size: 'col-sm-' + element
+              size: 'col-' + size
             },
             children: [{
               type: 'position',
@@ -246,6 +204,7 @@
           children: this.myArray
         });
         this.reset();
+        this.hide('add-grid');
       },
       deleteGrid(grid) {
         const index = this.gridArray.indexOf(grid);
@@ -373,7 +332,13 @@
       },
       log(el) {
         console.log(el);
-      }
+      },
+      show(name) {
+        this.$modal.show(name);
+      },
+      hide(name) {
+        this.$modal.hide(name);
+      },
     }
   };
 </script>
