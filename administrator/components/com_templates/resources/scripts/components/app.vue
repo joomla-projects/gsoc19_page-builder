@@ -29,16 +29,6 @@
         </div>
 
         <!-- Settings for editing columns -->
-        <div v-else-if="edit_column" class="btn-group">
-          <fieldset>
-            <legend>{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</legend>
-            <label for="column_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
-            <input id="column_class" name="column_class" type="text" v-model="column_class">
-
-            <button type="button" class="btn btn-success" @click="editColumn('','',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-            <button type="button" class="btn btn-danger" @click="reset">{{ translate('JTOOLBAR_BACK') }}</button>
-          </fieldset>
-        </div>
 
       <!-- Settings for editing grids -->
       <div v-else-if="edit_grid" class="form-group">
@@ -88,7 +78,7 @@
             {{column.options.size}}
             (<i>{{column.type}}</i>)
             <button type="button" class="icon-cancel close" @click="deleteColumn(grid,column)"></button>
-            <button type="button" class="icon-apply close" @click="editColumn(grid,column,false)"></button>
+            <button type="button" class="icon-options close" @click="editColumn(column)"></button>
             <br>
             <!-- Module Position -->
             <div class="position container-fluid">
@@ -108,6 +98,7 @@
 
     <!-- Modals -->
     <add-grid-modal id="add-grid" v-on:selection="addGrid"></add-grid-modal>
+    <edit-column-modal id="edit-column" v-bind:column="currentColumn"></edit-column-modal>
 
     <!-- Modal for adding modules -->
     <div class="modal fade" id="newmodule" tabindex="-1" role="dialog">
@@ -128,6 +119,7 @@
   import draggable from 'vuedraggable';
   import {notifications} from "./../app/Notifications";
   import AddGridModal from './modals/modal-add-grid.vue';
+  import EditColumnModal from './modals/modal-edit-column.vue';
 
   export default {
     props: {
@@ -141,12 +133,12 @@
     },
     data() {
       return {
+        currentColumn: {options:{class:''}},
         myArray: [],
         module_chrome: 'none',
         size_input: '3',
         add_column: false,
         edit_grid: false,
-        edit_column: false,
         edit_position: false,
         grid_system: '',
         grid_selected: '',
@@ -178,6 +170,7 @@
     },
     components: {
       AddGridModal,
+      EditColumnModal,
       draggable
     },
     methods: {
@@ -264,22 +257,9 @@
           this.grid_selected = grid;
         }
       },
-      editColumn(grid, column, submit) {
-        if (submit) {
-          if (this.column_class !== '') {
-            const index = this.grid_selected.children.indexOf(this.column_selected);
-            if (index > -1) {
-              this.grid_selected.children[index].options.class = this.column_class;
-            }
-          }
-          this.reset();
-        }
-        else {
-          this.edit_column = true;
-          this.showSettings = true;
-          this.column_selected = column;
-          this.grid_selected = grid;
-        }
+      editColumn(column) {
+        this.currentColumn = column;
+        this.show('edit-column');
       },
       editGrid(grid, submit) {
         if (submit) {
@@ -319,7 +299,6 @@
       },
       reset() {
         this.edit_grid = false;
-        this.edit_column = false;
         this.edit_position = false;
         this.showSettings = false;
         this.add_column = false;
