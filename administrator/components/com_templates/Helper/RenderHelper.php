@@ -57,10 +57,11 @@ abstract class RenderHelper
 				$classes[] = $element->class;
 			}
 
-			$name    = '';
-			$style   = '';
 			$include = '';
-			$type    = '';
+			$name    = '';
+			$style   = 'none';
+			$size    = '';
+			$type    = 'modules';
 
 			foreach ($element->options as $key => $option)
 			{
@@ -71,6 +72,7 @@ abstract class RenderHelper
 						$classes[] = 'container-' . $option;
 						break;
 					case 'size':
+						$size      = $option;
 						$classes[] = $option;
 						break;
 					case 'style':
@@ -94,11 +96,13 @@ abstract class RenderHelper
 			}
 			else // Position for modules, messages or components
 			{
-				$include = '<jdoc:include type="' . $type . '" name="' . $name . '" style="' . $style . '" />';
+				// TODO: include modules when they are integrated into the pagebuilder with type and name
+				// $include = '<jdoc:include type="' . $type . '" name="' . $name . '" style="' . $style . '" />';
+				$include = 'POSITION ';
 			}
 
 			$html .= '<div class="' . implode(' ', $classes) . '">';
-			$html .= $include;
+			$html .= $include . $size;
 
 			if (!empty($element->children))
 			{

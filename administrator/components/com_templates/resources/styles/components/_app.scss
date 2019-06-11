@@ -3,6 +3,10 @@
 #pageBuilder {
   border: 0.1em solid;
   min-height: 50em;
+
+  .icon-cancel:before {
+    font-size: larger;
+  }
 }
 
 .settings {
@@ -50,18 +54,6 @@
     }
 }
 
-#newgrid .modal-body img {
-  margin: 1rem 0;
-  width: 9rem;
-}
-
 .position {
   border: 0.1em solid;
-}
-
-#pageBuilder {
-
-    .icon-cancel:before {
-      font-size: larger;
-    }
 }

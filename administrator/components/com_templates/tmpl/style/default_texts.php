@@ -10,11 +10,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-Text::script('JCANCEL', true);
 Text::script('COM_TEMPLATES_ADD', true);
 Text::script('COM_TEMPLATES_ADD_CLASS', true);
 Text::script('COM_TEMPLATES_ADD_COLUMN', true);
-Text::script('COM_TEMPLATES_BACK', true);
 Text::script('COM_TEMPLATES_CLOSE', true);
 Text::script('COM_TEMPLATES_CUSTOM', true);
 Text::script('COM_TEMPLATES_EDIT_COLUMN', true);
@@ -22,6 +20,7 @@ Text::script('COM_TEMPLATES_EDIT_GRID', true);
 Text::script('COM_TEMPLATES_EDIT_POSITION', true);
 Text::script('COM_TEMPLATES_HORZ', true);
 Text::script('COM_TEMPLATES_HTML5', true);
+Text::script('COM_TEMPLATES_MAX_COLUMN_SIZE', true);
 Text::script('COM_TEMPLATES_NONE', true);
 Text::script('COM_TEMPLATES_OUTLINE', true);
 Text::script('COM_TEMPLATES_PREDEFINED', true);
@@ -33,3 +32,6 @@ Text::script('COM_TEMPLATES_SELECT_MODULE_CHROME', true);
 Text::script('COM_TEMPLATES_SETTINGS', true);
 Text::script('COM_TEMPLATES_TABLE', true);
 Text::script('COM_TEMPLATES_VIEW', true);
+Text::script('JCANCEL', true);
+Text::script('JSEARCH_RESET', true);
+Text::script('JTOOLBAR_BACK', true);

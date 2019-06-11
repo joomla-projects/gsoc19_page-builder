@@ -1,0 +1,31 @@
+{
+  "name": "apodis",
+  "version": "4.0.0",
+  "description": "Apodis is the Joomla 4 site template which renders pagebuilder grids",
+  "license": "GPL-2.0+",
+  "assets": {
+    "template.apodis.base": {
+      "name": "template.apodis.base",
+      "dependencies": [
+        "core"
+      ],
+      "js": [
+        "template.js"
+      ]
+    },
+    "template.apodis.ltr": {
+      "name": "template.apodis.ltr",
+      "dependencies": ["template.apodis.base"],
+      "css": [
+        "template.min.css"
+      ]
+    },
+    "template.apodis.rtl": {
+      "name": "template.apodis.rtl",
+      "dependencies": ["template.apodis.base"],
+      "css": [
+        "template-rtl.min.css"
+      ]
+    }
+  }
+}

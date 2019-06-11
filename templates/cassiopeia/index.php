@@ -13,7 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Templates\Administrator\Helper\RenderHelper;
 
 /** @var JDocumentHtml $this */
 
@@ -30,7 +29,6 @@ $itemid    = $app->input->getCmd('Itemid', '');
 $sitename  = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu      = $app->getMenu()->getActive();
 $pageclass = $menu->params->get('pageclass_sfx');
-$pageGrid  = $this->params->get('grid');
 
 // Enable assets
 $wa->enableAsset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
@@ -78,116 +76,110 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 
-<?php if (!empty($pageGrid)) : ?>
-	<?php echo RenderHelper::renderElements($pageGrid); ?>
-<?php else : ?>
-	<div class="grid-child container-header full-width">
-		<header class="header">
-			<nav class="grid-child navbar navbar-expand-lg">
-				<div class="navbar-brand">
-					<a href="<?php echo $this->baseurl; ?>/">
-						<?php echo $logo; ?>
-					</a>
-					<?php if ($this->params->get('siteDescription')) : ?>
-						<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
+<div class="grid-child container-header full-width">
+	<header class="header">
+		<nav class="grid-child navbar navbar-expand-lg">
+			<div class="navbar-brand">
+				<a href="<?php echo $this->baseurl; ?>/">
+					<?php echo $logo; ?>
+				</a>
+				<?php if ($this->params->get('siteDescription')) : ?>
+					<div class="site-description"><?php echo htmlspecialchars($this->params->get('siteDescription')); ?></div>
+				<?php endif; ?>
+			</div>
+
+			<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
+				<button class="navbar-toggler navbar-toggler-right" type="button" aria-hidden="true" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
+					<span class="fa fa-bars"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbar">
+					<jdoc:include type="modules" name="menu" style="none" />
+					<?php if ($this->countModules('search')) : ?>
+						<div class="form-inline">
+							<jdoc:include type="modules" name="search" style="none" />
+						</div>
 					<?php endif; ?>
 				</div>
-
-				<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
-					<button class="navbar-toggler navbar-toggler-right" type="button" aria-hidden="true" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-						<span class="fa fa-bars"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navbar">
-						<jdoc:include type="modules" name="menu" style="none" />
-						<?php if ($this->countModules('search')) : ?>
-							<div class="form-inline">
-								<jdoc:include type="modules" name="search" style="none" />
-							</div>
-						<?php endif; ?>
-					</div>
-				<?php endif; ?>
-
-			</nav>
-			<?php if ($this->countModules('banner')) : ?>
-			<div class="grid-child container-banner">
-				<jdoc:include type="modules" name="banner" style="xhtml" />
-			</div>
 			<?php endif; ?>
-			<div class="header-shadow"></div>
-			<div class="header-shape-bottom">
-				<canvas width="736" height="15"></canvas>
-				<svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 15">
-					<path d="M1040,301V285s-75,12-214,12-284-26-524,0v4Z" transform="translate(-302 -285)" fill="#fafafa"/>
-				</svg>
-			</div>
-		</header>
-	</div>
 
-	<?php if ($this->countModules('top-a')) : ?>
-	<div class="grid-child container-top-a">
-		<jdoc:include type="modules" name="top-a" style="cardGrey" />
-	</div>
-	<?php endif; ?>
-
-	<?php if ($this->countModules('top-b')) : ?>
-	<div class="grid-child container-top-b">
-		<jdoc:include type="modules" name="top-b" style="card" />
-	</div>
-	<?php endif; ?>
-
-	<div class="grid-child container-main">
-
-		<?php if ($this->countModules('sidebar-left')) : ?>
-		<div class="container-sidebar-left">
-			<jdoc:include type="modules" name="sidebar-left" style="default" />
+		</nav>
+		<?php if ($this->countModules('banner')) : ?>
+		<div class="grid-child container-banner">
+			<jdoc:include type="modules" name="banner" style="xhtml" />
 		</div>
 		<?php endif; ?>
-
-		<div class="container-component">
-			<jdoc:include type="modules" name="main-top" style="cardGrey" />
-			<jdoc:include type="message" />
-			<jdoc:include type="component" />
-			<jdoc:include type="modules" name="breadcrumbs" style="none" />
-			<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
+		<div class="header-shadow"></div>
+		<div class="header-shape-bottom">
+			<canvas width="736" height="15"></canvas>
+			<svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 15">
+				<path d="M1040,301V285s-75,12-214,12-284-26-524,0v4Z" transform="translate(-302 -285)" fill="#fafafa"/>
+			</svg>
 		</div>
+	</header>
+</div>
 
-		<?php if ($this->countModules('sidebar-right')) : ?>
-		<div class="container-sidebar-right">
-			<jdoc:include type="modules" name="sidebar-right" style="default" />
-		</div>
-		<?php endif; ?>
-
-	</div>
-
-	<?php if ($this->countModules('bottom-a')) : ?>
-	<div class="grid-child container-bottom-a">
-		<jdoc:include type="modules" name="bottom-a" style="cardGrey" />
-	</div>
-	<?php endif; ?>
-
-	<?php if ($this->countModules('bottom-b')) : ?>
-	<div class="grid-child container-bottom-b">
-		<jdoc:include type="modules" name="bottom-b" style="card" />
-	</div>
-	<?php endif; ?>
-
-	<?php if ($this->countModules('footer')) : ?>
-	<footer class="grid-child container-footer footer">
-		<hr>
-		<p class="float-right">
-			<a href="#top" id="back-top" class="back-top">
-				<span class="icon-arrow-up-4" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
-			</a>
-		</p>
-		<jdoc:include type="modules" name="footer" style="none" />
-	</footer>
-	<?php endif; ?>
-
-	<jdoc:include type="modules" name="debug" style="none" />
-
-<?php // Pagebuilder ?>
+<?php if ($this->countModules('top-a')) : ?>
+<div class="grid-child container-top-a">
+	<jdoc:include type="modules" name="top-a" style="cardGrey" />
+</div>
 <?php endif; ?>
+
+<?php if ($this->countModules('top-b')) : ?>
+<div class="grid-child container-top-b">
+	<jdoc:include type="modules" name="top-b" style="card" />
+</div>
+<?php endif; ?>
+
+<div class="grid-child container-main">
+
+	<?php if ($this->countModules('sidebar-left')) : ?>
+	<div class="container-sidebar-left">
+		<jdoc:include type="modules" name="sidebar-left" style="default" />
+	</div>
+	<?php endif; ?>
+
+	<div class="container-component">
+		<jdoc:include type="modules" name="main-top" style="cardGrey" />
+		<jdoc:include type="message" />
+		<jdoc:include type="component" />
+		<jdoc:include type="modules" name="breadcrumbs" style="none" />
+		<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
+	</div>
+
+	<?php if ($this->countModules('sidebar-right')) : ?>
+	<div class="container-sidebar-right">
+		<jdoc:include type="modules" name="sidebar-right" style="default" />
+	</div>
+	<?php endif; ?>
+
+</div>
+
+<?php if ($this->countModules('bottom-a')) : ?>
+<div class="grid-child container-bottom-a">
+	<jdoc:include type="modules" name="bottom-a" style="cardGrey" />
+</div>
+<?php endif; ?>
+
+<?php if ($this->countModules('bottom-b')) : ?>
+<div class="grid-child container-bottom-b">
+	<jdoc:include type="modules" name="bottom-b" style="card" />
+</div>
+<?php endif; ?>
+
+<?php if ($this->countModules('footer')) : ?>
+<footer class="grid-child container-footer footer">
+	<hr>
+	<p class="float-right">
+		<a href="#top" id="back-top" class="back-top">
+			<span class="icon-arrow-up-4" aria-hidden="true"></span>
+			<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
+		</a>
+	</p>
+	<jdoc:include type="modules" name="footer" style="none" />
+</footer>
+<?php endif; ?>
+
+<jdoc:include type="modules" name="debug" style="none" />
 
 </body>
 </html>
