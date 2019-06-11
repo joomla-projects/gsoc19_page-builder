@@ -70,9 +70,6 @@
 
 <script>
   import draggable from 'vuedraggable';
-  import {notifications} from "./../app/Notifications";
-  import AddGridModal from './modals/modal-add-grid.vue';
-  import EditColumnModal from './modals/modal-edit-column.vue';
 
   export default {
     props: {
@@ -106,8 +103,6 @@
       },
     },
     components: {
-      AddGridModal,
-      EditColumnModal,
       draggable
     },
     methods: {
