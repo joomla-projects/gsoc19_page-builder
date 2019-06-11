@@ -1,65 +1,17 @@
 <template>
 <div class="container-fluid row" id="pageBuilder">
   <div v-if="showSettings" id="Settings" class="settings col-sm-2">
-      <h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
-      <hr>
-      <form>
+    <h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
+    <hr>
+    <form>
         <!-- Settings for editing positions -->
-        <div v-if="edit_position">
-            <fieldset>
-                <legend>{{ translate('COM_TEMPLATES_EDIT_POSITION') }}</legend>
-                <div class="form-group">
-                    <label for="module_chrome">{{ translate('COM_TEMPLATES_SELECT_MODULE_CHROME') }}</label>
-                    <select id="module_chrome" name="module_chrome" v-model="module_chrome">
-                      <option value="none">{{ translate('COM_TEMPLATES_NONE') }}</option>
-                      <option value="rounded">{{ translate('COM_TEMPLATES_ROUNDED') }}</option>
-                      <option value="table">{{ translate('COM_TEMPLATES_TABLE') }}</option>
-                      <option value="horz">{{ translate('COM_TEMPLATES_HORZ') }}</option>
-                      <option value="xhtml">{{ translate('COM_TEMPLATES_XHTML') }}</option>
-                      <option value="html5">{{ translate('COM_TEMPLATES_HTML5') }}</option>
-                      <option value="outline">{{ translate('COM_TEMPLATES_OUTLINE') }}</option>
-                    </select>
-                </div>
+        <edit-position v-if="edit_position" class="form-group" v-bind:grid="grid_selected" v-bind:column="column_selected" v-on:reset="reset"></edit-position>
 
-                <div class="btn-group">
-                    <button type="button" class="btn btn-success" @click="editPosition('','',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                    <button type="button" class="btn btn-secondary" @click="reset">{{ translate('JTOOLBAR_BACK') }}</button>
-                </div>
-            </fieldset>
-        </div>
+        <!-- Settings for editing grids -->
+        <edit-grid v-if="edit_grid" class="form-group" v-bind:grid="grid_selected" v-on:reset="reset"></edit-grid>
 
-        <!-- Settings for editing columns -->
-
-      <!-- Settings for editing grids -->
-      <div v-else-if="edit_grid" class="form-group">
-        <fieldset>
-            <legend>{{ translate('COM_TEMPLATES_EDIT_GRID') }}</legend>
-            <label for="column_size">{{ translate('COM_TEMPLATES_ADD_COLUMN') }}</label>
-            <input id="column_size" name="column_size" type="text" v-model="column_size">
-
-            <label for="grid_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
-            <input id="grid_class" name="grid_class" type="text" v-model="grid_class">
-
-            <div class="btn-group">
-                <button type="button" class="btn btn-success" @click="editGrid('',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                <button type="button" class="btn btn-danger" @click="reset">{{ translate('JTOOLBAR_BACK') }}</button>
-            </div>
-        </fieldset>
-      </div>
-
-      <!-- Settings for adding columns -->
-      <div v-else-if="add_column" class="form-group">
-          <fieldset>
-                <legend>{{ translate('COM_TEMPLATES_ADD_COLUMN') }}</legend>
-                <label for="column_size">{{ translate('COM_TEMPLATES_ADD_COLUMN') }}</label>
-                <input id="column_size" name="column_size" type="text" v-model="column_size">
-
-                <div class="btn-group">
-                    <button type="button" class="btn btn-success" @click="addColumn('',true)">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                    <button type="button" class="btn btn-danger" @click="reset">{{ translate('JTOOLBAR_BACK') }}</button>
-                </div>
-          </fieldset>
-      </div>
+        <!-- Settings for adding columns -->
+        <add-column v-if="add_column" class="form-group" v-bind:grid="grid_selected" v-on:reset="reset"></add-column>
 
     </form>
   </div>
@@ -83,10 +35,10 @@
             <!-- Module Position -->
             <div class="position container-fluid">
             <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#newmodule">+</button>
-            <button type="button" class="icon-apply close" @click="editPosition(grid,column,false)"></button>
+            <button type="button" class="icon-apply close" @click="editPosition(grid,column)"></button>
             </div>
           </div>
-          <button class="list-group-item" type="button" @click="addColumn(grid,false)">+</button>
+          <button class="list-group-item" type="button" @click="addColumn(grid)">+</button>
         </draggable>
         <!-- Column Ends-->
 
@@ -112,6 +64,7 @@
     </div>
     <!-- Modal ends -->
   </div>
+  {{gridArray}}
 </div>
 </template>
 
@@ -158,16 +111,6 @@
         deep: true,
       },
     },
-    computed: {
-      gridValidate() {
-        let sum = 0;
-        const gridSize = this.grid_system.split(' ');
-        gridSize.forEach(element => {
-          sum = sum + Number(element);
-        });
-        return (sum === 12);
-      }
-    },
     components: {
       AddGridModal,
       EditColumnModal,
@@ -204,37 +147,11 @@
         if (index > -1)
           this.gridArray.splice(index, 1);
       },
-      addColumn(grid, submit) {
-        if (submit) {
-          if (this.column_size !== '') {
-            let sum = 0;
-            this.grid_selected.children.forEach(element => {
-              sum += Number(element.options.size.split('-')[2]);
-            });
-            if (sum + Number(this.column_size) <= 12) {
-              this.grid_selected.children.push({
-                type: 'column',
-                options: {
-                  size: 'col-sm-' + this.column_size
-                },
-                children: [{
-                  type: 'position',
-                  options: {},
-                  children: []
-                }]
-              });
-            }
-            else {
-                notifications.error('COM_TEMPLATES_MAX_COLUMN_SIZE');
-            }
-          }
-          this.reset();
-        }
-        else {
-          this.showSettings = true;
-          this.add_column = true;
-          this.grid_selected = grid;
-        }
+      addColumn(grid) {
+        this.reset();
+        this.showSettings = true;
+        this.grid_selected = grid;
+        this.add_column = true;
       },
       deleteColumn(grid, column) {
         const index = grid.children.indexOf(column);
@@ -242,60 +159,22 @@
           grid.children.splice(index, 1);
         }
       },
-      editPosition(grid, column, submit) {
-        if (submit) {
-          if (this.module_chrome !== 'none') {
-            this.column_selected.children[0].options.module_chrome = this.module_chrome;
-          }
-          this.module_chrome = 'none';
-          this.reset();
-        }
-        else {
-          this.showSettings = true;
-          this.edit_position = true;
-          this.column_selected = column;
-          this.grid_selected = grid;
-        }
+      editPosition(grid, column) {
+        this.reset();
+        this.showSettings = true;
+        this.grid_selected = grid;
+        this.column_selected = column;
+        this.edit_position = true;
       },
       editColumn(column) {
         this.currentColumn = column;
         this.show('edit-column');
       },
-      editGrid(grid, submit) {
-        if (submit) {
-          if (this.grid_class !== '') {
-            this.grid_selected.options.class = this.grid_class;
-          }
-
-          if (this.column_size !== '') {
-            let sum = 0;
-            this.grid_selected.children.forEach(element => {
-              sum += Number(element.options.size.split('-')[2]);
-            });
-            if (sum + Number(this.column_size) <= 12) {
-              this.grid_selected.children.push({
-                type: 'column',
-                options: {
-                  size: 'col-sm-' + this.column_size
-                },
-                children: [{
-                  type: 'position',
-                  options: {},
-                  children: []
-                }]
-              });
-            }
-            else {
-                notifications.error('COM_TEMPLATES_MAX_COLUMN_SIZE');
-            }
-          }
-          this.reset();
-        }
-        else {
-          this.edit_grid = true;
-          this.grid_selected = grid;
-          this.showSettings = true;
-        }
+      editGrid(grid) {
+        this.reset();
+        this.showSettings = true;
+        this.edit_grid = true;
+        this.grid_selected = grid;
       },
       reset() {
         this.edit_grid = false;

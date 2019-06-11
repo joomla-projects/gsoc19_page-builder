@@ -55,11 +55,11 @@
     },
     methods: {
         close() {
-            $modal.hide('add-grid');
+            this.$modal.hide('add-grid');
         },
         submit() {
             this.$emit('selection', this.grid_system.split(' '));
-            $modal.hide('add-grid');
+            this.$modal.hide('add-grid');
         }
     },
   };
