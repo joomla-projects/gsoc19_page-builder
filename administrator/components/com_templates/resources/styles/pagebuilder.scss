@@ -4,3 +4,7 @@
 // Components
 @import "components/app";
 @import "components/modals";
+
+.d-flex>*, .d-inline-flex>* {
+    flex: none;
+}
