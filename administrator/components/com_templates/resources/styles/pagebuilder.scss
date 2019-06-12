@@ -6,5 +6,5 @@
 @import "components/modals";
 
 .d-flex>*, .d-inline-flex>* {
-    flex: none;
+    flex: none!important;
 }
