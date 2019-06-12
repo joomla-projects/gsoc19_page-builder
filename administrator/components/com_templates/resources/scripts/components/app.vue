@@ -18,7 +18,7 @@
   <div id="View" class="container-fluid">
     <h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
     <!-- Grid -->
-    <draggable v-model="gridArray">
+    <draggable v-model="gridArray" ghost-class="drop">
         <div v-for="grid in gridArray" v-model="gridArray" class="draggable">
             <button v-if="gridArray.length" type="button" class="icon-cancel close" @click="deleteGrid(grid)"></button>
             <button v-if="gridArray.length" type="button" class="icon-apply close" @click="editGrid(grid)"></button>
