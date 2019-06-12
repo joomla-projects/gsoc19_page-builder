@@ -12,7 +12,6 @@
 
         <!-- Settings for adding columns -->
         <add-column v-if="add_column" class="form-group" :grid="grid_selected" @:reset="reset"></add-column>
-
     </form>
   </div>
 
@@ -20,29 +19,28 @@
     <h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
     <!-- Grid -->
     <draggable v-model="gridArray">
-      <div v-for="grid in gridArray" v-model="gridArray" class="draggable">
-        <button v-if="gridArray.length" type="button" class="icon-cancel close" @click="deleteGrid(grid)"></button>
-        <button v-if="gridArray.length" type="button" class="icon-apply close" @click="editGrid(grid,false)"></button>
+        <div v-for="grid in gridArray" v-model="gridArray" class="draggable">
+            <button v-if="gridArray.length" type="button" class="icon-cancel close" @click="deleteGrid(grid)"></button>
+            <button v-if="gridArray.length" type="button" class="icon-apply close" @click="editGrid(grid)"></button>
 
-        <!-- Column -->
-        <draggable v-model="grid.children" class="row grid-row">
-          <div class="list-group-item" v-for="column in grid.children" :class="[column.options.size]" @click="">
-            {{column.options.size}}
-            (<i>{{column.type}}</i>)
-            <button type="button" class="icon-cancel close" @click="deleteColumn(grid,column)"></button>
-            <button type="button" class="icon-options close" @click="editColumn(column)"></button>
-            <br>
-            <!-- Module Position -->
-            <div class="position container-fluid">
-            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#newmodule">+</button>
-            <button type="button" class="icon-apply close" @click="editPosition(grid,column)"></button>
-            </div>
-          </div>
-          <button class="list-group-item" type="button" @click="addColumn(grid)">+</button>
-        </draggable>
-        <!-- Column Ends-->
-
-      </div>
+            <!-- Column -->
+            <draggable v-model="grid.children" class="row grid-row">
+                <div class="list-group-item" v-for="column in grid.children" :class="[column.options.size]" @click="">
+                    {{column.options.size}}
+                    (<i>{{column.type}}</i>)
+                    <button type="button" class="icon-cancel close" @click="deleteColumn(grid,column)"></button>
+                    <button type="button" class="icon-options close" @click="editColumn(column)"></button>
+                    <br>
+                    <!-- Module Position -->
+                    <div class="position container-fluid">
+                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#newmodule">+</button>
+                    <button type="button" class="icon-apply close" @click="editPosition(grid,column)"></button>
+                    </div>
+                </div>
+            <button class="list-group-item" type="button" @click="addColumn(grid)">+</button>
+            </draggable>
+            <!-- Column Ends-->
+        </div>
     </draggable>
     <!-- Grid Ends -->
 
@@ -54,13 +52,13 @@
 
     <!-- Modal for adding modules -->
     <div class="modal fade" id="newmodule" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5>{{ translate('COM_TEMPLATES_SELECT_MODULE') }}</h5>
-          </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>{{ translate('COM_TEMPLATES_SELECT_MODULE') }}</h5>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <!-- Modal ends -->
   </div>
@@ -76,7 +74,7 @@
         type: Array,
         required: false,
         default: function () {
-          return [];
+            return [];
         },
       },
     },
@@ -96,36 +94,36 @@
     watch: {
       grid: {
         handler: function (newVal) {
-          document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
+            document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
         },
         deep: true,
       },
     },
     components: {
-      draggable
+        draggable
     },
     methods: {
       addGrid(sizes) {
         this.myArray = [];
         sizes.forEach(size => {
-          this.myArray.push({
-            type: 'column',
-            options: {
-              size: 'col-' + size
-            },
-            children: [{
-              type: 'position',
-              options: {
-                module_chrome: 'none'
-              },
-              children: []
-            }]
-          });
+            this.myArray.push({
+                type: 'column',
+                options: {
+                    size: 'col-' + size
+                },
+                children: [{
+                    type: 'position',
+                    options: {
+                        module_chrome: 'none'
+                    },
+                    children: []
+                }]
+            });
         });
         this.gridArray.push({
-          type: 'grid',
-          options: {},
-          children: this.myArray
+            type: 'grid',
+            options: {},
+            children: this.myArray
         });
         this.reset();
         this.hide('add-grid');
@@ -133,7 +131,7 @@
       deleteGrid(grid) {
         const index = this.gridArray.indexOf(grid);
         if (index > -1)
-          this.gridArray.splice(index, 1);
+            this.gridArray.splice(index, 1);
       },
       addColumn(grid) {
         this.reset();
@@ -144,7 +142,7 @@
       deleteColumn(grid, column) {
         const index = grid.children.indexOf(column);
         if (index > -1) {
-          grid.children.splice(index, 1);
+            grid.children.splice(index, 1);
         }
       },
       editPosition(grid, column) {

@@ -42,14 +42,14 @@
         type: Object,
         required: false,
         default: function () {
-          return window.Joomla.getOptions('com_templates');
+            return window.Joomla.getOptions('com_templates');
         },
       },
       images: {
         type: Object,
         required: false,
         default: function () {
-          return this.joptions.images;
+            return this.joptions.images;
         },
       },
     },

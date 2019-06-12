@@ -27,7 +27,7 @@
     props: {
       column: {
         options: {
-          class: '',
+            class: '',
         },
       },
     },
