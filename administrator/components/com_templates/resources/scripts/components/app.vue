@@ -1,6 +1,6 @@
 <template>
 <div class="container-fluid row" id="pageBuilder">
-  <div v-if="showSettings" id="Settings" class="settings col-sm-2">
+  <v-navigation-drawer v-model="showSettings" absolute temporary id="Settings">
     <h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
     <hr>
     <form>
@@ -13,7 +13,7 @@
         <!-- Settings for adding columns -->
         <add-column v-if="add_column" class="form-group" :grid="grid_selected" @:reset="reset"></add-column>
     </form>
-  </div>
+  </v-navigation-drawer>
 
   <div id="View" class="container-fluid">
     <h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>

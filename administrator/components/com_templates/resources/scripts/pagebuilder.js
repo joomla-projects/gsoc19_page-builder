@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueJsModal from 'vue-js-modal';
+import Vuetify from 'vuetify';
 import App from './components/app.vue';
 import Translate from './plugins/translate';
 import editposition from './components/editposition.vue';
@@ -11,8 +12,9 @@ import EditColumnModal from './components/modals/modal-edit-column.vue';
 // Add the plugins
 Vue.use(Translate);
 Vue.use(VueJsModal);
+Vue.use(Vuetify);
 
-//Use the Components
+// Use the Components
 Vue.component('edit-position', editposition);
 Vue.component('edit-grid', editgrid);
 Vue.component('add-column', addcolumn);

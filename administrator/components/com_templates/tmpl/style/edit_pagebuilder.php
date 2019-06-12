@@ -17,6 +17,7 @@ HTMLHelper::_('script', 'media/com_templates/js/pagebuilder.js');
 
 // Add stylesheet
 HTMLHelper::_('stylesheet', 'media/com_templates/css/pagebuilder.css');
+HTMLHelper::_('stylesheet', 'administrator/components/com_templates/node_modules/vuetify/dist/vuetify.css');
 
 // Populate the language
 $this->loadTemplate('texts');
