@@ -24,7 +24,7 @@ Vue.component('edit-column-modal', EditColumnModal);
 Vue.config.productionTip = false;
 
 document.addEventListener('DOMContentLoaded',
-    () => new Vue({
-        el: '#com-templates',
-        render: h => h(App),
-    }));
+  () => new Vue({
+    el: '#com-templates',
+    render: h => h(App),
+  }));
