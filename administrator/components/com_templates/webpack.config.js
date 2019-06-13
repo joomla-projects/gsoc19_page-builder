@@ -3,8 +3,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const config = {
   entry: [
-    './resources/scripts/pagebuilder.js',
-    './resources/styles/pagebuilder.scss',
+    './resources/scripts/pagebuilder.js'
   ],
   output: {
     path: path.resolve(__dirname, './../../../media/com_templates/js'),
@@ -19,14 +18,6 @@ const config = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-      },
-      {
-        test: /\.scss$/,
-        use: [{ loader: 'css-loader' }, { loader: 'sass-loader' }],
-      },
-      {
-        test: /\.css$/,
-        use: [{ loader: 'css-loader' }, { loader: 'sass-loader' }],
       }
     ],
   },
