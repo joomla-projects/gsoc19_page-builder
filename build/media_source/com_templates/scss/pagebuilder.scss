@@ -1,109 +1,125 @@
 // App.vue
-#pageBuilder {
-    border: 0.1em solid;
-    min-height: 50em;
+.pagebuilder {
 
-    .icon-cancel:before {
-        font-size: larger;
-    }
-}
-
-.settings {
-
-    .btn-group {
-        margin: 1rem 0;
-
-        .btn {
-            margin-right: 1rem;
-        }
-    }
-}
-
-.draggable {
+  .row-wrapper {
+    position: relative;
     background-color: #8c8c8c;
-    margin-top: 1rem;
+    border: 1px dashed #4b4b4b;
+    padding: 1rem 1.5rem;
 
     &:hover {
-        background-color: #4d4d4d;
+      background-color: #4d4d4d;
     }
 
-    .column {
-        margin: 0.5em 0 0.5em 0;
+    button {
+      cursor: pointer;
+
+      &:hover {
         cursor: pointer;
-        display: block;
-        padding: 0.1em;
-        border: 0.1em solid;
+      }
+    }
+
+    .btn-add {
+      display: block;
+      margin: .5rem auto;
+      min-width: 10rem;
+      width: 30%;
+
+      &:not(:hover) {
+        background-color: #fff;
+      }
+    }
+
+    .btn-wrapper {
+      visibility: hidden;
+      position: absolute;
+      top: 0;
+      right: 1rem;
+
+      > button {
+        padding: .5rem;
+        color: #fff;
 
         &:hover {
-            background-color: #bfbfbf;
-            cursor: grab;
+          color: #108193;
         }
+      }
     }
 
-    .grid-row {
-        margin-left: 15px;
+    &:hover > .btn-wrapper {
+      visibility: visible;
     }
 
-    .close {
-        float: right;
-        margin: 0.2em 0.5em 0 0.2em;
-        padding: 0 0.2em 0 0.2em;
-        cursor: pointer;
-    }
+    .col-wrapper {
+      background-color: #def6dd;
+      border: 1px dashed #0b3257;
+      position: relative;
+      margin-top: 1.5rem;
 
-    button[type=button].list-group-item {
-        cursor: pointer;
+      &:hover {
+        background-color: #8b9b8a;
+        cursor: grab;
 
-        &:hover {
-            cursor: pointer;
+        > .btn-wrapper {
+          visibility: visible;
         }
+      }
     }
-}
 
-.position {
-    border: 0.1em solid;
-}
+    .position {
+      border: 0.1em solid;
+    }
 
-.drop {
-    opacity: 0.5;
-    background: #f08080;
+    .drop {
+      opacity: 0.5;
+      background: #f08080;
+    }
+  }
+
+  // Modals
+  .image-selection img {
+    margin: 1rem 0;
+    width: 9rem;
+  }
 }
 
 .col-12,
 .col-sm-12 {
-  background-color: rgba(255, 48, 33, 0.71); }
+  background-color: rgba(255, 48, 33, 0.71);
+}
 
 .col-8,
 .col-sm-8 {
-  background-color: rgba(73, 78, 255, 0.57); }
+  background-color: rgba(73, 78, 255, 0.57);
+}
 
 .col-6,
 .col-sm-6 {
-  background-color: #ffffff; }
+  background-color: #ffffff;
+}
 
 .col-4,
 .col-sm-4 {
-  background-color: rgba(136, 255, 231, 0.48); }
+  background-color: rgba(136, 255, 231, 0.48);
+}
 
 .col-3,
 .col-sm-3 {
-  background-color: rgba(244, 255, 123, 0.63); }
+  background-color: rgba(244, 255, 123, 0.63);
+}
 
 .col-2,
 .col-sm-2 {
-  background-color: rgba(255, 100, 220, 0.54); }
+  background-color: rgba(255, 100, 220, 0.54);
+}
 
 .col-1,
 .col-sm-1 {
-  background-color: rgba(255, 232, 105, 0.63); }
-
-// Modals
-.image-selection img {
-    margin: 1rem 0;
-    width: 9rem;
+  background-color: rgba(255, 232, 105, 0.63);
 }
 
 // Vuetify
-.d-flex>*, .d-inline-flex>* {
-    flex: none!important;
+.d-flex > *,
+.d-inline-flex > * {
+  flex: none !important;
 }

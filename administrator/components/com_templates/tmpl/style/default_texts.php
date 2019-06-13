@@ -13,6 +13,8 @@ use Joomla\CMS\Language\Text;
 Text::script('COM_TEMPLATES_ADD', true);
 Text::script('COM_TEMPLATES_ADD_CLASS', true);
 Text::script('COM_TEMPLATES_ADD_COLUMN', true);
+Text::script('COM_TEMPLATES_ADD_GRID', true);
+Text::script('COM_TEMPLATES_ADD_MODULE', true);
 Text::script('COM_TEMPLATES_CLOSE', true);
 Text::script('COM_TEMPLATES_CUSTOM', true);
 Text::script('COM_TEMPLATES_EDIT_COLUMN', true);
