@@ -20,8 +20,12 @@
 }
 
 .draggable {
-    background-color: grey;
+    background-color: #8c8c8c;
     margin-top: 1rem;
+
+    &:hover {
+        background-color: #4d4d4d;
+    }
 
     .list-group-item,
     .list-group-item:last-child {
@@ -29,8 +33,8 @@
         cursor: pointer;
 
         &:hover {
-            background-color: lightgray;
-            cursor: grab
+            background-color: #bfbfbf;
+            cursor: grab;
         }
     }
 
@@ -60,7 +64,7 @@
 
 .drop {
     opacity: 0.5;
-    background: lightcoral;
+    background: #f08080;
 }
 
 // Modals
