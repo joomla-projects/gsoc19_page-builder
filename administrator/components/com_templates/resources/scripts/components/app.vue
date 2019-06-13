@@ -1,31 +1,31 @@
 <template>
-<div class="pagebuilder">
-  <v-navigation-drawer v-model="showSettings" absolute temporary id="Settings">
+<div class="pagebuilder row">
+  <div class="col-2" absolute temporary id="Settings">
     <h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
     <hr>
-    <form>
         <!-- Settings for editing positions -->
         <edit-position v-if="edit_position" class="form-group" :grid="grid_selected" :column="column_selected" @reset="reset"></edit-position>
 
         <!-- Settings for editing grids -->
-        <edit-grid v-if="edit_grid" class="form-group" :grid="grid_selected" @reset="reset"></edit-grid>
+        <edit-grid v-else-if="edit_grid" class="form-group" :grid="grid_selected" @reset="reset"></edit-grid>
 
         <!-- Settings for adding columns -->
-        <add-column v-if="add_column" class="form-group" :grid="grid_selected" @reset="reset"></add-column>
-    </form>
-  </v-navigation-drawer>
+        <add-column v-else-if="add_column" class="form-group" :grid="grid_selected" @reset="reset"></add-column>
 
-  <div id="View">
+        <div v-else>Select an element to view Settings</div>
+  </div>
+
+  <div id="View" class="col-10">
     <h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
     <!-- Grid -->
     <draggable v-model="gridArray" ghost-class="drop">
         <div v-for="grid in gridArray" v-model="gridArray" class="row-wrapper">
             <div class="btn-wrapper">
 				<button v-if="gridArray.length" type="button" class="btn btn-lg" @click="editGrid(grid)">
-                    <span class="icon-options"></span>
+                    <span class="icon-options" title="Edit Grid"></span>
                 </button>
 				<button v-if="gridArray.length" type="button" class="btn btn-lg" @click="deleteGrid(grid)">
-                    <span class="icon-cancel"></span>
+                    <span class="icon-cancel" title="Delete Grid"></span>
                 </button>
             </div>
 
@@ -34,22 +34,24 @@
                 <div class="col-wrapper" v-for="column in grid.children" :class="[column.options.size]">
                     <div class="btn-wrapper">
 						<button type="button" class="btn btn-lg" @click="editColumn(column)">
-                            <span class="icon-options"></span>
+                            <span class="icon-options" title="Edit Column"></span>
                         </button>
 						<button type="button" class="btn btn-lg" @click="deleteColumn(grid,column)">
-                            <span class="icon-cancel"></span>
+                            <span class="icon-cancel" title="Delete Column"></span>
                         </button>
                     </div>
 
                     <span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
-                    <button type="button" class="btn btn-add btn-outline-info" data-toggle="modal" data-target="#newmodule">
-                        <span class="icon-new"></span>
-                        {{ translate('COM_TEMPLATES_ADD_MODULE') }}
-                    </button>
+                    <div class="row">
+                        <button type="button" class="btn btn-add btn-outline-info" data-toggle="modal" data-target="#newmodule">
+                            <span class="icon-new"></span>
+                            {{ translate('COM_TEMPLATES_ADD_MODULE') }}
+                        </button>
                     <!-- TODO: Add Module Position -->
-                    <!--div class="position">
-                        <button type="button" class="icon-apply close" @click="editPosition(grid,column)"></button>
-                    </div-->
+                        <button type="button" class="btn btn-lg edit-module" @click="editPosition(grid,column)">
+                          <span class="icon-options" title="Edit Module"></span>
+                        </button>
+                    </div>
                 </div>
             </draggable>
 
