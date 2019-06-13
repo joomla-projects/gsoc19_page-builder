@@ -11,7 +11,7 @@
         <edit-grid v-if="edit_grid" class="form-group" :grid="grid_selected" @reset="reset"></edit-grid>
 
         <!-- Settings for adding columns -->
-        <add-column v-if="add_column" class="form-group" :grid="grid_selected" @:reset="reset"></add-column>
+        <add-column v-if="add_column" class="form-group" :grid="grid_selected" @reset="reset"></add-column>
     </form>
   </v-navigation-drawer>
 
