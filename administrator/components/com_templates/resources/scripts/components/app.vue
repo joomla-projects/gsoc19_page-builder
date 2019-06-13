@@ -25,7 +25,7 @@
 
             <!-- Column -->
             <draggable v-model="grid.children" class="row grid-row">
-                <div class="list-group-item" v-for="column in grid.children" :class="[column.options.size]" @click="">
+                <div class="col column" v-for="column in grid.children" :class="[column.options.size]">
                     {{column.options.size}}
                     (<i>{{column.type}}</i>)
                     <button type="button" class="icon-cancel close" @click="deleteColumn(grid,column)"></button>

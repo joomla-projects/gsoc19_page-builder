@@ -27,10 +27,12 @@
         background-color: #4d4d4d;
     }
 
-    .list-group-item,
-    .list-group-item:last-child {
-        margin: 1rem .5rem;
+    .column {
+        margin: 0.5em 0 0.5em 0;
         cursor: pointer;
+        display: block;
+        padding: 0.1em;
+        border: 0.1em solid;
 
         &:hover {
             background-color: #bfbfbf;
@@ -66,6 +68,34 @@
     opacity: 0.5;
     background: #f08080;
 }
+
+.col-12,
+.col-sm-12 {
+  background-color: rgba(255, 48, 33, 0.71); }
+
+.col-8,
+.col-sm-8 {
+  background-color: rgba(73, 78, 255, 0.57); }
+
+.col-6,
+.col-sm-6 {
+  background-color: #ffffff; }
+
+.col-4,
+.col-sm-4 {
+  background-color: rgba(136, 255, 231, 0.48); }
+
+.col-3,
+.col-sm-3 {
+  background-color: rgba(244, 255, 123, 0.63); }
+
+.col-2,
+.col-sm-2 {
+  background-color: rgba(255, 100, 220, 0.54); }
+
+.col-1,
+.col-sm-1 {
+  background-color: rgba(255, 232, 105, 0.63); }
 
 // Modals
 .image-selection img {
