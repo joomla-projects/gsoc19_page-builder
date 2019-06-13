@@ -1,5 +1,5 @@
 <template>
-<div class="container-fluid row">
+<div class="container-fluid row" id="pageBuilder">
   <v-navigation-drawer v-model="showSettings" absolute temporary id="Settings">
     <h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
     <hr>
