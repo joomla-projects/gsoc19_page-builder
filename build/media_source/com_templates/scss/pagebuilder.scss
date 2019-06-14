@@ -2,6 +2,17 @@
 .settings {
   z-index: 1040;
 }
+
+button, input, select, textarea {
+  border-style: solid;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+select {
+  -webkit-appearance: menulist;
+}
+
 .pagebuilder {
   border: 0.1em solid;	
   min-height: 30em;
