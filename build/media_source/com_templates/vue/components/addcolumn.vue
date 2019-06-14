@@ -31,7 +31,8 @@ export default {
             if (this.column_size !== '') {
                 let sum = 0;
                 this.grid.children.forEach(element => {
-                    sum += Number(element.options.size.split('-')[1]);
+                    const parts = element.options.size.split('-');
+                    sum += Number(parts[parts.length - 1]);
                 });
                 if (sum + Number(this.column_size) <= 12) {
                     this.grid.children.push({
