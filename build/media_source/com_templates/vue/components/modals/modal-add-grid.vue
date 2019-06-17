@@ -1,13 +1,12 @@
 <template>
 	<modal name="add-grid" role="dialog" :classes="['modal-content', 'v--modal']" height="auto">
 		<div class="modal-header">
-			<h5 class="modal-title">{{ translate('COM_TEMPLATES_SELECT_LAYOUT') }}</h5>
+			<h3 class="modal-title">{{ translate('COM_TEMPLATES_SELECT_LAYOUT') }}</h3>
 			<button @click="close" type="button" class="close" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
 		<div class="modal-body">
-			<h6>{{ translate('COM_TEMPLATES_PREDEFINED') }}</h6>
 			<div class="row image-selection">
 				<div class="col icon" v-html="images.row12" @click="$emit('selection', [12])"></div>
 				<div class="col icon" v-html="images.row66" @click="$emit('selection', [6, 6])"></div>

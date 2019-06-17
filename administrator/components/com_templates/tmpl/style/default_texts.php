@@ -25,7 +25,6 @@ Text::script('COM_TEMPLATES_HTML5', true);
 Text::script('COM_TEMPLATES_MAX_COLUMN_SIZE', true);
 Text::script('COM_TEMPLATES_NONE', true);
 Text::script('COM_TEMPLATES_OUTLINE', true);
-Text::script('COM_TEMPLATES_PREDEFINED', true);
 Text::script('COM_TEMPLATES_ROUNDED', true);
 Text::script('COM_TEMPLATES_SAVE', true);
 Text::script('COM_TEMPLATES_SELECT_LAYOUT', true);
