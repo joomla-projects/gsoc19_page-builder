@@ -89,7 +89,7 @@
   export default {
     props: {
       grid: {
-        type: Array,
+        type: Object,
         required: false,
         default: function () {
             return JSON.parse(document.getElementById('jform_params_grid').value);
