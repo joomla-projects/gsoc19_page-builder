@@ -92,7 +92,7 @@
         type: Array,
         required: false,
         default: function () {
-            return [];
+            return JSON.parse(document.getElementById('jform_params_grid').value);
         },
       },
     },
