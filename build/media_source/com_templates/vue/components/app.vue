@@ -22,12 +22,12 @@
             <h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
             <!-- Grid -->
             <draggable v-model="gridArray" ghost-class="drop">
-                <div v-for="grid in gridArray" v-model="gridArray" class="row-wrapper">
+                <div v-for="grid in gridArray" class="row-wrapper">
                     <div class="btn-wrapper">
-                <button v-if="gridArray.length" type="button" class="btn btn-lg" @click="editGrid(grid)">
+                		<button type="button" class="btn btn-lg" @click="editGrid(grid)">
                             <span class="icon-options" title="Edit Grid"></span>
                         </button>
-                <button v-if="gridArray.length" type="button" class="btn btn-lg" @click="deleteGrid(grid)">
+						<button type="button" class="btn btn-lg" @click="deleteGrid(grid)">
                             <span class="icon-cancel" title="Delete Grid"></span>
                         </button>
                     </div>
@@ -37,11 +37,13 @@
                     <draggable v-model="grid.children" class="row">
                         <div class="col-wrapper" v-for="column in grid.children" :class="[column.options.size]">
                             <div class="btn-wrapper">
-                    <button type="button" class="btn btn-lg" @click="editColumn(column)">
-                                    <span class="icon-options" title="Edit Column"></span>
+								<button type="button" class="btn btn-lg" @click="editColumn(column)">
+                                    <span class="icon-options"></span>
+                                    <span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
                                 </button>
-                    <button type="button" class="btn btn-lg" @click="deleteColumn(grid,column)">
-                                    <span class="icon-cancel" title="Delete Column"></span>
+								<button type="button" class="btn btn-lg" @click="deleteColumn(grid,column)">
+                                    <span class="icon-cancel"></span>
+                                    <span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
                                 </button>
                             </div>
 
