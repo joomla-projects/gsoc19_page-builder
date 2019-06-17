@@ -25,13 +25,15 @@
                 <div v-for="grid in gridArray" class="row-wrapper">
                     <div class="btn-wrapper">
                 		<button type="button" class="btn btn-lg" @click="editGrid(grid)">
-                            <span class="icon-options" title="Edit Grid"></span>
+                            <span class="icon-options"></span>
+                            <span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_GRID') }}</span>
                         </button>
 						<button type="button" class="btn btn-lg" @click="deleteGrid(grid)">
-                            <span class="icon-cancel" title="Delete Grid"></span>
+                            <span class="icon-cancel"></span>
+                            <span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
                         </button>
                     </div>
-                    <span>.{{grid.options.class}}</span>
+                    <span v-if="grid.options.class">.{{grid.options.class}}</span>
 
                     <!-- Column -->
                     <draggable v-model="grid.children" class="row">
