@@ -47,13 +47,13 @@
 
                             <span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
                             <div class="row">
-                                <button type="button" class="btn btn-add btn-outline-info" data-toggle="modal" data-target="#newmodule">
+                                <button type="button" class="btn btn-add btn-outline-info" @click="show('add-module')">
                                     <span class="icon-new"></span>
                                     {{ translate('COM_TEMPLATES_ADD_MODULE') }}
                                 </button>
-                            <!-- TODO: Add Module Position -->
-                                <button type="button" class="btn btn-lg edit-module" @click="editPosition(grid,column)">
-                                <span class="icon-options" title="Edit Module"></span>
+                                <button type="button" class="btn btn-add btn-outline-info" @click="show('add-grid')">
+                                    <span class="icon-new"></span>
+                                    {{ translate('COM_TEMPLATES_ADD_GRID') }}
                                 </button>
                             </div>
                         </div>
@@ -75,18 +75,7 @@
 
             <!-- Modals -->
             <add-grid-modal id="add-grid" @selection="addGrid"></add-grid-modal>
-
-            <!-- Modal for adding modules -->
-            <div class="modal fade" id="newmodule" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5>{{ translate('COM_TEMPLATES_SELECT_MODULE') }}</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal ends -->
+            <add-module-modal id="add-module" @selection="addModule"></add-module-modal>
         </div>
     </v-content>
 </div>

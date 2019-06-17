@@ -14,7 +14,7 @@ select {
 }
 
 .pagebuilder {
-  border: 0.1em solid;	
+  border: 0.1em solid;
   min-height: 30em;
 
   .row-wrapper {
@@ -95,18 +95,18 @@ select {
   .icon-cancel:before {
     font-size: larger;
   }
-  
-  // Modals
-  .image-selection img {
-    margin: 1rem 0;
-    width: 9rem;
-  }
-}
 
-.col.icon {
-  
-  &:hover {
-    background: #4d4d4d;
+  // Modal
+  .image-selection {
+
+    .icon:hover {
+      background: #4d4d4d;
+    }
+
+    img {
+      margin: 1rem 0;
+      width: 9rem;
+    }
   }
 }
 
