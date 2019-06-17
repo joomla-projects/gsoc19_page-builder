@@ -12,6 +12,9 @@
         <!-- Settings for adding columns -->
         <add-column v-else-if="add_column" class="form-group" :grid="grid_selected" @reset="reset"></add-column>
 
+        <!-- Settings for editing columns -->
+        <edit-column v-else-if="edit_column" class="form-group" :column="column_selected" @reset="reset"></edit-column>
+
   </v-navigation-drawer>
 
     <v-content>
@@ -28,6 +31,7 @@
                             <span class="icon-cancel" title="Delete Grid"></span>
                         </button>
                     </div>
+                    <span>.{{grid.options.class}}</span>
 
                     <!-- Column -->
                     <draggable v-model="grid.children" class="row">
@@ -71,7 +75,6 @@
 
             <!-- Modals -->
             <add-grid-modal id="add-grid" @selection="addGrid"></add-grid-modal>
-            <edit-column-modal id="edit-column" :column="currentColumn"></edit-column-modal>
 
             <!-- Modal for adding modules -->
             <div class="modal fade" id="newmodule" tabindex="-1" role="dialog">
@@ -104,11 +107,11 @@
     },
     data() {
       return {
-        currentColumn: {options:{class:''}},
         myArray: [],
         add_column: false,
         edit_grid: false,
         edit_position: false,
+        edit_column: false,
         grid_selected: '',
         column_selected: '',
         gridArray: this.grid,
@@ -177,8 +180,10 @@
         this.edit_position = true;
       },
       editColumn(column) {
-        this.currentColumn = column;
-        this.show('edit-column');
+        this.reset();
+        this.showSettings = true;
+        this.column_selected = column;
+        this.edit_column = true;
       },
       editGrid(grid) {
         this.reset();

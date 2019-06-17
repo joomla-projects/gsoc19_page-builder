@@ -21,7 +21,7 @@ export default {
     },
     data() {
         return {
-            grid_class: ''
+            grid_class: this.grid.options.class,
         }
     },
     methods: {
