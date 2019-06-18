@@ -22,6 +22,7 @@ Text::script('COM_TEMPLATES_DELETE_GRID', true);
 Text::script('COM_TEMPLATES_EDIT_COLUMN', true);
 Text::script('COM_TEMPLATES_EDIT_GRID', true);
 Text::script('COM_TEMPLATES_EDIT_POSITION', true);
+Text::script('COM_TEMPLATES_GRID_SIZE', true);
 Text::script('COM_TEMPLATES_HORZ', true);
 Text::script('COM_TEMPLATES_HTML5', true);
 Text::script('COM_TEMPLATES_MAX_COLUMN_SIZE', true);

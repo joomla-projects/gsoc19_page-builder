@@ -19,6 +19,13 @@
 
 		<v-content class="pagebuilder">
 			<h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
+			<form name="global-settings">
+				<div class="form-group">
+					<label for="grid-size">{{ translate('COM_TEMPLATES_GRID_SIZE') }}</label>
+					<input v-model.number="gridSize" type="number" id="grid-size" name="grid-size" class="form-control">
+				</div>
+			</form>
+
 			<!-- Grid -->
 			<draggable v-model="gridArray" ghost-class="drop">
 				<div v-for="grid in gridArray" class="row-wrapper">
@@ -35,32 +42,32 @@
 					<span v-if="grid.options.class">.{{grid.options.class}}</span>
 
 					<!-- Column -->
-					<draggable v-model="grid.children" class="row">
-						<div class="col-wrapper" v-for="column in grid.children" :class="[column.options.size]">
-							<div class="btn-wrapper">
-								<button type="button" class="btn btn-lg" @click="editColumn(column)">
-									<span class="icon-options"></span>
-									<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
-								</button>
-								<button type="button" class="btn btn-lg" @click="deleteColumn(grid,column)">
-									<span class="icon-cancel"></span>
-									<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
-								</button>
-							</div>
-
-							<span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
-							<div class="row">
-								<button type="button" class="btn btn-add btn-outline-info" @click="show('add-module')">
-									<span class="icon-new"></span>
-									{{ translate('COM_TEMPLATES_ADD_MODULE') }}
-								</button>
-								<button type="button" class="btn btn-add btn-outline-info" @click="show('add-grid')">
-									<span class="icon-new"></span>
-									{{ translate('COM_TEMPLATES_ADD_GRID') }}
-								</button>
-							</div>
+					<vue-draggable-resizable class-name="col-wrapper" v-for="column in grid.children"
+											 v-bind:key="column.id" :parent="true" :grid="[gridStep,0]"
+											 :draggable="false" :handles="['ml','mr']" :w="gridStep" :h="150">
+						<div class="btn-wrapper">
+							<button type="button" class="btn btn-lg" @click="editColumn(column)">
+								<span class="icon-options"></span>
+								<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
+							</button>
+							<button type="button" class="btn btn-lg" @click="deleteColumn(grid,column)">
+								<span class="icon-cancel"></span>
+								<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
+							</button>
 						</div>
-					</draggable>
+
+						<span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
+						<!--div class="row">
+							<button type="button" class="btn btn-add btn-outline-info" @click="show('add-module')">
+								<span class="icon-new"></span>
+								{{ translate('COM_TEMPLATES_ADD_MODULE') }}
+							</button>
+							<button type="button" class="btn btn-add btn-outline-info" @click="show('add-grid')">
+								<span class="icon-new"></span>
+								{{ translate('COM_TEMPLATES_ADD_GRID') }}
+							</button>
+						</div-->
+					</vue-draggable-resizable>
 					<!-- Column Ends-->
 
 					<button class="btn btn-add btn-outline-info" type="button" @click="addColumn(grid)">
@@ -85,6 +92,7 @@
 
 <script>
   import draggable from 'vuedraggable';
+  import VueDraggableResizable from 'vue-draggable-resizable';
 
   export default {
     props: {
@@ -98,7 +106,6 @@
     },
     data() {
       return {
-        myArray: [],
         add_column: false,
         edit_grid: false,
         edit_position: false,
@@ -106,8 +113,27 @@
         grid_selected: '',
         column_selected: '',
         gridArray: this.grid,
-        showSettings: false
+        showSettings: false,
+        gridSize: 12, // TODO: save and load into grid param
+		gridStepPercentage: 8.3,
       };
+    },
+    mounted(){
+      this.updateGridBackground();
+    },
+    computed: {
+      // resize-component needs px values for grid steps
+      gridStep: {
+        get: function () {
+          this.gridStepPercentage = (1 / this.gridSize) * 100;
+          const wrapper = document.querySelector('.row-wrapper');
+          const maxWidth = wrapper ? wrapper.clientWidth : document.querySelector('.pagebuilder').clientWidth;
+          return maxWidth * (this.gridStepPercentage / 100);
+        },
+		set: function(newStep) {
+          return newStep;
+		},
+      }
     },
     watch: {
       grid: {
@@ -116,32 +142,32 @@
         },
         deep: true,
       },
+      gridSize: {
+        handler: function () {
+          this.updateGridBackground();
+        }
+      },
     },
     components: {
-        draggable
+      VueDraggableResizable,
+      draggable
     },
     methods: {
       addGrid(sizes) {
-        this.myArray = [];
+        const myArray = [];
         sizes.forEach(size => {
-          this.myArray.push({
+          myArray.push({
             type: 'column',
             options: {
-              size: 'col-' + size
+              size: size
             },
-            children: [{
-              type: 'position',
-              options: {
-                module_chrome: 'none'
-              },
-              children: []
-            }]
+            children: []
           });
         });
         this.gridArray.push({
           type: 'grid',
           options: {},
-          children: this.myArray
+          children: myArray
         });
         this.reset();
         this.hide('add-grid');
@@ -198,6 +224,12 @@
       },
       hide(name) {
         this.$modal.hide(name);
+      },
+      updateGridBackground() {
+        const rows = document.querySelector('.pagebuilder').querySelectorAll('.row-wrapper');
+        Array.prototype.forEach.call(rows, row => {
+          row.style.backgroundSize = `${this.gridStepPercentage}% 10rem`;
+        });
       },
     }
   };

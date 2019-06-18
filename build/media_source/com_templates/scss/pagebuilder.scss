@@ -15,17 +15,21 @@ select {
 }
 
 .pagebuilder {
-  /** Min-height needed for left drawer */
+  // Min-height needed for left drawer
   min-height: 30em;
 
   .row-wrapper {
     position: relative;
-    background-color: #8c8c8c;
     border: 1px dashed #4b4b4b;
     padding: 1rem 1.5rem;
+    min-height: 15rem;
+    // Repeating background needed to overwrite Vuetify
+    background: linear-gradient(to right, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px) repeat;
+    // background-size needed for easy modifying by js (default 12 columns)
+    background-size: 8.3% 10rem;
 
     &:hover {
-      background-color: #4d4d4d;
+      background-color: #ececec;
     }
 
     button {
@@ -38,7 +42,7 @@ select {
 
     .btn-add {
       display: block;
-      margin: .5rem auto;
+      margin: 10rem auto 0;
       min-width: 10rem;
       width: 30%;
 
@@ -55,7 +59,7 @@ select {
 
       > button {
         padding: .5rem;
-        color: #fff;
+        color: #000000;
 
         &:hover {
           color: #108193;
@@ -71,10 +75,9 @@ select {
       background-color: #def6dd;
       border: 1px dashed #0b3257;
       position: relative;
-      margin-top: 1.5rem;
 
       &:hover {
-        background-color: #8b9b8a;
+        background-color: #b8dbb6;
         cursor: grab;
 
         > .btn-wrapper {

@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 HTMLHelper::_('script', 'media/com_templates/js/pagebuilder.js');
 
 // Add stylesheet
+HTMLHelper::_('stylesheet', 'node_modules/vue-draggable-resizable/dist/VueDraggableResizable.css');
 HTMLHelper::_('stylesheet', 'node_modules/vuetify/dist/vuetify.css');
 HTMLHelper::_('stylesheet', 'media/com_templates/css/pagebuilder.css');
 
@@ -23,8 +24,8 @@ HTMLHelper::_('stylesheet', 'media/com_templates/css/pagebuilder.css');
 $this->loadTemplate('texts');
 
 // Images to select new elements
-Factory::getDocument()->addScriptOptions('com_templates', [
-		'images' => [
+Factory::getDocument()->addScriptOptions('com_templates', array(
+		'images' => array(
 			'row12'   => HTMLHelper::_('image', 'media/com_templates/images/row_12.png', 'row12'),
 			'row84'   => HTMLHelper::_('image', 'media/com_templates/images/row_8_4.png', 'row84'),
 			'row66'   => HTMLHelper::_('image', 'media/com_templates/images/row_6_6.png', 'row66'),
@@ -32,11 +33,12 @@ Factory::getDocument()->addScriptOptions('com_templates', [
 			'row444'  => HTMLHelper::_('image', 'media/com_templates/images/row_4_4_4.png', 'row444'),
 			'row363'  => HTMLHelper::_('image', 'media/com_templates/images/row_3_6_3.png', 'row363'),
 			'row3333' => HTMLHelper::_('image', 'media/com_templates/images/row_3_3_3_3.png', 'row3333'),
-		]
-	]
+		)
+	)
 );
 
 $fieldset = $this->form->getFieldset('pagebuilder');
+
 foreach ($fieldset as $field)
 {
 	echo $field->renderField();
