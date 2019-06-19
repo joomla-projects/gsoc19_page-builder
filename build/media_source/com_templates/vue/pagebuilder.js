@@ -3,10 +3,10 @@ import VueJsModal from 'vue-js-modal';
 import Vuetify from 'vuetify';
 import App from './components/app.vue';
 import Translate from './plugins/translate';
-import editposition from './components/editposition.vue';
-import editgrid from './components/editgrid.vue';
-import addcolumn from './components/addcolumn.vue';
-import editColumn from './components/editcolumn.vue';
+import editposition from './components/settings/editposition.vue';
+import editgrid from './components/settings/editgrid.vue';
+import addcolumn from './components/settings/addcolumn.vue';
+import editColumn from './components/settings/editcolumn.vue';
 import AddGridModal from './components/modals/modal-add-grid.vue';
 import AddModuleModal from './components/modals/modal-add-module.vue';
 

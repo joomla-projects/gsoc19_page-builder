@@ -28,8 +28,6 @@
 </template>
 
 <script>
-import {notifications} from "./../app/Notifications";
-
 export default {
     name: 'add-column',
     props: {
