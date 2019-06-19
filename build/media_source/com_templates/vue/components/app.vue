@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-navigation-drawer v-model="showSettings" app absolute id="Settings" class="settings">
+		<v-navigation-drawer v-model="showSettings" app id="Settings" class="settings">
 			<h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
 			<hr>
 			<!-- Settings for editing positions -->
