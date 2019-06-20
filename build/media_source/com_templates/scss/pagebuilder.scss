@@ -4,6 +4,14 @@
   padding: .5rem;
 }
 
+fieldset {
+  .btn-group {
+    button.btn-danger {
+      margin-left: 0.75rem!important;
+    }
+  }
+}
+
 button, input, select, textarea {
   border-style: solid;
   background-color: #ffffff;
