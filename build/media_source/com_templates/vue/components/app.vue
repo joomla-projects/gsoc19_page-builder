@@ -90,7 +90,8 @@
         column_selected: '',
         gridArray: this.grid,
         showSettings: false,
-        selectedSettings: ''
+        selectedSettings: '',
+		    elements: window.Joomla.getOptions('com_templates').elements,
       };
     },
     watch: {
