@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!-- Settings for editing column -->
         <fieldset>
             <legend>{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</legend>
             <div class="form-group">

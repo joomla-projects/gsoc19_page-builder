@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!-- Settings for editing grids -->
         <fieldset>
             <legend>{{ translate('COM_TEMPLATES_EDIT_GRID') }}</legend>
             <div class="form-group">

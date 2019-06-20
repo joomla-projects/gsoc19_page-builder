@@ -3,18 +3,7 @@
 		<v-navigation-drawer v-model="showSettings" app id="Settings" class="settings">
 			<h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
 			<hr>
-			<!-- Settings for editing positions -->
-			<edit-position v-if="edit_position" class="form-group" :grid="grid_selected" :column="column_selected" @reset="reset"></edit-position>
-
-			<!-- Settings for editing grids -->
-			<edit-grid v-else-if="edit_grid" class="form-group" :grid="grid_selected" @reset="reset"></edit-grid>
-
-			<!-- Settings for adding columns -->
-			<add-column v-else-if="add_column" class="form-group" :grid="grid_selected" @reset="reset"></add-column>
-
-			<!-- Settings for editing columns -->
-			<edit-column v-else-if="edit_column" class="form-group" :column="column_selected" @reset="reset"></edit-column>
-
+      <component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected' @reset="reset"></component>
 		</v-navigation-drawer>
 
 		<v-content class="pagebuilder">
@@ -97,14 +86,11 @@
     data() {
       return {
         myArray: [],
-        add_column: false,
-        edit_grid: false,
-        edit_position: false,
-        edit_column: false,
         grid_selected: '',
         column_selected: '',
         gridArray: this.grid,
-        showSettings: false
+        showSettings: false,
+        selectedSettings: ''
       };
     },
     watch: {
@@ -125,7 +111,8 @@
           this.myArray.push({
             type: 'column',
             options: {
-              size: 'col-' + size
+              size: 'col-' + size,
+              class: ''
             },
             children: [{
               type: 'position',
@@ -138,7 +125,9 @@
         });
         this.gridArray.push({
           type: 'grid',
-          options: {},
+          options: {
+            class: '',
+          },
           children: this.myArray
         });
         this.reset();
@@ -153,7 +142,7 @@
         this.reset();
         this.showSettings = true;
         this.grid_selected = grid;
-        this.add_column = true;
+        this.selectedSettings = 'add-column';
       },
       deleteColumn(grid, column) {
         const index = grid.children.indexOf(column);
@@ -166,25 +155,22 @@
         this.showSettings = true;
         this.grid_selected = grid;
         this.column_selected = column;
-        this.edit_position = true;
+        this.selectedSettings = 'edit-position';
       },
       editColumn(column) {
         this.reset();
         this.showSettings = true;
         this.column_selected = column;
-        this.edit_column = true;
+        this.selectedSettings = 'edit-column';
       },
       editGrid(grid) {
         this.reset();
         this.showSettings = true;
-        this.edit_grid = true;
+        this.selectedSettings = 'edit-grid';
         this.grid_selected = grid;
       },
       reset() {
-        this.edit_grid = false;
-        this.edit_position = false;
         this.showSettings = false;
-        this.add_column = false;
         this.grid_selected = '';
         this.column_selected = '';
       },

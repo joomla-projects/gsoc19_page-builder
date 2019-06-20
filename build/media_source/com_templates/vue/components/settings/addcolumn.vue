@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!-- Settings for adding columns -->
         <fieldset>
             <legend>{{ translate('COM_TEMPLATES_ADD_COLUMN') }}</legend>
             <div class="form-group">
@@ -45,11 +46,14 @@ export default {
                 this.grid.children.push({
                     type: 'column',
                     options: {
-                        size: 'col-sm-' + this.column_size
+                        size: 'col-sm-' + this.column_size,
+                        class: ''
                     },
                     children: [{
                         type: 'position',
-                        options: {},
+                        options: {
+                            module_chrome: 'none',
+                        },
                         children: []
                     }]
                 });
