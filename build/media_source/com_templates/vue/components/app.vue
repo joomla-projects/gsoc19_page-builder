@@ -38,16 +38,10 @@
 							</div>
 
 							<span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
-							<div class="row">
-								<button type="button" class="btn btn-add btn-outline-info" @click="show('add-module')">
+								<button type="button" class="btn btn-add btn-outline-info" @click="addElement(column)">
 									<span class="icon-new"></span>
-									{{ translate('COM_TEMPLATES_ADD_MODULE') }}
+									{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 								</button>
-								<button type="button" class="btn btn-add btn-outline-info" @click="show('add-grid')">
-									<span class="icon-new"></span>
-									{{ translate('COM_TEMPLATES_ADD_GRID') }}
-								</button>
-							</div>
 						</div>
 					</draggable>
 					<!-- Column Ends-->
@@ -67,7 +61,7 @@
 
 			<!-- Modals -->
 			<add-grid-modal id="add-grid" @selection="addGrid"></add-grid-modal>
-			<add-module-modal id="add-module"></add-module-modal>
+			<add-element-modal id="add-element" :elements="elements" :column="column_selected"></add-element-modal>
 		</v-content>
 	</div>
 </template>
@@ -115,13 +109,7 @@
               size: 'col-' + size,
               class: ''
             },
-            children: [{
-              type: 'position',
-              options: {
-                module_chrome: 'none'
-              },
-              children: []
-            }]
+            children: []
           });
         });
         this.gridArray.push({
@@ -184,6 +172,10 @@
       hide(name) {
         this.$modal.hide(name);
       },
+      addElement(column) {
+        this.column_selected = column;
+        this.show('add-element');
+      }
     }
   };
 </script>

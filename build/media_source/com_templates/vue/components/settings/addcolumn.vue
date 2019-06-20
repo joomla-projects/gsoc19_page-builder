@@ -49,13 +49,7 @@ export default {
                         size: 'col-sm-' + this.column_size,
                         class: ''
                     },
-                    children: [{
-                        type: 'position',
-                        options: {
-                            module_chrome: 'none',
-                        },
-                        children: []
-                    }]
+                    children: []
                 });
             }
             this.column_size = '';
