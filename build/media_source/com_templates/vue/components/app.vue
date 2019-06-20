@@ -32,7 +32,7 @@
 							<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
 						</button>
 					</div>
-					<span v-if="grid.options.class">.{{grid.options.class}}</span>
+					<span v-if="grid.options">.{{grid.options.class}}</span>
 
 					<!-- Column -->
 					<draggable v-model="grid.children" class="row">
