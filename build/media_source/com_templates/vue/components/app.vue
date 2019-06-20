@@ -104,7 +104,8 @@
         grid_selected: '',
         column_selected: '',
         gridArray: this.grid,
-        showSettings: false
+        showSettings: false,
+		elements: window.Joomla.getOptions('com_templates').elements,
       };
     },
     watch: {
