@@ -27,7 +27,7 @@
 			</form>
 
 			<!-- Grid -->
-			<draggable v-model="gridArray" ghost-class="drop">
+			<div v-model="gridArray">
 				<div v-for="grid in gridArray" class="row-wrapper">
 					<div class="btn-wrapper">
 						<button type="button" class="btn btn-lg" @click="editGrid(grid)">
@@ -41,44 +41,21 @@
 					</div>
 					<span v-if="grid.options.class">.{{grid.options.class}}</span>
 
-					<!-- Column -->
-					<vue-draggable-resizable class-name="col-wrapper" v-for="column in grid.children"
-											 v-bind:key="column.id" :parent="true" :grid="[gridStep,0]"
-											 :draggable="false" :handles="['ml','mr']" :w="gridStep" :h="150">
-						<div class="btn-wrapper">
-							<button type="button" class="btn btn-lg" @click="editColumn(column)">
-								<span class="icon-options"></span>
-								<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
-							</button>
-							<button type="button" class="btn btn-lg" @click="deleteColumn(grid,column)">
-								<span class="icon-cancel"></span>
-								<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
-							</button>
-						</div>
+					<child-element v-for="column in grid.children" :element="column" :step="gridStep"
+								   @edit="editColumn(column)" @add="show('add-element')"
+								   @remove="deleteColumn(grid,column)"
+					>
+					</child-element>
 
-						<span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
-						<!--div class="row">
-							<button type="button" class="btn btn-add btn-outline-info" @click="show('add-module')">
-								<span class="icon-new"></span>
-								{{ translate('COM_TEMPLATES_ADD_MODULE') }}
-							</button>
-							<button type="button" class="btn btn-add btn-outline-info" @click="show('add-grid')">
-								<span class="icon-new"></span>
-								{{ translate('COM_TEMPLATES_ADD_GRID') }}
-							</button>
-						</div-->
-					</vue-draggable-resizable>
-					<!-- Column Ends-->
-
-					<button class="btn btn-add btn-outline-info" type="button" @click="addColumn(grid)">
+					<button class="btn btn-add btn-outline-info" type="button" @click="addDefaultColumn(grid)">
 						<span class="icon-new"></span>
 						{{ translate('COM_TEMPLATES_ADD_COLUMN') }}
 					</button>
 				</div>
-			</draggable>
+			</div>
 			<!-- Grid Ends -->
 
-			<button type="button" class="btn btn-outline-info btn-block" @click="show('add-grid')">
+			<button type="button" class="btn btn-outline-info btn-block" @click="addDefaultGrid">
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_GRID') }}
 			</button>
@@ -92,12 +69,10 @@
 
 <script>
   import draggable from 'vuedraggable';
-  import VueDraggableResizable from 'vue-draggable-resizable';
 
   export default {
     props: {
       grid: {
-        type: Object,
         required: false,
         default: function () {
           return JSON.parse(document.getElementById('jform_params_grid').value);
@@ -115,24 +90,23 @@
         gridArray: this.grid,
         showSettings: false,
         gridSize: 12, // TODO: save and load into grid param
-		gridStepPercentage: 8.3,
       };
     },
-    mounted(){
+    mounted() {
       this.updateGridBackground();
     },
     computed: {
-      // resize-component needs px values for grid steps
       gridStep: {
         get: function () {
-          this.gridStepPercentage = (1 / this.gridSize) * 100;
           const wrapper = document.querySelector('.row-wrapper');
           const maxWidth = wrapper ? wrapper.clientWidth : document.querySelector('.pagebuilder').clientWidth;
-          return maxWidth * (this.gridStepPercentage / 100);
+          const gridStepPercentage = (1 / this.gridSize) * 100;
+          // Resize component needs px values for grid steps
+          return Math.round(maxWidth * (gridStepPercentage / 100));
         },
-		set: function(newStep) {
+        set: function (newStep) {
           return newStep;
-		},
+        },
       }
     },
     watch: {
@@ -149,7 +123,6 @@
       },
     },
     components: {
-      VueDraggableResizable,
       draggable
     },
     methods: {
@@ -172,6 +145,22 @@
         this.reset();
         this.hide('add-grid');
       },
+      addDefaultGrid() {
+        this.gridArray.push({
+          type: 'grid',
+          options: {},
+          children: [
+            {
+              type: 'column',
+              options: {
+                size: 1,
+              },
+              children: [],
+            }
+          ],
+        });
+        this.updateGridBackground();
+      },
       deleteGrid(grid) {
         const index = this.gridArray.indexOf(grid);
         if (index > -1)
@@ -182,6 +171,20 @@
         this.showSettings = true;
         this.grid_selected = grid;
         this.add_column = true;
+      },
+      addDefaultColumn(grid) {
+        let nextAvailablePosition = 0;
+        grid.children.forEach(child => {
+          nextAvailablePosition += child.options.size;
+		});
+        grid.children.push({
+          type: 'column',
+          options: {
+            size: 1,
+			position: nextAvailablePosition,
+          },
+          children: [],
+        });
       },
       deleteColumn(grid, column) {
         const index = grid.children.indexOf(column);
@@ -228,7 +231,7 @@
       updateGridBackground() {
         const rows = document.querySelector('.pagebuilder').querySelectorAll('.row-wrapper');
         Array.prototype.forEach.call(rows, row => {
-          row.style.backgroundSize = `${this.gridStepPercentage}% 10rem`;
+          row.style.backgroundSize = `${this.gridStep}px 150px`;
         });
       },
     }

@@ -26,7 +26,7 @@ select {
     // Repeating background needed to overwrite Vuetify
     background: linear-gradient(to right, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px) repeat;
     // background-size needed for easy modifying by js (default 12 columns)
-    background-size: 8.3% 10rem;
+    background-size: 8.3% 150px;
 
     &:hover {
       background-color: #ececec;
