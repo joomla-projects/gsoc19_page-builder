@@ -16,33 +16,27 @@
 			</form>
 
 			<!-- Grid -->
-			<div v-model="gridArray">
-				<div v-for="grid in gridArray" class="row-wrapper">
-					<div class="btn-wrapper">
-						<button type="button" class="btn btn-lg" @click="editGrid(grid)">
-							<span class="icon-options"></span>
-							<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_GRID') }}</span>
-						</button>
-						<button type="button" class="btn btn-lg" @click="deleteGrid(grid)">
-							<span class="icon-cancel"></span>
-							<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
-						</button>
-					</div>
-					<span v-if="grid.options">.{{grid.options.class}}</span>
-
-					<child-element v-for="column in grid.children" :element="column" :step="gridStep"
-								   @edit="editColumn(column)" @add="show('add-element')"
-								   @remove="deleteColumn(grid,column)"
-					>
-					</child-element>
-
-					<button type="button" class="btn btn-add btn-outline-info" @click="addElement(column)">
-						<span class="icon-new"></span>
-						{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
+			<div v-for="grid in gridArray" class="row-wrapper">
+				<div class="btn-wrapper">
+					<button type="button" class="btn btn-lg" @click="editGrid(grid)">
+						<span class="icon-options"></span>
+						<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_GRID') }}</span>
+					</button>
+					<button type="button" class="btn btn-lg" @click="deleteGrid(grid)">
+						<span class="icon-cancel"></span>
+						<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
 					</button>
 				</div>
+				<span v-if="grid.options">.{{grid.options.class}}</span>
 
-				<button class="btn btn-add btn-outline-info" type="button" @click="addColumn(grid)">
+				<child-element v-for="column in grid.children" v-bind:key="column.id"
+							   :element="column" :step="gridStep"
+							   @edit="editColumn(column)" @add="addElement(column)"
+							   @remove="deleteColumn(grid,column)"
+				>
+				</child-element>
+
+				<button class="btn btn-add btn-outline-info" type="button" @click="addDefaultColumn(grid)">
 					<span class="icon-new"></span>
 					{{ translate('COM_TEMPLATES_ADD_COLUMN') }}
 				</button>
@@ -77,7 +71,6 @@
         grid_selected: '',
         column_selected: '',
         gridArray: this.grid,
-        showSettings: false,
         selectedSettings: '',
 		elements: window.Joomla.getOptions('com_templates').elements,
         showSettings: false,
@@ -135,7 +128,7 @@
           options: {
             class: '',
           },
-          children: this.myArray
+          children: myArray
         });
         this.reset();
         this.hide('add-grid');
@@ -223,7 +216,7 @@
       addElement(column) {
         this.column_selected = column;
         this.show('add-element');
-      }
+      },
       updateGridBackground() {
         const rows = document.querySelector('.pagebuilder').querySelectorAll('.row-wrapper');
         Array.prototype.forEach.call(rows, row => {

@@ -50,13 +50,17 @@ select {
 
     .btn-add {
       display: block;
-      margin: 10rem auto 0;
+      margin: 1rem auto 0;
       min-width: 10rem;
       width: 30%;
 
       &:not(:hover) {
         background-color: #fff;
       }
+    }
+
+    > .btn-add {
+      margin-top: 10rem;
     }
 
     .btn-wrapper {

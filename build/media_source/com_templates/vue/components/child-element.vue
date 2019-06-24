@@ -22,10 +22,10 @@
 			</button>
 		</div>
 		<span>{{size}} (<i>{{element.type}}<span v-if="element.options.class">, .{{element.options.class}}</span></i>)</span>
-		<!--button type="button" class="btn btn-add btn-outline-info" @click="show('add-element')">
+		<button type="button" class="btn btn-add btn-outline-info" @click="$emit('add', element)">
 			<span class="icon-new"></span>
 			{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
-		</button-->
+		</button>
 	</vue-draggable-resizable>
 </template>
 
