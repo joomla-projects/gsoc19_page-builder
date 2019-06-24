@@ -1,20 +1,9 @@
 <template>
 	<div>
-		<v-navigation-drawer v-model="showSettings" app absolute id="Settings" class="settings">
+		<v-navigation-drawer v-model="showSettings" app id="Settings" class="settings">
 			<h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
 			<hr>
-			<!-- Settings for editing positions -->
-			<edit-position v-if="edit_position" class="form-group" :grid="grid_selected" :column="column_selected" @reset="reset"></edit-position>
-
-			<!-- Settings for editing grids -->
-			<edit-grid v-else-if="edit_grid" class="form-group" :grid="grid_selected" @reset="reset"></edit-grid>
-
-			<!-- Settings for adding columns -->
-			<add-column v-else-if="add_column" class="form-group" :grid="grid_selected" @reset="reset"></add-column>
-
-			<!-- Settings for editing columns -->
-			<edit-column v-else-if="edit_column" class="form-group" :column="column_selected" @reset="reset"></edit-column>
-
+      <component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected' @reset="reset"></component>
 		</v-navigation-drawer>
 
 		<v-content class="pagebuilder">
@@ -39,7 +28,7 @@
 							<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
 						</button>
 					</div>
-					<span v-if="grid.options.class">.{{grid.options.class}}</span>
+					<span v-if="grid.options">.{{grid.options.class}}</span>
 
 					<child-element v-for="column in grid.children" :element="column" :step="gridStep"
 								   @edit="editColumn(column)" @add="show('add-element')"
@@ -47,11 +36,16 @@
 					>
 					</child-element>
 
-					<button class="btn btn-add btn-outline-info" type="button" @click="addDefaultColumn(grid)">
+					<button type="button" class="btn btn-add btn-outline-info" @click="addElement(column)">
 						<span class="icon-new"></span>
-						{{ translate('COM_TEMPLATES_ADD_COLUMN') }}
+						{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 					</button>
 				</div>
+
+				<button class="btn btn-add btn-outline-info" type="button" @click="addColumn(grid)">
+					<span class="icon-new"></span>
+					{{ translate('COM_TEMPLATES_ADD_COLUMN') }}
+				</button>
 			</div>
 			<!-- Grid Ends -->
 
@@ -62,7 +56,7 @@
 
 			<!-- Modals -->
 			<add-grid-modal id="add-grid" @selection="addGrid"></add-grid-modal>
-			<add-module-modal id="add-module"></add-module-modal>
+			<add-element-modal id="add-element" :elements="elements" :column="column_selected"></add-element-modal>
 		</v-content>
 	</div>
 </template>
@@ -73,7 +67,6 @@
   export default {
     props: {
       grid: {
-        required: false,
         default: function () {
           return JSON.parse(document.getElementById('jform_params_grid').value);
         },
@@ -81,13 +74,12 @@
     },
     data() {
       return {
-        add_column: false,
-        edit_grid: false,
-        edit_position: false,
-        edit_column: false,
         grid_selected: '',
         column_selected: '',
         gridArray: this.grid,
+        showSettings: false,
+        selectedSettings: '',
+		elements: window.Joomla.getOptions('com_templates').elements,
         showSettings: false,
         gridSize: 12, // TODO: save and load into grid param
       };
@@ -132,15 +124,18 @@
           myArray.push({
             type: 'column',
             options: {
-              size: size
+              size: size,
+              class: ''
             },
             children: []
           });
         });
         this.gridArray.push({
           type: 'grid',
-          options: {},
-          children: myArray
+          options: {
+            class: '',
+          },
+          children: this.myArray
         });
         this.reset();
         this.hide('add-grid');
@@ -170,7 +165,7 @@
         this.reset();
         this.showSettings = true;
         this.grid_selected = grid;
-        this.add_column = true;
+        this.selectedSettings = 'add-column';
       },
       addDefaultColumn(grid) {
         let nextAvailablePosition = 0;
@@ -197,25 +192,22 @@
         this.showSettings = true;
         this.grid_selected = grid;
         this.column_selected = column;
-        this.edit_position = true;
+        this.selectedSettings = 'edit-position';
       },
       editColumn(column) {
         this.reset();
         this.showSettings = true;
         this.column_selected = column;
-        this.edit_column = true;
+        this.selectedSettings = 'edit-column';
       },
       editGrid(grid) {
         this.reset();
         this.showSettings = true;
-        this.edit_grid = true;
+        this.selectedSettings = 'edit-grid';
         this.grid_selected = grid;
       },
       reset() {
-        this.edit_grid = false;
-        this.edit_position = false;
         this.showSettings = false;
-        this.add_column = false;
         this.grid_selected = '';
         this.column_selected = '';
       },
@@ -228,6 +220,10 @@
       hide(name) {
         this.$modal.hide(name);
       },
+      addElement(column) {
+        this.column_selected = column;
+        this.show('add-element');
+      }
       updateGridBackground() {
         const rows = document.querySelector('.pagebuilder').querySelectorAll('.row-wrapper');
         Array.prototype.forEach.call(rows, row => {

@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!-- Settings for editing positions -->
         <fieldset>
             <legend>{{ translate('COM_TEMPLATES_EDIT_POSITION') }}</legend>
             <div class="form-group">

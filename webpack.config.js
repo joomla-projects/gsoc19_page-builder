@@ -1,7 +1,6 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
-// When in development mode, watch and lint files
 module.exports = {
   mode: 'production',
   entry: [
@@ -24,5 +23,6 @@ module.exports = {
   ],
   performance: {
     hints: false
-  }
+  },
+  devtool: 'eval-source-map',
 };

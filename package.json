@@ -15,6 +15,7 @@
     "build:js": "node build.js --compile-js",
     "build:css": "node build.js --compile-css",
     "watch": "node build.js --watch",
+    "watch:vue": "webpack --mode=development --watch",
     "lint:js": "npx eslint .",
     "test": "npx karma start tests/javascript/karma.conf.js --single-run",
     "install": "node build.js --copy-assets && node build.js --build-pages",
