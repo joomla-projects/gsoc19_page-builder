@@ -12,11 +12,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
- * Plugin to add a container element to the pagebuilder
+ * Plugin to add a grid element to the pagebuilder
  *
  * @since  4.0.0
  */
-class PlgPagebuilderContainer extends CMSPlugin
+class PlgPagebuilderGrid extends CMSPlugin
 {
 	/**
 	 * Load plugin language files automatically
@@ -27,7 +27,7 @@ class PlgPagebuilderContainer extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Add container element which can have every other element as child
+	 * Add grid element which can have every other element as child
 	 *
 	 * @param   array  $params  Data for the element
 	 *
@@ -37,11 +37,11 @@ class PlgPagebuilderContainer extends CMSPlugin
 	 */
 	public function onAddElement($params)
 	{
-		Text::script('PLG_PAGEBUILDER_CONTAINER_NAME');
+		Text::script('PLG_PAGEBUILDER_GRID_NAME');
 
 		return array(
-			'name'     => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
-			'id'       => 'plg_pagebuilder_container',
+			'name'     => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
+			'id'       => 'plg_pagebuilder_grid',
 			'children' => '*',
 			'root'     => true
 		);
