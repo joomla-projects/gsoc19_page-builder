@@ -130,10 +130,10 @@
         let rowNumber = 0;
 
         grid.children.forEach(child => {
-          nextPosition += child.options.size;
+          nextPosition += child.w;
 
-          if (nextPosition === this.gridSize) {
-            nextPosition = 0;
+          if (nextPosition >= this.gridSize) {
+            nextPosition -= this.gridSize;
 			rowNumber += 1;
 		  }
         });

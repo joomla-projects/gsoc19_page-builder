@@ -82,11 +82,12 @@
         this.grid.children.forEach(child => {
           nextPosition += child.w;
 
-          if (nextPosition === this.gridSize) {
-            nextPosition = 0;
+          if (nextPosition >= this.gridSize) {
+            nextPosition -= this.gridSize;
             rowNumber += 1;
           }
         });
+
         return {x: nextPosition, y: rowNumber};
 	  }
     },
