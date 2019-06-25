@@ -9,59 +9,61 @@
 		<v-content class="pagebuilder">
 			<h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
 			<!-- Grid -->
-			<draggable v-model="gridArray" ghost-class="drop">
-				<div v-for="grid in gridArray" class="row-wrapper">
+			<draggable v-model="elementArray" ghost-class="drop">
+				<div v-for="element in elementArray" class="row-wrapper">
+          <span>{{ element.type }}</span>
 					<div class="btn-wrapper">
-						<button type="button" class="btn btn-lg" @click="editGrid(grid)">
+						<button type="button" class="btn btn-lg" @click="editGrid(element)">
 							<span class="icon-options"></span>
 							<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_GRID') }}</span>
 						</button>
-						<button type="button" class="btn btn-lg" @click="deleteGrid(grid)">
+						<button type="button" class="btn btn-lg" @click="deleteGrid(element)">
 							<span class="icon-cancel"></span>
 							<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
 						</button>
 					</div>
-					<span v-if="grid.options">.{{grid.options.class}}</span>
+					<span v-if="element.options">.{{element.options.class}}</span>
 
 					<!-- Column -->
-					<draggable v-model="grid.children" class="row">
-						<div class="col-wrapper" v-for="column in grid.children" :class="[column.options.size]">
-							<div class="btn-wrapper">
-								<button type="button" class="btn btn-lg" @click="editColumn(column)">
-									<span class="icon-options"></span>
-									<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
-								</button>
-								<button type="button" class="btn btn-lg" @click="deleteColumn(grid,column)">
-									<span class="icon-cancel"></span>
-									<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
-								</button>
-							</div>
+          <div  v-if="element.type == 'Grid'">
+            <draggable v-model="element.children" class="row">
+              <div class="col-wrapper" v-for="column in element.children" :class="[column.options.size]">
+                <div class="btn-wrapper">
+                  <button type="button" class="btn btn-lg" @click="editColumn(column)">
+                    <span class="icon-options"></span>
+                    <span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
+                  </button>
+                  <button type="button" class="btn btn-lg" @click="deleteColumn(element,column)">
+                    <span class="icon-cancel"></span>
+                    <span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
+                  </button>
+                </div>
 
-							<span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
-								<button type="button" class="btn btn-add btn-outline-info" @click="addElement(column)">
-									<span class="icon-new"></span>
-									{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
-								</button>
-						</div>
-					</draggable>
+                <span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
+                  <button type="button" class="btn btn-add btn-outline-info" @click="addElement(column)">
+                    <span class="icon-new"></span>
+                    {{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
+                  </button>
+              </div>
+            </draggable>
 					<!-- Column Ends-->
 
-					<button class="btn btn-add btn-outline-info" type="button" @click="addColumn(grid)">
-						<span class="icon-new"></span>
-						{{ translate('COM_TEMPLATES_ADD_COLUMN') }}
-					</button>
+            <button class="btn btn-add btn-outline-info" type="button" @click="addColumn(element)">
+              <span class="icon-new"></span>
+              {{ translate('COM_TEMPLATES_ADD_COLUMN') }}
+            </button>
+          </div>
 				</div>
 			</draggable>
 			<!-- Grid Ends -->
 
-			<button type="button" class="btn btn-outline-info btn-block" @click="show('add-grid')">
+			<button type="button" class="btn btn-outline-info btn-block" @click="addElement('root')">
 				<span class="icon-new"></span>
-				{{ translate('COM_TEMPLATES_ADD_GRID') }}
+				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 			</button>
-
+      {{elementArray}}
 			<!-- Modals -->
-			<add-grid-modal id="add-grid" @selection="addGrid"></add-grid-modal>
-			<add-element-modal id="add-element" :elements="elements" :column="column_selected"></add-element-modal>
+			<add-element-modal id="add-element" :elements="elements" :parent="parent" @selection="insertElem"></add-element-modal>
 		</v-content>
 	</div>
 </template>
@@ -82,10 +84,11 @@
         myArray: [],
         grid_selected: '',
         column_selected: '',
-        gridArray: this.grid,
+        elementArray: this.grid,
         showSettings: false,
         selectedSettings: '',
-		    elements: window.Joomla.getOptions('com_templates').elements,
+        elements: window.Joomla.getOptions('com_templates').elements,
+        parent: ''
       };
     },
     watch: {
@@ -104,7 +107,7 @@
         this.myArray = [];
         sizes.forEach(size => {
           this.myArray.push({
-            type: 'column',
+            type: 'Column',
             options: {
               size: 'col-' + size,
               class: ''
@@ -112,8 +115,8 @@
             children: []
           });
         });
-        this.gridArray.push({
-          type: 'grid',
+        this.elementArray.push({
+          type: 'Grid',
           options: {
             class: '',
           },
@@ -123,9 +126,9 @@
         this.hide('add-grid');
       },
       deleteGrid(grid) {
-        const index = this.gridArray.indexOf(grid);
+        const index = this.elementArray.indexOf(grid);
         if (index > -1)
-          this.gridArray.splice(index, 1);
+          this.elementArray.splice(index, 1);
       },
       addColumn(grid) {
         this.reset();
@@ -172,9 +175,27 @@
       hide(name) {
         this.$modal.hide(name);
       },
-      addElement(column) {
-        this.column_selected = column;
+      addContainer() {
+        this.elementArray.push({
+          type: 'Container',
+          options: {
+            class: ''
+          },
+          children: []
+        })
+      },
+      addElement(parent) {
+        this.parent = parent;
         this.show('add-element');
+      },
+      insertElem(element,sizes) {
+        if(element == 'Grid') {
+          this.addGrid(sizes);
+        }
+        else if(element == 'Container') {
+          this.addContainer();
+        }
+        this.hide('add-element');
       }
     }
   };

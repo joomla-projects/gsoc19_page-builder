@@ -17,6 +17,15 @@
                     </select>
                 </div>
             </fieldset>
+            <div v-if="selectElem == 'Grid'" class="row image-selection">
+                <div class="col icon" v-html="images.row12" @click="$emit('selection', 'Grid' , [12])"></div>
+				<div class="col icon" v-html="images.row66" @click="$emit('selection', 'Grid' , [6, 6])"></div>
+				<div class="col icon" v-html="images.row48" @click="$emit('selection', 'Grid' , [4, 8])"></div>
+				<div class="col icon" v-html="images.row84" @click="$emit('selection', 'Grid' , [8, 4])"></div>
+				<div class="col icon" v-html="images.row3333" @click="$emit('selection', 'Grid' , [3, 3, 3, 3])"></div>
+				<div class="col icon" v-html="images.row444" @click="$emit('selection', 'Grid' , [4, 4, 4])"></div>
+				<div class="col icon" v-html="images.row363" @click="$emit('selection', 'Grid' , [3, 6, 3])"></div>
+            </div>
             <small class="form-text text-muted">{{ translate('COM_TEMPLATES_ADD_ELEMENT_DESC') }}</small>
         </div>
         <div class="modal-footer">
@@ -34,24 +43,21 @@
     data() {
         return {
             selectElem: '',
+            images: window.Joomla.getOptions('com_templates').images,
         }
     },
     props: {
         elements: {
             type: Array
         },
-        column: {},
+        parent: {
+            type: String
+        },
     },
     methods: {
         add() {
             if(this.selectElem !== '') {
-                this.column.children.push({
-                    type: this.selectElem,
-                    options: {
-                        class: ''
-                    },
-                    children: []
-                })
+                this.$emit('selection', this.selectElem);
                 this.close();
             }
         },
