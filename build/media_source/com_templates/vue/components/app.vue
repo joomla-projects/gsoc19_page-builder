@@ -3,7 +3,8 @@
 		<v-navigation-drawer v-model="showSettings" app id="Settings" class="settings">
 			<h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
 			<hr>
-      <component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected' @reset="reset"></component>
+			<component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected'
+					   @reset="reset"></component>
 		</v-navigation-drawer>
 
 		<v-content class="pagebuilder">
@@ -15,35 +16,19 @@
 				</div>
 			</form>
 
-			<!-- Grid -->
-			<div v-for="grid in gridArray" class="row-wrapper">
-				<div class="btn-wrapper">
-					<button type="button" class="btn btn-lg" @click="editGrid(grid)">
-						<span class="icon-options"></span>
-						<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_GRID') }}</span>
-					</button>
-					<button type="button" class="btn btn-lg" @click="deleteGrid(grid)">
-						<span class="icon-cancel"></span>
-						<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
-					</button>
-				</div>
-				<span v-if="grid.options">.{{grid.options.class}}</span>
-
-				<child-element v-for="column in grid.children" v-bind:key="column.id"
-							   :element="column" :step="gridStep"
-							   @edit="editColumn(column)" @add="addElement(column)"
-							   @remove="deleteColumn(grid,column)"
+			<div v-for="grid in gridArray" :key="grid.id">
+				<grid-element :grid="grid" :grid-size="gridSize"
+							  @editGrid="editGrid(grid)"
+							  @deleteGrid="deleteGrid(grid)"
+							  @addColumn="addDefaultColumn(grid)"
+							  @editColumn="editColumn(column)"
+							  @deleteColumn="deleteColumn(column)"
+							  @addElement="addElement(column)"
 				>
-				</child-element>
-
-				<button class="btn btn-add btn-outline-info" type="button" @click="addDefaultColumn(grid)">
-					<span class="icon-new"></span>
-					{{ translate('COM_TEMPLATES_ADD_COLUMN') }}
-				</button>
+				</grid-element>
 			</div>
-			<!-- Grid Ends -->
 
-			<button type="button" class="btn btn-outline-info btn-block" @click="addDefaultGrid">
+			<button type="button" class="btn btn-outline-info btn-block" @click="show('add-grid')">
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_GRID') }}
 			</button>
@@ -72,27 +57,13 @@
         column_selected: '',
         gridArray: this.grid,
         selectedSettings: '',
-		elements: window.Joomla.getOptions('com_templates').elements,
+        elements: window.Joomla.getOptions('com_templates').elements,
         showSettings: false,
         gridSize: 12, // TODO: save and load into grid param
       };
     },
     mounted() {
-      this.updateGridBackground();
-    },
-    computed: {
-      gridStep: {
-        get: function () {
-          const wrapper = document.querySelector('.row-wrapper');
-          const maxWidth = wrapper ? wrapper.clientWidth : document.querySelector('.pagebuilder').clientWidth;
-          const gridStepPercentage = (1 / this.gridSize) * 100;
-          // Resize component needs px values for grid steps
-          return Math.round(maxWidth * (gridStepPercentage / 100));
-        },
-        set: function (newStep) {
-          return newStep;
-        },
-      }
+      //this.updateGridBackground();
     },
     watch: {
       grid: {
@@ -112,42 +83,33 @@
     },
     methods: {
       addGrid(sizes) {
-        const myArray = [];
-        sizes.forEach(size => {
-          myArray.push({
-            type: 'column',
-            options: {
-              size: size,
-              class: ''
-            },
-            children: []
-          });
-        });
-        this.gridArray.push({
+        const newGrid = {
           type: 'grid',
           options: {
             class: '',
           },
-          children: myArray
+          children: []
+        };
+        let nextPosition = 0;
+        sizes.forEach((size, index) => {
+          newGrid.children.push({
+            type: 'column',
+            options: {
+              size: size,
+              class: '',
+            },
+            i: index,
+            w: size,
+            h: 1,
+            x: nextPosition,
+            y: 0,
+            children: []
+          });
+          nextPosition += size;
         });
+        this.gridArray.push(newGrid);
         this.reset();
         this.hide('add-grid');
-      },
-      addDefaultGrid() {
-        this.gridArray.push({
-          type: 'grid',
-          options: {},
-          children: [
-            {
-              type: 'column',
-              options: {
-                size: 1,
-              },
-              children: [],
-            }
-          ],
-        });
-        this.updateGridBackground();
       },
       deleteGrid(grid) {
         const index = this.gridArray.indexOf(grid);
@@ -161,16 +123,30 @@
         this.selectedSettings = 'add-column';
       },
       addDefaultColumn(grid) {
-        let nextAvailablePosition = 0;
+        const defaultSize = 1;
+        const newIndex = grid.children.length;
+        let nextPosition = 0;
+        let rowNumber = 0;
+
         grid.children.forEach(child => {
-          nextAvailablePosition += child.options.size;
-		});
+          nextPosition += child.options.size;
+
+          if (nextPosition === this.gridSize) {
+            nextPosition = 0;
+			rowNumber += 1;
+		  }
+        });
+
         grid.children.push({
           type: 'column',
           options: {
-            size: 1,
-			position: nextAvailablePosition,
+            size: defaultSize,
           },
+          i: newIndex,
+          w: defaultSize,
+          h: 1,
+          x: nextPosition,
+          y: rowNumber,
           children: [],
         });
       },

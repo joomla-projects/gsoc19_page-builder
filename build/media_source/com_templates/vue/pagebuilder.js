@@ -9,7 +9,7 @@ import addcolumn from './components/settings/addcolumn.vue';
 import editColumn from './components/settings/editcolumn.vue';
 import AddGridModal from './components/modals/modal-add-grid.vue';
 import AddElementModal from './components/modals/modal-add-element.vue';
-import ChildElement from './components/child-element.vue';
+import GridElement from './components/grid-element.vue';
 
 // Add the plugins
 Vue.use(Translate);
@@ -23,7 +23,7 @@ Vue.component('add-column', addcolumn);
 Vue.component('edit-column', editColumn);
 Vue.component('add-grid-modal', AddGridModal);
 Vue.component('add-element-modal', AddElementModal);
-Vue.component('child-element', ChildElement);
+Vue.component('grid-element', GridElement);
 
 Vue.config.productionTip = false;
 

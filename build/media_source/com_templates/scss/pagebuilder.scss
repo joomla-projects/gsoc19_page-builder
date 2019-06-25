@@ -29,7 +29,6 @@ select {
   .row-wrapper {
     position: relative;
     border: 1px dashed #4b4b4b;
-    padding: 1rem 1.5rem;
     min-height: 15rem;
     // Repeating background needed to overwrite Vuetify
     background: linear-gradient(to right, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px) repeat;
