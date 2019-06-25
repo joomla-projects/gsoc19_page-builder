@@ -26,11 +26,11 @@
 				   :y="column.y"
 		>
 			<div class="btn-wrapper">
-				<button type="button" class="btn btn-lg" @click="$emit('editColumn')">
+				<button type="button" class="btn btn-lg" @click="$emit('editColumn', column)">
 					<span class="icon-options"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
 				</button>
-				<button type="button" class="btn btn-lg" @click="$emit('deleteColumn')">
+				<button type="button" class="btn btn-lg" @click="$emit('deleteColumn', column)">
 					<span class="icon-cancel"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
 				</button>
@@ -44,10 +44,8 @@
 		</grid-item>
 
 		<!-- Button to add new elements into the grid -->
-		<grid-item
+		<grid-item :static="true"
 				   :i="addElementIndex"
-				   :is-draggable="false"
-				   :static="true"
 				   :w="1"
 				   :h="1"
 				   :x="nextFreePosition.x"
@@ -94,7 +92,7 @@
     },
     data() {
       return {
-        addElementIndex: 'add',
+        addElementIndex: 'add'
       };
     },
     components: {

@@ -18,12 +18,12 @@
 
 			<div v-for="grid in gridArray" :key="grid.id">
 				<grid-element :grid="grid" :grid-size="gridSize"
-							  @editGrid="editGrid(grid)"
-							  @deleteGrid="deleteGrid(grid)"
-							  @addColumn="addDefaultColumn(grid)"
-							  @editColumn="editColumn(column)"
-							  @deleteColumn="deleteColumn(column)"
-							  @addElement="addElement(column)"
+							  @editGrid="editGrid"
+							  @deleteGrid="deleteGrid"
+							  @addColumn="addDefaultColumn"
+							  @editColumn="editColumn"
+							  @deleteColumn="deleteColumn"
+							  @addElement="addElement"
 				>
 				</grid-element>
 			</div>
@@ -98,12 +98,13 @@
               size: size,
               class: '',
             },
+            children: [],
+			// These attributes are needed for vue-grid-layout
             i: index,
             w: size,
             h: 1,
             x: nextPosition,
             y: 0,
-            children: []
           });
           nextPosition += size;
         });
