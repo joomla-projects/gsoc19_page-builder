@@ -9,15 +9,10 @@
 		<div class="modal-body">
             <fieldset>
                 <div class="form-group">
-                    <div>
-                        <label for="select_element">{{ translate('COM_TEMPLATES_SELECT_ELEMENT') }}</label>
-                        <select name="select_element" id="select_element" v-model="selectElem">
-                                <option v-for="elem in elements">{{elem.name}}</option>
-                        </select>
-                    </div>
-                    <div>
-                        <h5>{{ translate('COM_TEMPLATES_NO_CHILD_ALLOWED') }}</h5>
-                    </div>
+                    <label for="select_element">{{ translate('COM_TEMPLATES_SELECT_ELEMENT') }}</label>
+                    <select name="select_element" id="select_element" v-model="selectElem">
+                        <option v-for="elem in elements">{{elem.name}}</option>
+                    </select>
                 </div>
             </fieldset>
             <div v-if="selectElem == 'Grid'" class="row image-selection">

@@ -74,6 +74,7 @@
 
 <script>
   import draggable from 'vuedraggable';
+  import {notifications} from "./../app/Notifications";
 
   export default {
     props: {
@@ -91,7 +92,8 @@
         elementArray: this.grid,
         showSettings: false,
         selectedSettings: '',
-        parent: ''
+        parent: '',
+        elements: window.Joomla.getOptions('com_templates').elements
       };
     },
     watch: {
@@ -211,8 +213,19 @@
         }
       },
       addElement(parent) {
-        this.parent = parent;
-        this.show('add-element');
+        if(parent.type == undefined) {
+          this.parent = parent;
+          this.show('add-element');
+          return;
+        }
+        this.elements.forEach(el => {
+          if((el.name == parent.type) && el.children) {
+            this.parent = parent;
+            this.show('add-element');
+            return;
+          }
+        })
+        notifications.error('COM_TEMPLATES_NO_CHILD_ALLOWED');
       },
       insertElem(element,sizes) {
         if(element == 'Grid') {
