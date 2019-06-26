@@ -31,15 +31,14 @@
 		</grid-item>
 
 		<!-- Button to add new elements into the grid -->
-		<grid-item
-				   :static="true"
+		<grid-item :static="true"
 				   :i="addElementIndex"
 				   :w="1"
 				   :h="1"
 				   :x="nextFreePosition.x"
 				   :y="nextFreePosition.y"
 		>
-			<button class="btn btn-outline-info" type="button" @click="$emit('addColumn', grid)">
+			<button class="column-btn btn btn-outline-info" type="button" @click="addColumn">
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_COLUMN') }}
 			</button>

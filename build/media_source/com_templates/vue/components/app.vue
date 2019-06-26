@@ -16,7 +16,7 @@
 				</div>
 			</form>
 
-			<div v-for="grid in gridArray" :key="grid.id">
+			<div v-for="grid in gridArray" :key="grid.id" class="row-wrapper">
 				<grid-element :grid="grid" :grid-size="gridSize"
 							  @editColumn="editColumn"
 							  @addElement="addElement"
