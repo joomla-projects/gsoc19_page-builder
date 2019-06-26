@@ -40,10 +40,10 @@
                 </div>
 
                 <span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
-                  <button type="button" class="btn btn-add btn-outline-info" @click="addElement(column)">
+                  <!-- <button type="button" class="btn btn-add btn-outline-info" @click="addElement(column)">
                     <span class="icon-new"></span>
                     {{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
-                  </button>
+                  </button> -->
               </div>
             </draggable>
 					<!-- Column Ends-->
@@ -65,9 +65,8 @@
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 			</button>
-      {{elementArray}}
 			<!-- Modals -->
-			<add-element-modal id="add-element" :parent="parent" @selection="insertElem"></add-element-modal>
+			<add-element-modal id="add-element" :allowedChildren="allowedChildren" @selection="insertElem"></add-element-modal>
 		</v-content>
 	</div>
 </template>
@@ -93,6 +92,7 @@
         showSettings: false,
         selectedSettings: '',
         parent: '',
+        allowedChildren: [],
         elements: window.Joomla.getOptions('com_templates').elements
       };
     },
@@ -213,6 +213,7 @@
         }
       },
       addElement(parent) {
+        this.fillAllowedChildren(parent.type);
         if(parent.type == undefined) {
           this.parent = parent;
           this.show('add-element');
@@ -255,6 +256,19 @@
           }
         }
         this.hide('add-element');
+      },
+      fillAllowedChildren(name) {
+        this.allowedChildren = [];
+
+        // Check if parent is root
+        if(name == undefined)
+          name = 'root';
+        this.elements.forEach(el => {
+          el.parent.forEach(item => {
+            if(item == name)
+              this.allowedChildren.push(el.name);
+          })
+        })
       }
     }
   };

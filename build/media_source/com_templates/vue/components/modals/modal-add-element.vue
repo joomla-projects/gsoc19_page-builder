@@ -11,7 +11,7 @@
                 <div class="form-group">
                     <label for="select_element">{{ translate('COM_TEMPLATES_SELECT_ELEMENT') }}</label>
                     <select name="select_element" id="select_element" v-model="selectElem">
-                        <option v-for="elem in elements">{{elem.name}}</option>
+                        <option v-for="element in allowedChildren">{{ element }}</option>
                     </select>
                 </div>
             </fieldset>
@@ -46,7 +46,9 @@
         }
     },
     props: {
-        parent: {},
+        allowedChildren: {
+            type: Array,
+        },
     },
     methods: {
         add() {
