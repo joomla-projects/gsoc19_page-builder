@@ -1,6 +1,5 @@
 <template>
-	<grid-layout class="row-wrapper"
-				 :layout="grid.children"
+	<grid-layout :layout="gridData.children"
 				 :col-num="gridSize"
 				 :is-draggable="true"
 				 :is-resizable="false"
@@ -32,7 +31,8 @@
 		</grid-item>
 
 		<!-- Button to add new elements into the grid -->
-		<grid-item :static="true"
+		<grid-item
+				   :static="true"
 				   :i="addElementIndex"
 				   :w="1"
 				   :h="1"
@@ -60,15 +60,15 @@
       gridSize: {
         required: true,
         type: Number,
-      }
+      },
     },
     computed: {
-	  nextFreePosition: function() {
+      nextFreePosition: function () {
         let nextPosition = 0;
         let rowNumber = 0;
 
-        this.grid.children.forEach(child => {
-          nextPosition += child.w;
+        this.gridData.children.forEach(child => {
+          nextPosition += child.options.size;
 
           if (nextPosition >= this.gridSize) {
             nextPosition -= this.gridSize;
@@ -77,16 +77,61 @@
         });
 
         return {x: nextPosition, y: rowNumber};
-	  }
+      }
     },
     data() {
       return {
-        addElementIndex: 'add'
+        addElementIndex: 'add',
+        gridData: this.grid,
       };
     },
     components: {
       GridLayout: VueGridLayout.GridLayout,
       GridItem: VueGridLayout.GridItem,
     },
+    created() {
+      this.mapGrid();
+    },
+    methods: {
+      addColumn() {
+        const defaultSize = 1;
+
+        this.gridData.children.push({
+          type: 'column',
+          options: {
+            size: defaultSize,
+          },
+          children: [],
+          i: this.gridData.children.length,
+          w: defaultSize,
+          h: 1,
+          x: this.nextFreePosition.x,
+          y: this.nextFreePosition.y,
+        });
+      },
+      deleteColumn(column) {
+        const index = this.gridData.children.indexOf(column);
+        if (index > -1) {
+          this.gridData.children.splice(index, 1);
+        }
+      },
+      mapGrid() {
+        let x = 0;
+        let y = 0;
+        this.gridData.children.forEach((child, index) => {
+          child.i = index;
+          child.x = x;
+          child.y = y;
+          child.w = child.options.size;
+          child.h = 1;
+
+          x += child.w;
+          if (x >= this.gridSize) {
+            x -= this.gridSize;
+            y += 1;
+		  }
+        });
+      },
+    }
   };
 </script>

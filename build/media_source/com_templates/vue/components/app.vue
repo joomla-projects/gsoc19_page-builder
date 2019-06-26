@@ -19,7 +19,6 @@
 			<div v-for="grid in gridArray" :key="grid.id">
 				<grid-element :grid="grid" :grid-size="gridSize"
 							  @editColumn="editColumn"
-							  @deleteColumn="deleteColumn"
 							  @addElement="addElement"
 				>
 				</grid-element>
@@ -98,8 +97,8 @@
           },
           children: []
         };
-        let nextPosition = 0;
-        sizes.forEach((size, index) => {
+
+        sizes.forEach(size => {
           newGrid.children.push({
             type: 'column',
             options: {
@@ -107,15 +106,9 @@
               class: '',
             },
             children: [],
-			// These attributes are needed for vue-grid-layout
-            i: index,
-            w: size,
-            h: 1,
-            x: nextPosition,
-            y: 0,
           });
-          nextPosition += size;
         });
+
         this.gridArray.push(newGrid);
         this.reset();
         this.hide('add-grid');
@@ -130,40 +123,6 @@
         this.showSettings = true;
         this.grid_selected = grid;
         this.selectedSettings = 'add-column';
-      },
-      addDefaultColumn(grid) {
-        const defaultSize = 1;
-        const newIndex = grid.children.length;
-        let nextPosition = 0;
-        let rowNumber = 0;
-
-        grid.children.forEach(child => {
-          nextPosition += child.w;
-
-          if (nextPosition >= this.gridSize) {
-            nextPosition -= this.gridSize;
-			rowNumber += 1;
-		  }
-        });
-
-        grid.children.push({
-          type: 'column',
-          options: {
-            size: defaultSize,
-          },
-          i: newIndex,
-          w: defaultSize,
-          h: 1,
-          x: nextPosition,
-          y: rowNumber,
-          children: [],
-        });
-      },
-      deleteColumn(grid, column) {
-        const index = grid.children.indexOf(column);
-        if (index > -1) {
-          grid.children.splice(index, 1);
-        }
       },
       editPosition(grid, column) {
         this.reset();
