@@ -56,7 +56,7 @@
           <button type="button" class="btn btn-add btn-outline-info btn-block" @click="addElement(element)">
             <span class="icon-new"></span>
             {{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
-			  </button>
+			    </button>
 				</div>
 			</draggable>
 			<!-- Grid Ends -->
@@ -67,7 +67,7 @@
 			</button>
       {{elementArray}}
 			<!-- Modals -->
-			<add-element-modal id="add-element" :elements="elements" :parent="parent" @selection="insertElem"></add-element-modal>
+			<add-element-modal id="add-element" :parent="parent" @selection="insertElem"></add-element-modal>
 		</v-content>
 	</div>
 </template>
@@ -85,13 +85,12 @@
     },
     data() {
       return {
-        myArray: [],
+        sizeArray: [],
         grid_selected: '',
         column_selected: '',
         elementArray: this.grid,
         showSettings: false,
         selectedSettings: '',
-        elements: window.Joomla.getOptions('com_templates').elements,
         parent: ''
       };
     },
@@ -108,9 +107,9 @@
     },
     methods: {
       addGrid(sizes) {
-        this.myArray = [];
+        this.sizeArray = [];
         sizes.forEach(size => {
-          this.myArray.push({
+          this.sizeArray.push({
             type: 'Column',
             options: {
               size: 'col-' + size,
@@ -125,7 +124,7 @@
             options: {
               class: '',
             },
-            children: this.myArray
+            children: this.sizeArray
           });
         }
         else {
@@ -134,7 +133,7 @@
             options: {
               class: '',
             },
-            children: this.myArray
+            children: this.sizeArray
           });
         }
         this.reset();
