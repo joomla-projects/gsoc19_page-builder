@@ -18,14 +18,22 @@
 
 			<div v-for="grid in gridArray" :key="grid.id">
 				<grid-element :grid="grid" :grid-size="gridSize"
-							  @editGrid="editGrid"
-							  @deleteGrid="deleteGrid"
-							  @addColumn="addDefaultColumn"
 							  @editColumn="editColumn"
 							  @deleteColumn="deleteColumn"
 							  @addElement="addElement"
 				>
 				</grid-element>
+
+				<div class="btn-wrapper">
+					<button type="button" class="btn btn-lg" @click="editGrid(grid)">
+						<span class="icon-options"></span>
+						<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_GRID') }}</span>
+					</button>
+					<button type="button" class="btn btn-lg" @click="deleteGrid(grid)">
+						<span class="icon-cancel"></span>
+						<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
+					</button>
+				</div>
 			</div>
 
 			<button type="button" class="btn btn-outline-info btn-block" @click="show('add-grid')">

@@ -5,19 +5,7 @@
 				 :is-draggable="true"
 				 :is-resizable="false"
 	>
-		<!-- TODO: find a better way to show these buttons -->
-		<div class="btn-wrapper">
-			<button type="button" class="btn btn-lg" @click="$emit('editGrid', grid)">
-				<span class="icon-options"></span>
-				<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_GRID') }}</span>
-			</button>
-			<button type="button" class="btn btn-lg" @click="$emit('deleteGrid', grid)">
-				<span class="icon-cancel"></span>
-				<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
-			</button>
-		</div>
-
-		<grid-item v-for="column in grid.children" :key="column.i" class="col-wrapper"
+		<grid-item v-for="column in gridData.children" :key="column.i" class="col-wrapper"
 				   :is-resizable="true"
 				   :i="column.i"
 				   :w="column.w"
@@ -30,7 +18,7 @@
 					<span class="icon-options"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
 				</button>
-				<button type="button" class="btn btn-lg" @click="$emit('deleteColumn', column)">
+				<button type="button" class="btn btn-lg" @click="deleteColumn(column)">
 					<span class="icon-cancel"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
 				</button>
