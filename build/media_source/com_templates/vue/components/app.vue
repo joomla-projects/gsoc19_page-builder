@@ -53,11 +53,15 @@
               {{ translate('COM_TEMPLATES_ADD_COLUMN') }}
             </button>
           </div>
+          <button type="button" class="btn btn-add btn-outline-info btn-block" @click="addElement(element)">
+            <span class="icon-new"></span>
+            {{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
+			  </button>
 				</div>
 			</draggable>
 			<!-- Grid Ends -->
 
-			<button type="button" class="btn btn-outline-info btn-block" @click="addElement('root')">
+			<button type="button" class="btn btn-add btn-outline-info btn-block" @click="addElement(elementArray)">
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 			</button>
@@ -115,13 +119,24 @@
             children: []
           });
         });
-        this.elementArray.push({
-          type: 'Grid',
-          options: {
-            class: '',
-          },
-          children: this.myArray
-        });
+        if(this.parent.children) {
+          this.parent.children.push({
+            type: 'Grid',
+            options: {
+              class: '',
+            },
+            children: this.myArray
+          });
+        }
+        else {
+          this.parent.push({
+            type: 'Grid',
+            options: {
+              class: '',
+            },
+            children: this.myArray
+          });
+        }
         this.reset();
         this.hide('add-grid');
       },
@@ -165,6 +180,7 @@
         this.showSettings = false;
         this.grid_selected = '';
         this.column_selected = '';
+        this.parent = '';
       },
       log(el) {
         console.log(el);
@@ -176,13 +192,24 @@
         this.$modal.hide(name);
       },
       addContainer() {
-        this.elementArray.push({
-          type: 'Container',
-          options: {
-            class: ''
-          },
-          children: []
-        })
+        if(this.parent.children) {
+          this.parent.children.push({
+            type: 'Container',
+            options: {
+              class: ''
+            },
+            children: []
+          })
+        }
+        else {
+          this.parent.push({
+            type: 'Container',
+            options: {
+              class: ''
+            },
+            children: []
+          })
+        }
       },
       addElement(parent) {
         this.parent = parent;
@@ -194,6 +221,26 @@
         }
         else if(element == 'Container') {
           this.addContainer();
+        }
+        else {
+          if(this.parent.children) {
+            this.parent.children.push({
+              type: element,
+              options: {
+                class: ''
+              },
+              children: []
+            })
+          }
+          else {
+            this.parent.push({
+              type: element,
+              options: {
+                class: ''
+              },
+              children: []
+            })
+          }
         }
         this.hide('add-element');
       }

@@ -50,9 +50,7 @@
         elements: {
             type: Array
         },
-        parent: {
-            type: String
-        },
+        parent: {},
     },
     methods: {
         add() {
