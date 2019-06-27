@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<v-navigation-drawer v-model="showSettings" app id="Settings" class="settings">
+		<v-navigation-drawer v-model="showSettings" app disable-resize-watcher id="Settings" class="settings">
 			<h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
 			<hr>
             <component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected' @reset="reset"></component>
@@ -40,7 +40,7 @@
                                         </button>
                                     </div>
 
-                                    <button class="btn btn-add btn-outline-info" type="button" @click="addElement(element)">
+                                    <button class="btn btn-add btn-outline-info" type="button" @click="addElement(child)">
                                         <span class="icon-new"></span>
                                         {{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
                                     </button>
@@ -280,5 +280,5 @@
         })
       }
     }
-  };
+  }
 </script>

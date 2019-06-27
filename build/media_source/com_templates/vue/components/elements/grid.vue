@@ -34,7 +34,7 @@ export default {
     },
     methods: {
         checkIfGrid(column) {
-            if(column.type == 'Container')
+            if(column.type == 'Module Position')
                 return 'col-12';
             else
                 return '';

@@ -108,13 +108,17 @@ select {
   // Modal
   .image-selection {
 
-    .icon:hover {
-      background: #4d4d4d;
+    div.icon:hover {
+      border: 0.1em solid #108193;
+    }
+    img {
+      display: block;
+      margin: 1rem auto 0 auto;
+      width: 75%;
     }
 
-    img {
-      margin: 1rem 0;
-      width: 9rem;
+    p {
+      text-align: center;
     }
   }
 }
