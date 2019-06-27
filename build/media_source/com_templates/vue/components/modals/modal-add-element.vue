@@ -1,5 +1,5 @@
 <template>
-	<modal name="add-element" role="dialog" :classes="['modal-content', 'v--modal']" height="auto">
+	<modal name="add-element" role="dialog" :classes="['modal-content', 'v--modal']" height="auto" @before-open="reset">
 		<div class="modal-header">
 			<h3 class="modal-title">{{ translate('COM_TEMPLATES_SELECT_ELEMENT') }}</h3>
 			<button @click="close" type="button" class="close" aria-label="Close">
@@ -60,6 +60,9 @@
         close() {
             this.$modal.hide('add-element');
         },
+        reset() {
+            this.selectElem = '';
+        }
     },
   };
 </script>
