@@ -1,5 +1,5 @@
 <template>
-	<grid-layout :layout="gridData.children"
+	<grid-layout :layout="layout"
 				 :col-num="gridSize"
 				 :is-draggable="true"
 				 :is-resizable="false"
@@ -32,11 +32,11 @@
 
 		<!-- Button to add new elements into the grid -->
 		<grid-item :static="true"
-				   :i="addElementIndex"
-				   :w="1"
-				   :h="1"
-				   :x="nextFreePosition.x"
-				   :y="nextFreePosition.y"
+				   :i="addElement.i"
+				   :w="addElement.w"
+				   :h="addElement.h"
+				   :x="this.nextFreePosition.x"
+				   :y="this.nextFreePosition.y"
 		>
 			<button class="column-btn btn btn-outline-info" type="button" @click="addColumn">
 				<span class="icon-new"></span>
@@ -62,6 +62,9 @@
       },
     },
     computed: {
+      layout: function () {
+        return this.gridData.children.concat(this.addElement);
+	  },
       nextFreePosition: function () {
         let nextPosition = 0;
         let occupied;
@@ -88,7 +91,14 @@
     },
     data() {
       return {
-        addElementIndex: 'add',
+        addElement: {
+          i: 'add',
+		  w: 1,
+		  h: 1,
+		  // Default x and y to set button into layout
+		  x: 0,
+		  y: 1,
+		},
         gridData: this.grid,
       };
     },
