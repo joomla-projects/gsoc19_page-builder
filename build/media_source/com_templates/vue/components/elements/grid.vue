@@ -1,6 +1,6 @@
 <template>
         <draggable v-model="element.children" class="row">
-            <div class="col-wrapper" v-for="column in element.children" :class="[column.options.size, checkIfGrid(column)]">
+            <div class="col-wrapper" v-for="column in element.children" :class="[column.options.size, checkIfGrid(column), column.type]">
                 <div class="btn-wrapper">
                 <button type="button" class="btn btn-lg" @click="$emit('editColumn', column)">
                     <span class="icon-options"></span>

@@ -10,7 +10,7 @@
 			<h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
 			<!-- Element -->
 			<draggable v-model="elementArray" ghost-class="drop">
-				<div v-for="element in elementArray" class="row-wrapper">
+				<div v-for="element in elementArray" :class="['row-wrapper', element.type]">
                     <span>{{ element.type }}</span>
                     <span v-if="element.options.class != ''">.{{element.options.class}}</span>
                         <div class="btn-wrapper">
@@ -27,7 +27,7 @@
                         <!-- Container & Module Position -->
                         <div v-if="element.type != 'Grid'">
                             <draggable v-model="element.children">
-                                <div v-for="child in element.children" class="col-wrapper">
+                                <div v-for="child in element.children" :class="['col-wrapper', child.type]">
                                     <span>{{ child.type }}</span>
                                     <span v-if="child.options.class != ''">.{{ child.options.class }}</span>
                                     

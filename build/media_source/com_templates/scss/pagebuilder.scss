@@ -47,8 +47,7 @@ select {
     .btn-add {
       display: block;
       margin: .5rem auto;
-      min-width: 10rem;
-      width: 30%;
+      width: 100%;
 
       &:not(:hover) {
         background-color: #fff;
@@ -120,6 +119,18 @@ select {
     p {
       text-align: center;
     }
+  }
+
+  .Grid {
+    background-color: rgb(136, 60, 60);
+  }
+
+  .Container {
+    background-color: #f08080;
+  }
+
+  .Module {
+    background-color: #0b3257c2;
   }
 }
 
