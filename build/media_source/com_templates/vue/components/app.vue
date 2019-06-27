@@ -8,58 +8,68 @@
 
 		<v-content class="pagebuilder">
 			<h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
-			<!-- Grid -->
+			<!-- Element -->
 			<draggable v-model="elementArray" ghost-class="drop">
 				<div v-for="element in elementArray" class="row-wrapper">
-          <span>{{ element.type }}</span>
+                <span>{{ element.type }}</span>
 					<div class="btn-wrapper">
 						<button type="button" class="btn btn-lg" @click="editGrid(element)">
 							<span class="icon-options"></span>
-							<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_GRID') }}</span>
+							<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
 						</button>
 						<button type="button" class="btn btn-lg" @click="deleteGrid(element)">
 							<span class="icon-cancel"></span>
 							<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
 						</button>
 					</div>
-					<span v-if="element.options">.{{element.options.class}}</span>
+					<span v-if="element.options.class != ''">.{{element.options.class}}</span>
+
+                    <div v-if="element.type != 'Grid'">
+                        <draggable v-model="element.children">
+                            <div v-for="child in element.children" class="col-wrapper">
+                                <span>{{ child.type }}</span>
+                                <span v-if="child.options.class != ''">.{{ child.options.class }}</span>
+                            </div>
+                        </draggable>
+                    </div>
 
 					<!-- Column -->
-          <div  v-if="element.type == 'Grid'">
-            <draggable v-model="element.children" class="row">
-              <div class="col-wrapper" v-for="column in element.children" :class="[column.options.size]">
-                <div class="btn-wrapper">
-                  <button type="button" class="btn btn-lg" @click="editColumn(column)">
-                    <span class="icon-options"></span>
-                    <span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
-                  </button>
-                  <button type="button" class="btn btn-lg" @click="deleteColumn(element,column)">
-                    <span class="icon-cancel"></span>
-                    <span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
-                  </button>
-                </div>
+                    <div v-if="element.type == 'Grid'">
+                        <draggable v-model="element.children" class="row">
+                        <div class="col-wrapper" v-for="column in element.children" :class="[column.options.size]">
+                            <div class="btn-wrapper">
+                            <button type="button" class="btn btn-lg" @click="editColumn(column)">
+                                <span class="icon-options"></span>
+                                <span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
+                            </button>
+                            <button type="button" class="btn btn-lg" @click="deleteColumn(element,column)">
+                                <span class="icon-cancel"></span>
+                                <span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
+                            </button>
+                            </div>
 
-                <span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
-                  <!-- <button type="button" class="btn btn-add btn-outline-info" @click="addElement(column)">
+                            <span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
+                            <!-- <button type="button" class="btn btn-add btn-outline-info" @click="addElement(column)">
+                                <span class="icon-new"></span>
+                                {{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
+                            </button> -->
+                        </div>
+                        </draggable>
+
+                        <button class="btn btn-add btn-outline-info" type="button" @click="addColumn(element)">
+                        <span class="icon-new"></span>
+                        {{ translate('COM_TEMPLATES_ADD_COLUMN') }}
+                        </button>
+                    </div>
+                    <!-- Column Ends-->
+
+                <button type="button" class="btn btn-add btn-outline-info btn-block" @click="addElement(element)">
                     <span class="icon-new"></span>
                     {{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
-                  </button> -->
-              </div>
-            </draggable>
-					<!-- Column Ends-->
-
-            <button class="btn btn-add btn-outline-info" type="button" @click="addColumn(element)">
-              <span class="icon-new"></span>
-              {{ translate('COM_TEMPLATES_ADD_COLUMN') }}
-            </button>
-          </div>
-          <button type="button" class="btn btn-add btn-outline-info btn-block" @click="addElement(element)">
-            <span class="icon-new"></span>
-            {{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 			    </button>
 				</div>
 			</draggable>
-			<!-- Grid Ends -->
+			<!-- Element Ends -->
 
 			<button type="button" class="btn btn-add btn-outline-info btn-block" @click="addElement(elementArray)">
 				<span class="icon-new"></span>
