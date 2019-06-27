@@ -12,18 +12,19 @@
 			<draggable v-model="elementArray" ghost-class="drop">
 				<div v-for="element in elementArray" class="row-wrapper">
                 <span>{{ element.type }}</span>
+                <span v-if="element.options.class != ''">.{{element.options.class}}</span>
 					<div class="btn-wrapper">
-						<button type="button" class="btn btn-lg" @click="editGrid(element)">
+						<button type="button" class="btn btn-lg" @click="editElement(element)">
 							<span class="icon-options"></span>
 							<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
 						</button>
-						<button type="button" class="btn btn-lg" @click="deleteGrid(element)">
+						<button type="button" class="btn btn-lg" @click="deleteElement(element)">
 							<span class="icon-cancel"></span>
 							<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
 						</button>
 					</div>
-					<span v-if="element.options.class != ''">.{{element.options.class}}</span>
 
+                    <!-- Container & Module Position -->
                     <div v-if="element.type != 'Grid'">
                         <draggable v-model="element.children">
                             <div v-for="child in element.children" class="col-wrapper">
@@ -32,6 +33,7 @@
                             </div>
                         </draggable>
                     </div>
+                    <!-- Container & Module Position Ends -->
 
 					<!-- Column -->
                     <div v-if="element.type == 'Grid'">
@@ -49,10 +51,10 @@
                             </div>
 
                             <span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
-                            <!-- <button type="button" class="btn btn-add btn-outline-info" @click="addElement(column)">
+                            <button type="button" class="btn btn-add btn-outline-info" @click="addElement(column)">
                                 <span class="icon-new"></span>
                                 {{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
-                            </button> -->
+                            </button>
                         </div>
                         </draggable>
 
@@ -151,8 +153,8 @@
         this.reset();
         this.hide('add-grid');
       },
-      deleteGrid(grid) {
-        const index = this.elementArray.indexOf(grid);
+      deleteElement(element) {
+        const index = this.elementArray.indexOf(element);
         if (index > -1)
           this.elementArray.splice(index, 1);
       },
@@ -181,11 +183,11 @@
         this.column_selected = column;
         this.selectedSettings = 'edit-column';
       },
-      editGrid(grid) {
+      editElement(element) {
         this.reset();
         this.showSettings = true;
         this.selectedSettings = 'edit-grid';
-        this.grid_selected = grid;
+        this.grid_selected = element;
       },
       reset() {
         this.showSettings = false;
