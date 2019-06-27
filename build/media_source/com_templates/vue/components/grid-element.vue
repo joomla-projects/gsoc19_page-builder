@@ -64,16 +64,24 @@
     computed: {
       nextFreePosition: function () {
         let nextPosition = 0;
+        let occupied;
         let rowNumber = 0;
 
-        this.gridData.children.forEach(child => {
-          nextPosition += child.options.size;
+        occupied = this.gridData.children.find(child => child.x === nextPosition && child.y === rowNumber);
+
+        while (occupied) {
+          nextPosition += occupied.w;
 
           if (nextPosition >= this.gridSize) {
-            nextPosition -= this.gridSize;
             rowNumber += 1;
-          }
-        });
+            nextPosition -= this.gridSize;
+		  }
+
+          occupied = this.gridData.children.find(child => {
+            // Check directly occupied positions or elements higher than one row
+            return child.x === nextPosition && (rowNumber === child.y || rowNumber === child.y + child.h - 1);
+          });
+		}
 
         return {x: nextPosition, y: rowNumber};
       }
