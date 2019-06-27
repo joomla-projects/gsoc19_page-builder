@@ -82,7 +82,7 @@
 
           occupied = this.gridData.children.find(child => {
             // Check directly occupied positions or elements higher than one row
-            return child.x === nextPosition && (rowNumber === child.y || rowNumber === child.y + child.h - 1);
+            return child.x === nextPosition && (rowNumber === child.y || rowNumber <= child.y + child.h - 1);
           });
 		}
 
