@@ -42,7 +42,7 @@ class PlgPagebuilderContainer extends CMSPlugin
 		return array(
 			'name'     => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
 			'id'       => 'plg_pagebuilder_container',
-			'parent'   => [root],
+			'parent'   => array('root'),
 			'children' => true
 		);
 	}
