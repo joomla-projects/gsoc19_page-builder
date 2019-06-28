@@ -50,6 +50,18 @@ else
 	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg' . '" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
+$hasClass = '';
+
+if ($this->countModules('sidebar-left')) 
+{
+	$hasClass .= ' has-sidebar-left';
+}
+
+if ($this->countModules('sidebar-right')) 
+{
+	$hasClass .= ' has-sidebar-right';
+}
+
 // Header bottom margin
 $headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 
@@ -72,7 +84,8 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ' ' . $pageclass;
+	. ' ' . $pageclass
+	. $hasClass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 
@@ -88,53 +101,29 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				<?php endif; ?>
 			</div>
 
-			<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
-				<button class="navbar-toggler navbar-toggler-right" type="button" aria-hidden="true" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-					<span class="fa fa-bars"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbar">
-					<jdoc:include type="modules" name="menu" style="none" />
-					<?php if ($this->countModules('search')) : ?>
-						<div class="form-inline">
-							<jdoc:include type="modules" name="search" style="none" />
-						</div>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
-
-		</nav>
-		<?php if ($this->countModules('banner')) : ?>
-		<div class="grid-child container-banner">
-			<jdoc:include type="modules" name="banner" style="xhtml" />
-		</div>
-		<?php endif; ?>
-		<div class="header-shadow"></div>
-		<div class="header-shape-bottom">
-			<canvas width="736" height="15"></canvas>
-			<svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 15">
-				<path d="M1040,301V285s-75,12-214,12-284-26-524,0v4Z" transform="translate(-302 -285)" fill="#fafafa"/>
-			</svg>
-		</div>
-	</header>
-</div>
-
-<?php if ($this->countModules('top-a')) : ?>
-<div class="grid-child container-top-a">
-	<jdoc:include type="modules" name="top-a" style="cardGrey" />
-</div>
-<?php endif; ?>
-
-<?php if ($this->countModules('top-b')) : ?>
-<div class="grid-child container-top-b">
-	<jdoc:include type="modules" name="top-b" style="card" />
-</div>
-<?php endif; ?>
-
-<div class="grid-child container-main">
-
 	<?php if ($this->countModules('sidebar-left')) : ?>
-	<div class="container-sidebar-left">
+	<div class="grid-child container-sidebar-left">
 		<jdoc:include type="modules" name="sidebar-left" style="default" />
+	</div>
+	<?php endif; ?>
+
+	<div class="grid-child container-component">
+		<jdoc:include type="modules" name="main-top" style="cardGrey" />
+		<jdoc:include type="message" />
+		<jdoc:include type="component" />
+		<jdoc:include type="modules" name="breadcrumbs" style="none" />
+		<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
+	</div>
+
+	<?php if ($this->countModules('sidebar-right')) : ?>
+	<div class="grid-child container-sidebar-right">
+		<jdoc:include type="modules" name="sidebar-right" style="default" />
+	</div>
+	<?php endif; ?>
+
+	<?php if ($this->countModules('bottom-a')) : ?>
+	<div class="grid-child container-bottom-a">
+		<jdoc:include type="modules" name="bottom-a" style="cardGrey" />
 	</div>
 	<?php endif; ?>
 
