@@ -17,7 +17,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 HTMLHelper::_('script', 'media/com_templates/js/pagebuilder.js');
 
 // Add stylesheet
-HTMLHelper::_('stylesheet', 'node_modules/vue-draggable-resizable/dist/VueDraggableResizable.css');
 HTMLHelper::_('stylesheet', 'node_modules/vuetify/dist/vuetify.css');
 HTMLHelper::_('stylesheet', 'media/com_templates/css/pagebuilder.css');
 
