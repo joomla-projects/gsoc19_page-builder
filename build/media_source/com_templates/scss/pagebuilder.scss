@@ -26,10 +26,14 @@ select {
   /** Min-height needed for left drawer */
   min-height: 30em;
 
+  span {
+    color: white;
+  }
+
   .row-wrapper {
     position: relative;
     background-color: #8c8c8c;
-    border: 1px dashed #4b4b4b;
+    border: 2px dashed white;
     padding: 1rem 1.5rem;
 
     &:hover {
@@ -46,8 +50,9 @@ select {
 
     .btn-add {
       display: block;
-      margin: .5rem auto;
-      width: 100%;
+      margin: 1rem auto 0;
+      min-width: 6rem;
+      width: 30%;
 
       &:not(:hover) {
         background-color: #fff;
@@ -75,8 +80,7 @@ select {
     }
 
     .col-wrapper {
-      background-color: #def6dd;
-      border: 1px dashed #0b3257;
+      border: 2px solid white;
       position: relative;
       margin-top: 1.5rem;
 
