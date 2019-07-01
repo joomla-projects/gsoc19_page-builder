@@ -140,14 +140,21 @@ select {
 
   .Grid {
     background-color: rgb(136, 60, 60);
+    min-height: 5em;
   }
 
   .Container {
     background-color: #f08080;
+    min-height: 5em;
   }
 
-  .Module {
+  .Module_Position {
     background-color: #0b3257c2;
+    min-height: 5em;
+  }
+
+  .Column {
+    min-height: 5em;
   }
 
   .nav .nav-tabs {

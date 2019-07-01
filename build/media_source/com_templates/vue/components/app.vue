@@ -32,7 +32,7 @@
                                     <span v-if="child.options.class != ''">.{{ child.options.class }}</span>
                                     
                                     <div v-if="child.type == 'Grid'">
-                                        <grid :element="child" @editColumn="editColumn" @deleteColumn="deleteColumn" @addElement="addElement"></grid>   
+                                        <grid :element="child" :childAllowed="childAllowed" @editColumn="editColumn" @deleteColumn="deleteColumn" @addElement="addElement"></grid>   
 
                                         <button class="btn btn-add btn-outline-info" type="button" @click="addColumn(child)">
                                         <span class="icon-new"></span>
@@ -40,7 +40,7 @@
                                         </button>
                                     </div>
 
-                                    <button class="btn btn-add btn-outline-info" type="button" @click="addElement(child)">
+                                    <button v-if="childAllowed.includes(child.type)" class="btn btn-add btn-outline-info" type="button" @click="addElement(child)">
                                         <span class="icon-new"></span>
                                         {{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
                                     </button>
@@ -51,7 +51,7 @@
 
                         <!-- Grid -->
                         <div v-if="element.type == 'Grid'">
-                            <grid :element="element" @editColumn="editColumn" @deleteColumn="deleteColumn" @addElement="addElement"></grid>   
+                            <grid :element="element" :childAllowed="childAllowed" @editColumn="editColumn" @deleteColumn="deleteColumn" @addElement="addElement"></grid>   
 
                             <button class="btn btn-add btn-outline-info" type="button" @click="addColumn(element)">
                                 <span class="icon-new"></span>
@@ -60,7 +60,7 @@
                         </div>
                         <!-- Grid Ends-->
 
-                    <button type="button" class="btn btn-add btn-outline-info btn-block" @click="addElement(element)">
+                    <button type="button" v-if="childAllowed.includes(element.type)" class="btn btn-add btn-outline-info btn-block" @click="addElement(element)">
                         <span class="icon-new"></span>
                         {{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
                     </button>
@@ -102,6 +102,7 @@
         selectedSettings: '',
         parent: '',
         allowedChildren: [],
+        childAllowed: [],
         elements: window.Joomla.getOptions('com_templates').elements
       };
     },
@@ -115,6 +116,12 @@
     },
     components: {
         draggable
+    },
+    created() {
+        this.elements.forEach(el => {
+            if(el.children)
+                this.childAllowed.push(el.name);
+        })
     },
     methods: {
       addGrid(sizes) {
@@ -223,19 +230,8 @@
       },
       addElement(parent) {
         this.fillAllowedChildren(parent.type);
-        if(parent.type == undefined) {
-          this.parent = parent;
-          this.show('add-element');
-          return;
-        }
-        this.elements.forEach(el => {
-          if((el.name == parent.type) && el.children) {
-            this.parent = parent;
-            this.show('add-element');
-            return;
-          }
-        })
-        notifications.error('COM_TEMPLATES_NO_CHILD_ALLOWED');
+        this.parent = parent;
+        this.show('add-element');
       },
       insertElem(element,sizes) {
         if(element == 'Grid') {

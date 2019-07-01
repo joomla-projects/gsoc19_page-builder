@@ -12,8 +12,8 @@
                 </button>
                 </div>
                 
-                <span>{{column.options.size}} (<i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
-                <button type="button" class="btn btn-add btn-outline-info" @click="$emit('addElement', column)">
+                <span>{{column.options.size}} <i>{{column.type}}<span v-if="column.options.class">, .{{column.options.class}}</span></i></span>
+                <button v-if="childAllowed.includes(column.type)" type="button" class="btn btn-add btn-outline-info" @click="$emit('addElement', column)">
                     <span class="icon-new"></span>
                     {{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
                 </button>
@@ -27,17 +27,15 @@ import draggable from 'vuedraggable';
 export default {
     name: 'grid',
     props: {
-        element: {}
+        element: {},
+        childAllowed: {}
     },
     components: {
         draggable
     },
     methods: {
         checkIfGrid(column) {
-            if(column.type == 'Module Position')
-                return 'col-12';
-            else
-                return '';
+            return (column.type == 'Module_Position') ? 'col-12' : '';
         }
     }
 }
