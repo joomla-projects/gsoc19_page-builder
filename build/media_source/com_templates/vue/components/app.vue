@@ -17,6 +17,8 @@
 			</form>
 
 			<div v-for="grid in gridArray" :key="grid.id" class="row-wrapper">
+				<span v-if="grid.options.class"><i>.{{grid.options.class}}</i></span>
+
 				<grid-element :grid="grid" :grid-size="gridSize"
 							  @editColumn="editColumn"
 							  @addElement="addElement"

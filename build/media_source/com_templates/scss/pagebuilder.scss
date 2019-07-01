@@ -40,6 +40,12 @@ select {
       background-color: #ececec;
     }
 
+    > span:first-of-type {
+      position: absolute;
+      top: .3rem;
+      left: .3rem;
+    }
+
     button {
       cursor: pointer;
 
