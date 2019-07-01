@@ -54,7 +54,7 @@
     },
     props: {
         allowedChildren: {
-            type: Object,
+            type: Array
         },
     },
     methods: {

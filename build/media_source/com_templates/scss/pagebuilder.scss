@@ -111,6 +111,12 @@ select {
   // Modal
   .image-selection {
 
+    div.icon {
+      border: 2px solid transparent;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+    
     div.icon:hover {
       border: 0.1em solid #108193;
     }
