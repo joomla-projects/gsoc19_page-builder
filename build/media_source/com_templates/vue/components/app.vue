@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<v-navigation-drawer v-model="showSettings" app disable-resize-watcher id="Settings" class="settings">
+		<v-navigation-drawer v-model="selectedSettings" app disable-resize-watcher id="settings" class="settings">
 			<h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
 			<hr>
-			<component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected'
+			<component :is="selectedSettings" class="form-group" :grid='gridSelected' :column='columnSelected'
 					   @reset="reset"></component>
 		</v-navigation-drawer>
 
@@ -42,7 +42,7 @@
 
 			<!-- Modals -->
 			<add-grid-modal id="add-grid" @selection="addGrid"></add-grid-modal>
-			<add-element-modal id="add-element" :elements="elements" :column="column_selected"></add-element-modal>
+			<add-element-modal id="add-element" :elements="elements" :column="columnSelected"></add-element-modal>
 		</v-content>
 	</div>
 </template>
@@ -60,12 +60,11 @@
     },
     data() {
       return {
-        grid_selected: '',
-        column_selected: '',
+        gridSelected: '',
+        columnSelected: '',
         gridArray: this.grid,
-        selectedSettings: '',
+        selectedSettings: false,
         elements: window.Joomla.getOptions('com_templates').elements,
-        showSettings: false,
         gridSize: 12, // TODO: save and load into grid param
       };
     },
@@ -116,38 +115,29 @@
       },
       deleteGrid(grid) {
         const index = this.gridArray.indexOf(grid);
-        if (index > -1)
+        if (index > -1) {
           this.gridArray.splice(index, 1);
+        }
       },
       addColumn(grid) {
-        this.reset();
-        this.showSettings = true;
-        this.grid_selected = grid;
+        this.gridSelected = grid;
         this.selectedSettings = 'add-column';
       },
       editPosition(grid, column) {
-        this.reset();
-        this.showSettings = true;
-        this.grid_selected = grid;
-        this.column_selected = column;
+        this.gridSelected = grid;
+        this.columnSelected = column;
         this.selectedSettings = 'edit-position';
       },
       editColumn(column) {
-        this.reset();
-        this.showSettings = true;
-        this.column_selected = column;
+        this.columnSelected = column;
         this.selectedSettings = 'edit-column';
       },
       editGrid(grid) {
-        this.reset();
-        this.showSettings = true;
+        this.gridSelected = grid;
         this.selectedSettings = 'edit-grid';
-        this.grid_selected = grid;
       },
       reset() {
-        this.showSettings = false;
-        this.grid_selected = '';
-        this.column_selected = '';
+        this.selectedSettings = false;
       },
       log(el) {
         console.log(el);
@@ -159,7 +149,7 @@
         this.$modal.hide(name);
       },
       addElement(column) {
-        this.column_selected = column;
+        this.columnSelected = column;
         this.show('add-element');
       },
       updateGridBackground() {
