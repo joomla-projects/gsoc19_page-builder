@@ -7,29 +7,30 @@
 			</button>
 		</div>
 		<div class="modal-body">
-            <fieldset>
-                <div class="form-group">
-                    <label for="select_element">{{ translate('COM_TEMPLATES_SELECT_ELEMENT') }}</label>
-                    <select name="select_element" id="select_element" v-model="selectElem">
-                        <option v-for="element in allowedChildren">{{ element }}</option>
-                    </select>
+            <div class="row">
+                <div class="nav flex-column nav-pills" id="nav-tab" role="tablist">
+                    <a class="nav-link" data-toggle="tab" v-for="element in allowedChildren" :href="'#nav-'+element.name" role="tab">{{ element.name }}</a>
                 </div>
-            </fieldset>
-            <div v-if="selectElem == 'Grid'" class="image-selection">
-                <div class="row">
-                    <div class="col icon" v-html="images.row12 + '<p>100%</p>'" @click="$emit('selection', 'Grid' , [12])"></div>
-                    <div class="col icon" v-html="images.row66 + '<p>(50%-50%)</p>'" @click="$emit('selection', 'Grid' , [6, 6])"></div>
-                    <div class="col icon" v-html="images.row48 + '<p>(33%-67%)</p>'" @click="$emit('selection', 'Grid' , [4, 8])"></div>
+                <div class="tab-content col-9">
+                    <div class="tab-pane" v-for="element in allowedChildren" :id="'nav-'+element.name">{{ element.description }}
+                        <div v-if="element.name == 'Grid'" class="image-selection">
+                            <div class="row">
+                                <div class="col icon" v-html="images.row12 + '<p>100%</p>'" @click="$emit('selection', 'Grid' , [12])"></div>
+                                <div class="col icon" v-html="images.row66 + '<p>(50%-50%)</p>'" @click="$emit('selection', 'Grid' , [6, 6])"></div>
+                                <div class="col icon" v-html="images.row48 + '<p>(33%-67%)</p>'" @click="$emit('selection', 'Grid' , [4, 8])"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col icon" v-html="images.row84 + '<p>(67%-33%)</p>'" @click="$emit('selection', 'Grid' , [8, 4])"></div>
+                                <div class="col icon" v-html="images.row3333 + '<p>(25%-25%-25%-25%)</p>'" @click="$emit('selection', 'Grid' , [3, 3, 3, 3])"></div>
+                                <div class="col icon" v-html="images.row444 + '<p>(33%-33%-33%)</p>'" @click="$emit('selection', 'Grid' , [4, 4, 4])"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4 icon" v-html="images.row363 + '<p>(25%-50%-25%)</p>'" @click="$emit('selection', 'Grid' , [3, 6, 3])"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col icon" v-html="images.row84 + '<p>(67%-33%)</p>'" @click="$emit('selection', 'Grid' , [8, 4])"></div>
-                    <div class="col icon" v-html="images.row3333 + '<p>(25%-25%-25%-25%)</p>'" @click="$emit('selection', 'Grid' , [3, 3, 3, 3])"></div>
-                    <div class="col icon" v-html="images.row444 + '<p>(33%-33%-33%)</p>'" @click="$emit('selection', 'Grid' , [4, 4, 4])"></div>
-                </div>
-                <div class="row">
-				    <div class="col-4 icon" v-html="images.row363 + '<p>(25%-50%-25%)</p>'" @click="$emit('selection', 'Grid' , [3, 6, 3])"></div>
-                </div>
-            </div>
+		    </div>
             <small class="form-text text-muted">{{ translate('COM_TEMPLATES_ADD_ELEMENT_DESC') }}</small>
         </div>
         <div class="modal-footer">
@@ -53,7 +54,7 @@
     },
     props: {
         allowedChildren: {
-            type: Array,
+            type: Object,
         },
     },
     methods: {

@@ -136,6 +136,14 @@ select {
   .Module {
     background-color: #0b3257c2;
   }
+
+  .nav .nav-tabs {
+    background-color: #ffffff;
+
+    .nav-link {
+      color: #3073bb;
+    }
+  }
 }
 
 // Vuetify

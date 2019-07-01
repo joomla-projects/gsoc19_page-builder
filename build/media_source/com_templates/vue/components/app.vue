@@ -275,7 +275,10 @@
         this.elements.forEach(el => {
           el.parent.forEach(item => {
             if(item == name)
-              this.allowedChildren.push(el.name);
+              this.allowedChildren.push({
+                'name': el.name,
+                'description': el.description
+              });
           })
         })
       }
