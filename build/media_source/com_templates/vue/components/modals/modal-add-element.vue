@@ -59,6 +59,7 @@
     },
     methods: {
         add() {
+            this.selectElem = document.querySelectorAll('a.active')[0].innerHTML;
             if(this.selectElem !== '') {
                 this.$emit('selection', this.selectElem);
                 this.close();

@@ -26,6 +26,12 @@ select {
   /** Min-height needed for left drawer */
   min-height: 30em;
 
+  .row {
+    /* Overriding BS style for correct alignment of grids */
+    margin-right: 0em;
+    margin-left: 0em;
+  }
+
   span {
     color: white;
   }
@@ -120,6 +126,7 @@ select {
     div.icon:hover {
       border: 0.1em solid #108193;
     }
+
     img {
       display: block;
       margin: 1rem auto 0 auto;
