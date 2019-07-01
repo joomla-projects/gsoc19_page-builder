@@ -11,6 +11,7 @@
 				   :h="column.h"
 				   :x="column.x"
 				   :y="column.y"
+				   @resized="changeSize"
 		>
 			<div class="btn-wrapper">
 				<button type="button" class="btn btn-lg" @click="$emit('editColumn', column)">
@@ -139,8 +140,8 @@
           child.i = index;
           child.x = x;
           child.y = y;
-          child.w = child.options.size;
-          child.h = 1;
+          child.w = child.options.size || 1;
+          child.h = child.options.height || 1;
 
           x += child.w;
           if (x >= this.gridSize) {
@@ -149,6 +150,11 @@
 		  }
         });
       },
+	  changeSize(i, newH, newW) {
+		const child = this.gridData.children.find(child => child.i === i);
+		child.options.size = newW;
+		child.options.height = newH;
+	  }
     }
   };
 </script>

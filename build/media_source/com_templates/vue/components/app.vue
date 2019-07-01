@@ -103,6 +103,7 @@
             type: 'column',
             options: {
               size: size,
+			  height: 1,
               class: '',
             },
             children: [],
