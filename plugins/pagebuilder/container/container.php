@@ -29,7 +29,7 @@ class PlgPagebuilderContainer extends CMSPlugin
 	/**
 	 * Add container element which can have every other element as child
 	 *
-	 * @param   array  $params  Data for the element
+	 * @param   array $params Data for the element
 	 *
 	 * @return  array   A list of icon definition associative arrays
 	 *
@@ -44,6 +44,34 @@ class PlgPagebuilderContainer extends CMSPlugin
 			'id'       => 'plg_pagebuilder_container',
 			'parent'   => array('root'),
 			'children' => true
+		);
+	}
+
+	/**
+	 * Get rendering options for frontend templates
+	 *
+	 * @param   array $data options set in pagebuilder editor like classes, size etc.
+	 *
+	 * @return  array   A list of icon definition associative arrays
+	 *
+	 * @since   4.0.0
+	 */
+	public function onRender($data)
+	{
+		$html = '<div ';
+
+		if (isset($data->options))
+		{
+			$html .= empty($data->options->class) ? '' : ' class="container ' . $data->options->class . '"';
+		}
+
+		$html .= '>';
+
+		return array(
+			'name'     => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
+			'id'       => 'plg_pagebuilder_container',
+			'start'    => $html,
+			'end'      => '</div>'
 		);
 	}
 }

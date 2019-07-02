@@ -11,6 +11,9 @@ namespace Joomla\Component\Templates\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
+
 /**
  * Template Helper class.
  *
@@ -19,6 +22,14 @@ defined('_JEXEC') or die;
 abstract class RenderHelper
 {
 	/**
+	 * Defines how much columns the grid should have
+	 * @var number
+	 *
+	 * @since   4.0
+	 */
+	private static $gridSize = 12;
+
+	/**
 	 * Decode pagebuilder param and render the elements
 	 *
 	 * @param   string $param JSON with grids, columns and modules, build by the pagebuilder
@@ -26,13 +37,50 @@ abstract class RenderHelper
 	 * @return  string
 	 *
 	 * @since   4.0
+	 * @throws \Exception
 	 */
 	public static function renderElements($param)
 	{
-		$grid = json_decode($param);
-		$html = '<div class="container">' . self::render($grid) . '</div>';
+		$elements = json_decode($param);
+
+		if (empty($elements))
+		{
+			throw new \Exception('No elements available');
+		}
+
+		self::$gridSize = isset($elements->gridSize) ? $elements->gridSize : 12;
+
+		PluginHelper::importPlugin('pagebuilder');
+
+		$html = '<div class="root">' . self::render($elements) . '</div>';
 
 		return $html;
+	}
+
+	/**
+	 * Retrieve plugin rendering data
+	 * Returns false when no matching plugin was found.
+	 *
+	 * @param   string $name name of element and matching plugin
+	 * @param   array  $data element data for the renderer
+	 *
+	 * @return  array|boolean
+	 *
+	 * @since   4.0
+	 */
+	private static function getPluginRenderer($name, $data)
+	{
+		$pluginRenderer = Factory::getApplication()->triggerEvent('onRender', array($data));
+
+		foreach ($pluginRenderer as $plugin)
+		{
+			if (strtolower($plugin['name']) === strtolower($name))
+			{
+				return $plugin;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -44,72 +92,31 @@ abstract class RenderHelper
 	 *
 	 * @since   4.0
 	 */
-	public static function render($elements)
+	private static function render($elements)
 	{
 		$html = '';
 
 		foreach ($elements as $element)
 		{
-			$classes = array();
+			$name = $element->type;
 
-			if (!empty($element->class))
+			$renderData = self::getPluginRenderer($name, $element);
+
+			// Create default element to fill space
+			if (!$renderData)
 			{
-				$classes[] = $element->class;
+				$renderData['start'] = '<div>';
+				$renderData['end']   = '</div>';
 			}
 
-			$include = '';
-			$name    = '';
-			$style   = 'none';
-			$size    = '';
-			$type    = 'modules';
-
-			foreach ($element->options as $key => $option)
-			{
-				switch ($key)
-				{
-					case 'name':
-						$name      = $option;
-						$classes[] = 'container-' . $option;
-						break;
-					case 'size':
-						$size      = $option;
-						$classes[] = $option;
-						break;
-					case 'style':
-						$style = $option;
-						break;
-					case 'type':
-						$type = $option;
-						break;
-					default:
-						$classes[] = $option;
-				}
-			}
-
-			if ($element->type === 'grid')
-			{
-				$classes[] = 'row';
-			}
-			elseif ($element->type === 'column')
-			{
-				$classes[] = 'col';
-			}
-			else // Position for modules, messages or components
-			{
-				// TODO: include modules when they are integrated into the pagebuilder with type and name
-				// $include = '<jdoc:include type="' . $type . '" name="' . $name . '" style="' . $style . '" />';
-				$include = 'POSITION ';
-			}
-
-			$html .= '<div class="' . implode(' ', $classes) . '">';
-			$html .= $include . $size;
+			$html .= $renderData['start'];
 
 			if (!empty($element->children))
 			{
 				$html .= self::render($element->children);
 			}
 
-			$html .= '</div>';
+			$html .= $renderData['end'];
 		}
 
 		return $html;

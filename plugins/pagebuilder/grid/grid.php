@@ -29,7 +29,7 @@ class PlgPagebuilderGrid extends CMSPlugin
 	/**
 	 * Add grid element which can have every other element as child
 	 *
-	 * @param   array  $params  Data for the element
+	 * @param   array $params Data for the element
 	 *
 	 * @return  array   A list of icon definition associative arrays
 	 *
@@ -44,6 +44,39 @@ class PlgPagebuilderGrid extends CMSPlugin
 			'id'       => 'plg_pagebuilder_grid',
 			'parent'   => array('root', 'container'),
 			'children' => true
+		);
+	}
+
+	/**
+	 * Get rendering options for frontend templates
+	 *
+	 * @param   array $data options set in pagebuilder editor like classes, size etc.
+	 *
+	 * @return  array   A list of icon definition associative arrays
+	 *
+	 * @since   4.0.0
+	 */
+	public function onRender($data)
+	{
+		$html    = '<div ';
+		$classes = array('grid');
+
+		if (isset($data->options))
+		{
+			if (!empty($data->options->class))
+			{
+				$classes[] = $data->options->class;
+			}
+		}
+
+		$html .= ' class="' . implode(' ', $classes) . '"';
+		$html .= '>';
+
+		return array(
+			'name'  => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
+			'id'    => 'plg_pagebuilder_grid',
+			'start' => $html,
+			'end'   => '</div>'
 		);
 	}
 }
