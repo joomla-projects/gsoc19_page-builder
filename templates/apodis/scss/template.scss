@@ -1,39 +1,17 @@
-@import "../../../media/vendor/bootstrap/scss/bootstrap";
+/**
+ * Apodis stylesheet to display elements created by pagebuilder
+ */
 
 .container {
   border: 1px solid green;
 }
 
-.col {
+.column {
+  min-height: 5rem;
   border: 1px solid black;
-}
-
-.col-12,
-.col-sm-12 {
-  background-color: rgba(255, 48, 33, 0.71);
-}
-
-.col-8,
-.col-sm-8 {
-  background-color: rgba(73, 78, 255, 0.57);
-}
-
-.col-4,
-.col-sm-4 {
-  background-color: rgba(136, 255, 231, 0.48);
-}
-
-.col-3,
-.col-sm-3 {
   background-color: rgba(244, 255, 123, 0.63);
-}
 
-.col-2,
-.col-sm-2 {
-  background-color: rgba(255, 100, 220, 0.54);
-}
-
-.col-1,
-.col-sm-1 {
-  background-color: rgba(255, 232, 105, 0.63);
+  &:nth-of-type(odd) {
+    background-color: rgba(136, 255, 231, 0.48);
+  }
 }
