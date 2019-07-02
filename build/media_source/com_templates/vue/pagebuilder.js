@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueJsModal from 'vue-js-modal';
-import Vuetify from 'vuetify';
 import App from './components/app.vue';
 import Translate from './plugins/translate';
 import Grid from './components/elements/grid.vue';
@@ -13,7 +12,6 @@ import AddElementModal from './components/modals/modal-add-element.vue';
 // Add the plugins
 Vue.use(Translate);
 Vue.use(VueJsModal);
-Vue.use(Vuetify);
 
 // Use the Components
 Vue.component('grid', Grid);

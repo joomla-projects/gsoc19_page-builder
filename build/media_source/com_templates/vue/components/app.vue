@@ -1,12 +1,15 @@
 <template>
 	<div>
-		<v-navigation-drawer v-model="showSettings" app disable-resize-watcher id="Settings" class="settings">
-			<h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
+        <div id="sidebar" class="sidebar">
+            <h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
 			<hr>
+            <button type="button" class="btn btn-lg closebtn" @click="closeNav()">
+                <span class="icon-cancel"></span>
+            </button>
             <component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected' @reset="reset"></component>
-		</v-navigation-drawer>
+        </div>
 
-		<v-content class="pagebuilder">
+		<div class="pagebuilder" id="pagebuilder">
 			<h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
 			<!-- Element -->
 			<draggable v-model="elementArray" ghost-class="drop">
@@ -76,7 +79,7 @@
 			<!-- Modals -->
 			<add-element-modal id="add-element" :allowedChildren="allowedChildren" @selection="insertElem"></add-element-modal>
 
-		</v-content>
+		</div>
 	</div>
 </template>
 
@@ -183,12 +186,16 @@
       },
       editColumn(column) {
         this.reset();
+        document.getElementById("sidebar").style.width = "250px";
+        document.getElementById("pagebuilder").style.marginLeft = "250px";
         this.showSettings = true;
         this.column_selected = column;
         this.selectedSettings = 'edit-column';
       },
       editElement(element) {
         this.reset();
+        document.getElementById("sidebar").style.width = "250px";
+        document.getElementById("pagebuilder").style.marginLeft = "250px";
         this.showSettings = true;
         this.selectedSettings = 'edit-grid';
         this.grid_selected = element;
@@ -198,6 +205,7 @@
         this.grid_selected = '';
         this.column_selected = '';
         this.parent = '';
+        this.closeNav();
       },
       log(el) {
         console.log(el);
@@ -277,6 +285,10 @@
               });
           })
         })
+      },
+      closeNav() {
+            document.getElementById("sidebar").style.width = "0";
+            document.getElementById("pagebuilder").style.marginLeft = "0";
       }
     }
   }

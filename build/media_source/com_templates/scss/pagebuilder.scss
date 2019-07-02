@@ -24,7 +24,8 @@ select {
 
 .pagebuilder {
   /** Min-height needed for left drawer */
-  min-height: 30em;
+  transition: margin-left .35s;
+  padding: 20px;
 
   .row {
     /* Overriding BS style for correct alignment of grids */
@@ -166,8 +167,22 @@ select {
   }
 }
 
-// Vuetify
-.d-flex > *,
-.d-inline-flex > * {
-  flex: none !important;
+.sidebar {
+  height: 100%;
+  width: 0%;
+  position: fixed;
+  z-index: 1050;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: white;
+  transition: 0.35s;
+  padding: 7.5px 0 0 15px;
+
+  .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    margin-left: 50px;
+  }
 }
