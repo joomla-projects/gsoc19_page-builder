@@ -71,7 +71,7 @@
       };
     },
     mounted() {
-      //this.updateGridBackground();
+      this.updateGridBackground();
     },
     watch: {
       grid: {
@@ -155,9 +155,11 @@
         this.show('add-element');
       },
       updateGridBackground() {
-        const rows = document.querySelector('.pagebuilder').querySelectorAll('.row-wrapper');
+        const rows = document.querySelectorAll('.pagebuilder .row-wrapper');
         Array.prototype.forEach.call(rows, row => {
-          row.style.backgroundSize = `${this.gridStep}px 150px`;
+          const percentageWidth = (1 / this.gridSize) * 100;
+          const pixelWidth = (row.getBoundingClientRect().width / 100) * percentageWidth;
+          row.style.backgroundSize = `${pixelWidth}px 150px`;
         });
       },
     }
