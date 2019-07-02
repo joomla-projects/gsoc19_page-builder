@@ -68,8 +68,10 @@ select {
     .btn-wrapper {
       visibility: hidden;
       position: absolute;
-      top: 0;
-      right: .5rem;
+      top: -1rem;
+      right: 0;
+      background-color: #fff;
+      border: 1px solid #b1b1b1;
 
       > button {
         padding: .5rem 1rem;
