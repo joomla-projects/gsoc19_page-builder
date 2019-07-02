@@ -65,7 +65,7 @@
     computed: {
       layout: function () {
         return this.gridData.children.concat(this.addElement);
-	  },
+      },
       nextFreePosition: function () {
         let nextPosition = 0;
         let occupied;
@@ -79,13 +79,13 @@
           if (nextPosition >= this.gridSize) {
             rowNumber += 1;
             nextPosition -= this.gridSize;
-		  }
+          }
 
           occupied = this.gridData.children.find(child => {
             // Check directly occupied positions or elements higher than one row
             return child.x === nextPosition && (rowNumber === child.y || rowNumber <= child.y + child.h - 1);
           });
-		}
+        }
 
         return {x: nextPosition, y: rowNumber};
       }
@@ -94,13 +94,14 @@
       return {
         addElement: {
           i: 'add',
-		  w: 1,
-		  h: 1,
-		  // Default x and y to set button into layout
-		  x: 0,
-		  y: 1,
-		},
+          w: 1,
+          h: 1,
+          // Default x and y to set button into layout
+          x: 0,
+          y: 1,
+        },
         gridData: this.grid,
+        lastIndex: 0,
       };
     },
     components: {
@@ -113,6 +114,7 @@
     methods: {
       addColumn() {
         const defaultSize = 1;
+        this.lastIndex += 1;
 
         this.gridData.children.push({
           type: 'column',
@@ -120,7 +122,7 @@
             size: defaultSize,
           },
           children: [],
-          i: this.gridData.children.length,
+          i: this.lastIndex,
           w: defaultSize,
           h: 1,
           x: this.nextFreePosition.x,
@@ -137,6 +139,7 @@
         let x = 0;
         let y = 0;
         this.gridData.children.forEach((child, index) => {
+          this.lastIndex = index;
           child.i = index;
           child.x = x;
           child.y = y;
@@ -147,14 +150,14 @@
           if (x >= this.gridSize) {
             x -= this.gridSize;
             y += 1;
-		  }
+          }
         });
       },
-	  changeSize(i, newH, newW) {
-		const child = this.gridData.children.find(child => child.i === i);
-		child.options.size = newW;
-		child.options.height = newH;
-	  }
+      changeSize(i, newH, newW) {
+        const child = this.gridData.children.find(child => child.i === i);
+        child.options.size = newW;
+        child.options.height = newH;
+      }
     }
   };
 </script>
