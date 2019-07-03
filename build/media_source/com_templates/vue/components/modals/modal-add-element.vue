@@ -2,8 +2,8 @@
 	<modal name="add-element" role="dialog" :classes="['modal-content', 'v--modal']" height="auto" @before-open="reset">
 		<div class="modal-header">
 			<h3 class="modal-title">{{ translate('COM_TEMPLATES_SELECT_ELEMENT') }}</h3>
-			<button @click="close" type="button" class="close" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
+			<button @click="$modal.hide('add-element')" type="button" class="btn btn-lg" aria-label="Close">
+				<span class="icon-cancel"></span>
 			</button>
 		</div>
 		<div class="modal-body">
@@ -36,7 +36,7 @@
         <div class="modal-footer">
             <div class="btn-group">
                 <button type="button" class="btn btn-success" @click="add">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                <button type="button" class="btn btn-danger" @click="close">{{ translate('JTOOLBAR_BACK') }}</button>
+                <button type="button" class="btn btn-danger" @click="$modal.hide('add-element')">{{ translate('JTOOLBAR_BACK') }}</button>
             </div>
         </div>
 	</modal>

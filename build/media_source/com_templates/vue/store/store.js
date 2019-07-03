@@ -70,20 +70,20 @@ const mutations = {
         state.selectedSettings = 'add-column';
     },
     editColumn(state, column) {
-        document.getElementById("sidebar").style.width = "250px";
-        document.getElementById("pagebuilder").style.marginLeft = "250px";
+        this.$refs.sidebar.style.width = "250px";
+        this.$refs.pagebuilder.style.marginLeft = "250px";
         state.columnSelected = column;
         state.selectedSettings = 'edit-column';
     },
     editElement(state, element) {
-        document.getElementById("sidebar").style.width = "250px";
-        document.getElementById("pagebuilder").style.marginLeft = "250px";
+        this.$refs.sidebar.style.width = "250px";
+        this.$refs.pagebuilder.style.marginLeft = "250px";
         state.selectedSettings = 'edit-grid';
         state.gridSelected = element;
     },
     closeNav(state) {
-        document.getElementById("sidebar").style.width = "0";
-        document.getElementById("pagebuilder").style.marginLeft = "0";
+        this.$refs.sidebar.style.width = "0";
+        this.$refs.pagebuilder.style.marginLeft = "0";
     },
     addContainer(state) {
         if(state.parent.children) {
@@ -125,7 +125,6 @@ const mutations = {
         state.parent = parent;
     },
     deleteColumn(state, payload) {
-        console.log(payload.element);
         const index = payload.element.children.indexOf(payload.column);
         if (index > -1) {
             payload.element.children.splice(index, 1);

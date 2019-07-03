@@ -1,6 +1,6 @@
 <template>
 	<div>
-        <div id="sidebar" class="sidebar">
+        <div ref="sidebar" class="sidebar">
             <h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
 			<hr>
             <button type="button" class="btn btn-lg closebtn" @click="closeNav()">
@@ -10,7 +10,7 @@
             <!-- <component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected' @reset="reset"></component> -->
         </div>
 
-		<div class="pagebuilder" id="pagebuilder">
+		<div class="pagebuilder" ref="pagebuilder">
 			<h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
 			<!-- Element -->
 			<draggable v-model="elementArray" ghost-class="drop">
