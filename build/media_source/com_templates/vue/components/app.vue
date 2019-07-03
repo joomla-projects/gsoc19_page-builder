@@ -6,6 +6,7 @@
             <button type="button" class="btn btn-lg closebtn" @click="closeNav()">
                 <span class="icon-cancel"></span>
             </button>
+            <!-- TODO Add to store -->
             <!-- <component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected' @reset="reset"></component> -->
         </div>
 
@@ -35,7 +36,7 @@
                                     <span v-if="child.options.class != ''">.{{ child.options.class }}</span>
                                     
                                     <div v-if="child.type == 'Grid'">
-                                        <grid :element="child" :childAllowed="childAllowed" @editColumn="editColumn" @deleteColumn="deleteColumn" @addElement="addElement"></grid>   
+                                        <grid :element="child"></grid>
 
                                         <button class="btn btn-add btn-outline-info" type="button" @click="addColumn(child)">
                                         <span class="icon-new"></span>
@@ -54,7 +55,7 @@
 
                         <!-- Grid -->
                         <div v-if="element.type == 'Grid'">
-                            <grid :element="element" :childAllowed="childAllowed" @editColumn="editColumn" @deleteColumn="deleteColumn" @addElement="addElement"></grid>   
+                            <grid :element="element"></grid> 
 
                             <button class="btn btn-add btn-outline-info" type="button" @click="addColumn(element)">
                                 <span class="icon-new"></span>
@@ -77,116 +78,58 @@
 			</button>
 
 			<!-- Modals -->
-			<add-element-modal id="add-element" :allowedChildren="allowedChildren" @selection="insertElem"></add-element-modal>
+			<add-element-modal id="add-element"></add-element-modal>
 
 		</div>
 	</div>
 </template>
 
 <script>
-  import draggable from 'vuedraggable';
-  import {notifications} from "./../app/Notifications";
-  import { mapGetters, mapMutations } from 'vuex';
+    import draggable from 'vuedraggable';
+    import { mapMutations, mapState } from 'vuex';
 
-  export default {
-    computed: {
-        elementArray() {
-            return this.$store.state.elementArray;
+    export default {
+        computed: {
+            ...mapState([
+                'elementArray',
+                'childAllowed',
+                'parent',
+                'allowedChildren'
+            ]),
         },
-        childAllowed() {
-            return this.$store.state.childAllowed;
+        watch: {
+        elementArray: {
+            handler: function (newVal) {
+                document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
+            },
+            deep: true,
         },
-        allowedChildren() {
-            return this.$store.state.allowedChildren;
-        }
-    },
-    data() {
-        return {
-            // elementArray: this.grid,
-        };
-    },
-    watch: {
-      elementArray: {
-        handler: function (newVal) {
-          document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
         },
-        deep: true,
-      },
-    },
-    components: {
-        draggable
-    },
-    created() {
-        this.mapGrid((JSON.parse(document.getElementById('jform_params_grid').value)));
-        this.ifChildAllowed();
-    },
-    methods: {
-        ...mapMutations([
-            'ifChildAllowed',
-            'addGrid',
-            'deleteElement',
-            'addColumn',
-            'editColumn',
-            'editElement',
-            'addContainer',
-            'fillAllowedChildren',
-            'mapGrid'
-        ]),
-        deleteColumn(grid, column) {
-            const index = grid.children.indexOf(column);
-            if (index > -1) {
-            grid.children.splice(index, 1);
-            }
+        components: {
+            draggable
         },
-        editPosition(grid, column) {
-            this.gridSelected = grid;
-            this.columnSelected = column;
-            this.selectedSettings = 'edit-position';
+        created() {
+            this.mapGrid((JSON.parse(document.getElementById('jform_params_grid').value)));
+            this.ifChildAllowed();
         },
-        show(name) {
-            this.$modal.show(name);
-        },
-        hide(name) {
-            this.$modal.hide(name);
-        },
-        addElement(parent) {
-            this.fillAllowedChildren(parent.type);
-            this.parent = parent;
-            this.show('add-element');
-        },
-        insertElem(element,sizes) {
-            if(element == 'Grid') {
-                this.addGrid(sizes);
-            }
-            else if(element == 'Container') {
-                this.addContainer();
-            }
-            else {
-                if(this.parent.children) {
-                    this.parent.children.push({
-                    type: element,
-                    options: {
-                        class: ''
-                    },
-                    children: []
-                    })
-                }
-                else {
-                    this.parent.push({
-                    type: element,
-                    options: {
-                        class: ''
-                    },
-                    children: []
-                    })
-            }
-            }
-            this.hide('add-element');
-        },
-        closeNav() {
-            document.getElementById("sidebar").style.width = "0";
-            document.getElementById("pagebuilder").style.marginLeft = "0";
+        methods: {
+            ...mapMutations([
+                'ifChildAllowed',
+                'addGrid',
+                'deleteElement',
+                'addColumn',
+                'editColumn',
+                'editElement',
+                'addContainer',
+                'fillAllowedChildren',
+                'mapGrid',
+                'closeNav'
+            ]),
+            addElement(parent) {
+                this.fillAllowedChildren(parent.type);
+                this.$store.commit('addElement', parent);
+                this.$modal.show('add-element');
+            },
         }
     }
-  }
 </script>

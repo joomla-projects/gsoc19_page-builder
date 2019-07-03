@@ -28,7 +28,6 @@ const mutations = {
             if(el.children)
                 state.childAllowed.push(el.name);
         })
-        console.log(state.childAllowed);
     },
     addGrid(state, sizes) {
         state.sizeArray = [];
@@ -52,13 +51,13 @@ const mutations = {
             });
         }
         else {
-            state.parent = [{
+            state.parent.push({
                 type: 'Grid',
                 options: {
-                class: '',
+                  class: '',
                 },
                 children: state.sizeArray
-            }]
+            });
         }
     },
     deleteElement(state, element) {
@@ -122,6 +121,36 @@ const mutations = {
         })
         })
     },
+    addElement(state, parent) {
+        state.parent = parent;
+    },
+    deleteColumn(state, payload) {
+        console.log(payload.element);
+        const index = payload.element.children.indexOf(payload.column);
+        if (index > -1) {
+            payload.element.children.splice(index, 1);
+        }
+    },
+    insertElem(state, element) {
+        if(state.parent.children) {
+            state.parent.children.push({
+                type: element,
+                options: {
+                    class: ''
+                },
+                children: []
+            })
+        }
+        else {
+            state.parent.push({
+                type: element,
+                options: {
+                    class: ''
+                },
+                children: []
+            })
+        }
+    }
 }
 
 const getters = {

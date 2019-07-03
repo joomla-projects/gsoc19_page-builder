@@ -15,17 +15,17 @@
                     <div class="tab-pane" v-for="element in allowedChildren" :id="'nav-'+element.name">{{ element.description }}
                         <div v-if="element.name == 'Grid'" class="image-selection">
                             <div class="row">
-                                <div class="col icon" v-html="images.row12 + '<p>100%</p>'" @click="$emit('selection', 'Grid' , [12])"></div>
-                                <div class="col icon" v-html="images.row66 + '<p>(50%-50%)</p>'" @click="$emit('selection', 'Grid' , [6, 6])"></div>
-                                <div class="col icon" v-html="images.row48 + '<p>(33%-67%)</p>'" @click="$emit('selection', 'Grid' , [4, 8])"></div>
+                                <div class="col icon" v-html="images.row12 + '<p>100%</p>'" @click="insertElem('Grid' , [12])"></div>
+                                <div class="col icon" v-html="images.row66 + '<p>(50%-50%)</p>'" @click="insertElem('Grid' , [6, 6])"></div>
+                                <div class="col icon" v-html="images.row48 + '<p>(33%-67%)</p>'" @click="insertElem('Grid' , [4, 8])"></div>
                             </div>
                             <div class="row">
-                                <div class="col icon" v-html="images.row84 + '<p>(67%-33%)</p>'" @click="$emit('selection', 'Grid' , [8, 4])"></div>
-                                <div class="col icon" v-html="images.row3333 + '<p>(25%-25%-25%-25%)</p>'" @click="$emit('selection', 'Grid' , [3, 3, 3, 3])"></div>
-                                <div class="col icon" v-html="images.row444 + '<p>(33%-33%-33%)</p>'" @click="$emit('selection', 'Grid' , [4, 4, 4])"></div>
+                                <div class="col icon" v-html="images.row84 + '<p>(67%-33%)</p>'" @click="insertElem('Grid' , [8, 4])"></div>
+                                <div class="col icon" v-html="images.row3333 + '<p>(25%-25%-25%-25%)</p>'" @click="insertElem('Grid' , [3, 3, 3, 3])"></div>
+                                <div class="col icon" v-html="images.row444 + '<p>(33%-33%-33%)</p>'" @click="insertElem('Grid' , [4, 4, 4])"></div>
                             </div>
                             <div class="row">
-                                <div class="col-4 icon" v-html="images.row363 + '<p>(25%-50%-25%)</p>'" @click="$emit('selection', 'Grid' , [3, 6, 3])"></div>
+                                <div class="col-4 icon" v-html="images.row363 + '<p>(25%-50%-25%)</p>'" @click="insertElem('Grid' , [3, 6, 3])"></div>
                             </div>
                         </div>
                     </div>
@@ -43,34 +43,49 @@
 </template>
 
 <script>
-  export default {
-    name: 'modal-add-element',
-    data() {
-        return {
-            selectElem: '',
-            images: window.Joomla.getOptions('com_templates').images,
-            elements: window.Joomla.getOptions('com_templates').elements,
-        }
-    },
-    props: {
-        allowedChildren: {
-            type: Array
-        },
-    },
-    methods: {
-        add() {
-            this.selectElem = document.querySelectorAll('a.active')[0].innerHTML;
-            if(this.selectElem !== '') {
-                this.$emit('selection', this.selectElem);
-                this.close();
+    import { mapState, mapMutations } from 'vuex';
+
+    export default {
+        name: 'modal-add-element',
+        data() {
+            return {
+                selectElem: '',
+                images: window.Joomla.getOptions('com_templates').images,
             }
         },
-        close() {
-            this.$modal.hide('add-element');
+        computed: {
+            ...mapState([
+                'elements',
+                'allowedChildren',
+            ])
         },
-        reset() {
-            this.selectElem = '';
-        }
-    },
-  }
+        methods: {
+            ...mapMutations([
+                'addGrid',
+                'addContainer',
+            ]),
+            add() {
+                this.selectElem = document.querySelectorAll('a.active')[0].innerHTML;
+                if(this.selectElem !== '') {
+                    this.insertElem(this.selectElem);
+                    this.$modal.hide('add-element');
+                }
+            },
+            reset() {
+                this.selectElem = '';
+            },
+            insertElem(element, sizes) {
+                if(element == 'Grid') {
+                    this.addGrid(sizes);
+                }
+                else if(element == 'Container') {
+                    this.addContainer();
+                }
+                else {
+                    this.$store.commit('insertElem', element)
+                }
+                this.$modal.hide('add-element');
+            }
+        },
+    }
 </script>
