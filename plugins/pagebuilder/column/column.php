@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Plugin
+ * @package    Joomla.Plugin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -29,7 +29,7 @@ class PlgPagebuilderColumn extends CMSPlugin
 	/**
 	 * Add column element which can be a child of grids
 	 *
-	 * @param   array $params Data for the element
+	 * @param   array  $params  Data for the element
 	 *
 	 * @return  array   A list of icon definition associative arrays
 	 *
@@ -50,7 +50,7 @@ class PlgPagebuilderColumn extends CMSPlugin
 	/**
 	 * Get rendering options for frontend templates
 	 *
-	 * @param   array $data options set in pagebuilder editor like classes, size etc.
+	 * @param   array  $data  Options set in pagebuilder editor like classes, size etc.
 	 *
 	 * @return  array   A list of icon definition associative arrays
 	 *
