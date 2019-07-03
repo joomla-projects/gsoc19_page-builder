@@ -36,8 +36,8 @@
 				   :i="addElement.i"
 				   :w="addElement.w"
 				   :h="addElement.h"
-				   :x="this.nextFreePosition.x"
-				   :y="this.nextFreePosition.y"
+				   :x="this.lastPosition.x"
+				   :y="this.lastPosition.y"
 		>
 			<button class="column-btn btn btn-outline-info" type="button" @click="addColumn">
 				<span class="icon-new"></span>
@@ -68,10 +68,8 @@
       },
       nextFreePosition: function () {
         let nextPosition = 0;
-        let occupied;
         let rowNumber = 0;
-
-        occupied = this.gridData.children.find(child => child.x === nextPosition && child.y === rowNumber);
+        let occupied = this.gridData.children.find(child => child.x === nextPosition && child.y === rowNumber);
 
         while (occupied) {
           nextPosition += occupied.w;
@@ -88,6 +86,41 @@
         }
 
         return {x: nextPosition, y: rowNumber};
+      },
+      lastPosition: function () {
+        let lastChild;
+        let lastX = 0;
+        let lastY = 0;
+
+        // Get Y
+        this.gridData.children.forEach(child => {
+          lastY = Math.max(lastY, child.y);
+
+          if (child.y === lastY && child.h > 1) {
+            lastY += child.h;
+          }
+        });
+
+        // Get X
+        const inLastRow = this.gridData.children.filter(child => {
+          return lastY === child.y || lastY === child.y + child.h - 1;
+        });
+
+        inLastRow.forEach(child => {
+          lastX = Math.max(lastX, child.x);
+          if (child.x === lastX) {
+            lastChild = child;
+          }
+        });
+
+        lastX += lastChild ? lastChild.w : 0;
+
+        if (lastX >= this.gridSize) {
+          lastX -= this.gridSize;
+          lastY += 1;
+        }
+
+        return {x: lastX, y: lastY};
       }
     },
     data() {
