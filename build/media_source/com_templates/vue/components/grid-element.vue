@@ -4,7 +4,21 @@
 				 :is-draggable="true"
 				 :is-resizable="false"
 	>
-		<grid-item v-for="column in gridData.children" :key="column.i" class="col-wrapper"
+		<span>{{ grid.type }} <span v-if="grid.options.class"><i>.{{grid.options.class}}</i></span></span>
+
+		<div class="btn-wrapper">
+			<button type="button" class="btn btn-lg" @click="$emit('editElement', grid)">
+				<span class="icon-options"></span>
+				<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
+			</button>
+			<button type="button" class="btn btn-lg" @click="$emit('deleteElement', grid)">
+				<span class="icon-cancel"></span>
+				<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
+			</button>
+		</div>
+
+		<grid-item v-for="column in gridData.children" :key="column.i"
+				   :class="['col-wrapper', column.type]"
 				   :is-resizable="true"
 				   :i="column.i"
 				   :w="column.w"
@@ -14,32 +28,43 @@
 				   @resized="changeSize"
 		>
 			<div class="btn-wrapper">
-				<button type="button" class="btn btn-lg" @click="$emit('editColumn', column)">
+				<button type="button" class="btn btn-lg" @click="$emit('editElement', column)">
 					<span class="icon-options"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
 				</button>
-				<button type="button" class="btn btn-lg" @click="deleteColumn(column)">
+				<button type="button" class="btn btn-lg" @click="$emit('deleteElement', column)">
 					<span class="icon-cancel"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
 				</button>
 			</div>
-			<span>{{column.w}} (<i>{{column.type}}<span
-					v-if="column.options.class">, .{{column.options.class}}</span></i>)</span>
-			<button type="button" class="btn btn-add btn-outline-info" @click="$emit('addElement', column)">
+
+			<span>{{column.type}} <span v-if="column.options.class"><i>.{{column.options.class}}</i></span></span>
+			<button v-if="childAllowed.includes(column.type)" type="button" class="btn btn-add btn-outline-info"
+					@click="$emit('addElement', column)">
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 			</button>
+
+			<div v-for="child in column.children" :key="column.i" :class="['row-wrapper', child.type]">
+				<grid-element :grid="child" :grid-size="child.options.gridSize || 12"
+							  @addElement="$emit('addElement', child)"
+							  @editElement="$emit('editElement', child)"
+							  @deleteElement="$emit('deleteElement', child)"
+				>
+				</grid-element>
+			</div>
 		</grid-item>
 
 		<!-- Button to add new elements into the grid -->
 		<grid-item :static="true"
-				   :i="addElement.i"
-				   :w="addElement.w"
-				   :h="addElement.h"
+				   :i="addElementBtn.i"
+				   :w="addElementBtn.w"
+				   :h="addElementBtn.h"
 				   :x="this.lastPosition.x"
 				   :y="this.lastPosition.y"
 		>
-			<button class="column-btn btn btn-outline-info" type="button" @click="addColumn">
+			<button v-if="childAllowed.includes(grid.type)" class="column-btn btn btn-outline-info" type="button"
+					@click="addColumn">
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_COLUMN') }}
 			</button>
@@ -49,6 +74,7 @@
 
 <script>
   import VueGridLayout from 'vue-grid-layout';
+  import {mapMutations, mapState} from 'vuex';
 
   export default {
     name: 'grid-element',
@@ -63,8 +89,11 @@
       },
     },
     computed: {
+      ...mapState([
+        'childAllowed'
+      ]),
       layout: function () {
-        return this.gridData.children.concat(this.addElement);
+        return this.gridData.children.concat(this.addElementBtn);
       },
       nextFreePosition: function () {
         let nextPosition = 0;
@@ -121,11 +150,11 @@
         }
 
         return {x: lastX, y: lastY};
-      }
+      },
     },
     data() {
       return {
-        addElement: {
+        addElementBtn: {
           i: 'add',
           w: 1,
           h: 1,
@@ -162,12 +191,6 @@
           y: this.nextFreePosition.y,
         });
       },
-      deleteColumn(column) {
-        const index = this.gridData.children.indexOf(column);
-        if (index > -1) {
-          this.gridData.children.splice(index, 1);
-        }
-      },
       mapGrid() {
         let x = 0;
         let y = 0;
@@ -190,7 +213,7 @@
         const child = this.gridData.children.find(child => child.i === i);
         child.options.size = newW;
         child.options.height = newH;
-      }
+      },
     }
   };
 </script>

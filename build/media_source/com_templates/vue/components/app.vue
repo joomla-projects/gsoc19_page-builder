@@ -19,27 +19,17 @@
 				</div>
 			</form>
 
-			<div v-for="element in elementArray" :key="grid.id" :class="['row-wrapper', element.type]">
-				<span>{{ element.type }} <span v-if="element.options.class"><i>.{{grid.options.class}}</i></span></span>
+			<div v-for="element in elementArray" :key="element.id" :class="['row-wrapper', element.type]">
 				<grid-element :grid="element" :grid-size="gridSize"
-							  @editColumn="editColumn"
 							  @addElement="addElement"
+							  @editElement="editElement"
+							  @deleteElement="deleteElement"
 				>
 				</grid-element>
-
-				<div class="btn-wrapper">
-					<button type="button" class="btn btn-lg" @click="editElement(element)">
-						<span class="icon-options"></span>
-						<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
-					</button>
-					<button type="button" class="btn btn-lg" @click="deleteElement(element)">
-						<span class="icon-cancel"></span>
-						<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
-					</button>
-				</div>
 			</div>
 
-			<button type="button" v-if="childAllowed.includes(element.type)" class="btn btn-add btn-outline-info btn-block" @click="addElement(element)">
+			<button class="btn btn-add btn-outline-info btn-block" type="button"
+					@click="addElement(elementArray)">
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 			</button>
@@ -86,7 +76,7 @@
       draggable
     },
     created() {
-      this.mapGrid((JSON.parse(document.getElementById('jform_params_grid').value)));
+      this.mapGrid(JSON.parse(document.getElementById('jform_params_grid').value));
       this.ifChildAllowed();
     },
     methods: {

@@ -74,6 +74,9 @@
             reset() {
                 this.selectElem = '';
             },
+            close() {
+              this.$modal.hide('modal-add-element');
+            },
             insertElem(element, sizes) {
                 if(element == 'Grid') {
                     this.addGrid(sizes);
