@@ -8,6 +8,7 @@ import editgrid from './components/settings/editgrid.vue';
 import addcolumn from './components/settings/addcolumn.vue';
 import editColumn from './components/settings/editcolumn.vue';
 import AddElementModal from './components/modals/modal-add-element.vue';
+import store from './components/store/store';
 
 // Add the plugins
 Vue.use(Translate);
@@ -26,5 +27,6 @@ Vue.config.productionTip = false;
 document.addEventListener('DOMContentLoaded',
   () => new Vue({
     el: '#com-templates',
+    store,
     render: h => h(App),
   }));

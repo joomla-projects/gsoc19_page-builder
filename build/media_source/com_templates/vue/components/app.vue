@@ -6,7 +6,7 @@
             <button type="button" class="btn btn-lg closebtn" @click="closeNav()">
                 <span class="icon-cancel"></span>
             </button>
-            <component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected' @reset="reset"></component>
+            <!-- <component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected' @reset="reset"></component> -->
         </div>
 
 		<div class="pagebuilder" id="pagebuilder">
@@ -86,31 +86,27 @@
 <script>
   import draggable from 'vuedraggable';
   import {notifications} from "./../app/Notifications";
+  import { mapGetters, mapMutations } from 'vuex';
 
   export default {
-    props: {
-      grid: {
-        default: function () {
-          return JSON.parse(document.getElementById('jform_params_grid').value);
+    computed: {
+        elementArray() {
+            return this.$store.state.elementArray;
         },
-      },
+        childAllowed() {
+            return this.$store.state.childAllowed;
+        },
+        allowedChildren() {
+            return this.$store.state.allowedChildren;
+        }
     },
     data() {
-      return {
-        sizeArray: [],
-        grid_selected: '',
-        column_selected: '',
-        elementArray: this.grid,
-        showSettings: false,
-        selectedSettings: '',
-        parent: '',
-        allowedChildren: [],
-        childAllowed: [],
-        elements: window.Joomla.getOptions('com_templates').elements
-      };
+        return {
+            // elementArray: this.grid,
+        };
     },
     watch: {
-      grid: {
+      elementArray: {
         handler: function (newVal) {
           document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
         },
@@ -121,175 +117,76 @@
         draggable
     },
     created() {
-        this.elements.forEach(el => {
-            if(el.children)
-                this.childAllowed.push(el.name);
-        })
+        this.mapGrid((JSON.parse(document.getElementById('jform_params_grid').value)));
+        this.ifChildAllowed();
     },
     methods: {
-      addGrid(sizes) {
-        this.sizeArray = [];
-        sizes.forEach(size => {
-          this.sizeArray.push({
-            type: 'Column',
-            options: {
-              size: 'col-' + size,
-              class: ''
-            },
-            children: []
-          });
-        });
-        if(this.parent.children) {
-          this.parent.children.push({
-            type: 'Grid',
-            options: {
-              class: '',
-            },
-            children: this.sizeArray
-          });
-        }
-        else {
-          this.parent.push({
-            type: 'Grid',
-            options: {
-              class: '',
-            },
-            children: this.sizeArray
-          });
-        }
-        this.reset();
-        this.hide('add-grid');
-      },
-      deleteElement(element) {
-        const index = this.elementArray.indexOf(element);
-        if (index > -1)
-          this.elementArray.splice(index, 1);
-      },
-      addColumn(grid) {
-        this.reset();
-        this.showSettings = true;
-        this.grid_selected = grid;
-        this.selectedSettings = 'add-column';
-      },
-      deleteColumn(grid, column) {
-        const index = grid.children.indexOf(column);
-        if (index > -1) {
-          grid.children.splice(index, 1);
-        }
-      },
-      editPosition(grid, column) {
-        this.reset();
-        this.showSettings = true;
-        this.grid_selected = grid;
-        this.column_selected = column;
-        this.selectedSettings = 'edit-position';
-      },
-      editColumn(column) {
-        this.reset();
-        document.getElementById("sidebar").style.width = "250px";
-        document.getElementById("pagebuilder").style.marginLeft = "250px";
-        this.showSettings = true;
-        this.column_selected = column;
-        this.selectedSettings = 'edit-column';
-      },
-      editElement(element) {
-        this.reset();
-        document.getElementById("sidebar").style.width = "250px";
-        document.getElementById("pagebuilder").style.marginLeft = "250px";
-        this.showSettings = true;
-        this.selectedSettings = 'edit-grid';
-        this.grid_selected = element;
-      },
-      reset() {
-        this.showSettings = false;
-        this.grid_selected = '';
-        this.column_selected = '';
-        this.parent = '';
-        this.closeNav();
-      },
-      log(el) {
-        console.log(el);
-      },
-      show(name) {
-        this.$modal.show(name);
-      },
-      hide(name) {
-        this.$modal.hide(name);
-      },
-      addContainer() {
-        if(this.parent.children) {
-          this.parent.children.push({
-            type: 'Container',
-            options: {
-              class: ''
-            },
-            children: []
-          })
-        }
-        else {
-          this.parent.push({
-            type: 'Container',
-            options: {
-              class: ''
-            },
-            children: []
-          })
-        }
-      },
-      addElement(parent) {
-        this.fillAllowedChildren(parent.type);
-        this.parent = parent;
-        this.show('add-element');
-      },
-      insertElem(element,sizes) {
-        if(element == 'Grid') {
-          this.addGrid(sizes);
-        }
-        else if(element == 'Container') {
-          this.addContainer();
-        }
-        else {
-          if(this.parent.children) {
-            this.parent.children.push({
-              type: element,
-              options: {
-                class: ''
-              },
-              children: []
-            })
-          }
-          else {
-            this.parent.push({
-              type: element,
-              options: {
-                class: ''
-              },
-              children: []
-            })
-          }
-        }
-        this.hide('add-element');
-      },
-      fillAllowedChildren(name) {
-        this.allowedChildren = [];
-
-        // Check if parent is root
-        if(name == undefined)
-          name = 'root';
-        this.elements.forEach(el => {
-          el.parent.forEach(item => {
-            if(item == name)
-              this.allowedChildren.push({
-                'name': el.name,
-                'description': el.description
-              });
-          })
-        })
-      },
-      closeNav() {
+        ...mapMutations([
+            'ifChildAllowed',
+            'addGrid',
+            'deleteElement',
+            'addColumn',
+            'editColumn',
+            'editElement',
+            'addContainer',
+            'fillAllowedChildren',
+            'mapGrid'
+        ]),
+        deleteColumn(grid, column) {
+            const index = grid.children.indexOf(column);
+            if (index > -1) {
+            grid.children.splice(index, 1);
+            }
+        },
+        editPosition(grid, column) {
+            this.gridSelected = grid;
+            this.columnSelected = column;
+            this.selectedSettings = 'edit-position';
+        },
+        show(name) {
+            this.$modal.show(name);
+        },
+        hide(name) {
+            this.$modal.hide(name);
+        },
+        addElement(parent) {
+            this.fillAllowedChildren(parent.type);
+            this.parent = parent;
+            this.show('add-element');
+        },
+        insertElem(element,sizes) {
+            if(element == 'Grid') {
+                this.addGrid(sizes);
+            }
+            else if(element == 'Container') {
+                this.addContainer();
+            }
+            else {
+                if(this.parent.children) {
+                    this.parent.children.push({
+                    type: element,
+                    options: {
+                        class: ''
+                    },
+                    children: []
+                    })
+                }
+                else {
+                    this.parent.push({
+                    type: element,
+                    options: {
+                        class: ''
+                    },
+                    children: []
+                    })
+            }
+            }
+            this.hide('add-element');
+        },
+        closeNav() {
             document.getElementById("sidebar").style.width = "0";
             document.getElementById("pagebuilder").style.marginLeft = "0";
-      }
+        }
     }
   }
 </script>
