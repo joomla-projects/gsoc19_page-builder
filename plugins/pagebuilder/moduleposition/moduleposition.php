@@ -1,6 +1,7 @@
 <?php
 /**
  * @package    Joomla.Plugin
+ * @subpackage Page Builder
  *
  * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -40,10 +41,11 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 		Text::script('PLG_PAGEBUILDER_MODULEPOSITION_NAME');
 
 		return array(
-			'name'     => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
-			'id'       => 'plg_pagebuilder_moduleposition',
-			'parent'   => array('root', 'grid', 'container'),
-			'children' => false
+			'name'     		=> Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
+			'description' 	=> Text::_('PLG_PAGEBUILDER_MODULEPOSITION_DESC'),
+			'id'      	 	=> 'plg_pagebuilder_moduleposition',
+			'parent'   		=> array('root','Grid','Container'),
+			'children' 		=> false
 		);
 	}
 

@@ -1,6 +1,7 @@
 <?php
 /**
  * @package    Joomla.Plugin
+ * @subpackage Page Builder
  *
  * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -40,10 +41,11 @@ class PlgPagebuilderContainer extends CMSPlugin
 		Text::script('PLG_PAGEBUILDER_CONTAINER_NAME');
 
 		return array(
-			'name'     => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
-			'id'       => 'plg_pagebuilder_container',
-			'parent'   => array('root'),
-			'children' => true
+			'name'     		=> Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
+			'description' 	=> Text::_('PLG_PAGEBUILDER_CONTAINER_DESC'),
+			'id'       		=> 'plg_pagebuilder_container',
+			'parent'   		=> array('root'),
+			'children' 		=> true
 		);
 	}
 

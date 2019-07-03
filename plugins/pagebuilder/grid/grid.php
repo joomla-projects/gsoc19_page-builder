@@ -1,6 +1,7 @@
 <?php
 /**
  * @package    Joomla.Plugin
+ * @subpackage Page Builder
  *
  * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -40,10 +41,11 @@ class PlgPagebuilderGrid extends CMSPlugin
 		Text::script('PLG_PAGEBUILDER_GRID_NAME');
 
 		return array(
-			'name'     => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
-			'id'       => 'plg_pagebuilder_grid',
-			'parent'   => array('root', 'container'),
-			'children' => true
+			'name'     		=> Text::_('PLG_PAGEBUILDER_GRID_NAME'),
+			'description' 	=> Text::_('PLG_PAGEBUILDER_GRID_DESC'),
+			'id'       		=> 'plg_pagebuilder_grid',
+			'parent'   		=> array('root','Container'),
+			'children' 		=> true
 		);
 	}
 

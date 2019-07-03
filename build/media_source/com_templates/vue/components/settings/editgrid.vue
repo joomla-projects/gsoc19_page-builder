@@ -2,7 +2,7 @@
     <div>
         <!-- Settings for editing grids -->
         <fieldset>
-            <legend>{{ translate('COM_TEMPLATES_EDIT_GRID') }}</legend>
+            <legend>{{ translate('COM_TEMPLATES_EDIT') }}</legend>
             <div class="form-group">
                 <label for="grid_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
                 <input id="grid_class" name="grid_class" type="text" v-model="grid_class">
