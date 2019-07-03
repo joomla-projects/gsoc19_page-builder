@@ -93,12 +93,8 @@ const mutations = {
     }
   },
   fillAllowedChildren(state, name) {
+    name = name || 'root';
     state.allowedChildren = [];
-
-    // Check if parent is root
-    if (!name) {
-      name = 'root';
-    }
 
     state.elements.forEach(el => {
       el.parent.forEach(item => {
@@ -120,7 +116,7 @@ const mutations = {
       payload.element.children.splice(index, 1);
     }
   },
-  insertElem(state, element) {
+  insertElement(state, element) {
     const newElement = {
       type: element,
       options: {

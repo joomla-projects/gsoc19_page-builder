@@ -82,10 +82,7 @@
     methods: {
       ...mapMutations([
         'ifChildAllowed',
-        'addGrid',
         'deleteElement',
-        'addColumn',
-        'editColumn',
         'editElement',
         'addContainer',
         'fillAllowedChildren',
