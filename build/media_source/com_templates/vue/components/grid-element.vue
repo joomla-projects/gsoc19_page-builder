@@ -173,6 +173,11 @@
         'editElement',
 		'fillAllowedChildren'
       ]),
+      addElement(column) {
+        this.fillAllowedChildren(column.type);
+        this.$store.commit('addElement', column);
+        this.$modal.show('add-element');
+      },
       addColumn() {
         const defaultSize = 1;
         this.lastIndex += 1;
