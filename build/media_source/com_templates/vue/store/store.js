@@ -17,8 +17,8 @@ const state = {
 const actions = {};
 
 const mutations = {
-  mapGrid(state, payload) {
-    state.elementArray = payload;
+  mapGrid(state, elements) {
+    state.elementArray = elements;
   },
   ifChildAllowed(state) {
     state.elements.forEach(el => {
@@ -26,6 +26,49 @@ const mutations = {
         state.childAllowed.push(el.name);
       }
     });
+  },
+  fillAllowedChildren(state, name) {
+    name = name || 'root';
+    state.allowedChildren = [];
+
+    state.elements.forEach(el => {
+      el.parent.forEach(item => {
+        if (item === name) {
+          state.allowedChildren.push({
+            'name': el.name,
+            'description': el.description
+          });
+        }
+      });
+    });
+  },
+  insertElement(state, element) {
+    const newElement = {
+      type: element,
+      options: {
+        class: ''
+      },
+      children: []
+    };
+    if (state.parent.children) {
+      state.parent.children.push(newElement);
+    } else {
+      state.parent.push(newElement);
+    }
+  },
+  addElement(state, parent) {
+    state.parent = parent;
+  },
+  editElement(state, element) {
+    mutations.openNav();
+    state.selectedSettings = 'edit-grid';
+    state.gridSelected = element;
+  },
+  deleteElement(state, element) {
+    const index = state.elementArray.indexOf(element);
+    if (index > -1) {
+      state.elementArray.splice(index, 1);
+    }
   },
   addGrid(state, sizes) {
     const newElements = [];
@@ -55,28 +98,15 @@ const mutations = {
       state.parent.push(newGrid);
     }
   },
-  deleteElement(state, element) {
-    const index = state.elementArray.indexOf(element);
-    if (index > -1) {
-      state.elementArray.splice(index, 1);
-    }
-  },
   addColumn(state, grid) {
     state.gridSelected = grid;
     state.selectedSettings = 'add-column';
   },
-  editElement(state, element) {
-    mutations.openNav();
-    state.selectedSettings = 'edit-grid';
-    state.gridSelected = element;
-  },
-  closeNav() {
-    document.getElementById('sidebar').style.width = '0';
-    document.getElementById('pagebuilder').style.marginLeft = '0';
-  },
-  openNav() {
-    document.getElementById('sidebar').style.width = '250px';
-    document.getElementById('pagebuilder').style.marginLeft = '250px';
+  deleteColumn(state, payload) {
+    const index = payload.element.children.indexOf(payload.column);
+    if (index > -1) {
+      payload.element.children.splice(index, 1);
+    }
   },
   addContainer(state) {
     const newContainer = {
@@ -92,44 +122,14 @@ const mutations = {
       state.parent.push(newContainer);
     }
   },
-  fillAllowedChildren(state, name) {
-    name = name || 'root';
-    state.allowedChildren = [];
-
-    state.elements.forEach(el => {
-      el.parent.forEach(item => {
-        if (item === name) {
-          state.allowedChildren.push({
-            'name': el.name,
-            'description': el.description
-          });
-        }
-      });
-    });
+  closeNav() {
+    document.getElementById('sidebar').style.width = '0';
+    document.getElementById('pagebuilder').style.marginLeft = '0';
   },
-  addElement(state, parent) {
-    state.parent = parent;
+  openNav() {
+    document.getElementById('sidebar').style.width = '250px';
+    document.getElementById('pagebuilder').style.marginLeft = '250px';
   },
-  deleteColumn(state, payload) {
-    const index = payload.element.children.indexOf(payload.column);
-    if (index > -1) {
-      payload.element.children.splice(index, 1);
-    }
-  },
-  insertElement(state, element) {
-    const newElement = {
-      type: element,
-      options: {
-        class: ''
-      },
-      children: []
-    };
-    if (state.parent.children) {
-      state.parent.children.push(newElement);
-    } else {
-      state.parent.push(newElement);
-    }
-  }
 };
 
 const getters = {};
