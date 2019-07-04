@@ -18,18 +18,21 @@
 
             <div class="btn-group">
                 <button type="button" class="btn btn-success" @click="editPosition">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                <button type="button" class="btn btn-danger" @click="$emit('reset')">{{ translate('JTOOLBAR_BACK') }}</button>
+                <button type="button" class="btn btn-danger" @click="closeNav">{{ translate('JTOOLBAR_CLOSE') }}</button>
             </div>
         </fieldset>
     </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 export default {
     name: 'edit-position',
-    props: {
-        grid: {},
-        column: {},
+    computed: {
+        ...mapState([
+            'columnSelected'
+        ])
     },
     data() {
         return {
@@ -37,12 +40,14 @@ export default {
         }
     },
     methods: {
+        closeNav() {
+            this.module_chrome = 'none';
+            this.$store.commit('closeNav');
+        },
         editPosition() {
             if (this.module_chrome !== 'none') {
-                this.column.children[0].options.module_chrome = this.module_chrome;
+                this.columnSelected.children[0].options.module_chrome = this.module_chrome;
             }
-            this.module_chrome = 'none';
-            this.$emit('reset');
         }
     },
 }

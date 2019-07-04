@@ -2,7 +2,7 @@
         <draggable v-model="element.children" class="row">
             <div class="col-wrapper" v-for="column in element.children" :class="[column.options.size, (column.type == 'Module_Position') ? 'col-12' : '', column.type]">
                 <div class="btn-wrapper">
-                <button type="button" class="btn btn-lg" @click="editColumn(column)">
+                <button type="button" class="btn btn-lg" @click="editElement(column)">
                     <span class="icon-options"></span>
                     <span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
                 </button>
@@ -42,7 +42,7 @@
             ...mapMutations([
                 'deleteColumn',
                 'fillAllowedChildren',
-                'editColumn'
+                'editElement'
             ]),
             addElements(column) {
                 this.fillAllowedChildren(column.type);

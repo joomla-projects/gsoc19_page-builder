@@ -1,16 +1,15 @@
 <template>
 	<div>
-        <div ref="sidebar" class="sidebar">
+        <div id="sidebar" class="sidebar">
             <h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
 			<hr>
             <button type="button" class="btn btn-lg closebtn" @click="closeNav()">
                 <span class="icon-cancel"></span>
             </button>
-            <!-- TODO Add to store -->
-            <!-- <component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected' @reset="reset"></component> -->
+            <component :is="selectedSettings" class="form-group"></component>
         </div>
 
-		<div class="pagebuilder" ref="pagebuilder">
+		<div class="pagebuilder" id="pagebuilder">
 			<h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
 			<!-- Element -->
 			<draggable v-model="elementArray" ghost-class="drop">
@@ -38,10 +37,6 @@
                                     <div v-if="child.type == 'Grid'">
                                         <grid :element="child"></grid>
 
-                                        <button class="btn btn-add btn-outline-info" type="button" @click="addColumn(child)">
-                                        <span class="icon-new"></span>
-                                        {{ translate('COM_TEMPLATES_ADD_COLUMN') }}
-                                        </button>
                                     </div>
 
                                     <button v-if="childAllowed.includes(child.type)" class="btn btn-add btn-outline-info" type="button" @click="addElement(child)">
@@ -57,10 +52,6 @@
                         <div v-if="element.type == 'Grid'">
                             <grid :element="element"></grid> 
 
-                            <button class="btn btn-add btn-outline-info" type="button" @click="addColumn(element)">
-                                <span class="icon-new"></span>
-                                {{ translate('COM_TEMPLATES_ADD_COLUMN') }}
-                            </button>
                         </div>
                         <!-- Grid Ends-->
 
@@ -94,16 +85,17 @@
                 'elementArray',
                 'childAllowed',
                 'parent',
-                'allowedChildren'
+                'allowedChildren',
+                'selectedSettings'
             ]),
         },
         watch: {
-        elementArray: {
-            handler: function (newVal) {
-                document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
+            elementArray: {
+                handler: function (newVal) {
+                    document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
+                },
+                deep: true,
             },
-            deep: true,
-        },
         },
         components: {
             draggable
@@ -117,8 +109,6 @@
                 'ifChildAllowed',
                 'addGrid',
                 'deleteElement',
-                'addColumn',
-                'editColumn',
                 'editElement',
                 'addContainer',
                 'fillAllowedChildren',

@@ -4,9 +4,7 @@ import App from './components/app.vue';
 import Translate from './plugins/translate';
 import Grid from './components/elements/grid.vue';
 import editposition from './components/settings/editposition.vue';
-import editgrid from './components/settings/editgrid.vue';
-import addcolumn from './components/settings/addcolumn.vue';
-import editColumn from './components/settings/editcolumn.vue';
+import editelement from './components/settings/editelement.vue';
 import AddElementModal from './components/modals/modal-add-element.vue';
 import store from './store/store';
 
@@ -17,9 +15,7 @@ Vue.use(VueJsModal);
 // Use the Components
 Vue.component('grid', Grid);
 Vue.component('edit-position', editposition);
-Vue.component('edit-grid', editgrid);
-Vue.component('add-column', addcolumn);
-Vue.component('edit-column', editColumn);
+Vue.component('edit-element', editelement);
 Vue.component('add-element-modal', AddElementModal);
 
 Vue.config.productionTip = false;

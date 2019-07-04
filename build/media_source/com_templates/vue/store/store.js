@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 const state = {
     sizeArray: [],
-    gridSelected: '',
+    elementSelected: '',
     columnSelected: '',
     selectedSettings: '',
     parent: '',
@@ -14,10 +14,6 @@ const state = {
     elements: window.Joomla.getOptions('com_templates').elements,
     elementArray: {}
 };
-
-const actions = {
-
-}
 
 const mutations = {
     mapGrid(state, payload) {
@@ -65,25 +61,15 @@ const mutations = {
         if (index > -1)
         state.elementArray.splice(index, 1);
     },
-    addColumn(state, grid) {
-        state.gridSelected = grid;
-        state.selectedSettings = 'add-column';
-    },
-    editColumn(state, column) {
-        this.$refs.sidebar.style.width = "250px";
-        this.$refs.pagebuilder.style.marginLeft = "250px";
-        state.columnSelected = column;
-        state.selectedSettings = 'edit-column';
-    },
     editElement(state, element) {
-        this.$refs.sidebar.style.width = "250px";
-        this.$refs.pagebuilder.style.marginLeft = "250px";
-        state.selectedSettings = 'edit-grid';
-        state.gridSelected = element;
+        state.selectedSettings = 'edit-element';
+        state.elementSelected = element;
+        document.getElementById("sidebar").style.width = "250px";
+        document.getElementById("pagebuilder").style.marginLeft = "250px";
     },
     closeNav(state) {
-        this.$refs.sidebar.style.width = "0";
-        this.$refs.pagebuilder.style.marginLeft = "0";
+        document.getElementById("sidebar").style.width = "0";
+        document.getElementById("pagebuilder").style.marginLeft = "0";
     },
     addContainer(state) {
         if(state.parent.children) {
@@ -149,16 +135,13 @@ const mutations = {
                 children: []
             })
         }
-    }
-}
-
-const getters = {
-
+    },
+    modifyElement(state, payload) {
+        state.elementSelected.options.class = payload;
+    },
 }
 
 export default new Vuex.Store({
     state,
-    getters,
-    actions,
     mutations,
 })
