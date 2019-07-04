@@ -36,6 +36,10 @@ select {
 
     &:hover {
       background-color: #ececec;
+
+      > .btn-wrapper {
+        visibility: visible;
+      }
     }
 
     > span:first-of-type {

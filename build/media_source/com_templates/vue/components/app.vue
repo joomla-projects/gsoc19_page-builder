@@ -19,17 +19,12 @@
 				</div>
 			</form>
 
+			<!-- TODO: make the rows sortable again ('draggable' breaks resizable elements) -->
 			<div v-for="element in elementArray" :key="element.id" :class="['row-wrapper', element.type]">
-				<grid-element :grid="element" :grid-size="gridSize"
-							  @addElement="addElement"
-							  @editElement="editElement"
-							  @deleteElement="deleteElement"
-				>
-				</grid-element>
+				<grid-element :grid="element" :grid-size="gridSize"></grid-element>
 			</div>
 
-			<button class="btn btn-add btn-outline-info btn-block" type="button"
-					@click="addElement(elementArray)">
+			<button @click="addElement(elementArray)" class="btn btn-add btn-outline-info btn-block" type="button">
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 			</button>

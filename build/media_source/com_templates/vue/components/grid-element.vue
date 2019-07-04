@@ -2,16 +2,16 @@
 	<grid-layout :layout="layout"
 				 :col-num="gridSize"
 				 :is-draggable="true"
-				 :is-resizable="false"
+				 :is-resizable="true"
 	>
 		<span>{{ grid.type }} <span v-if="grid.options.class"><i>.{{grid.options.class}}</i></span></span>
 
 		<div class="btn-wrapper">
-			<button type="button" class="btn btn-lg" @click="$emit('editElement', grid)">
+			<button type="button" class="btn btn-lg" @click="editElement(grid)">
 				<span class="icon-options"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
 			</button>
-			<button type="button" class="btn btn-lg" @click="$emit('deleteElement', grid)">
+			<button type="button" class="btn btn-lg" @click="deleteElement(grid)">
 				<span class="icon-cancel"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_GRID') }}</span>
 			</button>
@@ -19,7 +19,6 @@
 
 		<grid-item v-for="column in gridData.children" :key="column.i"
 				   :class="['col-wrapper', column.type]"
-				   :is-resizable="true"
 				   :i="column.i"
 				   :w="column.w"
 				   :h="column.h"
@@ -28,11 +27,11 @@
 				   @resized="changeSize"
 		>
 			<div class="btn-wrapper">
-				<button type="button" class="btn btn-lg" @click="$emit('editElement', column)">
+				<button type="button" class="btn btn-lg" @click="editElement(column)">
 					<span class="icon-options"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
 				</button>
-				<button type="button" class="btn btn-lg" @click="$emit('deleteElement', column)">
+				<button type="button" class="btn btn-lg" @click="deleteColumn(column)">
 					<span class="icon-cancel"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
 				</button>
@@ -40,18 +39,13 @@
 
 			<span>{{column.type}} <span v-if="column.options.class"><i>.{{column.options.class}}</i></span></span>
 			<button v-if="childAllowed.includes(column.type)" type="button" class="btn btn-add btn-outline-info"
-					@click="$emit('addElement', column)">
+					@click="addElement(column)">
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 			</button>
 
 			<div v-for="child in column.children" :key="column.i" :class="['row-wrapper', child.type]">
-				<grid-element :grid="child" :grid-size="child.options.gridSize || 12"
-							  @addElement="$emit('addElement', child)"
-							  @editElement="$emit('editElement', child)"
-							  @deleteElement="$emit('deleteElement', child)"
-				>
-				</grid-element>
+				<grid-element :grid="child" :grid-size="child.options.gridSize || 12"></grid-element>
 			</div>
 		</grid-item>
 
@@ -64,7 +58,7 @@
 				   :y="this.lastPosition.y"
 		>
 			<button v-if="childAllowed.includes(grid.type)" class="column-btn btn btn-outline-info" type="button"
-					@click="addColumn">
+					@click="addColumn(grid)">
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_COLUMN') }}
 			</button>
@@ -174,12 +168,17 @@
       this.mapGrid();
     },
     methods: {
+      ...mapMutations([
+        'deleteColumn',
+        'deleteElement',
+        'editElement'
+      ]),
       addColumn() {
         const defaultSize = 1;
         this.lastIndex += 1;
 
         this.gridData.children.push({
-          type: 'column',
+          type: 'Column',
           options: {
             size: defaultSize,
           },
