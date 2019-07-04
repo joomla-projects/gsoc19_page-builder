@@ -26,7 +26,7 @@ select {
 
   .row-wrapper {
     position: relative;
-    border: 2px dashed white;
+    border: 2px dashed #bababa;
     padding: 2rem 0;
     min-height: 15rem;
     // Repeating background needed to overwrite Vuetify
@@ -37,14 +37,15 @@ select {
     &:hover {
       background-color: #ececec;
 
-      > .btn-wrapper {
+      .grid-btn-wrapper {
         visibility: visible;
+        top: -3rem;
       }
     }
 
-    > span:first-of-type {
+    .grid-desc {
       position: absolute;
-      top: .3rem;
+      top: -1.5rem;
       left: .3rem;
     }
 
@@ -67,10 +68,11 @@ select {
       }
     }
 
-    .btn-wrapper {
+    .btn-wrapper,
+    .grid-btn-wrapper {
       visibility: hidden;
       position: absolute;
-      top: -1rem;
+      top: 0;
       right: 0;
       background-color: #fff;
       border: 1px solid #b1b1b1;
@@ -101,18 +103,21 @@ select {
       background-color: #def6dd;
       border: 2px solid white;
 
+      > .desc {
+        position: absolute;
+        top: .3rem;
+        left: .3rem;
+      }
+
       &:hover {
         background-color: #b8dbb6;
         cursor: grab;
 
         > .btn-wrapper {
           visibility: visible;
+          top: -1rem;
         }
       }
-    }
-
-    .position {
-      border: 0.1em solid;
     }
   }
 
@@ -128,13 +133,13 @@ select {
   // Modal
   .image-selection {
 
-    div.icon {
+    .icon {
       border: 2px solid transparent;
       margin-top: auto;
       margin-bottom: auto;
     }
 
-    div.icon:hover {
+    .icon:hover {
       border: 0.1em solid #108193;
     }
 

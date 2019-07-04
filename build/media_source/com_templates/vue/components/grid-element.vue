@@ -4,9 +4,8 @@
 				 :is-draggable="true"
 				 :is-resizable="true"
 	>
-		<span>{{ grid.type }} <span v-if="grid.options.class"><i>.{{grid.options.class}}</i></span></span>
-
-		<div class="btn-wrapper">
+		<span class="grid-desc">{{ grid.type }} <span v-if="grid.options.class"><i>.{{grid.options.class}}</i></span></span>
+		<div class="grid-btn-wrapper">
 			<button type="button" class="btn btn-lg" @click="editElement(grid)">
 				<span class="icon-options"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
@@ -37,7 +36,7 @@
 				</button>
 			</div>
 
-			<span>{{column.type}} <span v-if="column.options.class"><i>.{{column.options.class}}</i></span></span>
+			<span class="desc">{{column.type}} <span v-if="column.options.class"><i>.{{column.options.class}}</i></span></span>
 			<button v-if="childAllowed.includes(column.type)" type="button" class="btn btn-add btn-outline-info"
 					@click="addElement(column)">
 				<span class="icon-new"></span>
@@ -171,7 +170,8 @@
       ...mapMutations([
         'deleteColumn',
         'deleteElement',
-        'editElement'
+        'editElement',
+		'fillAllowedChildren'
       ]),
       addColumn() {
         const defaultSize = 1;
