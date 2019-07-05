@@ -1,0 +1,1 @@
+.container{border:1px solid green}.column{min-height:5rem;border:1px solid #000;background-color:rgba(244,255,123,.63)}.column:nth-of-type(odd){background-color:rgba(136,255,231,.48)}

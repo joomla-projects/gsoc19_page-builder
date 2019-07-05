@@ -34,6 +34,7 @@ $wa->enableAsset('template.apodis.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css');
+HTMLHelper::_('stylesheet', 'media/vendor/bootstrap/css/bootstrap-grid.css');
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>

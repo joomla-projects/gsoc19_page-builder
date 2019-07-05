@@ -4,15 +4,14 @@
   padding: .5rem;
 }
 
-fieldset {
-  .btn-group {
-    button.btn-danger {
-      margin-left: 0.75rem!important;
-    }
-  }
+fieldset .btn-group .btn-danger {
+  margin-left: 0.75rem !important;
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   border-style: solid;
   background-color: #ffffff;
   color: #000000;
@@ -23,12 +22,11 @@ select {
 }
 
 .pagebuilder {
-  // Min-height needed for left drawer
-  min-height: 30em;
+  transition: margin-left .35s;
 
   .row-wrapper {
     position: relative;
-    border: 1px dashed #4b4b4b;
+    border: 2px dashed #bababa;
     padding: 2rem 0;
     min-height: 15rem;
     // Repeating background needed to overwrite Vuetify
@@ -38,6 +36,17 @@ select {
 
     &:hover {
       background-color: #ececec;
+
+      .grid-btn-wrapper {
+        visibility: visible;
+        top: -3rem;
+      }
+    }
+
+    .grid-desc {
+      position: absolute;
+      top: -1.5rem;
+      left: .3rem;
     }
 
     button {
@@ -59,11 +68,14 @@ select {
       }
     }
 
-    .btn-wrapper {
+    .btn-wrapper,
+    .grid-btn-wrapper {
       visibility: hidden;
       position: absolute;
       top: 0;
-      right: .5rem;
+      right: 0;
+      background-color: #fff;
+      border: 1px solid #b1b1b1;
 
       > button {
         padding: .5rem 1rem;
@@ -87,9 +99,15 @@ select {
     }
 
     .col-wrapper {
-      background-color: #def6dd;
-      border: 1px dashed #0b3257;
       position: relative;
+      background-color: #def6dd;
+      border: 2px solid white;
+
+      > .desc {
+        position: absolute;
+        top: .3rem;
+        left: .3rem;
+      }
 
       &:hover {
         background-color: #b8dbb6;
@@ -97,12 +115,9 @@ select {
 
         > .btn-wrapper {
           visibility: visible;
+          top: -1rem;
         }
       }
-    }
-
-    .position {
-      border: 0.1em solid;
     }
   }
 
@@ -118,19 +133,52 @@ select {
   // Modal
   .image-selection {
 
+    .icon {
+      border: 2px solid transparent;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
     .icon:hover {
-      background: #4d4d4d;
+      border: 0.1em solid #108193;
     }
 
     img {
-      margin: 1rem 0;
-      width: 9rem;
+      display: block;
+      margin: 1rem auto 0 auto;
+      width: 75%;
+    }
+
+    p {
+      text-align: center;
+    }
+  }
+
+  .nav .nav-tabs {
+    background-color: #ffffff;
+
+    .nav-link {
+      color: #3073bb;
     }
   }
 }
 
-// Vuetify
-.d-flex > *,
-.d-inline-flex > * {
-  flex: none !important;
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1050;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: white;
+  transition: 0.35s;
+  padding: 7.5px 0 0 15px;
+
+  .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    margin-left: 50px;
+  }
 }

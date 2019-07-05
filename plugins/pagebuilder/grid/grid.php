@@ -1,9 +1,10 @@
 <?php
 /**
- * @package     Joomla.Plugin
+ * @package    Joomla.Plugin
+ * @subpackage Page Builder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -40,10 +41,44 @@ class PlgPagebuilderGrid extends CMSPlugin
 		Text::script('PLG_PAGEBUILDER_GRID_NAME');
 
 		return array(
-			'name'     => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
-			'id'       => 'plg_pagebuilder_grid',
-			'parent'   => array('root', 'container'),
-			'children' => true
+			'name'     		=> Text::_('PLG_PAGEBUILDER_GRID_NAME'),
+			'description' 	=> Text::_('PLG_PAGEBUILDER_GRID_DESC'),
+			'id'       		=> 'plg_pagebuilder_grid',
+			'parent'   		=> array('root','Container'),
+			'children' 		=> true
+		);
+	}
+
+	/**
+	 * Get rendering options for frontend templates
+	 *
+	 * @param   array  $data  Options set in pagebuilder editor like classes, size etc.
+	 *
+	 * @return  array   A list of icon definition associative arrays
+	 *
+	 * @since   4.0.0
+	 */
+	public function onRender($data)
+	{
+		$html    = '<div ';
+		$classes = array('grid', 'row');
+
+		if (isset($data->options))
+		{
+			if (!empty($data->options->class))
+			{
+				$classes[] = $data->options->class;
+			}
+		}
+
+		$html .= ' class="' . implode(' ', $classes) . '"';
+		$html .= '>';
+
+		return array(
+			'name'  => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
+			'id'    => 'plg_pagebuilder_grid',
+			'start' => $html,
+			'end'   => '</div>'
 		);
 	}
 }
