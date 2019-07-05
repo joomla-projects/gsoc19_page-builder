@@ -24,6 +24,55 @@ select {
 .pagebuilder {
   transition: margin-left .35s;
 
+  .element {
+    position: relative;
+    min-height: 10rem;
+    background-color: #d3defe;
+    border: 2px solid white;
+
+    &:hover {
+      background-color: #b4bedd;
+
+      .btn-wrapper {
+        visibility: visible;
+      }
+    }
+  }
+
+  .btn-wrapper {
+    visibility: hidden;
+    position: absolute;
+    top: -1rem;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #b1b1b1;
+
+    > button {
+      padding: .5rem 1rem;
+      color: #000000;
+      font-size: 1.5rem;
+      line-height: 0.5;
+
+      &:hover {
+        color: #108193;
+      }
+    }
+  }
+
+  .grid-desc {
+    position: absolute;
+    top: .3rem;
+    left: .3rem;
+  }
+
+  button {
+    cursor: pointer;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   .row-wrapper {
     position: relative;
     border: 2px dashed #bababa;
@@ -49,14 +98,6 @@ select {
       left: .3rem;
     }
 
-    button {
-      cursor: pointer;
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
-
     .btn-add {
       display: block;
       margin: 1rem auto 0;
@@ -65,27 +106,6 @@ select {
 
       &:not(:hover) {
         background-color: #fff;
-      }
-    }
-
-    .btn-wrapper,
-    .grid-btn-wrapper {
-      visibility: hidden;
-      position: absolute;
-      top: 0;
-      right: 0;
-      background-color: #fff;
-      border: 1px solid #b1b1b1;
-
-      > button {
-        padding: .5rem 1rem;
-        color: #000000;
-        font-size: 1.5rem;
-        line-height: 0.5;
-
-        &:hover {
-          color: #108193;
-        }
       }
     }
 
@@ -115,7 +135,6 @@ select {
 
         > .btn-wrapper {
           visibility: visible;
-          top: -1rem;
         }
       }
     }

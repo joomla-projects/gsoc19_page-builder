@@ -5,7 +5,7 @@
 				 :is-resizable="true"
 	>
 		<span class="grid-desc">{{ grid.type }} <span v-if="grid.options.class"><i>.{{grid.options.class}}</i></span></span>
-		<div class="grid-btn-wrapper">
+		<div class="grid-btn-wrapper btn-wrapper">
 			<button type="button" class="btn btn-lg" @click="editElement(grid)">
 				<span class="icon-options"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
@@ -42,10 +42,6 @@
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 			</button>
-
-			<div v-for="child in column.children" :key="column.i" :class="['row-wrapper', child.type]">
-				<grid-element :grid="child" :grid-size="child.options.gridSize || 12"></grid-element>
-			</div>
 		</grid-item>
 
 		<!-- Button to add new elements into the grid -->
