@@ -40,7 +40,7 @@
 			<button v-if="childAllowed.includes(column.type)" type="button" class="btn btn-add btn-outline-info"
 					@click="addElement(column)">
 				<span class="icon-new"></span>
-				{{ translate('COM_TEMPLATES_ADD_ELEMENTT') }}
+				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 			</button>
 		</grid-item>
 
@@ -62,7 +62,6 @@
 </template>
 
 <script>
-  import VueGridLayout from 'vue-grid-layout';
   import {mapMutations, mapState} from 'vuex';
 
   export default {
@@ -72,14 +71,11 @@
         required: true,
         type: Object,
       },
-      gridSize: {
-        required: true,
-        type: Number,
-      },
     },
     computed: {
       ...mapState([
-        'childAllowed'
+        'childAllowed',
+        'gridSize'
       ]),
       layout: function () {
         return this.gridData.children.concat(this.addElementBtn);
@@ -154,10 +150,6 @@
         gridData: this.grid,
         lastIndex: 0,
       };
-    },
-    components: {
-      GridLayout: VueGridLayout.GridLayout,
-      GridItem: VueGridLayout.GridItem,
     },
     created() {
       this.mapGrid();

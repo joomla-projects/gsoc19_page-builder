@@ -42,7 +42,7 @@
 						<span class="desc">{{ child.type }} <span v-if="child.options.class">.{{ child.options.class }}</span></span>
 
 						<div v-if="child.type == 'Grid'">
-							<grid-element :grid="child" :grid-size="gridSize"></grid-element>
+							<grid-element :grid="child"></grid-element>
 						</div>
 
 						<button class="btn btn-add btn-outline-info" type="button"
@@ -57,7 +57,7 @@
 
 				<!-- Grid -->
 				<div v-if="element.type == 'Grid'">
-					<grid-element :grid="element" :grid-size="gridSize"></grid-element>
+					<grid-element :grid="element"></grid-element>
 				</div>
 				<!-- Grid Ends-->
 
@@ -86,17 +86,11 @@
   import {mapMutations, mapState} from 'vuex';
 
   export default {
-    data() {
-      return {
-        gridSize: 12, // TODO: save and load into grid param
-      };
-    },
     computed: {
       ...mapState([
         'elementArray',
         'childAllowed',
-        'parent',
-        'allowedChildren'
+		'gridSize',
       ]),
     },
     watch: {
@@ -124,23 +118,15 @@
         'ifChildAllowed',
         'deleteElement',
         'editElement',
-        'addContainer',
         'fillAllowedChildren',
         'mapGrid',
-        'closeNav'
+		'closeNav',
+		'updateGridBackground',
       ]),
       addElement(parent) {
         this.fillAllowedChildren(parent.type);
         this.$store.commit('addElement', parent);
         this.$modal.show('add-element');
-      },
-      updateGridBackground() {
-        const rows = document.querySelectorAll('.pagebuilder .row-wrapper');
-        Array.prototype.forEach.call(rows, row => {
-          const percentageWidth = (1 / this.gridSize) * 100;
-          const pixelWidth = (row.getBoundingClientRect().width / 100) * percentageWidth;
-          row.style.backgroundSize = `${pixelWidth}px 150px`;
-        });
       },
     }
   };

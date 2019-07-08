@@ -11,7 +11,8 @@ const state = {
   allowedChildren: [],
   childAllowed: [],
   elements: window.Joomla.getOptions('com_templates').elements,
-  elementArray: {}
+  elementArray: {},
+  gridSize: 12, // TODO: save and load into grid param
 };
 
 const actions = {};
@@ -108,20 +109,6 @@ const mutations = {
       payload.element.children.splice(index, 1);
     }
   },
-  addContainer(state) {
-    const newContainer = {
-      type: 'Container',
-      options: {
-        class: ''
-      },
-      children: []
-    };
-    if (state.parent.children) {
-      state.parent.children.push(newContainer);
-    } else {
-      state.parent.push(newContainer);
-    }
-  },
   closeNav() {
     document.getElementById('sidebar').style.width = '0';
     document.getElementById('pagebuilder').style.marginLeft = '0';
@@ -129,6 +116,14 @@ const mutations = {
   openNav() {
     document.getElementById('sidebar').style.width = '250px';
     document.getElementById('pagebuilder').style.marginLeft = '250px';
+  },
+  updateGridBackground(state) {
+    const rows = document.querySelectorAll('.pagebuilder .row-wrapper');
+    Array.prototype.forEach.call(rows, row => {
+      const percentageWidth = (1 / state.gridSize) * 100;
+      const pixelWidth = (row.getBoundingClientRect().width / 100) * percentageWidth;
+      row.style.backgroundSize = `${pixelWidth}px 150px`;
+    });
   },
 };
 
