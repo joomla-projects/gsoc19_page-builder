@@ -159,7 +159,7 @@
         'deleteColumn',
         'deleteElement',
         'editElement',
-		    'fillAllowedChildren'
+        'fillAllowedChildren'
       ]),
       addElement(column) {
         this.fillAllowedChildren(column.type);

@@ -9,6 +9,7 @@
 		<div class="modal-body">
 			<div class="row">
 				<div class="nav flex-column nav-pills" id="nav-tab" role="tablist">
+					<!-- TODO: use button for actions like this instead of link (a11y) -->
 					<a v-for="element in allowedChildren" class="nav-link" data-toggle="tab"
 					   :href="'#nav-'+element.name" role="tab">
 						{{ element.name }}
@@ -76,7 +77,6 @@
         'addContainer',
       ]),
       add() {
-        // TODO: replace innerHTML
         const selection = document.querySelector('a.active').innerText;
         if (selection) {
           this.insertElement(selection);
@@ -86,7 +86,7 @@
       insertElement(element, sizes) {
         if (element === 'Grid') {
           this.addGrid(sizes);
-		} 
+		}
 		else {
           this.$store.commit('insertElement', element);
         }

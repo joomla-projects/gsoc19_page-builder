@@ -56,9 +56,7 @@
 				<!-- Container & Module Position Ends -->
 
 				<!-- Grid -->
-				<div v-if="element.type == 'Grid'">
-					<grid-element :grid="element"></grid-element>
-				</div>
+				<grid-element v-if="element.type == 'Grid'" :grid="element"></grid-element>
 				<!-- Grid Ends-->
 
 				<button type="button" class="btn btn-add btn-outline-info btn-block"
