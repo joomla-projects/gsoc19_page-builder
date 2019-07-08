@@ -4,7 +4,7 @@
 				 :is-draggable="true"
 				 :is-resizable="true"
 	>
-		<span class="grid-desc">{{ grid.type }}<span v-if="grid.options.class"><i>.{{grid.options.class}}</i></span></span>
+
 		<div class="grid-btn-wrapper btn-wrapper">
 			<button type="button" class="btn btn-lg" @click="editElement(grid)">
 				<span class="icon-options"></span>
@@ -25,6 +25,7 @@
 				   :y="column.y"
 				   @resized="changeSize"
 		>
+
 			<div class="btn-wrapper">
 				<button type="button" class="btn btn-lg" @click="editElement(column)">
 					<span class="icon-options"></span>
@@ -42,6 +43,7 @@
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 			</button>
+
 		</grid-item>
 
 		<!-- Button to add new elements into the grid -->
@@ -52,12 +54,15 @@
 				   :x="this.lastPosition.x"
 				   :y="this.lastPosition.y"
 		>
+
 			<button v-if="childAllowed.includes(grid.type)" class="column-btn btn btn-outline-info" type="button"
 					@click="addColumn(grid)">
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_COLUMN') }}
 			</button>
+
 		</grid-item>
+
 	</grid-layout>
 </template>
 
