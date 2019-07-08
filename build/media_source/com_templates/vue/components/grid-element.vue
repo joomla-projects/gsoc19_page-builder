@@ -4,7 +4,7 @@
 				 :is-draggable="true"
 				 :is-resizable="true"
 	>
-		<span class="grid-desc">{{ grid.type }} <span v-if="grid.options.class"><i>.{{grid.options.class}}</i></span></span>
+		<span class="grid-desc">{{ grid.type }}<span v-if="grid.options.class"><i>.{{grid.options.class}}</i></span></span>
 		<div class="grid-btn-wrapper btn-wrapper">
 			<button type="button" class="btn btn-lg" @click="editElement(grid)">
 				<span class="icon-options"></span>
@@ -40,7 +40,7 @@
 			<button v-if="childAllowed.includes(column.type)" type="button" class="btn btn-add btn-outline-info"
 					@click="addElement(column)">
 				<span class="icon-new"></span>
-				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
+				{{ translate('COM_TEMPLATES_ADD_ELEMENTT') }}
 			</button>
 		</grid-item>
 
@@ -167,7 +167,7 @@
         'deleteColumn',
         'deleteElement',
         'editElement',
-		'fillAllowedChildren'
+		    'fillAllowedChildren'
       ]),
       addElement(column) {
         this.fillAllowedChildren(column.type);

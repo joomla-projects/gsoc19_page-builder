@@ -40,10 +40,11 @@ class PlgPagebuilderColumn extends CMSPlugin
 		Text::script('PLG_PAGEBUILDER_COLUMN_NAME');
 
 		return array(
-			'name'     => Text::_('PLG_PAGEBUILDER_COLUMN_NAME'),
-			'id'       => 'plg_pagebuilder_column',
-			'parent'   => array('grid'),
-			'children' => true
+			'name'     		=> Text::_('PLG_PAGEBUILDER_COLUMN_NAME'),
+			'description' 	=> Text::_('PLG_PAGEBUILDER_COLUMN_DESC'),
+			'id'       		=> 'plg_pagebuilder_column',
+			'parent'   		=> array('grid'),
+			'children' 		=> true
 		);
 	}
 

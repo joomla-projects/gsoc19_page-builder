@@ -61,7 +61,7 @@
 				</div>
 				<!-- Grid Ends-->
 
-				<button type="button" class="btn btn-add btn-outline-info btn-block test"
+				<button type="button" class="btn btn-add btn-outline-info btn-block"
 						v-if="childAllowed.includes(element.type)" @click="addElement(element)">
 					<span class="icon-new"></span>
 					{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}

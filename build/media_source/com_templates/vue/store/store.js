@@ -44,11 +44,11 @@ const mutations = {
   },
   insertElement(state, element) {
     const newElement = {
-      type: element,
-      options: {
-        class: ''
+      'type': element,
+      'options': {
+        'class': ''
       },
-      children: []
+      'children': []
     };
     if (state.parent.children) {
       state.parent.children.push(newElement);

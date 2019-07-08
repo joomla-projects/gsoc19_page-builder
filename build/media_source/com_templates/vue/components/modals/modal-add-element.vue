@@ -2,7 +2,7 @@
 	<modal name="add-element" role="dialog" :classes="['modal-content', 'v--modal']" height="auto">
 		<div class="modal-header">
 			<h3 class="modal-title">{{ translate('COM_TEMPLATES_SELECT_ELEMENT') }}</h3>
-			<button @click="close" type="button" class="close" aria-label="Close">
+			<button @click="$modal.hide('add-element')" type="button" class="close" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
@@ -48,7 +48,7 @@
 			<div class="btn-group">
 				<button type="button" class="btn btn-success" @click="add">{{ translate('COM_TEMPLATES_SAVE') }}
 				</button>
-				<button type="button" class="btn btn-danger" @click="close">{{ translate('JTOOLBAR_BACK') }}</button>
+				<button type="button" class="btn btn-danger" @click="$modal.hide('add-element')">{{ translate('JTOOLBAR_BACK') }}</button>
 			</div>
 		</div>
 	</modal>
@@ -77,21 +77,17 @@
       ]),
       add() {
         // TODO: replace innerHTML
-        const selection = document.querySelector('a.active').innerHTML;
+        const selection = document.querySelector('a.active').innerText;
         if (selection) {
           this.insertElement(selection);
           this.$modal.hide('add-element');
         }
       },
-      close() {
-        this.$modal.hide('modal-add-element');
-      },
       insertElement(element, sizes) {
         if (element === 'Grid') {
           this.addGrid(sizes);
-        } else if (element === 'Container') {
-          this.addContainer();
-        } else {
+		} 
+		else {
           this.$store.commit('insertElement', element);
         }
         this.$modal.hide('add-element');
