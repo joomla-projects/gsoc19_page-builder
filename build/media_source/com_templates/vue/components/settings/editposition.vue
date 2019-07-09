@@ -18,7 +18,7 @@
 
             <div class="btn-group">
                 <button type="button" class="btn btn-success" @click="editPosition">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                <button type="button" class="btn btn-danger" @click="$emit('reset')">{{ translate('JTOOLBAR_BACK') }}</button>
+                <button type="button" class="btn btn-danger" @click="closeNav">{{ translate('JTOOLBAR_CLOSE') }}</button>
             </div>
         </fieldset>
     </div>

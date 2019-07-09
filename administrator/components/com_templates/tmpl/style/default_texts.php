@@ -43,3 +43,4 @@ Text::script('COM_TEMPLATES_XHTML', true);
 Text::script('JCANCEL', true);
 Text::script('JSEARCH_RESET', true);
 Text::script('JTOOLBAR_BACK', true);
+Text::script('JTOOLBAR_CLOSE', true);

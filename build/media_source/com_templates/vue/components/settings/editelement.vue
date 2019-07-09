@@ -1,39 +1,45 @@
 <template>
     <div>
-        <!-- Settings for editing grids -->
+        <!-- Settings for editing elements -->
         <fieldset>
-            <legend>{{ translate('COM_TEMPLATES_EDIT') }}</legend>
+            <legend>{{ translate('COM_TEMPLATES_EDIT') }}{{ elementSelected.type }}</legend>
             <div class="form-group">
-                <label for="grid_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
-                <input id="grid_class" name="grid_class" type="text" v-model="grid_class">
+                <label for="element_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
+                <input id="element_class" name="element_class" type="text" v-model="element_class">
             </div>
 
             <div class="btn-group">
-                <button type="button" class="btn btn-success" @click="editGrid">{{ translate('COM_TEMPLATES_SAVE') }}</button>
-                <button type="button" class="btn btn-danger" @click="$emit('reset')">{{ translate('JTOOLBAR_BACK') }}</button>
+                <button type="button" class="btn btn-success" @click="modifyElement">{{ translate('COM_TEMPLATES_ADD') }}</button>
+                <button type="button" class="btn btn-danger" @click="closeNav">{{ translate('JTOOLBAR_CLOSE') }}</button>
             </div>
         </fieldset>
     </div>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+
 export default {
-    name: 'edit-grid',
-    props: {
-        grid: {}
+    name: 'edit-element',
+    computed: {
+        ...mapState([
+            'elementSelected'
+        ])
     },
     data() {
         return {
-            grid_class: this.grid.options.class,
+            element_class: this.elementSelected ? this.elementSelected.options.class : '',
         }
     },
     methods: {
-        editGrid() {
-            if (this.grid_class !== '') {
-                this.grid.options.class = this.grid_class;
+        closeNav() {
+            this.element_class = '';
+            this.$store.commit('closeNav');
+        },
+        modifyElement() {
+            if (this.element_class !== '') {
+                this.$store.commit('modifyElement', this.element_class);
             }
-            this.grid_class = '';
-            this.$emit('reset');
         }
     },
 }

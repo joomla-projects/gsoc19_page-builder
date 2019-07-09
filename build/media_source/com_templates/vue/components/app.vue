@@ -6,8 +6,8 @@
 			<button type="button" class="btn btn-lg closebtn" @click="closeNav()">
 				<span class="icon-cancel"></span>
 			</button>
-			<!-- TODO Add to store -->
-			<!-- <component :is="selectedSettings" class="form-group" :grid='grid_selected' :column='column_selected' @reset="reset"></component> -->
+
+			<component :is="selectedSettings" class="form-group"></component>
 		</div>
 
 		<div class="pagebuilder" id="pagebuilder">
@@ -87,6 +87,7 @@
         'elementArray',
         'childAllowed',
 		'gridSize',
+		'selectedSettings'
       ]),
     },
     watch: {

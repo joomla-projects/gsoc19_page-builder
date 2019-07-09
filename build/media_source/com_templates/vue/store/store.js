@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 const state = {
-  gridSelected: '',
+  elementSelected: '',
   columnSelected: '',
   selectedSettings: '',
   parent: '',
@@ -61,9 +61,9 @@ const mutations = {
     state.parent = parent;
   },
   editElement(state, element) {
+    state.selectedSettings = 'edit-element';
+    state.elementSelected = element;
     mutations.openNav();
-    state.selectedSettings = 'edit-grid';
-    state.gridSelected = element;
   },
   deleteElement(state, element) {
     const index = state.elementArray.indexOf(element);
@@ -99,10 +99,6 @@ const mutations = {
       state.parent.push(newGrid);
     }
   },
-  addColumn(state, grid) {
-    state.gridSelected = grid;
-    state.selectedSettings = 'add-column';
-  },
   deleteColumn(state, payload) {
     const index = payload.element.children.indexOf(payload.column);
     if (index > -1) {
@@ -124,6 +120,9 @@ const mutations = {
       const pixelWidth = (row.getBoundingClientRect().width / 100) * percentageWidth;
       row.style.backgroundSize = `${pixelWidth}px 150px`;
     });
+  },
+  modifyElement(state, payload) {
+    state.elementSelected.options.class = payload;
   },
 };
 
