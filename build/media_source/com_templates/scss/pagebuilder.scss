@@ -174,10 +174,10 @@ select {
 
   .nav .nav-tabs {
     background-color: #ffffff;
+  }
 
-    .nav-link {
-      color: #3073bb;
-    }
+  a.nav-link:hover:not(.active) {
+    background-color: lightgrey;
   }
 }
 
