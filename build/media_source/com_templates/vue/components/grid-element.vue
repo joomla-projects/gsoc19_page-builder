@@ -23,6 +23,7 @@
 				   :h="column.h"
 				   :x="column.x"
 				   :y="column.y"
+				   @resize="resize"
 				   @resized="changeSize"
 		>
 
@@ -87,61 +88,43 @@
       allItems: function () {
         return this.columns.concat(this.addElementBtn);
       },
-      nextFreePosition: function () {
-        let nextPosition = 0;
-        let rowNumber = 0;
-        let occupied = this.gridData.children.find(child => child.x === nextPosition && child.y === rowNumber);
-
-        while (occupied) {
-          nextPosition += occupied.w;
-
-          if (nextPosition >= this.gridSize) {
-            rowNumber += 1;
-            nextPosition -= this.gridSize;
-          }
-
-          occupied = this.gridData.children.find(child => {
-            // Check directly occupied positions or elements higher than one row
-            return child.x === nextPosition && (rowNumber === child.y || rowNumber <= child.y + child.h - 1);
+      nextIndex: function () {
+        let index = 0;
+        if (this.columns.length) {
+          this.columns.forEach(col => {
+            index = Math.max(index, col.i);
           });
         }
-
-        return {x: nextPosition, y: rowNumber};
+        return index + 1;
       },
-      lastPosition: function () {
-        let lastChild;
-        let lastX = 0;
-        let lastY = 0;
+      nextSpace: function () {
+        let x = 0;
+        let y = 0;
+        let occupied = this.atPosition(x, y);
 
-        // Get Y
-        this.gridData.children.forEach(child => {
-          lastY = Math.max(lastY, child.y);
+        while (occupied) {
+          x += occupied.w;
 
-          if (child.y === lastY && child.h > 1) {
-            lastY += child.h;
+          if (x === this.gridSize) {
+            y += 1;
+            x = 0;
           }
-        });
 
-        // Get X
-        const inLastRow = this.gridData.children.filter(child => {
-          return lastY === child.y || lastY === child.y + child.h - 1;
-        });
-
-        inLastRow.forEach(child => {
-          lastX = Math.max(lastX, child.x);
-          if (child.x === lastX) {
-            lastChild = child;
-          }
-        });
-
-        lastX += lastChild ? lastChild.w : 0;
-
-        if (lastX >= this.gridSize) {
-          lastX -= this.gridSize;
-          lastY += 1;
+          occupied = this.atPosition(x, y);
         }
 
-        return {x: lastX, y: lastY};
+        // Get available width to fill row
+        let w = 1;
+        let position = x + w;
+        occupied = this.atPosition(position, y);
+
+        while (!occupied && position < this.gridSize) {
+          w += 1;
+          position += 1;
+          occupied = this.atPosition(position, y);
+        }
+
+        return {x: x, y: y, w: w};
       },
     },
     data() {
@@ -186,12 +169,13 @@
           children: [],
         };
 
+        const newPosition = this.nextSpace;
         this.columns.push({
           i: this.nextIndex,
-          w: this.nextSpace.w,
+          w: newPosition.w,
           h: 1,
-          x: this.nextFreePosition.x,
-          y: this.nextFreePosition.y,
+          x: newPosition.x,
+          y: newPosition.y,
           element: newElement,
         });
 
@@ -217,12 +201,65 @@
             x = 0;
             y += 1;
           }
+          this.columns.push(col);
+        });
+      },
+      getColumnByIndex(i) {
+        return this.columns.find(col => col.i === i);
+      },
+      resize(i, newH, newW) {
+        const resizedCol = this.getColumnByIndex(i);
+        const colAfter = this.atPosition(resizedCol.x + resizedCol.w, resizedCol.y);
+
+        // Col gets bigger to the right
+        if (resizedCol.w < newW && colAfter) {
+          // Next col is
+          const rightPosition = colAfter.x + colAfter.w;
+          const nextCol = this.atPosition(rightPosition, colAfter.y);
+
+          if (rightPosition === this.gridSize || nextCol) {
+            if (colAfter.w === 1) {
+              this.moveNextToRight(resizedCol);
+            } else {
+              colAfter.w -= 1;
+              colAfter.x += 1;
+            }
+          } else {
+            colAfter.x += 1;
+          }
+        }
+
+        // Col shrinks
+        if (resizedCol.w > newW && colAfter) {
+          // Make right sibling wider and move to the left
+          colAfter.x -= 1;
+          colAfter.w += 1;
+        }
+      },
+      moveNextToRight(afterCol) {
+        const col = this.atPosition(afterCol.x + afterCol.w, afterCol.y);
+        if (col) {
+          if (col.x === this.gridSize - 1) {
+            const newPos = this.nextSpace;
+            col.x = newPos.x;
+            col.y = newPos.y;
+            col.w = newPos.w;
+          } else {
+            this.moveNextToRight(col);
+            col.x += 1;
+          }
+        }
+      },
+      atPosition(x, y) {
+        return this.columns.find(col => {
+          const inRow = y === col.y || y <= col.y + col.h - 1;
+          return inRow && (x === col.x || x <= col.x + col.w - 1);
         });
       },
       changeSize(i, newH, newW) {
-        const child = this.gridData.children.find(child => child.i === i);
-        child.options.size = newW;
-        child.options.height = newH;
+        const col = this.getColumnByIndex(i);
+        col.element.options.size = newW;
+        col.element.options.height = newH;
       },
     }
   };
