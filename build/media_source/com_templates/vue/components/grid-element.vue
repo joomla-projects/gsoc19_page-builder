@@ -1,5 +1,5 @@
 <template>
-	<grid-layout :layout="layout"
+	<grid-layout :layout="allItems"
 				 :col-num="gridSize"
 				 :is-draggable="true"
 				 :is-resizable="true"
@@ -16,8 +16,8 @@
 			</button>
 		</div>
 
-		<grid-item v-for="column in gridData.children" :key="column.i"
-				   :class="['col-wrapper', column.type]"
+		<grid-item v-for="column in columns" :key="column.i"
+				   :class="['col-wrapper', column.element.type]"
 				   :i="column.i"
 				   :w="column.w"
 				   :h="column.h"
@@ -27,19 +27,21 @@
 		>
 
 			<div class="btn-wrapper">
-				<button type="button" class="btn btn-lg" @click="editElement(column)">
+				<button type="button" class="btn btn-lg" @click="editElement(column.element)">
 					<span class="icon-options"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
 				</button>
-				<button type="button" class="btn btn-lg" @click="deleteColumn(column)">
+				<button type="button" class="btn btn-lg" @click="deleteElement(column.element)">
 					<span class="icon-cancel"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
 				</button>
 			</div>
 
-			<span class="desc">{{column.type}} <span v-if="column.options.class"><i>.{{column.options.class}}</i></span></span>
-			<button v-if="childAllowed.includes(column.type)" type="button" class="btn btn-add btn-outline-info"
-					@click="addElement(column)">
+			<span class="desc">{{column.element.type}}
+				<span v-if="column.element.options.class"><i>.{{column.element.options.class}}</i></span>
+			</span>
+			<button v-if="childAllowed.includes(column.element.type)" type="button" class="btn btn-add btn-outline-info"
+					@click="addElement(column.element)">
 				<span class="icon-new"></span>
 				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
 			</button>
@@ -82,8 +84,8 @@
         'childAllowed',
         'gridSize'
       ]),
-      layout: function () {
-        return this.gridData.children.concat(this.addElementBtn);
+      allItems: function () {
+        return this.columns.concat(this.addElementBtn);
       },
       nextFreePosition: function () {
         let nextPosition = 0;
@@ -153,7 +155,7 @@
           y: 1,
         },
         gridData: this.grid,
-        lastIndex: 0,
+        columns: [],
       };
     },
     created() {
@@ -166,42 +168,53 @@
         'editElement',
         'fillAllowedChildren'
       ]),
-      addElement(column) {
-        this.fillAllowedChildren(column.type);
-        this.$store.commit('addElement', column);
+      addElement(parent) {
+        this.fillAllowedChildren(parent.type);
+        this.$store.commit('addElement', parent);
         this.$modal.show('add-element');
       },
       addColumn() {
-        const defaultSize = 1;
-        this.lastIndex += 1;
+        // TODO: make type of new column selectable
+        this.$store.commit('addElement', this.gridData);
 
-        this.gridData.children.push({
+        const newElement = {
           type: 'Column',
           options: {
-            size: defaultSize,
+            size: 1,
+            height: 1,
           },
           children: [],
-          i: this.lastIndex,
-          w: defaultSize,
+        };
+
+        this.columns.push({
+          i: this.nextIndex,
+          w: this.nextSpace.w,
           h: 1,
           x: this.nextFreePosition.x,
           y: this.nextFreePosition.y,
+          element: newElement,
         });
+
+        // Add column element to grid element too
+        this.gridData.children.push(newElement);
       },
       mapGrid() {
         let x = 0;
         let y = 0;
-        this.gridData.children.forEach((child, index) => {
-          this.lastIndex = index;
-          child.i = index;
-          child.x = x;
-          child.y = y;
-          child.w = child.options.size || 1;
-          child.h = child.options.height || 1;
 
-          x += child.w;
-          if (x >= this.gridSize) {
-            x -= this.gridSize;
+        this.gridData.children.forEach((child) => {
+          const col = {
+            i: this.nextIndex,
+            w: child.options.size || 1,
+            h: child.options.height || 1,
+            x: x,
+            y: y,
+            element: child,
+          };
+
+          x += col.w;
+          if (x === this.gridSize) {
+            x = 0;
             y += 1;
           }
         });
