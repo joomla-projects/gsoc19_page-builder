@@ -54,8 +54,8 @@
 				   :i="addElementBtn.i"
 				   :w="addElementBtn.w"
 				   :h="addElementBtn.h"
-				   :x="this.lastPosition.x"
-				   :y="this.lastPosition.y"
+				   :x="addBtnPosition.x"
+				   :y="addBtnPosition.y"
 		>
 
 			<button v-if="childAllowed.includes(grid.type)" class="column-btn btn btn-outline-info" type="button"
@@ -126,6 +126,27 @@
 
         return {x: x, y: y, w: w};
       },
+      addBtnPosition: function () {
+        let maxY = 0;
+        this.columns.forEach(col => {
+          maxY = Math.max(maxY, col.y, col.y + col.h - 1);
+        });
+
+        // Get free position on last row
+        let x = 0;
+        let occupied = this.atPosition(x, maxY);
+
+        while (occupied) {
+          x += 1;
+          if (x === this.gridSize) {
+            x = 0;
+            maxY += 1;
+          }
+          occupied = this.atPosition(x, maxY);
+        }
+
+        return {x: x, y: maxY};
+      }
     },
     data() {
       return {
