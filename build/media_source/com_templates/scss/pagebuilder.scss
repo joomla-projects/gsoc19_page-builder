@@ -154,6 +154,7 @@ select {
       border: 2px solid transparent;
       margin-top: auto;
       margin-bottom: auto;
+      cursor: pointer;
     }
 
     .icon:hover {
@@ -177,6 +178,10 @@ select {
 
   a.nav-link:hover:not(.active) {
     background-color: lightgrey;
+  }
+
+  .v--modal-overlay {
+    z-index: 1050;
   }
 }
 
