@@ -127,25 +127,26 @@
         return {x: x, y: y, w: w};
       },
       addBtnPosition() {
+        let lastX = 0;
         let maxY = 0;
         this.columns.forEach(col => {
           maxY = Math.max(maxY, col.y, col.y + col.h - 1);
         });
 
-        // Get free position on last row
-        let x = 0;
-        let occupied = this.atPosition(x, maxY);
-
-        while (occupied) {
-          x += 1;
-          if (x === this.gridSize) {
-            x = 0;
-            maxY += 1;
+        // Get last free position on last row
+        let x;
+        for (x = 0; x < this.gridSize; x += 1) {
+          if (this.atPosition(x, maxY)) {
+            lastX = x + 1;
           }
-          occupied = this.atPosition(x, maxY);
         }
 
-        return {x: x, y: maxY};
+        if (lastX === this.gridSize) {
+          lastX = 0;
+          maxY += 1;
+        }
+
+        return {x: lastX, y: maxY};
       }
     },
     data() {
@@ -282,7 +283,7 @@
       atPosition(x, y) {
         return this.columns.find(col => {
           const inRow = y === col.y || y <= col.y + col.h - 1;
-          return inRow && (x === col.x || x <= col.x + col.w - 1);
+          return inRow && (x === col.x || (x >= col.x && x <= col.x + col.w - 1));
         });
       },
       changeSize(i, newH, newW) {
