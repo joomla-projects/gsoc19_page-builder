@@ -233,45 +233,50 @@
       },
       resize(i, newH, newW) {
         const resizedCol = this.getColumnByIndex(i);
-        const colAfter = this.atPosition(resizedCol.x + resizedCol.w, resizedCol.y);
 
-        // Col gets bigger to the right
-        if (resizedCol.w < newW && colAfter) {
-          // Next col is
-          const rightPosition = colAfter.x + colAfter.w;
-          const nextCol = this.atPosition(rightPosition, colAfter.y);
-
-          if (rightPosition === this.gridSize || nextCol) {
-            if (colAfter.w === 1) {
-              this.moveNextToRight(resizedCol);
-            } else {
-              colAfter.w -= 1;
-              colAfter.x += 1;
-            }
-          } else {
-            colAfter.x += 1;
-          }
+        // Col gets more widely
+        if (resizedCol.w < newW) {
+          this.moveNextToRight(resizedCol);
+          return;
         }
 
-        // Col shrinks
-        if (resizedCol.w > newW && colAfter) {
-          // Make right sibling wider and move to the left
-          colAfter.x -= 1;
-          colAfter.w += 1;
+        // Col gets narrower
+        const nextCol = this.atPosition(resizedCol.x + resizedCol.w, resizedCol.y);
+        if (resizedCol.w > newW && nextCol) {
+          // Fill gap with next column
+          nextCol.x -= 1;
+          nextCol.w += 1;
         }
       },
       moveNextToRight(afterCol) {
         const col = this.atPosition(afterCol.x + afterCol.w, afterCol.y);
-        if (col) {
-          if (col.x === this.gridSize - 1) {
-            const newPos = this.nextSpace;
-            col.x = newPos.x;
-            col.y = newPos.y;
-            col.w = newPos.w;
-          } else {
-            this.moveNextToRight(col);
-            col.x += 1;
-          }
+        if (!col) {
+          return;
+        }
+
+        // At the end of the row?
+        if (col.x === this.gridSize - 1) {
+          const newPos = this.nextSpace;
+          col.x = newPos.x;
+          col.y = newPos.y;
+          col.w = newPos.w;
+          return;
+        }
+
+        // Space available? Just move
+        if (!this.atPosition(col.x + col.w, col.y) && col.x + col.w !== this.gridSize) {
+          col.x += 1;
+          return;
+        }
+
+        // Make col slimmer to let following columns on position
+        if (col.w > 1) {
+          col.w -= 1;
+          col.x += 1;
+        } else {
+          // Move next col to make space for moving
+          this.moveNextToRight(col);
+          col.x += 1;
         }
       },
       atPosition(x, y) {
