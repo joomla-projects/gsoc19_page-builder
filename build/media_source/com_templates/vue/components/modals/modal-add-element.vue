@@ -1,5 +1,5 @@
 <template>
-	<modal name="add-element" role="dialog" :classes="['modal-content', 'v--modal']" height="auto" :clickToClose="false">
+	<modal name="add-element" role="dialog" :classes="['modal-content', 'v--modal']" height="auto" :clickToClose="false" @opened="opened">
 		<div class="modal-header">
 			<h3 class="modal-title">{{ translate('COM_TEMPLATES_SELECT_ELEMENT') }}</h3>
 			<button @click="$modal.hide('add-element')" type="button" class="close" aria-label="Close">
@@ -8,32 +8,35 @@
 		</div>
 		<div class="modal-body">
 			<div class="row">
-				<div class="nav flex-column nav-pills" id="nav-tab" role="tablist">
-					<!-- TODO: use button for actions like this instead of link (a11y) -->
-					<a v-for="element in allowedChildren" class="nav-link" data-toggle="tab"
-					   :href="'#nav-'+element.name" role="tab">
-						{{ element.name }}
-					</a>
+				<div class="col-4">
+					<div class="list-group" id="list-tab" role="tablist">
+						<li v-for="element in allowedChildren" class="list-group-item list-group-item-action" data-toggle="list"
+							:href="'#list-'+element.name" role="tabpanel">
+							{{ element.name }}
+						</li>
+					</div>
 				</div>
-				<div class="tab-content col-9">
-					<div v-for="element in allowedChildren" :id="'nav-'+element.name" class="tab-pane">
-						{{ element.description }}
-						<div v-if="element.name === 'Grid'" class="image-selection">
-							<div class="row">
-								<div class="col-4 icon" v-html="images.row12 + '<p>100%</p>'"
-									 @click="insertElement('Grid' , [12])"></div>
-								<div class="col-4 icon" v-html="images.row66 + '<p>(50%-50%)</p>'"
-									 @click="insertElement('Grid' , [6, 6])"></div>
-								<div class="col-4 icon" v-html="images.row48 + '<p>(33%-67%)</p>'"
-									 @click="insertElement('Grid' , [4, 8])"></div>
-								<div class="col-4 icon" v-html="images.row84 + '<p>(67%-33%)</p>'"
-									 @click="insertElement('Grid' , [8, 4])"></div>
-								<div class="col-4 icon" v-html="images.row3333 + '<p>(25%-25%-25%-25%)</p>'"
-									 @click="insertElement('Grid' , [3, 3, 3, 3])"></div>
-								<div class="col-4 icon" v-html="images.row444 + '<p>(33%-33%-33%)</p>'"
-									 @click="insertElement('Grid' , [4, 4, 4])"></div>
-								<div class="col-4 icon" v-html="images.row363 + '<p>(25%-50%-25%)</p>'"
-									 @click="insertElement('Grid' , [3, 6, 3])"></div>
+				<div class="col-8">
+					<div class="tab-content">
+						<div v-for="element in allowedChildren" :id="'list-'+element.name" class="tab-pane fade" role="tabpanel">
+							{{ element.description }}
+							<div v-if="element.name === 'Grid'" class="image-selection">
+								<div class="row">
+									<div class="col-4 icon" v-html="images.row12 + '<p>100%</p>'"
+										@click="insertElement('Grid' , [12])"></div>
+									<div class="col-4 icon" v-html="images.row66 + '<p>(50%-50%)</p>'"
+										@click="insertElement('Grid' , [6, 6])"></div>
+									<div class="col-4 icon" v-html="images.row48 + '<p>(33%-67%)</p>'"
+										@click="insertElement('Grid' , [4, 8])"></div>
+									<div class="col-4 icon" v-html="images.row84 + '<p>(67%-33%)</p>'"
+										@click="insertElement('Grid' , [8, 4])"></div>
+									<div class="col-4 icon" v-html="images.row3333 + '<p>(25%-25%-25%-25%)</p>'"
+										@click="insertElement('Grid' , [3, 3, 3, 3])"></div>
+									<div class="col-4 icon" v-html="images.row444 + '<p>(33%-33%-33%)</p>'"
+										@click="insertElement('Grid' , [4, 4, 4])"></div>
+									<div class="col-4 icon" v-html="images.row363 + '<p>(25%-50%-25%)</p>'"
+										@click="insertElement('Grid' , [3, 6, 3])"></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -87,7 +90,12 @@
           this.$store.commit('insertElement', element);
         }
         this.$modal.hide('add-element');
-      }
+	  },
+	  opened() {
+		  document.getElementsByClassName('list-group')[0].firstElementChild.classList.add('active');
+		  document.getElementsByClassName('tab-content')[0].firstElementChild.classList.add('show');
+		  document.getElementsByClassName('tab-content')[0].firstElementChild.classList.add('active');
+	  }
     },
   };
 </script>
