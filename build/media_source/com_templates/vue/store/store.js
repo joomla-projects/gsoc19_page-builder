@@ -15,8 +15,6 @@ const state = {
   gridSize: 12, // TODO: save and load into grid param
 };
 
-const actions = {};
-
 const mutations = {
   mapGrid(state, elements) {
     state.elementArray = elements;
@@ -126,11 +124,7 @@ const mutations = {
   },
 };
 
-const getters = {};
-
 export default new Vuex.Store({
   state,
-  getters,
-  actions,
   mutations,
 });

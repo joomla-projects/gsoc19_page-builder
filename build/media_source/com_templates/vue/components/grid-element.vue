@@ -85,10 +85,10 @@
         'childAllowed',
         'gridSize'
       ]),
-      allItems: function () {
+      allItems() {
         return this.columns.concat(this.addElementBtn);
       },
-      nextIndex: function () {
+      nextIndex() {
         let index = 0;
         if (this.columns.length) {
           this.columns.forEach(col => {
@@ -97,7 +97,7 @@
         }
         return index + 1;
       },
-      nextSpace: function () {
+      nextSpace() {
         let x = 0;
         let y = 0;
         let occupied = this.atPosition(x, y);
@@ -126,7 +126,7 @@
 
         return {x: x, y: y, w: w};
       },
-      addBtnPosition: function () {
+      addBtnPosition() {
         let maxY = 0;
         this.columns.forEach(col => {
           maxY = Math.max(maxY, col.y, col.y + col.h - 1);
@@ -161,9 +161,6 @@
         gridData: this.grid,
         columns: [],
       };
-    },
-    created() {
-      this.mapGrid();
     },
     methods: {
       ...mapMutations([
@@ -210,7 +207,7 @@
         this.gridData.children.forEach((child) => {
           const col = {
             i: this.nextIndex,
-            w: child.options.size || 1,
+            w: child.type != 'Column' ? 12 : child.options.size || 1, // Takes care of elements other than 'Column'
             h: child.options.height || 1,
             x: x,
             y: y,
@@ -282,6 +279,16 @@
         col.element.options.size = newW;
         col.element.options.height = newH;
       },
+    },
+    watch: {
+      grid: {
+        immediate: true,
+        deep: true,
+        handler() {
+          this.columns = [];
+          this.mapGrid();
+        }
+      }
     }
   };
 </script>

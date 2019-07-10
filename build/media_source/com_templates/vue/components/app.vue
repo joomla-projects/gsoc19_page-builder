@@ -92,13 +92,13 @@
     },
     watch: {
       elementArray: {
-        handler: function (newVal) {
+        handler(newVal) {
           document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
         },
         deep: true,
       },
       gridSize: {
-        handler: function () {
+        handler() {
           this.updateGridBackground();
         }
       },
