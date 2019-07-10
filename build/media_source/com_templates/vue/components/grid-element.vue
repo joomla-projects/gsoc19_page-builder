@@ -32,7 +32,7 @@
 					<span class="icon-options"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
 				</button>
-				<button type="button" class="btn btn-lg" @click="deleteElement(column.element)">
+				<button type="button" class="btn btn-lg" @click="deleteColumn(column)">
 					<span class="icon-cancel"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
 				</button>
@@ -162,6 +162,9 @@
         columns: [],
       };
     },
+    created() {
+      this.mapGrid();
+    },
     methods: {
       ...mapMutations([
         'deleteColumn',
@@ -173,6 +176,9 @@
         this.fillAllowedChildren(parent.type);
         this.$store.commit('addElement', parent);
         this.$modal.show('add-element');
+      },
+      deleteColumn(column) {
+        this.gridData.children.splice(this.gridData.children.indexOf(column.element), 1);
       },
       addColumn() {
         // TODO: make type of new column selectable
@@ -279,14 +285,36 @@
         col.element.options.size = newW;
         col.element.options.height = newH;
       },
+      mapElementChanges() {
+        // Search for new children
+        this.gridData.children.forEach(child => {
+          const found = this.columns.find(col => col.element === child);
+          if (!found) {
+            const newPosition = this.nextSpace;
+            this.columns.push({
+              i: this.nextIndex,
+              w: child.options.size || newPosition.w,
+              h: 1,
+              x: newPosition.x,
+              y: newPosition.y,
+            });
+          }
+        });
+        // Search for removed children
+        this.columns.forEach(col => {
+          const found = this.gridData.children.indexOf(col.element);
+          if (found === -1) {
+            // Remove column from grid
+            this.columns.splice(this.columns.indexOf(col), 1);
+          }
+        });
+      },
     },
     watch: {
       grid: {
-        immediate: true,
         deep: true,
         handler() {
-          this.columns = [];
-          this.mapGrid();
+          this.mapElementChanges();
         }
       }
     }
