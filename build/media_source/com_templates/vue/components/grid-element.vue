@@ -23,6 +23,7 @@
 				   :h="column.h"
 				   :x="column.x"
 				   :y="column.y"
+				   @move="move"
 				   @resize="resize"
 				   @resized="changeSize"
 		>
@@ -214,7 +215,7 @@
         this.gridData.children.forEach((child) => {
           const col = {
             i: this.nextIndex,
-            w: child.type != 'Column' ? 12 : child.options.size || 1, // Takes care of elements other than 'Column'
+            w: child.type !== 'Column' ? 12 : child.options.size || 1, // Takes care of elements other than 'Column'
             h: child.options.height || 1,
             x: x,
             y: y,
@@ -232,12 +233,20 @@
       getColumnByIndex(i) {
         return this.columns.find(col => col.i === i);
       },
+      move(i, newX, newY) {
+        const movedChild = this.getColumnByIndex(i);
+
+        // Col moves right
+        if (movedChild.x < newX) {
+          this.moveNextToRight(movedChild);
+        }
+      },
       resize(i, newH, newW) {
         const resizedCol = this.getColumnByIndex(i);
 
         // Col gets more widely
         if (resizedCol.w < newW) {
-          this.moveNextToRight(resizedCol);
+          this.moveNextToRight(resizedCol, true);
           return;
         }
 
@@ -249,7 +258,7 @@
           nextCol.w += 1;
         }
       },
-      moveNextToRight(afterCol) {
+      moveNextToRight(afterCol, withResizing) {
         const col = this.atPosition(afterCol.x + afterCol.w, afterCol.y);
         if (!col) {
           return;
@@ -271,7 +280,7 @@
         }
 
         // Make col slimmer to let following columns on position
-        if (col.w > 1) {
+        if (col.w > 1 && withResizing) {
           col.w -= 1;
           col.x += 1;
         } else {

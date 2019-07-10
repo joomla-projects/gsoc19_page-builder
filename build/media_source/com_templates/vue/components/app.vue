@@ -22,10 +22,10 @@
 			<!-- TODO: make the rows sortable again ('draggable' breaks resizable elements) -->
 			<!-- Element -->
 			<div v-for="element in elementArray" :key="element.id" :class="['row-wrapper', element.type]">
-				
+
 				<span class="desc">{{ element.type }} <span v-if="element.options.class">.{{ element.options.class }}</span></span>
 				<!-- Container & Module Position -->
-				<div v-if="element.type != 'Grid'" class="element">
+				<div v-if="element.type !== 'Grid'" class="element">
 
 					<div class="btn-wrapper">
 						<button type="button" class="btn btn-lg" @click="editElement(element)">
@@ -41,7 +41,7 @@
 					<div v-for="child in element.children" :class="['element', child.type]">
 						<span class="desc">{{ child.type }} <span v-if="child.options.class">.{{ child.options.class }}</span></span>
 
-						<grid-element v-if="child.type == 'Grid'" :grid="child"></grid-element>
+						<grid-element v-if="child.type === 'Grid'" :grid="child"></grid-element>
 
 						<button class="btn btn-add btn-outline-info" type="button"
 								v-if="childAllowed.includes(child.type)"
@@ -54,7 +54,7 @@
 				<!-- Container & Module Position Ends -->
 
 				<!-- Grid -->
-				<grid-element v-if="element.type == 'Grid'" :grid="element"></grid-element>
+				<grid-element v-if="element.type === 'Grid'" :grid="element"></grid-element>
 				<!-- Grid Ends-->
 
 				<button type="button" class="btn btn-add btn-outline-info btn-block"
