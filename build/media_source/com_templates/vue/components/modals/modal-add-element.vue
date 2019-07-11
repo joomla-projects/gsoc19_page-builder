@@ -1,5 +1,6 @@
 <template>
-	<modal name="add-element" role="dialog" :classes="['modal-content', 'v--modal']" height="auto" :clickToClose="false" @opened="opened">
+	<modal name="add-element" role="dialog" :classes="['modal-content', 'v--modal']" height="auto" :clickToClose="false"
+		   @opened="opened">
 		<div class="modal-header">
 			<h3 class="modal-title">{{ translate('COM_TEMPLATES_SELECT_ELEMENT') }}</h3>
 			<button @click="$modal.hide('add-element')" type="button" class="close" aria-label="Close">
@@ -45,11 +46,12 @@
 			<small class="form-text text-muted">{{ translate('COM_TEMPLATES_ADD_ELEMENT_DESC') }}</small>
 		</div>
 		<div class="modal-footer">
-			<div class="btn-group">
-				<button type="button" class="btn btn-success" @click="add">{{ translate('COM_TEMPLATES_SAVE') }}
-				</button>
-				<button type="button" class="btn btn-danger" @click="$modal.hide('add-element')">{{ translate('JTOOLBAR_BACK') }}</button>
-			</div>
+			<button type="button" class="btn btn-success mr-2" @click="add">
+				{{ translate('COM_TEMPLATES_SAVE') }}
+			</button>
+			<button type="button" class="btn btn-danger" @click="$modal.hide('add-element')">
+				{{ translate('JTOOLBAR_BACK') }}
+			</button>
 		</div>
 	</modal>
 </template>
@@ -85,17 +87,21 @@
       insertElement(element, sizes) {
         if (element === 'Grid') {
           this.addGrid(sizes);
-		}
-		else {
+        } else {
           this.$store.commit('insertElement', element);
         }
         this.$modal.hide('add-element');
-	  },
-	  opened() {
-		  document.getElementsByClassName('list-group')[0].firstElementChild.classList.add('active');
-		  document.getElementsByClassName('tab-content')[0].firstElementChild.classList.add('show');
-		  document.getElementsByClassName('tab-content')[0].firstElementChild.classList.add('active');
-	  }
+      },
+      opened() {
+        const firstListItem = document.querySelector('.list-group .list-group-item');
+        firstListItem && firstListItem.classList.add('active');
+
+        const content = document.querySelector('.tab-content .tab-pane');
+        if (content) {
+          content.classList.add('show');
+          content.classList.add('active');
+        }
+      }
     },
   };
 </script>
