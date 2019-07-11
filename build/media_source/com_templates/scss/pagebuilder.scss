@@ -3,17 +3,20 @@
 // Colors
 $white: #fff;
 $black: #000;
-$grey: #bababa;
-$light-grey: #ececec;
-$light-red: #f08080;
-$green: #b8dbb6;
+$grey: #e7e7e7;
+$light-grey: #f2f2f2;
+$green: #caecc8;
 $light-green: #def6dd;
+$blue: #b0c4e0;
+$light-blue: #b9c9db;
+$red: #f0aaae;
+$light-red: #f0c2c5;
 $bs-blue: #108193;
+$drop-red: #f08080;
 
 // Z-index
 $zindex-backdrop: 1050;
 $zindex-sidebar: 1050;
-
 
 fieldset .btn-group .btn-danger {
   margin-left: 0.75rem !important;
@@ -38,10 +41,50 @@ select {
   .item {
     position: relative;
     min-height: 10rem;
+    background-color: $light-blue;
     border: 2px solid $white;
 
-    &:hover > .btn-wrapper {
-      visibility: visible;
+    .desc {
+      padding: .3rem .5rem;
+    }
+
+    &:hover {
+      background-color: $blue;
+
+      > .btn-wrapper {
+        visibility: visible;
+      }
+    }
+
+    &.Module_Position {
+      background-color: $light-red;
+
+      &:hover {
+        background-color: $red;
+      }
+    }
+
+    &.Grid {
+      background-color: $light-grey;
+
+      > .item-content {
+        // Repeating background needed to overwrite Vuetify
+        background: linear-gradient(to right, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px) repeat;
+        // background-size needed for easy modifying by js (default 12 columns)
+        background-size: 8.3% 150px;
+
+        &:hover {
+          background-color: $grey;
+        }
+
+        .vue-grid-item .item:first-of-type {
+          background-color: $light-green;
+
+          &:hover {
+            background-color: $green;
+          }
+        }
+      }
     }
   }
 
@@ -93,35 +136,20 @@ select {
     position: relative;
     border: 2px dashed $grey;
     min-height: 15rem;
-    // Repeating background needed to overwrite Vuetify
-    background: linear-gradient(to right, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px) repeat;
-    // background-size needed for easy modifying by js (default 12 columns)
-    background-size: 8.3% 150px;
-
-    &:hover {
-      background-color: $light-grey;
-    }
 
     .column-btn {
       width: 100%;
       height: 100%;
     }
-  }
 
-  .col-wrapper {
-    position: relative;
-    background-color: $light-green;
-    border: 2px solid $white;
-
-    &:hover {
-      background-color: $green;
+    .col-wrapper:hover {
       cursor: grab;
     }
   }
 
   .drop {
     opacity: 0.5;
-    background: $light-red;
+    background: $drop-red;
   }
 
   .icon-cancel:before {

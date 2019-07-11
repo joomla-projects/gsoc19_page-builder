@@ -1,34 +1,35 @@
 <template>
 	<div :class="['item', element.type]">
-		<span class="desc">{{ element.type }}
-			<span v-if="element.options.class">.{{ element.options.class }}</span>
-		</span>
-
 		<div class="btn-wrapper">
 			<button type="button" class="btn btn-lg" @click="editElement(element)">
 				<span class="icon-options"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
 			</button>
-			<button type="button" class="btn btn-lg" @click="deleteElement(element)">
+			<button type="button" class="btn btn-lg" @click="$emit('delete')">
 				<span class="icon-cancel"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_ELEMENT') }}</span>
 			</button>
 		</div>
 
-		<grid v-if="element.type === 'Grid'" :grid="element"></grid>
-
-		<div v-if="element.type !== 'Grid'">
-			<div v-for="child in element.children">
-				<item :item="child"></item>
+		<div class="item-content">
+			<div class="desc">
+				<span>{{ element.type }}</span>
+				<span v-if="element.options.class">.{{ element.options.class }}</span>
 			</div>
 
-			<button v-if="childAllowed.includes(element.type)"
-					type="button"
-					class="btn btn-add btn-lg btn-outline-info rounded-circle"
-					@click="addElement(element)">
-				<span class="icon-new"></span>
-				<span class="sr-only">{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}</span>
-			</button>
+			<grid v-if="element.type === 'Grid'" :grid="element"></grid>
+
+			<div v-else>
+				<item v-for="child in element.children" :item="child" @delete="deleteElement(child)"></item>
+
+				<button v-if="childAllowed.includes(element.type)"
+						type="button"
+						class="btn btn-add btn-lg btn-outline-info rounded-circle"
+						@click="addElement(element)">
+					<span class="icon-new"></span>
+					<span class="sr-only">{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}</span>
+				</button>
+			</div>
 		</div>
 	</div>
 </template>

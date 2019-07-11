@@ -21,9 +21,8 @@
 
 			<!-- TODO: make the rows sortable again ('draggable' breaks resizable elements) -->
 			<!-- Element -->
-			<div v-for="element in elementArray" :key="element.id" :class="['row-wrapper']">
-				<item :item="element"></item>
-			</div>
+			<item v-for="element in elementArray" :key="element.id" :class="['row-wrapper']"
+				  :item="element" @delete="deleteElement(element)"></item>
 			<!-- Element Ends -->
 
 			<button @click="addElement(elementArray)" class="btn btn-outline-info btn-block" type="button">
