@@ -17,7 +17,7 @@
 				   @resize="resize"
 				   @resized="changeSize"
 		>
-			<item :item="column.element"></item>
+			<item :item="column.element" @delete="deleteColumn(column)"></item>
 		</grid-item>
 
 		<!-- Button to add new elements into the grid -->
