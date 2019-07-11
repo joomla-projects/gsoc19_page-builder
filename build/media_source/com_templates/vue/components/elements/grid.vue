@@ -17,27 +17,7 @@
 				   @resize="resize"
 				   @resized="changeSize"
 		>
-
-			<div class="btn-wrapper">
-				<button type="button" class="btn btn-lg" @click="editElement(column.element)">
-					<span class="icon-options"></span>
-					<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
-				</button>
-				<button type="button" class="btn btn-lg" @click="deleteColumn(column)">
-					<span class="icon-cancel"></span>
-					<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
-				</button>
-			</div>
-
-			<span class="desc">{{column.element.type}}
-				<span v-if="column.element.options.class"><i>.{{column.element.options.class}}</i></span>
-			</span>
-			<button v-if="childAllowed.includes(column.element.type)" type="button" class="btn btn-add btn-outline-info"
-					@click="addElement(column.element)">
-				<span class="icon-new"></span>
-				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
-			</button>
-
+			<item :item="column.element"></item>
 		</grid-item>
 
 		<!-- Button to add new elements into the grid -->
