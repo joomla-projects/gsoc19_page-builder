@@ -57,7 +57,6 @@
     },
     methods: {
       ...mapMutations([
-        'deleteElement',
         'editElement',
         'fillAllowedChildren'
       ]),
@@ -65,6 +64,12 @@
         this.fillAllowedChildren(parent.type);
         this.$store.commit('addElement', parent);
         this.$modal.show('add-element');
+      },
+      deleteElement(child) {
+        this.$store.commit('deleteElement', {
+          element: child,
+          parent: this.item
+        });
       },
     },
   };

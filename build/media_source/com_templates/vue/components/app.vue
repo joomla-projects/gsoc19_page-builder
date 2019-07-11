@@ -66,7 +66,6 @@
     methods: {
       ...mapMutations([
         'ifChildAllowed',
-        'deleteElement',
         'editElement',
         'fillAllowedChildren',
         'mapElements',
@@ -77,6 +76,9 @@
         this.$store.commit('addElement', parent);
         this.$modal.show('add-element');
       },
+	  deleteElement(element) {
+        this.$store.commit('deleteElement', {element: element});
+	  }
     }
   };
 </script>

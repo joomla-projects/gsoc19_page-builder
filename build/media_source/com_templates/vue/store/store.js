@@ -63,10 +63,11 @@ const mutations = {
     state.elementSelected = element;
     mutations.openNav();
   },
-  deleteElement(state, element) {
-    const index = state.elementArray.indexOf(element);
+  deleteElement(state, {element, parent}) {
+    const elements = parent ? parent.children : state.elementArray;
+    const index = elements.indexOf(element);
     if (index > -1) {
-      state.elementArray.splice(index, 1);
+      elements.splice(index, 1);
     }
   },
   addGrid(state, sizes) {
