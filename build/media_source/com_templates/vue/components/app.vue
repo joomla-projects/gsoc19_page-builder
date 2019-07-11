@@ -21,47 +21,8 @@
 
 			<!-- TODO: make the rows sortable again ('draggable' breaks resizable elements) -->
 			<!-- Element -->
-			<div v-for="element in elementArray" :key="element.id" :class="['row-wrapper', element.type]">
-
-				<span class="desc">{{ element.type }} <span v-if="element.options.class">.{{ element.options.class }}</span></span>
-				<!-- Container & Module Position -->
-				<div v-if="element.type !== 'Grid'" class="element">
-
-					<div class="btn-wrapper">
-						<button type="button" class="btn btn-lg" @click="editElement(element)">
-							<span class="icon-options"></span>
-							<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT_COLUMN') }}</span>
-						</button>
-						<button type="button" class="btn btn-lg" @click="deleteElement(element)">
-							<span class="icon-cancel"></span>
-							<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_COLUMN') }}</span>
-						</button>
-					</div>
-
-					<div v-for="child in element.children" :class="['element', child.type]">
-						<span class="desc">{{ child.type }} <span v-if="child.options.class">.{{ child.options.class }}</span></span>
-
-						<grid-element v-if="child.type === 'Grid'" :grid="child"></grid-element>
-
-						<button class="btn btn-add btn-outline-info" type="button"
-								v-if="childAllowed.includes(child.type)"
-								@click="addElement(child)">
-							<span class="icon-new"></span>
-							{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
-						</button>
-					</div>
-				</div>
-				<!-- Container & Module Position Ends -->
-
-				<!-- Grid -->
-				<grid-element v-if="element.type === 'Grid'" :grid="element"></grid-element>
-				<!-- Grid Ends-->
-
-				<button type="button" class="btn btn-add btn-outline-info btn-block"
-						v-if="childAllowed.includes(element.type)" @click="addElement(element)">
-					<span class="icon-new"></span>
-					{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
-				</button>
+			<div v-for="element in elementArray" :key="element.id" :class="['row-wrapper']">
+				<item :item="element"></item>
 			</div>
 			<!-- Element Ends -->
 
@@ -72,7 +33,6 @@
 
 			<!-- Modals -->
 			<add-element-modal id="add-element"></add-element-modal>
-
 		</div>
 	</div>
 </template>
@@ -85,9 +45,8 @@
     computed: {
       ...mapState([
         'elementArray',
-        'childAllowed',
-		'gridSize',
-		'selectedSettings'
+        'gridSize',
+        'selectedSettings'
       ]),
     },
     watch: {
@@ -97,17 +56,12 @@
         },
         deep: true,
       },
-      gridSize: {
-        handler() {
-          this.updateGridBackground();
-        }
-      },
     },
     components: {
       draggable
     },
     created() {
-      this.mapGrid(JSON.parse(document.getElementById('jform_params_grid').value));
+      this.mapElements(JSON.parse(document.getElementById('jform_params_grid').value));
       this.ifChildAllowed();
     },
     methods: {
@@ -116,9 +70,8 @@
         'deleteElement',
         'editElement',
         'fillAllowedChildren',
-        'mapGrid',
-		'closeNav',
-		'updateGridBackground',
+        'mapElements',
+        'closeNav'
       ]),
       addElement(parent) {
         this.fillAllowedChildren(parent.type);

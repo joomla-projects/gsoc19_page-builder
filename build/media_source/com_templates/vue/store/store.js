@@ -16,7 +16,7 @@ const state = {
 };
 
 const mutations = {
-  mapGrid(state, elements) {
+  mapElements(state, elements) {
     state.elementArray = elements;
   },
   ifChildAllowed(state) {
