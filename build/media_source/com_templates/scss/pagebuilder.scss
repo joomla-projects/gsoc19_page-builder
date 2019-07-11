@@ -38,7 +38,6 @@ select {
   .item {
     position: relative;
     min-height: 10rem;
-    padding: 1.5rem 0;
     border: 2px solid $white;
 
     &:hover > .btn-wrapper {
@@ -66,12 +65,6 @@ select {
     }
   }
 
-  .desc {
-    position: absolute;
-    top: .3rem;
-    left: .3rem;
-  }
-
   button {
     cursor: pointer;
 
@@ -86,9 +79,14 @@ select {
 
   .btn-add {
     display: block;
-    margin: 1rem auto 0;
-    min-width: 6rem;
-    width: 30%;
+    margin: 2rem auto;
+    width: 4rem;
+    height: 4rem;
+    font-size: 2rem;
+
+    > span {
+      width: auto;
+    }
   }
 
   .row-wrapper {
