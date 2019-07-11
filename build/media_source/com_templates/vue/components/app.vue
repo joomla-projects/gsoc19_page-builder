@@ -22,7 +22,7 @@
 			<!-- TODO: make the rows sortable again ('draggable' breaks resizable elements) -->
 			<!-- Element -->
 			<div v-for="element in elementArray" :key="element.id" :class="['row-wrapper']">
-				<item :item="element" @delete="deleteElement(element)"></item>
+				<item :item="element"></item>
 			</div>
 			<!-- Element Ends -->
 

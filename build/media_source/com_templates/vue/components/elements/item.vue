@@ -9,7 +9,7 @@
 				<span class="icon-options"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
 			</button>
-			<button type="button" class="btn btn-lg" @click="$emit('delete')">
+			<button type="button" class="btn btn-lg" @click="deleteElement(element)">
 				<span class="icon-cancel"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_ELEMENT') }}</span>
 			</button>
@@ -19,7 +19,7 @@
 
 		<div v-if="element.type !== 'Grid'">
 			<div v-for="child in element.children">
-				<item :item="child" @delete="deleteElement(child)"></item>
+				<item :item="child"></item>
 			</div>
 
 			<button v-if="childAllowed.includes(element.type)"
