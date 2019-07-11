@@ -43,7 +43,7 @@
   import {mapMutations, mapState} from 'vuex';
 
   export default {
-    name: 'grid-element',
+    name: 'grid',
     props: {
       grid: {
         required: true,
