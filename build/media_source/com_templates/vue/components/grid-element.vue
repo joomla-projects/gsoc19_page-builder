@@ -291,7 +291,7 @@
       },
       atPosition(x, y) {
         return this.columns.find(col => {
-          const inRow = y === col.y || y <= col.y + col.h - 1;
+          const inRow = y === col.y || (y >= col.y && y <= col.y + col.h - 1);
           return inRow && (x === col.x || (x >= col.x && x <= col.x + col.w - 1));
         });
       },
