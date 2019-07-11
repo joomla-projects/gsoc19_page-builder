@@ -1,8 +1,19 @@
 // App.vue
-.settings {
-  z-index: 1040;
-  padding: .5rem;
-}
+
+// Colors
+$white: #fff;
+$black: #000;
+$grey: #bababa;
+$light-grey: #ececec;
+$light-red: #f08080;
+$green: #b8dbb6;
+$light-green: #def6dd;
+$bs-blue: #108193;
+
+// Z-index
+$zindex-backdrop: 1050;
+$zindex-sidebar: 1050;
+
 
 fieldset .btn-group .btn-danger {
   margin-left: 0.75rem !important;
@@ -13,8 +24,8 @@ input,
 select,
 textarea {
   border-style: solid;
-  background-color: #ffffff;
-  color: #000000;
+  background-color: $white;
+  color: $black;
 }
 
 select {
@@ -24,18 +35,14 @@ select {
 .pagebuilder {
   transition: margin-left .35s;
 
-  .element {
+  .item {
     position: relative;
     min-height: 10rem;
-    background-color: #d3defe;
-    border: 2px solid white;
+    padding: 1.5rem 0;
+    border: 2px solid $white;
 
-    &:hover {
-      background-color: #b4bedd;
-
-      .btn-wrapper {
-        visibility: visible;
-      }
+    &:hover > .btn-wrapper {
+      visibility: visible;
     }
   }
 
@@ -44,22 +51,22 @@ select {
     position: absolute;
     top: -1rem;
     right: 0;
-    background-color: #fff;
-    border: 1px solid #b1b1b1;
+    background-color: $white;
+    border: 1px solid $grey;
 
     > button {
       padding: .5rem 1rem;
-      color: #000000;
+      color: $black;
       font-size: 1.5rem;
       line-height: 0.5;
 
       &:hover {
-        color: #108193;
+        color: $bs-blue;
       }
     }
   }
 
-  .grid-desc {
+  .desc {
     position: absolute;
     top: .3rem;
     left: .3rem;
@@ -73,9 +80,20 @@ select {
     }
   }
 
+  .btn-outline-info:not(:hover) {
+    background-color: $white;
+  }
+
+  .btn-add {
+    display: block;
+    margin: 1rem auto 0;
+    min-width: 6rem;
+    width: 30%;
+  }
+
   .row-wrapper {
     position: relative;
-    border: 2px dashed #bababa;
+    border: 2px dashed $grey;
     min-height: 15rem;
     // Repeating background needed to overwrite Vuetify
     background: linear-gradient(to right, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px) repeat;
@@ -83,64 +101,29 @@ select {
     background-size: 8.3% 150px;
 
     &:hover {
-      background-color: #ececec;
-
-      .grid-btn-wrapper {
-        visibility: visible;
-        top: -3rem;
-      }
-    }
-
-    .grid-desc {
-      top: -1.5rem;
-      left: .3rem;
-    }
-
-    .btn-add {
-      display: block;
-      margin: 1rem auto 0;
-      min-width: 6rem;
-      width: 30%;
-
-      &:not(:hover) {
-        background-color: #fff;
-      }
+      background-color: $light-grey;
     }
 
     .column-btn {
       width: 100%;
       height: 100%;
     }
+  }
 
-    &:hover > .btn-wrapper {
-      visibility: visible;
-    }
+  .col-wrapper {
+    position: relative;
+    background-color: $light-green;
+    border: 2px solid $white;
 
-    .col-wrapper {
-      position: relative;
-      background-color: #def6dd;
-      border: 2px solid white;
-
-      > .desc {
-        position: absolute;
-        top: .3rem;
-        left: .3rem;
-      }
-
-      &:hover {
-        background-color: #b8dbb6;
-        cursor: grab;
-
-        > .btn-wrapper {
-          visibility: visible;
-        }
-      }
+    &:hover {
+      background-color: $green;
+      cursor: grab;
     }
   }
 
   .drop {
     opacity: 0.5;
-    background: #f08080;
+    background: $light-red;
   }
 
   .icon-cancel:before {
@@ -158,7 +141,7 @@ select {
     }
 
     .icon:hover {
-      border: 0.1em solid #108193;
+      border: 0.1em solid $bs-blue;
     }
 
     img {
@@ -173,7 +156,7 @@ select {
   }
 
   .v--modal-overlay {
-    z-index: 1050;
+    z-index: $zindex-backdrop;
   }
 }
 
@@ -181,11 +164,11 @@ select {
   height: 100%;
   width: 0;
   position: fixed;
-  z-index: 1050;
+  z-index: $zindex-sidebar;
   top: 0;
   left: 0;
   overflow: hidden;
-  background-color: white;
+  background-color: $white;
   transition: 0.35s;
   padding: 7.5px 0 0 15px;
 

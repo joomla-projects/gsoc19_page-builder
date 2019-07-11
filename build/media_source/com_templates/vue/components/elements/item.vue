@@ -1,5 +1,5 @@
 <template>
-	<div :class="['element', element.type]">
+	<div :class="['item', element.type]">
 		<span class="desc">{{ element.type }}
 			<span v-if="element.options.class">.{{ element.options.class }}</span>
 		</span>
