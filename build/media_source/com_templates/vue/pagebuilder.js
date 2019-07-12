@@ -30,4 +30,5 @@ document.addEventListener('DOMContentLoaded',
     el: '#com-templates',
     store,
     render: h => h(App),
-  }));
+  })
+);
