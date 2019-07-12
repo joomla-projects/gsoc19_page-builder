@@ -123,6 +123,9 @@ const mutations = {
   modifyElement(state, payload) {
     state.elementSelected.options.class = payload;
   },
+  updateGridSize(state, value) {
+    state.gridSize = value;
+  }
 };
 
 export default new Vuex.Store({

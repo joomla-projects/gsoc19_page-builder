@@ -44,9 +44,16 @@
     computed: {
       ...mapState([
         'elementArray',
-        'gridSize',
         'selectedSettings'
       ]),
+      gridSize: {
+        get() {
+          return this.$store.state.gridSize;
+        },
+        set(value) {
+          this.updateGridSize(value);
+        }
+      }
     },
     watch: {
       elementArray: {
@@ -69,7 +76,8 @@
         'editElement',
         'fillAllowedChildren',
         'mapElements',
-        'closeNav'
+        'closeNav',
+        'updateGridSize'
       ]),
       addElement(parent) {
         this.fillAllowedChildren(parent.type);
