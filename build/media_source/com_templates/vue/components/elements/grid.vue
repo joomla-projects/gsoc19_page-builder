@@ -31,7 +31,7 @@
 
 			<button @click="addColumn(grid)" class="column-btn btn btn-outline-info" type="button">
 				<span class="icon-new"></span>
-				{{ translate('COM_TEMPLATES_ADD_COLUMN') }}
+				<span>{{ translate('COM_TEMPLATES_ADD_COLUMN') }}</span>
 			</button>
 
 		</grid-item>

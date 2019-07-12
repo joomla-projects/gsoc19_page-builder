@@ -27,7 +27,7 @@
 
 			<button @click="addElement(elementArray)" class="btn btn-outline-info btn-block" type="button">
 				<span class="icon-new"></span>
-				{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}
+				<span>{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}</span>
 			</button>
 
 			<!-- Modals -->

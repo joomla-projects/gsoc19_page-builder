@@ -45,11 +45,11 @@
 			<small class="form-text text-muted">{{ translate('COM_TEMPLATES_ADD_ELEMENT_DESC') }}</small>
 		</div>
 		<div class="modal-footer">
+			<button type="button" class="btn btn-secondary" @click="$modal.hide('add-element')">
+				{{ translate('JTOOLBAR_CLOSE') }}
+			</button>
 			<button type="button" class="btn btn-success" @click="add">
 				{{ translate('COM_TEMPLATES_SAVE') }}
-			</button>
-			<button type="button" class="btn btn-danger" @click="$modal.hide('add-element')">
-				{{ translate('JTOOLBAR_BACK') }}
 			</button>
 		</div>
 	</modal>

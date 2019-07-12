@@ -178,6 +178,7 @@ select {
 
     p {
       text-align: center;
+      font-size: small;
     }
   }
 
@@ -203,5 +204,9 @@ select {
     top: 0;
     right: 25px;
     margin-left: 50px;
+  }
+
+  .btn:not(:first-child) {
+    margin-left: 0.25rem !important;
   }
 }
