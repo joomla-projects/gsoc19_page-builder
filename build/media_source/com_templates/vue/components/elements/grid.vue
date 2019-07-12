@@ -136,8 +136,9 @@
     watch: {
       grid: {
         deep: true,
+        immediate: true,
         handler() {
-          this.mapElementChanges();
+          this.mapGrid();
         }
       },
       gridSize: {
@@ -145,9 +146,6 @@
           this.updateGridBackground();
         }
       },
-    },
-    created() {
-      this.mapGrid();
     },
     methods: {
       ...mapMutations([
@@ -213,30 +211,30 @@
           this.columns.push(col);
         });
       },
-      mapElementChanges() {
-        // Search for new children
-        this.gridData.children.forEach(child => {
-          const found = this.columns.find(col => col.element === child);
-          if (!found) {
-            const newPosition = this.nextSpace;
-            this.columns.push({
-              i: this.nextIndex,
-              w: child.options.size || newPosition.w,
-              h: 1,
-              x: newPosition.x,
-              y: newPosition.y,
-            });
-          }
-        });
-        // Search for removed children
-        this.columns.forEach(col => {
-          const found = this.gridData.children.indexOf(col.element);
-          if (found === -1) {
-            // Remove column from grid
-            this.columns.splice(this.columns.indexOf(col), 1);
-          }
-        });
-      },
+      // mapElementChanges() {
+      //   // Search for new children
+      //   this.gridData.children.forEach(child => {
+      //     const found = this.columns.find(col => col.element === child);
+      //     if (!found) {
+      //       const newPosition = this.nextSpace;
+      //       this.columns.push({
+      //         i: this.nextIndex,
+      //         w: child.options.size || newPosition.w,
+      //         h: 1,
+      //         x: newPosition.x,
+      //         y: newPosition.y,
+      //       });
+      //     }
+      //   });
+      //   // Search for removed children
+      //   this.columns.forEach(col => {
+      //     const found = this.gridData.children.indexOf(col.element);
+      //     if (found === -1) {
+      //       // Remove column from grid
+      //       this.columns.splice(this.columns.indexOf(col), 1);
+      //     }
+      //   });
+      // },
       getColumnByIndex(i) {
         return this.columns.find(col => col.i === i);
       },
