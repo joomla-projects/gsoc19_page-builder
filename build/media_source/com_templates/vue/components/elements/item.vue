@@ -19,16 +19,17 @@
 
 			<grid v-if="element.type === 'Grid'" :grid="element"></grid>
 
-			<item v-else v-for="child in element.children" :item="child" @delete="deleteElement(child)"></item>
+			<div v-else>
+				<item v-for="child in element.children" :item="child" @delete="deleteElement(child)"></item>
 
-			<button v-if="childAllowed.includes(element.type)"
-					type="button"
-					class="btn btn-add btn-outline-info"
-					@click="addElement(element)">
-				<span class="icon-new"></span>
-				<span class="sr-only">{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}</span>
-			</button>
-			
+				<button v-if="childAllowed.includes(element.type)"
+						type="button"
+						class="btn btn-add btn-lg btn-outline-info rounded-circle"
+						@click="addElement(element)">
+					<span class="icon-new"></span>
+					<span class="sr-only">{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}</span>
+				</button>
+			</div>
 		</div>
 	</div>
 </template>
