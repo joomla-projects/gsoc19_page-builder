@@ -84,9 +84,9 @@
         this.$store.commit('addElement', parent);
         this.$modal.show('add-element');
       },
-	  deleteElement(element) {
-        this.$store.commit('deleteElement', {element: element});
-	  }
+      deleteElement(element) {
+        this.$store.commit('deleteElement', { element });
+      }
     }
   };
 </script>

@@ -1,33 +1,30 @@
 <template>
 	<grid-layout :layout="allItems"
-				 :col-num="gridSize"
-				 :is-draggable="true"
-				 :is-resizable="true"
-	>
+		:col-num="gridSize"
+		:is-draggable="true"
+		:is-resizable="true">
 
 		<!-- Columns -->
 		<grid-item v-for="column in columns" :key="column.i"
-				   :class="['col-wrapper', column.element.type]"
-				   :i="column.i"
-				   :w="column.w"
-				   :h="column.h"
-				   :x="column.x"
-				   :y="column.y"
-				   @move="move"
-				   @resize="resize"
-				   @resized="changeSize"
-		>
+			:class="['col-wrapper', column.element.type]"
+			:i="column.i"
+			:w="column.w"
+			:h="column.h"
+			:x="column.x"
+			:y="column.y"
+			@move="move"
+			@resize="resize"
+			@resized="changeSize">
 			<item :item="column.element" @delete="deleteColumn(column)"></item>
 		</grid-item>
 
 		<!-- Button to add new elements into the grid -->
 		<grid-item :static="true"
-				   :i="addElementBtn.i"
-				   :w="addElementBtn.w"
-				   :h="addElementBtn.h"
-				   :x="addBtnPosition.x"
-				   :y="addBtnPosition.y"
-		>
+			:i="addElementBtn.i"
+			:w="addElementBtn.w"
+			:h="addElementBtn.h"
+			:x="addBtnPosition.x"
+			:y="addBtnPosition.y">
 
 			<button @click="addColumn(grid)" class="column-btn btn btn-outline-info" type="button">
 				<span class="icon-new"></span>
