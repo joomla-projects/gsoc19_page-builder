@@ -260,7 +260,7 @@
           nextCol.x -= 1;
         }
       },
-      moveToRight(x, y) {
+      moveToRight(x, y, w) {
         const col = this.atPosition(x, y);
         if (!col) {
           return;
@@ -278,7 +278,7 @@
 
         // Move next col to make space
         this.moveToRight(nextX, y, col.w);
-        col.x += 1;
+        col.x += w || 1;
       },
       atPosition(x, y) {
         return this.columns.find(col => {
