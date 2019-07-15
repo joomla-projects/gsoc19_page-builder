@@ -242,56 +242,43 @@
 
         // Col moves right
         if (movedChild.x < newX) {
-          this.moveNextToRight(movedChild);
+          this.moveToRight(movedChild.x, movedChild.y, movedChild.w);
         }
       },
       resize(i, newH, newW) {
         const resizedCol = this.getColumnByIndex(i);
 
-        // Col gets more widely
+        // Col gets more widely: Move following columns away
         if (resizedCol.w < newW) {
-          this.moveNextToRight(resizedCol, true);
+          this.moveToRight(resizedCol.x + resizedCol.w, resizedCol.y);
           return;
         }
 
-        // Col gets narrower
+        // Col gets narrower: Fill gap with next column
         const nextCol = this.atPosition(resizedCol.x + resizedCol.w, resizedCol.y);
         if (resizedCol.w > newW && nextCol) {
-          // Fill gap with next column
           nextCol.x -= 1;
-          nextCol.w += 1;
         }
       },
-      moveNextToRight(afterCol, withResizing) {
-        const col = this.atPosition(afterCol.x + afterCol.w, afterCol.y);
+      moveToRight(x, y) {
+        const col = this.atPosition(x, y);
         if (!col) {
           return;
         }
 
-        // At the end of the row?
-        if (col.x === this.gridSize - 1) {
-          const newPos = this.nextSpace;
-          col.x = newPos.x;
-          col.y = newPos.y;
-          col.w = newPos.w;
+        const nextX = col.x + col.w;
+
+        // At the end of the row? Shift to the start of the next row
+        if (nextX === this.gridSize) {
+          this.moveToRight(0, y + 1, col.w);
+          col.x = 0;
+          col.y += 1;
           return;
         }
 
-        // Space available? Just move
-        if (!this.atPosition(col.x + col.w, col.y) && col.x + col.w !== this.gridSize) {
-          col.x += 1;
-          return;
-        }
-
-        // Make col slimmer to let following columns on position
-        if (col.w > 1 && withResizing) {
-          col.w -= 1;
-          col.x += 1;
-        } else {
-          // Move next col to make space for moving
-          this.moveNextToRight(col);
-          col.x += 1;
-        }
+        // Move next col to make space
+        this.moveToRight(nextX, y, col.w);
+        col.x += 1;
       },
       atPosition(x, y) {
         return this.columns.find(col => {

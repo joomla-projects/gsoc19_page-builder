@@ -20,7 +20,7 @@
 			<grid v-if="element.type === 'Grid'" :grid="element"></grid>
 
 			<div v-else>
-				<item v-for="child in element.children" :item="child" @delete="deleteElement(child)"></item>
+				<item v-for="child in element.children" :key="child.id" :item="child" @delete="deleteElement(child)"></item>
 
 				<button v-if="childAllowed.includes(element.type)"
 						type="button"
