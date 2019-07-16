@@ -1,11 +1,11 @@
 <template>
 	<div :class="['item', element.type]">
-		<div class="btn-wrapper">
-			<button type="button" class="btn btn-lg" @click="editElement(element)">
+		<div class="btn-wrapper btn-group">
+			<button type="button" class="btn btn-primary" @click="editElement(element)">
 				<span class="icon-options"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
 			</button>
-			<button type="button" class="btn btn-lg" @click="$emit('delete')">
+			<button type="button" class="btn btn-danger" @click="$emit('delete')">
 				<span class="icon-cancel"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_ELEMENT') }}</span>
 			</button>
