@@ -78,7 +78,8 @@ const mutations = {
         type: 'Column',
         options: {
           size: size,
-          class: ''
+          class: '',
+          offset: ''
         },
         children: []
       });
@@ -121,7 +122,8 @@ const mutations = {
     });
   },
   modifyElement(state, payload) {
-    state.elementSelected.options.class = payload;
+    state.elementSelected.options.class = payload.class;
+    state.elementSelected.options.offset = payload.offset;
   },
   updateGridSize(state, value) {
     state.gridSize = value;

@@ -17,6 +17,7 @@ Text::script('COM_TEMPLATES_ADD_ELEMENT', true);
 Text::script('COM_TEMPLATES_ADD_ELEMENT_DESC', true);
 Text::script('COM_TEMPLATES_ADD_GRID', true);
 Text::script('COM_TEMPLATES_ADD_MODULE', true);
+Text::script('COM_TEMPLATES_ADD_OFFSET', true);
 Text::script('COM_TEMPLATES_CLOSE', true);
 Text::script('COM_TEMPLATES_CUSTOM', true);
 Text::script('COM_TEMPLATES_DELETE_COLUMN', true);

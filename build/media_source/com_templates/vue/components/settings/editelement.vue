@@ -6,6 +6,26 @@
             <div class="form-group">
                 <label for="element_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
                 <input id="element_class" name="element_class" type="text" v-model="element_class">
+                <hr>
+                <div v-if="elementSelected.type == 'Column'">
+                    <label for="element_offset">{{ translate('COM_TEMPLATES_ADD_OFFSET') }}</label>
+                    <br>
+                    <select name="element_offset" id="element_offset" v-model="element_offset">
+                        <option value=''>No offset</option>
+                        <option value='1'>1 column - 1/12</option>
+                        <option value='2'>2 columns - 1/6</option>
+                        <option value='3'>3 columns - 1/4</option>
+                        <option value='4'>4 columns - 1/3</option>
+                        <option value='5'>5 columns - 5/12</option>
+                        <option value='6'>6 columns - 1/2</option>
+                        <option value='7'>7 columns - 7/12</option>
+                        <option value='8'>8 columns - 2/3</option>
+                        <option value='9'>9 columns - 3/4</option>
+                        <option value='10'>10 columns - 5/6</option>
+                        <option value='11'>11 columns - 11/12</option>
+                        <option value='12'>12 columns - 1/1</option>
+                    </select>
+                </div>
             </div>
 
             <div class="btn-group">
@@ -26,20 +46,27 @@ export default {
             'elementSelected'
         ])
     },
+    watch: {
+        elementSelected() {
+            this.element_class = this.elementSelected ? this.elementSelected.options.class : '';
+            this.element_offset = this.elementSelected ? this.elementSelected.options.offset : '';
+        }
+    },
     data() {
         return {
-            element_class: this.elementSelected ? this.elementSelected.options.class : '',
+            element_class: '',
+            element_offset: ''
         }
     },
     methods: {
-        closeNav() {
-            this.element_class = '';
-            this.$store.commit('closeNav');
-        },
+        ...mapMutations([
+            'closeNav'
+        ]),
         modifyElement() {
-            if (this.element_class !== '') {
-                this.$store.commit('modifyElement', this.element_class);
-            }
+            let modify = {};
+            modify.class = (this.element_class !== '') ?  this.element_class : '';
+            modify.offset = (this.element_offset !== '') ?  this.element_offset : '';
+            this.$store.commit('modifyElement', modify);
         }
     },
 }

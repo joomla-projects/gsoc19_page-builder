@@ -1,5 +1,5 @@
 <template>
-	<div :class="['item', element.type]">
+	<div :class="['item', element.type, element.options.class]">
 		<div class="btn-wrapper">
 			<button type="button" class="btn btn-lg" @click="editElement(element)">
 				<span class="icon-options"></span>

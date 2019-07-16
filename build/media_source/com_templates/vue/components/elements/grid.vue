@@ -6,7 +6,7 @@
 
 		<!-- Columns -->
 		<grid-item v-for="column in columns" :key="column.i"
-			:class="['col-wrapper', column.element.type]"
+			:class="['col-wrapper', column.element.type, 'offset-'+column.element.options.offset, column.element.options.class]"
 			:i="column.i"
 			:w="column.w"
 			:h="column.h"
@@ -171,6 +171,8 @@
           options: {
             size: 1,
             height: 1,
+            class: '',
+            offset: ''
           },
           children: [],
         };
