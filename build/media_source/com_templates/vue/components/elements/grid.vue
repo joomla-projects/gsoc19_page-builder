@@ -26,7 +26,7 @@
 			:x="addBtnPosition.x"
 			:y="addBtnPosition.y">
 
-			<button @click="addColumn(grid)" class="column-btn btn btn-outline-info" type="button">
+			<button @click="addColumn(grid)" class="column-btn btn btn-sm btn-success" type="button">
 				<span class="icon-new"></span>
 				<span>{{ translate('COM_TEMPLATES_ADD_COLUMN') }}</span>
 			</button>

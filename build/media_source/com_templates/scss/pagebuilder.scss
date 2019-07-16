@@ -116,10 +116,6 @@ select {
     }
   }
 
-  .btn-outline-info:not(:hover) {
-    background-color: $white;
-  }
-
   .btn-add {
     display: block;
     margin: 2rem auto;
@@ -160,7 +156,7 @@ select {
   .element-selection {
     cursor: pointer;
   }
-  
+
   .image-selection {
 
     .icon {

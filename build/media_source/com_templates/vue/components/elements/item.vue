@@ -24,7 +24,7 @@
 
 				<button v-if="childAllowed.includes(element.type)"
 						type="button"
-						class="btn btn-add btn-outline-info"
+						class="btn btn-sm btn-success btn-add"
 						@click="addElement(element)">
 					<span class="icon-new"></span>
 					<span class="sr-only">{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}</span>
