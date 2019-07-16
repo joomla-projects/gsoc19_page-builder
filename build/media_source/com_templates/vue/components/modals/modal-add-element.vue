@@ -1,6 +1,7 @@
 <template>
-	<modal name="add-element" role="dialog" :classes="['modal-content', 'v--modal']" height="auto" :clickToClose="false"
-		   @opened="opened">
+	<modal name="add-element" role="dialog" :classes="['modal-content', 'v--modal']"
+			height="500" width="800px"
+			:clickToClose="false" @opened="opened">
 		<div class="modal-header">
 			<h3 class="modal-title">{{ translate('COM_TEMPLATES_SELECT_ELEMENT') }}</h3>
 			<button @click="$modal.hide('add-element')" type="button" class="close" aria-label="Close">
