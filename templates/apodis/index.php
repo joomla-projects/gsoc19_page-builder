@@ -54,10 +54,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 
-<div>
-	<h1><?php echo $sitename; ?></h1>
-</div>
-
 <?php echo RenderHelper::renderElements($pageGrid); ?>
 
 </body>

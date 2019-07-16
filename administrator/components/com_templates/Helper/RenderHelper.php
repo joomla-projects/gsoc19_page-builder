@@ -52,7 +52,7 @@ abstract class RenderHelper
 
 		PluginHelper::importPlugin('pagebuilder');
 
-		$html = '<div class="root">' . self::render($elements) . '</div>';
+		$html = '<div class="container-fluid">' . self::render($elements) . '</div>';
 
 		return $html;
 	}
