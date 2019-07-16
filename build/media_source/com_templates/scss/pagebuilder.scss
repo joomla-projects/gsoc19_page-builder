@@ -82,21 +82,10 @@ select {
   .btn-wrapper {
     visibility: hidden;
     position: absolute;
-    top: -1rem;
+    top: -1.5rem;
     right: 0;
     background-color: $white;
     border: 1px solid $grey;
-
-    > button {
-      padding: .5rem 1rem;
-      color: $black;
-      font-size: 1.5rem;
-      line-height: 0.5;
-
-      &:hover {
-        color: $bs-blue;
-      }
-    }
   }
 
   button {
@@ -105,10 +94,6 @@ select {
     &:hover {
       cursor: pointer;
     }
-  }
-
-  .btn-outline-info:not(:hover) {
-    background-color: $white;
   }
 
   .btn-add {
@@ -151,7 +136,7 @@ select {
   .element-selection {
     cursor: pointer;
   }
-  
+
   .image-selection {
 
     .icon {

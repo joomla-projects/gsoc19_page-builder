@@ -25,7 +25,7 @@
 				  :item="element" @delete="deleteElement(element)"></item>
 			<!-- Element Ends -->
 
-			<button @click="addElement(elementArray)" class="btn btn-outline-info btn-block" type="button">
+			<button @click="addElement(elementArray)" class="btn btn-success btn-block" type="button">
 				<span class="icon-new"></span>
 				<span>{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}</span>
 			</button>
