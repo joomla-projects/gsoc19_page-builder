@@ -60,12 +60,17 @@ class PlgPagebuilderContainer extends CMSPlugin
 	public function onRender($data)
 	{
 		$html = '<div ';
+		$classes = array('container');
 
 		if (isset($data->options))
 		{
-			$html .= empty($data->options->class) ? '' : ' class="container ' . $data->options->class . '"';
+			if (!empty($data->options->class))
+			{
+				$classes[] = $data->options->class;
+			}
 		}
 
+		$html .= ' class="' . implode(' ', $classes) . '"';
 		$html .= '>';
 
 		return array(
