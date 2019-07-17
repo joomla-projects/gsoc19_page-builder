@@ -119,14 +119,6 @@ const mutations = {
     document.getElementById('sidebar').style.width = '250px';
     document.getElementById('pagebuilder').style.marginLeft = '250px';
   },
-  updateGridBackground(state) {
-    const rows = document.querySelectorAll('.pagebuilder .row-wrapper');
-    Array.prototype.forEach.call(rows, row => {
-      const percentageWidth = (1 / state.gridSize) * 100;
-      const pixelWidth = (row.getBoundingClientRect().width / 100) * percentageWidth;
-      row.style.backgroundSize = `${pixelWidth}px 150px`;
-    });
-  },
   modifyElement(state, payload) {
     state.elementSelected.options.class = payload.class;
     state.elementSelected.options.offset = payload.offset;
@@ -134,7 +126,16 @@ const mutations = {
   },
   updateGridSize(state, value) {
     state.gridSize = value;
-  }
+    mutations.updateGridBackground(state);
+  },
+  updateGridBackground(state) {
+    const rows = document.querySelectorAll('.pagebuilder .row-wrapper .item-content');
+    Array.prototype.forEach.call(rows, row => {
+      const percentageWidth = (1 / state.gridSize) * 100;
+      const pixelWidth = (row.getBoundingClientRect().width / 100) * percentageWidth;
+      row.style.backgroundSize = `${pixelWidth}px 150px`;
+    });
+  },
 };
 
 export default new Vuex.Store({

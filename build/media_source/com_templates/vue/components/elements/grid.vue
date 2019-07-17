@@ -137,11 +137,6 @@
           this.mapElementChanges();
         }
       },
-      gridSize: {
-        handler() {
-          this.updateGridBackground();
-        }
-      },
     },
     created() {
       this.mapGrid();
@@ -151,8 +146,7 @@
         'deleteColumn',
         'deleteElement',
         'editElement',
-        'fillAllowedChildren',
-        'updateGridBackground'
+        'fillAllowedChildren'
       ]),
       addElement(parent) {
         this.fillAllowedChildren(parent.type);
