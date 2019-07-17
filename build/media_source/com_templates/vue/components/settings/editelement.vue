@@ -6,7 +6,7 @@
             <div class="form-group">
                 <label for="element_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
                 <input id="element_class" name="element_class" type="text" v-model="element_class">
-                <br>
+                <hr>
                 <div v-if="elementSelected.type == 'Column'">
                     <label for="element_offset">{{ translate('COM_TEMPLATES_ADD_OFFSET') }}</label>
                     <br>
@@ -123,7 +123,8 @@ export default {
     watch: {
         elementSelected() {
             this.element_class = this.elementSelected.options.class;
-            this.element_offset = this.elementSelected.options.offset;
+            if(this.elementSelected.options.offset)
+                this.element_offset = this.elementSelected.options.offset;
         }
     },
     data() {
