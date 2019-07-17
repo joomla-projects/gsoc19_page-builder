@@ -68,7 +68,6 @@
     },
     computed: {
       ...mapState([
-        'elements',
         'allowedChildren'
       ])
     },

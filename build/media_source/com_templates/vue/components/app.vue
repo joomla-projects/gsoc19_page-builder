@@ -37,7 +37,6 @@
 </template>
 
 <script>
-  import draggable from 'vuedraggable';
   import {mapMutations, mapState} from 'vuex';
 
   export default {
@@ -63,9 +62,6 @@
         deep: true,
       },
     },
-    components: {
-      draggable
-    },
     created() {
       this.mapElements(JSON.parse(document.getElementById('jform_params_grid').value));
       this.ifChildAllowed();
@@ -73,7 +69,6 @@
     methods: {
       ...mapMutations([
         'ifChildAllowed',
-        'editElement',
         'fillAllowedChildren',
         'mapElements',
         'closeNav',
