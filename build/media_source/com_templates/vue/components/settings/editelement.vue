@@ -6,7 +6,7 @@
             <div class="form-group">
                 <label for="element_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
                 <input id="element_class" name="element_class" type="text" v-model="element_class">
-                <hr>
+                <br>
                 <div v-if="elementSelected.type == 'Column'">
                     <label for="element_offset">{{ translate('COM_TEMPLATES_ADD_OFFSET') }}</label>
                     <br>
@@ -20,8 +20,8 @@
                         <tbody>
                             <tr>
                                 <th scope="row"><i class="fas fa-mobile-alt fa-2x"></i></th>
-                                <td>
-                                    <select name="element_offset" id="element_offset" v-model="element_offset.xs">
+                                <td class="form-group">
+                                    <select name="element_offset" id="element_offset" class="form-control form-control-sm" v-model="element_offset.xs">
                                         <option value=''>No offset</option>
                                         <option value='1'>1 column - 1/12</option>
                                         <option value='2'>2 columns - 1/6</option>
@@ -40,8 +40,8 @@
                             </tr>
                             <tr>
                                 <th scope="row"><i class="fas fa-tablet-alt fa-2x"></i></th>
-                                <td>
-                                    <select name="element_offset" id="element_offset" v-model="element_offset.sm">
+                                <td class="form-group">
+                                    <select name="element_offset" id="element_offset" class="form-control form-control-sm" v-model="element_offset.sm">
                                         <option value=''>No offset</option>
                                         <option value='1'>1 column - 1/12</option>
                                         <option value='2'>2 columns - 1/6</option>
@@ -60,8 +60,8 @@
                             </tr>
                             <tr>
                                 <th scope="row"><i class="fas fa-laptop fa-2x"></i></th>
-                                <td>
-                                    <select name="element_offset" id="element_offset" v-model="element_offset.md">
+                                <td class="form-group">
+                                    <select name="element_offset" id="element_offset" class="form-control form-control-sm" v-model="element_offset.md">
                                         <option value=''>No offset</option>
                                         <option value='1'>1 column - 1/12</option>
                                         <option value='2'>2 columns - 1/6</option>
@@ -80,8 +80,8 @@
                             </tr>
                             <tr>
                                 <th scope="row"><i class="fas fa-desktop fa-2x"></i></th>
-                                <td>
-                                    <select name="element_offset" id="element_offset" v-model="element_offset.lg">
+                                <td class="form-group">
+                                    <select name="element_offset" id="element_offset" class="form-control form-control-sm" v-model="element_offset.lg">
                                         <option value=''>No offset</option>
                                         <option value='1'>1 column - 1/12</option>
                                         <option value='2'>2 columns - 1/6</option>
@@ -145,6 +145,10 @@ export default {
             let modify = {};
             modify.class = (this.element_class !== '') ?  this.element_class : '';
             modify.offset = (this.element_offset !== '') ?  this.element_offset : '';
+            modify.offsetClass = ' offset-xs-' + this.element_offset.xs
+                                + ' offset-sm-' + this.element_offset.sm
+                                + ' offset-md-' + this.element_offset.md
+                                + ' offset-lg-' + this.element_offset.lg;
             this.$store.commit('modifyElement', modify);
         }
     },

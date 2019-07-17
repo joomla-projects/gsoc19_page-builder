@@ -130,9 +130,7 @@ const mutations = {
   modifyElement(state, payload) {
     state.elementSelected.options.class = payload.class;
     state.elementSelected.options.offset = payload.offset;
-    Object.entries(payload.offset).forEach(([key, value]) => {
-      state.elementSelected.options.offsetClass += ('offset-' + key + '-' + value + ' ');
-    })
+    state.elementSelected.options.offsetClass = payload.offsetClass;
   },
   updateGridSize(state, value) {
     state.gridSize = value;
