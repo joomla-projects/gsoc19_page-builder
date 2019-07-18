@@ -7,7 +7,7 @@
                 <label for="element_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
                 <input type="text" name="element_class" id="element_class" class="form-control" v-model="element_class">
                 <hr>
-                <div v-if="elementSelected.type == 'Column'">
+                <div v-if="elementSelected.type === 'column'">
                     <label for="element_offset">{{ translate('COM_TEMPLATES_ADD_OFFSET') }}</label>
                     <br>
                     <table class="table">
