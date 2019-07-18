@@ -20,7 +20,7 @@
 			<grid v-if="element.type === 'grid'" :grid="element"></grid>
 
 			<div v-else>
-				<item v-for="child in element.children" :key="child.id" :item="child" @delete="deleteElement(child)"></item>
+				<item v-for="child in element.children" :key="child.key" :item="child" @delete="deleteElement(child)"></item>
 
 				<button v-if="childAllowed.includes(element.type)"
 						type="button"
@@ -61,8 +61,7 @@
         'fillAllowedChildren'
       ]),
       addElement(parent) {
-        this.fillAllowedChildren(parent.type);
-        this.$store.commit('addElement', parent);
+        this.$store.commit('setParent', parent.children);
         this.$modal.show('add-element');
       },
       deleteElement(child) {

@@ -18,6 +18,7 @@ const state = {
 const mutations = {
   mapElements(state, elements) {
     state.elementArray = elements;
+    state.parent = elements;
   },
   ifChildAllowed(state) {
     state.elements.forEach(el => {
@@ -42,44 +43,40 @@ const mutations = {
       });
     });
   },
-  insertElement(state, element) {
-    const type = state.elements.find(el => el.id === element);
-    const newElement = {
-      'type': element,
-      'title': type ? type.title : element,
-      'options': {
-        'class': ''
-      },
-      'children': []
-    };
-    if (state.parent.children) {
-      state.parent.children.push(newElement);
-    } else {
-      state.parent.push(newElement);
-    }
-  },
-  addElement(state, parent) {
+  setParent(state, parent) {
+    mutations.fillAllowedChildren(state, parent.type);
     state.parent = parent;
   },
-  editElement(state, element) {
-    state.selectedSettings = 'edit-element';
-    state.elementSelected = element;
-    mutations.openNav();
-  },
-  deleteElement(state, {element, parent}) {
-    const elements = parent ? parent.children : state.elementArray;
-    const index = elements.indexOf(element);
-    if (index > -1) {
-      elements.splice(index, 1);
+  addElement(state, {name, config}) {
+    let newElement = {};
+
+    if (name === 'grid' && config) {
+      newElement = mutations.getGrid(state, config);
+    } else {
+      const type = state.elements.find(el => el.id === name);
+      newElement = {
+        key: mutations.getNextKey(state, state.parent),
+        type: name,
+        title: type ? type.title : name,
+        options: {
+          class: ''
+        },
+        children: []
+      };
     }
+
+    state.parent.push(newElement);
   },
-  addGrid(state, sizes) {
-    const newElements = [];
+  getGrid(state, sizes) {
+    const columnType = state.elements.find(el => el.id === 'column');
+    const gridType = state.elements.find(el => el.id === 'grid');
+    const children = [];
 
     sizes.forEach(size => {
-      newElements.push({
+      children.push({
+        key: mutations.getNextKey(state, children),
         type: 'column',
-        title: 'Column',
+        title: columnType.title,
         options: {
           size: size,
           class: '',
@@ -95,19 +92,33 @@ const mutations = {
       });
     });
 
-    const newGrid = {
+    return {
+      key: mutations.getNextKey(state, state.parent),
       type: 'grid',
-      title: 'Grid',
+      title: gridType.title,
       options: {
         class: '',
       },
-      children: newElements
+      children: children,
     };
-
-    if (state.parent.children) {
-      state.parent.children.push(newGrid);
-    } else {
-      state.parent.push(newGrid);
+  },
+  getNextKey(state, elements) {
+    let newKey = 0;
+    elements.forEach(element => {
+      newKey = Math.max(element.key, newKey);
+    });
+    return newKey + 1;
+  },
+  editElement(state, element) {
+    state.selectedSettings = 'edit-element';
+    state.elementSelected = element;
+    mutations.openNav();
+  },
+  deleteElement(state, {element, parent}) {
+    const elements = parent ? parent.children : state.elementArray;
+    const index = elements.indexOf(element);
+    if (index > -1) {
+      elements.splice(index, 1);
     }
   },
   deleteColumn(state, payload) {

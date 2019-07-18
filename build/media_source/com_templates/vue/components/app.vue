@@ -20,11 +20,11 @@
 
 			<!-- TODO: make the rows sortable again ('draggable' breaks resizable elements) -->
 			<!-- Element -->
-			<item v-for="element in elementArray" :key="element.id" :class="['row-wrapper']"
+			<item v-for="element in elementArray" :key="element.key" :class="['row-wrapper']"
 				  :item="element" @delete="deleteElement(element)"></item>
 			<!-- Element Ends -->
 
-			<button @click="addElement(elementArray)" class="btn btn-success btn-block" type="button">
+			<button @click="addElement()" class="btn btn-success btn-block" type="button">
 				<span class="icon-new"></span>
 				<span>{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}</span>
 			</button>
@@ -68,14 +68,12 @@
     methods: {
       ...mapMutations([
         'ifChildAllowed',
-        'fillAllowedChildren',
         'mapElements',
         'closeNav',
         'updateGridSize'
       ]),
-      addElement(parent) {
-        this.fillAllowedChildren(parent.type);
-        this.$store.commit('addElement', parent);
+      addElement() {
+        this.$store.commit('setParent', this.elementArray);
         this.$modal.show('add-element');
       },
       deleteElement(element) {
