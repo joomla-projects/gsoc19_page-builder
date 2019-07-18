@@ -74,7 +74,7 @@ abstract class RenderHelper
 
 		foreach ($pluginRenderer as $plugin)
 		{
-			if (strtolower($plugin['name']) === strtolower($name))
+			if (strtolower($plugin['id']) === strtolower($name))
 			{
 				return $plugin;
 			}

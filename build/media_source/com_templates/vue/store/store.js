@@ -22,7 +22,7 @@ const mutations = {
   ifChildAllowed(state) {
     state.elements.forEach(el => {
       if (el.children) {
-        state.childAllowed.push(el.name);
+        state.childAllowed.push(el.id);
       }
     });
   },
@@ -34,7 +34,8 @@ const mutations = {
       el.parent.forEach(item => {
         if (item === name) {
           state.allowedChildren.push({
-            'name': el.name,
+            'title': el.title,
+            'id': el.id,
             'description': el.description
           });
         }
@@ -42,8 +43,10 @@ const mutations = {
     });
   },
   insertElement(state, element) {
+    const type = state.elements.find(el => el.id === element);
     const newElement = {
       'type': element,
+      'title': type ? type.title : element,
       'options': {
         'class': ''
       },
@@ -75,7 +78,8 @@ const mutations = {
 
     sizes.forEach(size => {
       newElements.push({
-        type: 'Column',
+        type: 'column',
+        title: 'Column',
         options: {
           size: size,
           class: '',
@@ -92,7 +96,8 @@ const mutations = {
     });
 
     const newGrid = {
-      type: 'Grid',
+      type: 'grid',
+      title: 'Grid',
       options: {
         class: '',
       },

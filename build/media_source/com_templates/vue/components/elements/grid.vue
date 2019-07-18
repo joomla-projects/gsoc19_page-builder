@@ -161,7 +161,7 @@
         this.$store.commit('addElement', this.gridData);
 
         const newElement = {
-          type: 'Column',
+          type: 'column',
           options: {
             size: 1,
             height: 1,
@@ -191,7 +191,7 @@
         this.gridData.children.forEach((child) => {
           const col = {
             i: this.nextIndex,
-            w: child.type !== 'Column' ? 12 : child.options.size || 1, // Takes care of elements other than 'Column'
+            w: child.type !== 'column' ? 12 : child.options.size || 1, // Takes care of elements other than 'column'
             h: child.options.height || 1,
             x: x,
             y: y,

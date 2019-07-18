@@ -40,11 +40,11 @@ class PlgPagebuilderColumn extends CMSPlugin
 		Text::script('PLG_PAGEBUILDER_COLUMN_NAME');
 
 		return array(
-			'name'     		=> Text::_('PLG_PAGEBUILDER_COLUMN_NAME'),
-			'description' 	=> Text::_('PLG_PAGEBUILDER_COLUMN_DESC'),
-			'id'       		=> 'plg_pagebuilder_column',
-			'parent'   		=> array('Grid'),
-			'children' 		=> true
+			'title'       => Text::_('PLG_PAGEBUILDER_COLUMN_NAME'),
+			'description' => Text::_('PLG_PAGEBUILDER_COLUMN_DESC'),
+			'id'          => 'column',
+			'parent'      => array('grid'),
+			'children'    => true
 		);
 	}
 
@@ -79,8 +79,8 @@ class PlgPagebuilderColumn extends CMSPlugin
 		$html .= '>';
 
 		return array(
-			'name'  => Text::_('PLG_PAGEBUILDER_COLUMN_NAME'),
-			'id'    => 'plg_pagebuilder_column',
+			'title' => Text::_('PLG_PAGEBUILDER_COLUMN_NAME'),
+			'id'    => 'column',
 			'start' => $html,
 			'end'   => '</div>'
 		);

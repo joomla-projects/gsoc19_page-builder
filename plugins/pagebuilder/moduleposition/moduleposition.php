@@ -40,11 +40,11 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 		Text::script('PLG_PAGEBUILDER_MODULEPOSITION_NAME');
 
 		return array(
-			'name'     		=> Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
-			'description' 	=> Text::_('PLG_PAGEBUILDER_MODULEPOSITION_DESC'),
-			'id'      	 	=> 'plg_pagebuilder_moduleposition',
-			'parent'   		=> array('root','Grid','Container', 'Column'),
-			'children' 		=> false
+			'title'       => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
+			'description' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_DESC'),
+			'id'          => 'moduleposition',
+			'parent'      => array('root', 'grid', 'container', 'column'),
+			'children'    => false
 		);
 	}
 
@@ -79,8 +79,8 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 		$html .= '> POSITION ';
 
 		return array(
-			'name'  => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
-			'id'    => 'plg_pagebuilder_grid',
+			'title' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
+			'id'    => 'moduleposition',
 			'start' => $html,
 			'end'   => '</span>'
 		);

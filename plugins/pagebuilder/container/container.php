@@ -40,11 +40,11 @@ class PlgPagebuilderContainer extends CMSPlugin
 		Text::script('PLG_PAGEBUILDER_CONTAINER_NAME');
 
 		return array(
-			'name'     		=> Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
-			'description' 	=> Text::_('PLG_PAGEBUILDER_CONTAINER_DESC'),
-			'id'       		=> 'plg_pagebuilder_container',
-			'parent'   		=> array('root','Column'),
-			'children' 		=> true
+			'title'       => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
+			'description' => Text::_('PLG_PAGEBUILDER_CONTAINER_DESC'),
+			'id'          => 'container',
+			'parent'      => array('root', 'column'),
+			'children'    => true
 		);
 	}
 
@@ -74,10 +74,10 @@ class PlgPagebuilderContainer extends CMSPlugin
 		$html .= '>';
 
 		return array(
-			'name'     => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
-			'id'       => 'plg_pagebuilder_container',
-			'start'    => $html,
-			'end'      => '</div>'
+			'title' => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
+			'id'    => 'container',
+			'start' => $html,
+			'end'   => '</div>'
 		);
 	}
 }
