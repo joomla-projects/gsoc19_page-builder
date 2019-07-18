@@ -82,7 +82,7 @@ select {
   .btn-wrapper {
     visibility: hidden;
     position: absolute;
-    top: -1.5rem;
+    top: -2rem;
     right: 0;
     background-color: $white;
     border: 1px solid $grey;
@@ -193,5 +193,9 @@ select {
   .table th {
     text-align: center;
     padding: 2px 12px;
+  }
+
+  .form-group {
+    padding: 0 7.5px 15px 0;
   }
 }

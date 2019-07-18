@@ -2,7 +2,6 @@
 	<div>
 		<div id="sidebar" class="sidebar">
 			<h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
-			<hr>
 			<button type="button" class="btn btn-lg closebtn" @click="closeNav()">
 				<span class="icon-cancel"></span>
 			</button>
