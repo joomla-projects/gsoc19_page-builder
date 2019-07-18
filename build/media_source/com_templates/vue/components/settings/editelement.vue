@@ -102,7 +102,7 @@
                     </table>
                 </div>
             </div>
-            <div class="btn-group">
+            <div>
                 <button type="button" class="btn btn-success" @click="modifyElement">{{ translate('COM_TEMPLATES_ADD') }}</button>
                 <button type="button" class="btn btn-secondary" @click="closeNav">{{ translate('JTOOLBAR_CLOSE') }}</button>
             </div>

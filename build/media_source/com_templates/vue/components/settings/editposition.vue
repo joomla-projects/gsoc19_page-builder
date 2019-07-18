@@ -16,7 +16,7 @@
                 </select>
             </div>
 
-            <div class="btn-group">
+            <div>
                 <button type="button" class="btn btn-success" @click="editPosition">{{ translate('COM_TEMPLATES_SAVE') }}</button>
                 <button type="button" class="btn btn-secondary" @click="closeNav">{{ translate('JTOOLBAR_CLOSE') }}</button>
             </div>

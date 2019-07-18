@@ -1,12 +1,14 @@
 <template>
 	<div>
 		<div id="sidebar" class="sidebar">
-			<h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
-			<button type="button" class="btn btn-lg closebtn" @click="closeNav()">
-				<span class="icon-cancel"></span>
-			</button>
+				<div class="sidebar-content">
+				<h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
+				<button type="button" class="btn btn-lg closebtn" @click="closeNav()">
+					<span class="icon-cancel"></span>
+				</button>
 
-			<component :is="selectedSettings" class="form-group"></component>
+				<component :is="selectedSettings"></component>
+			</div>
 		</div>
 
 		<div class="pagebuilder" id="pagebuilder">
