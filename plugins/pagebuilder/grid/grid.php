@@ -40,11 +40,11 @@ class PlgPagebuilderGrid extends CMSPlugin
 		Text::script('PLG_PAGEBUILDER_GRID_NAME');
 
 		return array(
-			'name'     		=> Text::_('PLG_PAGEBUILDER_GRID_NAME'),
-			'description' 	=> Text::_('PLG_PAGEBUILDER_GRID_DESC'),
-			'id'       		=> 'plg_pagebuilder_grid',
-			'parent'   		=> array('root','Container','Column'),
-			'children' 		=> true
+			'title'       => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
+			'description' => Text::_('PLG_PAGEBUILDER_GRID_DESC'),
+			'id'          => 'grid',
+			'parent'      => array('root', 'container', 'column'),
+			'children'    => true
 		);
 	}
 
@@ -74,8 +74,8 @@ class PlgPagebuilderGrid extends CMSPlugin
 		$html .= '>';
 
 		return array(
-			'name'  => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
-			'id'    => 'plg_pagebuilder_grid',
+			'title' => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
+			'id'    => 'grid',
 			'start' => $html,
 			'end'   => '</div>'
 		);

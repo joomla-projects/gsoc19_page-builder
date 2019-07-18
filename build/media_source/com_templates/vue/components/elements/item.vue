@@ -13,11 +13,11 @@
 
 		<div class="item-content">
 			<div class="desc">
-				<span>{{ element.type }}</span>
+				<span>{{ element.title }}</span>
 				<span v-if="element.options.class">.{{ element.options.class }}</span>
 			</div>
 
-			<grid v-if="element.type === 'Grid'" :grid="element"></grid>
+			<grid v-if="element.type === 'grid'" :grid="element"></grid>
 
 			<div v-else>
 				<item v-for="child in element.children" :key="child.id" :item="child" @delete="deleteElement(child)"></item>

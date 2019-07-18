@@ -14,30 +14,31 @@
 					<div class="list-group" id="list-tab" role="tablist">
 						<li v-for="element in allowedChildren" data-toggle="list" role="tabpanel"
 							class="element-selection list-group-item list-group-item-action"
-							:href="'#list-'+element.name">
-							{{ element.name }}
+							:data-id="element.id"
+							:href="'#list-'+element.id">
+							{{ element.title }}
 						</li>
 					</div>
 				</div>
 				<div class="col-8 tab-content">
-					<div v-for="element in allowedChildren" :id="'list-'+element.name" class="tab-pane fade" role="tabpanel">
+					<div v-for="element in allowedChildren" :id="'list-'+element.id" class="tab-pane fade" role="tabpanel">
 						{{ element.description }}
-						<div v-if="element.name === 'Grid'" class="image-selection">
+						<div v-if="element.id === 'grid'" class="image-selection">
 							<div class="row">
 								<div class="col-4 icon" v-html="images.row12 + '<p>100%</p>'"
-									@click="insertElement('Grid' , [12])"></div>
+									@click="insertElement('grid' , [12])"></div>
 								<div class="col-4 icon" v-html="images.row66 + '<p>(50%-50%)</p>'"
-									@click="insertElement('Grid' , [6, 6])"></div>
+									@click="insertElement('grid' , [6, 6])"></div>
 								<div class="col-4 icon" v-html="images.row48 + '<p>(33%-67%)</p>'"
-									@click="insertElement('Grid' , [4, 8])"></div>
+									@click="insertElement('grid' , [4, 8])"></div>
 								<div class="col-4 icon" v-html="images.row84 + '<p>(67%-33%)</p>'"
-									@click="insertElement('Grid' , [8, 4])"></div>
+									@click="insertElement('grid' , [8, 4])"></div>
 								<div class="col-4 icon" v-html="images.row3333 + '<p>(25%-25%-25%-25%)</p>'"
-									@click="insertElement('Grid' , [3, 3, 3, 3])"></div>
+									@click="insertElement('grid' , [3, 3, 3, 3])"></div>
 								<div class="col-4 icon" v-html="images.row444 + '<p>(33%-33%-33%)</p>'"
-									@click="insertElement('Grid' , [4, 4, 4])"></div>
+									@click="insertElement('grid' , [4, 4, 4])"></div>
 								<div class="col-4 icon" v-html="images.row363 + '<p>(25%-50%-25%)</p>'"
-									@click="insertElement('Grid' , [3, 6, 3])"></div>
+									@click="insertElement('grid' , [3, 6, 3])"></div>
 							</div>
 						</div>
 					</div>
@@ -78,12 +79,12 @@
       add() {
         const selection = document.querySelector('.element-selection.active');
         if (selection) {
-          this.insertElement(selection.innerText);
+          this.insertElement(selection.dataset.id);
           this.$modal.hide('add-element');
         }
       },
       insertElement(element, sizes) {
-        if (element === 'Grid') {
+        if (element === 'grid') {
           this.addGrid(sizes);
         } else {
           this.$store.commit('insertElement', element);
