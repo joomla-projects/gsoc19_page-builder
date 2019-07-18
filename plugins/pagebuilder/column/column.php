@@ -73,6 +73,11 @@ class PlgPagebuilderColumn extends CMSPlugin
 			{
 				$classes[] = 'col-' . $data->options->size;
 			}
+
+			if (!empty($data->options->offsetClass))
+			{
+				$classes[] = $data->options->offsetClass;
+			}
 		}
 
 		$html .= ' class="' . implode(' ', $classes) . '"';
