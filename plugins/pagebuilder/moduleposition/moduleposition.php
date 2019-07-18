@@ -43,7 +43,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 			'name'     		=> Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
 			'description' 	=> Text::_('PLG_PAGEBUILDER_MODULEPOSITION_DESC'),
 			'id'      	 	=> 'plg_pagebuilder_moduleposition',
-			'parent'   		=> array('root','Grid','Container'),
+			'parent'   		=> array('root','Grid','Container', 'Column'),
 			'children' 		=> false
 		);
 	}

@@ -43,7 +43,7 @@ class PlgPagebuilderGrid extends CMSPlugin
 			'name'     		=> Text::_('PLG_PAGEBUILDER_GRID_NAME'),
 			'description' 	=> Text::_('PLG_PAGEBUILDER_GRID_DESC'),
 			'id'       		=> 'plg_pagebuilder_grid',
-			'parent'   		=> array('root','Container'),
+			'parent'   		=> array('root','Container','Column'),
 			'children' 		=> true
 		);
 	}
