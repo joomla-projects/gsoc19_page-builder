@@ -49,6 +49,7 @@ select {
 
     &.pagebuilder_moduleposition {
       background-color: $light-red;
+      margin: 0 10px;
 
       &:hover {
         background-color: $red;
@@ -57,6 +58,7 @@ select {
 
     &.pagebuilder_grid {
       background-color: $light-grey;
+      margin: 0 10px;
 
       > .item-content {
         // Repeating background needed to overwrite Vuetify
