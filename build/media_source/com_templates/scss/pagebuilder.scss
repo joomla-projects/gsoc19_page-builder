@@ -47,7 +47,7 @@ select {
       }
     }
 
-    &.moduleposition {
+    &.pagebuilder_moduleposition {
       background-color: $light-red;
 
       &:hover {
@@ -55,7 +55,7 @@ select {
       }
     }
 
-    &.grid {
+    &.pagebuilder_grid {
       background-color: $light-grey;
 
       > .item-content {
