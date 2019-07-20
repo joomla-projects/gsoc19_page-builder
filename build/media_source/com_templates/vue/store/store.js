@@ -141,12 +141,6 @@ const mutations = {
       elements.splice(index, 1);
     }
   },
-  deleteColumn(state, payload) {
-    const index = payload.element.children.indexOf(payload.column);
-    if (index > -1) {
-      payload.element.children.splice(index, 1);
-    }
-  },
   closeNav() {
     document.getElementById('sidebar').style.width = '0';
     document.getElementById('pagebuilder').style.marginLeft = '0';

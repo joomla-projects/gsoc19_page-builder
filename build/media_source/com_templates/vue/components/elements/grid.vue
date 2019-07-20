@@ -15,7 +15,7 @@
 			@move="move"
 			@resize="resize"
 			@resized="changeSize">
-			<item :item="column.element" @delete="deleteColumn(column)"></item>
+			<item :item="column.element" @delete="deleteElement({element: column.element, parent: grid})"></item>
 		</grid-item>
 
 		<!-- Button to add new elements into the grid -->
@@ -143,14 +143,10 @@
     },
     methods: {
       ...mapMutations([
-        'deleteColumn',
         'deleteElement',
         'editElement',
         'fillAllowedChildren'
       ]),
-      deleteColumn(column) {
-        this.gridData.children.splice(this.gridData.children.indexOf(column.element), 1);
-      },
       addColumn() {
         // TODO: make type of new column selectable
         this.$store.commit('setParent', this.grid.children);
