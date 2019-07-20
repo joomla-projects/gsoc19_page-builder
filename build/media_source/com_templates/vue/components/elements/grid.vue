@@ -49,7 +49,6 @@
     },
     computed: {
       ...mapState([
-        'childAllowed',
         'gridSize'
       ]),
       allItems() {
@@ -65,9 +64,7 @@
         return index + 1;
       },
       nextSpace() {
-        let x = 0;
-        let y = 0;
-        let occupied = this.atPosition(x, y);
+        let x = 0, y = 0, occupied = this.atPosition(x, y);
 
         while (occupied) {
           x += occupied.w;
@@ -126,7 +123,6 @@
           x: 0,
           y: 1,
         },
-        gridData: this.grid,
         columns: [],
       };
     },
@@ -144,13 +140,13 @@
     methods: {
       ...mapMutations([
         'deleteElement',
-        'editElement',
-        'fillAllowedChildren'
+        'setParent',
+        'addElement'
       ]),
       addColumn() {
         // TODO: make type of new column selectable
-        this.$store.commit('setParent', this.grid.children);
-        this.$store.commit('addElement', {
+        this.setParent(this.grid.children);
+        this.addElement({
           name: 'column',
           config: ''
         });
@@ -159,7 +155,7 @@
         let x = 0;
         let y = 0;
 
-        this.gridData.children.forEach((child) => {
+        this.grid.children.forEach((child) => {
           const col = {
             i: this.nextIndex,
             w: child.type !== 'column' ? 12 : child.options.size || 1, // Takes care of elements other than 'column'
@@ -179,7 +175,7 @@
       },
       mapElementChanges() {
         // Search for new children
-        this.gridData.children.forEach(child => {
+        this.grid.children.forEach(child => {
           const found = this.columns.find(col => col.element === child);
           if (!found) {
             const newPosition = this.nextSpace;
@@ -195,7 +191,7 @@
         });
         // Search for removed children
         this.columns.forEach(col => {
-          const found = this.gridData.children.indexOf(col.element);
+          const found = this.grid.children.indexOf(col.element);
           if (found === -1) {
             // Remove column from grid
             this.columns.splice(this.columns.indexOf(col), 1);

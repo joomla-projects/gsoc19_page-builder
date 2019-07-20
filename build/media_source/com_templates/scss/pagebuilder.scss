@@ -56,6 +56,15 @@ select {
       }
     }
 
+    &.pagebuilder_container {
+      background-color: $light-blue;
+      margin: 0 10px;
+
+      &:hover {
+        background-color: $blue;
+      }
+    }
+
     &.pagebuilder_grid {
       background-color: $light-grey;
       margin: 0 10px;
@@ -84,7 +93,6 @@ select {
   .btn-wrapper {
     visibility: hidden;
     position: absolute;
-    top: -2rem;
     right: 0;
     background-color: $white;
     border: 1px solid $grey;
