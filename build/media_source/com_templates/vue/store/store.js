@@ -52,7 +52,27 @@ const mutations = {
 
     if (name === 'grid' && config) {
       newElement = mutations.getGrid(state, config);
-    } else {
+    }
+    else if (name === 'column') {
+      newElement = {
+        key: mutations.getNextKey(state, state.parent),
+        type: 'column',
+        title: 'Column',
+        options: {
+          size: 12,
+          class: '',
+          offset: {
+            xs: '',
+            sm: '',
+            md: '',
+            lg: ''
+          },
+          offsetClass: '',
+        },
+        children: []
+      };
+    }
+    else {
       const type = state.elements.find(el => el.id === name);
       newElement = {
         key: mutations.getNextKey(state, state.parent),

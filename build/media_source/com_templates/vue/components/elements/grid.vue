@@ -148,41 +148,16 @@
         'editElement',
         'fillAllowedChildren'
       ]),
-      addElement(parent) {
-        this.fillAllowedChildren(parent.type);
-        this.$store.commit('addElement', parent);
-        this.$modal.show('add-element');
-      },
       deleteColumn(column) {
         this.gridData.children.splice(this.gridData.children.indexOf(column.element), 1);
       },
       addColumn() {
         // TODO: make type of new column selectable
-        this.$store.commit('addElement', this.gridData);
-
-        const newElement = {
-          type: 'column',
-          options: {
-            size: 1,
-            height: 1,
-            class: '',
-            offset: ''
-          },
-          children: [],
-        };
-
-        const newPosition = this.nextSpace;
-        this.columns.push({
-          i: this.nextIndex,
-          w: newPosition.w,
-          h: 1,
-          x: newPosition.x,
-          y: newPosition.y,
-          element: newElement,
+        this.$store.commit('setParent', this.grid.children);
+        this.$store.commit('addElement', {
+          name: 'column',
+          config: ''
         });
-
-        // Add column element to grid element too
-        this.gridData.children.push(newElement);
       },
       mapGrid() {
         let x = 0;
@@ -218,6 +193,7 @@
               h: 1,
               x: newPosition.x,
               y: newPosition.y,
+              element: child,
             });
           }
         });
