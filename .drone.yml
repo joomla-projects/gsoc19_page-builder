@@ -31,9 +31,7 @@ steps:
     depends_on: [ composer ]
     commands:
       - echo $(date)
-      - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards/Joomla/ExampleRulesets,../../joomla/coding-standards
-      - ./libraries/vendor/bin/phpcs --config-set colors 1
-      - ./libraries/vendor/bin/phpcs --config-set php_version 70200
+      - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards
       - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/*,node_modules/*,media/*,libraries/autoload_psr4.php,installation/template/error.php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
       - echo $(date)
 
@@ -257,6 +255,6 @@ services:
 
 ---
 kind: signature
-hmac: acbe92ba64109f3f6ae49b3240423f32b9020abf10e3066323d54eb85138a194
+hmac: ad4742a66bfcacf14dc48a47a9cb80cf6a1a51692148b296059f3242d184f992
 
 ...
