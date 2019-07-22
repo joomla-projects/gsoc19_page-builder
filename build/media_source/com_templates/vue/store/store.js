@@ -12,12 +12,14 @@ const state = {
   childAllowed: [],
   elements: window.Joomla.getOptions('com_templates').elements,
   elementArray: {},
+  maxKey: 0,
 };
 
 const mutations = {
   mapElements(state, elements) {
     state.elementArray = elements;
     state.parent = elements;
+    mutations.setMaxKey(state);
   },
   ifChildAllowed(state) {
     state.elements.forEach(el => {
@@ -48,13 +50,14 @@ const mutations = {
   },
   addElement(state, {name, config}) {
     let newElement = {};
+    state.maxKey += 1;
 
     if (name === 'grid' && config) {
       newElement = mutations.getGrid(state, config);
     }
     else if (name === 'column') {
       newElement = {
-        key: mutations.getNextKey(state, state.parent),
+        key: state.maxKey,
         type: 'column',
         title: 'Column',
         options: {
@@ -74,7 +77,7 @@ const mutations = {
     else {
       const type = state.elements.find(el => el.id === name);
       newElement = {
-        key: mutations.getNextKey(state, state.parent),
+        key: state.maxKey,
         type: name,
         title: type ? type.title : name,
         options: {
@@ -89,11 +92,14 @@ const mutations = {
   getGrid(state, sizes) {
     const columnType = state.elements.find(el => el.id === 'column');
     const gridType = state.elements.find(el => el.id === 'grid');
+    const gridKey = state.maxKey;
     const children = [];
 
     sizes.forEach(size => {
+      state.maxKey += 1;
+
       children.push({
-        key: mutations.getNextKey(state, children),
+        key: state.maxKey,
         type: 'column',
         title: columnType.title,
         options: {
@@ -112,7 +118,7 @@ const mutations = {
     });
 
     return {
-      key: mutations.getNextKey(state, state.parent),
+      key: gridKey,
       type: 'grid',
       title: gridType.title,
       options: {
@@ -122,12 +128,16 @@ const mutations = {
       attributes: gridType.attributes,
     };
   },
-  getNextKey(state, elements) {
-    let newKey = 0;
-    elements.forEach(element => {
-      newKey = Math.max(element.key, newKey);
-    });
-    return newKey + 1;
+  setMaxKey(state) {
+    // Inner function that goes recursive through all items
+    const findMaxKey = (elements) => {
+      elements.forEach(element => {
+        state.maxKey = Math.max(element.key,  state.maxKey);
+        findMaxKey(element.children);
+      });
+    };
+
+    findMaxKey(state.elementArray);
   },
   editElement(state, element) {
     state.selectedSettings = 'edit-element';
