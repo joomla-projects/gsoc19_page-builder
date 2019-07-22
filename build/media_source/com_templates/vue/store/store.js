@@ -12,7 +12,6 @@ const state = {
   childAllowed: [],
   elements: window.Joomla.getOptions('com_templates').elements,
   elementArray: {},
-  gridSize: 12, // TODO: save and load into grid param
 };
 
 const mutations = {
@@ -120,6 +119,7 @@ const mutations = {
         class: '',
       },
       children: children,
+      attributes: gridType.attributes,
     };
   },
   getNextKey(state, elements) {
@@ -153,18 +153,6 @@ const mutations = {
     state.elementSelected.options.class = payload.class;
     state.elementSelected.options.offset = payload.offset;
     state.elementSelected.options.offsetClass = payload.offsetClass;
-  },
-  updateGridSize(state, value) {
-    state.gridSize = value;
-    mutations.updateGridBackground(state);
-  },
-  updateGridBackground(state) {
-    const rows = document.querySelectorAll('.pagebuilder .row-wrapper .item-content');
-    Array.prototype.forEach.call(rows, row => {
-      const percentageWidth = (1 / state.gridSize) * 100;
-      const pixelWidth = (row.getBoundingClientRect().width / 100) * percentageWidth;
-      row.style.backgroundSize = `${pixelWidth}px 150px`;
-    });
   },
 };
 

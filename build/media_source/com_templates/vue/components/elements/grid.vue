@@ -1,6 +1,6 @@
 <template>
 	<grid-layout :layout="allItems"
-		:col-num="gridSize"
+		:col-num="size"
 		:is-draggable="true"
 		:is-resizable="true">
 
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import {mapMutations, mapState} from 'vuex';
+  import {mapMutations} from 'vuex';
 
   export default {
     name: 'grid',
@@ -48,9 +48,6 @@
       },
     },
     computed: {
-      ...mapState([
-        'gridSize'
-      ]),
       allItems() {
         return this.columns.concat(this.addElementBtn);
       },
@@ -111,6 +108,9 @@
         }
 
         return {x: lastX, y: maxY};
+      },
+      size() {
+        return Number.parseInt(this.grid.attributes.size.value) || 12;
       }
     },
     data() {
@@ -131,6 +131,12 @@
         deep: true,
         handler() {
           this.mapElementChanges();
+        }
+      },
+      size: {
+        deep: true,
+        handler() {
+          this.updateBackground();
         }
       },
     },
@@ -158,7 +164,7 @@
         this.grid.children.forEach((child) => {
           const col = {
             i: this.nextIndex,
-            w: child.type !== 'column' ? 12 : child.options.size || 1, // Takes care of elements other than 'column'
+            w: child.type !== 'column' ? this.size : child.options.size || 1, // Takes care of elements other than 'column'
             h: child.options.height || 1,
             x: x,
             y: y,
@@ -166,7 +172,7 @@
           };
 
           x += col.w;
-          if (x === this.gridSize) {
+          if (x === this.size) {
             x = 0;
             y += 1;
           }
@@ -254,6 +260,12 @@
         const col = this.getColumnByIndex(i);
         col.element.options.size = newW;
         col.element.options.height = newH;
+      },
+      updateBackground() {
+        const row = document.querySelector(`#grid-${this.grid.key} .item-content`);
+        const percentageWidth = (1 / this.size) * 100;
+        const pixelWidth = (row.getBoundingClientRect().width / 100) * percentageWidth;
+        row.style.backgroundSize = `${pixelWidth}px 150px`;
       },
     },
   };

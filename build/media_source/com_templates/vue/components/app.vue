@@ -13,12 +13,6 @@
 
 		<div class="pagebuilder" id="pagebuilder">
 			<h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
-			<form name="global-settings">
-				<div class="form-group">
-					<label for="grid-size">{{ translate('COM_TEMPLATES_GRID_SIZE') }}</label>
-					<input v-model.number="gridSize" type="number" id="grid-size" name="grid-size" class="form-control">
-				</div>
-			</form>
 
 			<!-- TODO: make the rows sortable again ('draggable' breaks resizable elements) -->
 			<!-- Element -->

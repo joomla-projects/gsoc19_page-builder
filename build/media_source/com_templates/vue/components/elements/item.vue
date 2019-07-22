@@ -1,5 +1,5 @@
 <template>
-	<div :class="['item', 'pagebuilder_' + element.type, element.options.class]">
+	<div :class="['item', 'pagebuilder_' + element.type, element.options.class]" :id="element.type + '-' + element.key">
 		<div class="btn-wrapper btn-group">
 			<button type="button" class="btn btn-primary btn-sm" @click="editElement(element)">
 				<span class="icon-options"></span>
