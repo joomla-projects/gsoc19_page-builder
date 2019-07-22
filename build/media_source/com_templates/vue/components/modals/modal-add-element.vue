@@ -51,7 +51,7 @@
 				{{ translate('JTOOLBAR_CLOSE') }}
 			</button>
 			<button type="button" class="btn btn-success" @click="add">
-				{{ translate('COM_TEMPLATES_SAVE') }}
+				{{ translate('COM_TEMPLATES_INSERT') }}
 			</button>
 		</div>
 	</modal>
