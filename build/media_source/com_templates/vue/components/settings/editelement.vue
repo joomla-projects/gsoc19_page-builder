@@ -22,19 +22,9 @@
                                 <th scope="row"><i class="fas fa-mobile-alt fa-2x"></i></th>
                                 <td class="control-group">
                                     <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.xs">
-                                        <option value=''>No offset</option>
-                                        <option value='1'>1 column - 1/12</option>
-                                        <option value='2'>2 columns - 1/6</option>
-                                        <option value='3'>3 columns - 1/4</option>
-                                        <option value='4'>4 columns - 1/3</option>
-                                        <option value='5'>5 columns - 5/12</option>
-                                        <option value='6'>6 columns - 1/2</option>
-                                        <option value='7'>7 columns - 7/12</option>
-                                        <option value='8'>8 columns - 2/3</option>
-                                        <option value='9'>9 columns - 3/4</option>
-                                        <option value='10'>10 columns - 5/6</option>
-                                        <option value='11'>11 columns - 11/12</option>
-                                        <option value='12'>12 columns - 1/1</option>
+                                        <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
+                                            {{opt.label}}
+                                        </option>
                                     </select>
                                 </td>
                             </tr>
@@ -42,19 +32,9 @@
                                 <th scope="row"><i class="fas fa-tablet-alt fa-2x"></i></th>
                                 <td class="control-group">
                                     <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.sm">
-                                        <option value=''>No offset</option>
-                                        <option value='1'>1 column - 1/12</option>
-                                        <option value='2'>2 columns - 1/6</option>
-                                        <option value='3'>3 columns - 1/4</option>
-                                        <option value='4'>4 columns - 1/3</option>
-                                        <option value='5'>5 columns - 5/12</option>
-                                        <option value='6'>6 columns - 1/2</option>
-                                        <option value='7'>7 columns - 7/12</option>
-                                        <option value='8'>8 columns - 2/3</option>
-                                        <option value='9'>9 columns - 3/4</option>
-                                        <option value='10'>10 columns - 5/6</option>
-                                        <option value='11'>11 columns - 11/12</option>
-                                        <option value='12'>12 columns - 1/1</option>
+                                        <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
+                                            {{opt.label}}
+                                        </option>
                                     </select>
                                 </td>
                             </tr>
@@ -62,19 +42,9 @@
                                 <th scope="row"><i class="fas fa-laptop fa-2x"></i></th>
                                 <td class="control-group">
                                     <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.md">
-                                        <option value=''>No offset</option>
-                                        <option value='1'>1 column - 1/12</option>
-                                        <option value='2'>2 columns - 1/6</option>
-                                        <option value='3'>3 columns - 1/4</option>
-                                        <option value='4'>4 columns - 1/3</option>
-                                        <option value='5'>5 columns - 5/12</option>
-                                        <option value='6'>6 columns - 1/2</option>
-                                        <option value='7'>7 columns - 7/12</option>
-                                        <option value='8'>8 columns - 2/3</option>
-                                        <option value='9'>9 columns - 3/4</option>
-                                        <option value='10'>10 columns - 5/6</option>
-                                        <option value='11'>11 columns - 11/12</option>
-                                        <option value='12'>12 columns - 1/1</option>
+                                        <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
+                                            {{opt.label}}
+                                        </option>
                                     </select>
                                 </td>
                             </tr>
@@ -82,19 +52,9 @@
                                 <th scope="row"><i class="fas fa-desktop fa-2x"></i></th>
                                 <td class="control-group">
                                     <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.lg">
-                                        <option value=''>No offset</option>
-                                        <option value='1'>1 column - 1/12</option>
-                                        <option value='2'>2 columns - 1/6</option>
-                                        <option value='3'>3 columns - 1/4</option>
-                                        <option value='4'>4 columns - 1/3</option>
-                                        <option value='5'>5 columns - 5/12</option>
-                                        <option value='6'>6 columns - 1/2</option>
-                                        <option value='7'>7 columns - 7/12</option>
-                                        <option value='8'>8 columns - 2/3</option>
-                                        <option value='9'>9 columns - 3/4</option>
-                                        <option value='10'>10 columns - 5/6</option>
-                                        <option value='11'>11 columns - 11/12</option>
-                                        <option value='12'>12 columns - 1/1</option>
+                                        <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
+                                            {{opt.label}}
+                                        </option>
                                     </select>
                                 </td>
                             </tr>
@@ -121,11 +81,13 @@ export default {
     name: 'edit-element',
     computed: {
         ...mapState([
-            'elementSelected'
+            'elementSelected',
+            'parent'
         ])
     },
     watch: {
         elementSelected() {
+            this.threshold = this.parent[0].attributes.size.value - this.elementSelected.options.size;
             this.element_class = this.elementSelected.options.class;
             if(this.elementSelected.options.offset)
                 this.element_offset = this.elementSelected.options.offset;
@@ -139,8 +101,66 @@ export default {
                 sm: '',
                 md: '',
                 lg: ''
-            }
+            },
+            threshold: '',
+            offset: [
+                {
+                    value: '',
+                    label: 'No offset'
+                },
+                {
+                    value: 1,
+                    label: '1 column - 1/12'
+                },
+                {
+                    value: 2,
+                    label: '2 columns - 1/6'
+                },
+                {
+                    value: 3,
+                    label: '3 columns - 1/4'
+                },
+                {
+                    value: 4,
+                    label: '4 columns - 1/3'
+                },
+                {
+                    value: 5,
+                    label: '5 columns - 5/12'
+                },
+                {
+                    value: 6,
+                    label: '6 columns - 1/2'
+                },
+                {
+                    value: 7,
+                    label: '7 columns - 7/12'
+                },
+                {
+                    value: 8,
+                    label: '8 columns - 2/3'
+                },
+                {
+                    value: 9,
+                    label: '9 columns - 3/4'
+                },
+                {
+                    value: 10,
+                    label: '10 columns - 5/6'
+                },
+                {
+                    value: 11,
+                    label: '11 columns - 11/12'
+                },
+                {
+                    value: 12,
+                    label: '12 columns - 1/1'
+                }
+            ]
         }
+    },
+    created() {
+        this.threshold = this.parent[0].attributes.size.value - this.elementSelected.options.size;
     },
     methods: {
         ...mapMutations([
