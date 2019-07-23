@@ -245,7 +245,7 @@
         }
 
         // Move next col to make space
-        this.moveToRight(nextX, y, col.w);
+        this.moveToRight(nextX, y);
         col.x += w || 1;
       },
       moveToLeft(x, y) {
