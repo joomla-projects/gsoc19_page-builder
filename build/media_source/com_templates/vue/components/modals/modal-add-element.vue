@@ -26,19 +26,19 @@
 						<div v-if="element.id === 'grid'" class="image-selection">
 							<div class="row">
 								<div class="col-4 icon" v-html="images.row12 + '<p>100%</p>'"
-									@click="selectGrid([12])" v-bind:class="{active: select == [12]}"></div>
+									@click="selectGrid([12])" :class="{active: select == [12]}"></div>
 								<div class="col-4 icon" v-html="images.row66 + '<p>(50%-50%)</p>'"
-									@click="selectGrid([6, 6])" v-bind:class="{active: select == [6, 6]}"></div>
+									@click="selectGrid([6, 6])" :class="{active: select == [6, 6]}"></div>
 								<div class="col-4 icon" v-html="images.row48 + '<p>(33%-67%)</p>'"
-									@click="selectGrid([4, 8])" v-bind:class="{active: select == [4, 8]}"></div>
+									@click="selectGrid([4, 8])" :class="{active: select == [4, 8]}"></div>
 								<div class="col-4 icon" v-html="images.row84 + '<p>(67%-33%)</p>'"
-									@click="selectGrid([8, 4])" v-bind:class="{active: select == [8, 4]}"></div>
+									@click="selectGrid([8, 4])" :class="{active: select == [8, 4]}"></div>
 								<div class="col-4 icon" v-html="images.row3333 + '<p>(25%-25%-25%-25%)</p>'"
-									@click="selectGrid([3, 3, 3, 3])" v-bind:class="{active: select == [3, 3, 3, 3]}"></div>
+									@click="selectGrid([3, 3, 3, 3])" :class="{active: select == [3, 3, 3, 3]}"></div>
 								<div class="col-4 icon" v-html="images.row444 + '<p>(33%-33%-33%)</p>'"
-									@click="selectGrid([4, 4, 4])" v-bind:class="{active: select == [4, 4, 4]}"></div>
+									@click="selectGrid([4, 4, 4])" :class="{active: select == [4, 4, 4]}"></div>
 								<div class="col-4 icon" v-html="images.row363 + '<p>(25%-50%-25%)</p>'"
-									@click="selectGrid([3, 6, 3])" v-bind:class="{active: select == [3, 6, 3]}"></div>
+									@click="selectGrid([3, 6, 3])" :class="{active: select == [3, 6, 3]}"></div>
 							</div>
 						</div>
 					</div>

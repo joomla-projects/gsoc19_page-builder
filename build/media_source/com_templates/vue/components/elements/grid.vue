@@ -9,7 +9,7 @@
 			:class="['col-wrapper', column.element.type, column.element.options.offsetClass, column.element.options.class]"
 			:i="column.i"
 			:w="column.w"
-			:h="column.h"
+			:h="1"
 			:x="column.x"
 			:y="column.y"
 			@move="move"
@@ -165,7 +165,7 @@
           const col = {
             i: this.nextIndex,
             w: child.type !== 'column' ? this.size : child.options.size || 1, // Takes care of elements other than 'column'
-            h: child.options.height || 1,
+            h: 1,
             x: x,
             y: y,
             element: child,
@@ -258,8 +258,9 @@
       },
       changeSize(i, newH, newW) {
         const col = this.getColumnByIndex(i);
+        col.h = 1;
         col.element.options.size = newW;
-        col.element.options.height = newH;
+        col.element.options.height = 1;
       },
       updateBackground() {
         const row = document.querySelector(`#grid-${this.grid.key} .item-content`);
