@@ -79,11 +79,26 @@ select {
           background-color: $grey;
         }
 
-        .vue-grid-item .item:first-of-type {
-          background-color: $light-green;
+        .vue-grid-item {
 
-          &:hover {
-            background-color: $green;
+          .item:first-of-type {
+            background-color: $light-green;
+
+            &:hover {
+              background-color: $green;
+            }
+          }
+
+          // Overwrite column resize handle
+          .vue-resizable-handle {
+            top: 50%;
+            background: transparent;
+            cursor: col-resize;
+
+            &:before {
+              font-family: "Font Awesome 5 Free";
+              content: "\f337";
+            }
           }
         }
       }

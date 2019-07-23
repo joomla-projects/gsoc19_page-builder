@@ -26,7 +26,7 @@
 			:x="addBtnPosition.x"
 			:y="addBtnPosition.y">
 
-			<button @click="addColumn(grid)" class="column-btn btn btn-sm btn-success" type="button">
+			<button @click="addColumn()" class="column-btn btn btn-sm btn-success" type="button">
 				<span class="icon-new"></span>
 				<span>{{ translate('COM_TEMPLATES_ADD_COLUMN') }}</span>
 			</button>
@@ -221,13 +221,11 @@
         // Col gets more widely: Move following columns away
         if (resizedCol.w < newW) {
           this.moveToRight(resizedCol.x + resizedCol.w, resizedCol.y);
-          return;
         }
 
         // Col gets narrower: Fill gap with next column
-        const nextCol = this.atPosition(resizedCol.x + resizedCol.w, resizedCol.y);
-        if (resizedCol.w > newW && nextCol) {
-          nextCol.x -= 1;
+        if (resizedCol.w > newW) {
+          this.moveToLeft(resizedCol.x + resizedCol.w, resizedCol.y);
         }
       },
       moveToRight(x, y, w) {
@@ -249,6 +247,13 @@
         // Move next col to make space
         this.moveToRight(nextX, y, col.w);
         col.x += w || 1;
+      },
+      moveToLeft(x, y) {
+        const col = this.atPosition(x, y);
+        if (col) {
+          this.moveToLeft(col.x + col.w, y);
+          col.x -= 1;
+        }
       },
       atPosition(x, y) {
         return this.columns.find(col => {
