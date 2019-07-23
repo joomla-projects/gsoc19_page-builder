@@ -26,19 +26,19 @@
 						<div v-if="element.id === 'grid'" class="image-selection">
 							<div class="row">
 								<div class="col-4 icon" v-html="images.row12 + '<p>100%</p>'"
-									@click="add([12])"></div>
+									@click="selectGrid([12])" v-bind:class="{active: select == [12]}"></div>
 								<div class="col-4 icon" v-html="images.row66 + '<p>(50%-50%)</p>'"
-									@click="add([6, 6])"></div>
+									@click="selectGrid([6, 6])" v-bind:class="{active: select == [6, 6]}"></div>
 								<div class="col-4 icon" v-html="images.row48 + '<p>(33%-67%)</p>'"
-									@click="add([4, 8])"></div>
+									@click="selectGrid([4, 8])" v-bind:class="{active: select == [4, 8]}"></div>
 								<div class="col-4 icon" v-html="images.row84 + '<p>(67%-33%)</p>'"
-									@click="add([8, 4])"></div>
+									@click="selectGrid([8, 4])" v-bind:class="{active: select == [8, 4]}"></div>
 								<div class="col-4 icon" v-html="images.row3333 + '<p>(25%-25%-25%-25%)</p>'"
-									@click="add([3, 3, 3, 3])"></div>
+									@click="selectGrid([3, 3, 3, 3])" v-bind:class="{active: select == [3, 3, 3, 3]}"></div>
 								<div class="col-4 icon" v-html="images.row444 + '<p>(33%-33%-33%)</p>'"
-									@click="add([4, 4, 4])"></div>
+									@click="selectGrid([4, 4, 4])" v-bind:class="{active: select == [4, 4, 4]}"></div>
 								<div class="col-4 icon" v-html="images.row363 + '<p>(25%-50%-25%)</p>'"
-									@click="add([3, 6, 3])"></div>
+									@click="selectGrid([3, 6, 3])" v-bind:class="{active: select == [3, 6, 3]}"></div>
 							</div>
 						</div>
 					</div>
@@ -64,7 +64,9 @@
     name: 'modal-add-element',
     data() {
       return {
-        images: window.Joomla.getOptions('com_templates').images,
+		images: window.Joomla.getOptions('com_templates').images,
+		config: '',
+		select: [],
       };
     },
     computed: {
@@ -73,12 +75,12 @@
       ])
     },
     methods: {
-      add(config) {
+      add() {
         const selection = document.querySelector('.element-selection.active');
         if (selection) {
           this.$store.commit('addElement', {
             name: selection.dataset.id,
-            config: config,
+            config: this.config,
           });
         }
         this.$modal.hide('add-element');
@@ -92,7 +94,11 @@
           content.classList.add('show');
           content.classList.add('active');
         }
-      }
+	  },
+	  selectGrid(config) {
+		this.config = config;
+		this.select = config.toString();
+	  }
     },
   };
 </script>
