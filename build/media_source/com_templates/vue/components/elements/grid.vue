@@ -66,7 +66,7 @@
         while (occupied) {
           x += occupied.w;
 
-          if (x === this.gridSize) {
+          if (x === this.size) {
             y += 1;
             x = 0;
           }
@@ -79,7 +79,7 @@
         let position = x + w;
         occupied = this.atPosition(position, y);
 
-        while (!occupied && position < this.gridSize) {
+        while (!occupied && position < this.size) {
           w += 1;
           position += 1;
           occupied = this.atPosition(position, y);
@@ -96,13 +96,13 @@
 
         // Get last free position on last row
         let x;
-        for (x = 0; x < this.gridSize; x += 1) {
+        for (x = 0; x < this.size; x += 1) {
           if (this.atPosition(x, maxY)) {
             lastX = x + 1;
           }
         }
 
-        if (lastX === this.gridSize) {
+        if (lastX === this.size) {
           lastX = 0;
           maxY += 1;
         }
@@ -239,7 +239,7 @@
         const nextX = col.x + col.w;
 
         // At the end of the row? Shift to the start of the next row
-        if (nextX === this.gridSize) {
+        if (nextX === this.size) {
           this.moveToRight(0, y + 1, col.w);
           col.x = 0;
           col.y += 1;
