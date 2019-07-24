@@ -212,7 +212,12 @@
 
         // Col moves right
         if (movedChild.x < newX) {
-          this.moveToRight(movedChild.x, movedChild.y, movedChild.w);
+          this.moveToRight(movedChild.x, movedChild.y);
+        }
+
+        // Col moves left
+        if (movedChild.x > newX) {
+          this.moveToLeft(movedChild.x, movedChild.y);
         }
       },
       resize(i, newH, newW) {
@@ -234,19 +239,19 @@
           return;
         }
 
+        // Move next col first to make space
         const nextX = col.x + col.w;
 
-        // At the end of the row? Shift to the start of the next row
         if (nextX === this.size) {
+          // At the end of the row? Shift to the start of the next row
           this.moveToRight(0, y + 1, col.w);
           col.x = 0;
           col.y += 1;
-          return;
+        } else {
+          this.moveToRight(nextX, y, w);
+          col.x += w || 1;
+          col.y = y;
         }
-
-        // Move next col to make space
-        this.moveToRight(nextX, y);
-        col.x += w || 1;
       },
       moveToLeft(x, y) {
         const col = this.atPosition(x, y);
@@ -265,7 +270,6 @@
         const col = this.getColumnByIndex(i);
         col.h = 1;
         col.element.options.size = newW;
-        col.element.options.height = 1;
       },
       updateBackground() {
         const row = document.querySelector(`#grid-${this.grid.key} .item-content`);
