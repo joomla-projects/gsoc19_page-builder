@@ -214,6 +214,11 @@
         if (movedChild.x < newX) {
           this.moveToRight(movedChild.x, movedChild.y);
         }
+
+        // Col moves left
+        if (movedChild.x > newX) {
+          this.moveToLeft(movedChild.x, movedChild.y);
+        }
       },
       resize(i, newH, newW) {
         const resizedCol = this.getColumnByIndex(i);
