@@ -61,6 +61,18 @@
                         </tbody>
                     </table>
                 </div>
+                <div v-if="elementSelected.type === 'moduleposition'">
+                    <label for="module_chrome">{{ translate('COM_TEMPLATES_SELECT_MODULE_CHROME') }}</label>
+                    <select class="custom-select" id="module_chrome" name="module_chrome" v-model="element_module_chrome">
+                        <option value="none">{{ translate('COM_TEMPLATES_NONE') }}</option>
+                        <option value="rounded">{{ translate('COM_TEMPLATES_ROUNDED') }}</option>
+                        <option value="table">{{ translate('COM_TEMPLATES_TABLE') }}</option>
+                        <option value="horz">{{ translate('COM_TEMPLATES_HORZ') }}</option>
+                        <option value="xhtml">{{ translate('COM_TEMPLATES_XHTML') }}</option>
+                        <option value="html5">{{ translate('COM_TEMPLATES_HTML5') }}</option>
+                        <option value="outline">{{ translate('COM_TEMPLATES_OUTLINE') }}</option>
+                    </select>
+                </div>
             </div>
             <div v-for="attrib in elementSelected.attributes" :key="attrib.name" class="form-group">
                 <label :for="attrib.name">{{ attrib.label }}</label>
@@ -89,6 +101,7 @@ export default {
         elementSelected() {
             this.threshold = this.parent[0].attributes.size.value - this.elementSelected.options.size;
             this.element_class = this.elementSelected.options.class;
+            this.element_module_chrome = this.elementSelected.options.module_chrome ? this.elementSelected.options.module_chrome : 'none';
             if(this.elementSelected.options.offset)
                 this.element_offset = this.elementSelected.options.offset;
         }
@@ -96,6 +109,7 @@ export default {
     data() {
         return {
             element_class: '',
+            element_module_chrome: 'none',
             element_offset: {
                 xs: '',
                 sm: '',
@@ -169,7 +183,8 @@ export default {
         modifyElement() {
             let modify = {};
             modify.class = (this.element_class !== '') ?  this.element_class : '';
-            modify.offset = (this.element_offset !== '') ?  this.element_offset : '';
+            modify.module_chrome = this.element_module_chrome;
+            modify.offset = this.element_offset;
             modify.offsetClass = (this.element_offset.xs ? 'offset-xs-' + this.element_offset.xs : '')
                                 + (this.element_offset.sm ? ' offset-sm-' + this.element_offset.sm : '')
                                 + (this.element_offset.md ? ' offset-md-' + this.element_offset.md : '')

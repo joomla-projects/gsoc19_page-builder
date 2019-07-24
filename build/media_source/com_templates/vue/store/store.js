@@ -161,8 +161,12 @@ const mutations = {
   },
   modifyElement(state, payload) {
     state.elementSelected.options.class = payload.class;
-    state.elementSelected.options.offset = payload.offset;
-    state.elementSelected.options.offsetClass = payload.offsetClass;
+    if(state.elementSelected.type === 'moduleposition')
+      state.elementSelected.options.module_chrome = payload.module_chrome;
+    if(state.elementSelected.type === 'column'){
+      state.elementSelected.options.offset = payload.offset;
+      state.elementSelected.options.offsetClass = payload.offsetClass;
+    }
   },
 };
 
