@@ -17,7 +17,7 @@
 			<!-- TODO: make the rows sortable again ('draggable' breaks resizable elements) -->
 			<!-- Element -->
 			<item v-for="element in elementArray" :key="element.key" :class="['row-wrapper']"
-				  :item="element" @delete="deleteElement(element)"></item>
+				  :item="element" @delete="deleteElement({ element })" @edit="editElement({ element })"></item>
 			<!-- Element Ends -->
 
 			<button @click="addElement()" class="btn btn-success btn-block" type="button">
@@ -66,15 +66,14 @@
         'ifChildAllowed',
         'mapElements',
         'closeNav',
-        'updateGridSize'
+        'updateGridSize',
+        'deleteElement',
+        'setParent'
       ]),
       addElement() {
-        this.$store.commit('setParent', this.elementArray);
+        this.setParent(this.elementArray);
         this.$modal.show('add-element');
       },
-      deleteElement(element) {
-        this.$store.commit('deleteElement', { element });
-      }
     }
   };
 </script>

@@ -139,9 +139,12 @@ const mutations = {
 
     findMaxKey(state.elementArray);
   },
-  editElement(state, element) {
+  editElement(state, {element, parent}) {
+    // console.log(element);
+    // console.log(parent);
     state.selectedSettings = 'edit-element';
     state.elementSelected = element;
+    state.parent = parent;
     mutations.openNav();
   },
   deleteElement(state, {element, parent}) {

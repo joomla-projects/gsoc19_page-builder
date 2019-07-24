@@ -15,7 +15,7 @@
 			@move="move"
 			@resize="resize"
 			@resized="changeSize">
-			<item :item="column.element" @delete="deleteElement({element: column.element, parent: grid})"></item>
+			<item :item="column.element" @delete="deleteElement({element: column.element, parent: grid})" @edit="editElement({element: column.element, parent: grid})"></item>
 		</grid-item>
 
 		<!-- Button to add new elements into the grid -->
@@ -146,6 +146,7 @@
     methods: {
       ...mapMutations([
         'deleteElement',
+        'editElement',
         'setParent',
         'addElement'
       ]),

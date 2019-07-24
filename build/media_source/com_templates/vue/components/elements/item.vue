@@ -1,7 +1,7 @@
 <template>
 	<div :class="['item', 'pagebuilder_' + element.type, element.options.class]" :id="element.type + '-' + element.key">
 		<div class="btn-wrapper btn-group">
-			<button type="button" class="btn btn-primary btn-sm" @click="editElement(element)">
+			<button type="button" class="btn btn-primary btn-sm" @click="$emit('edit')">
 				<span class="icon-options"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
 			</button>
@@ -20,7 +20,7 @@
 			<grid v-if="element.type === 'grid'" :grid="element"></grid>
 
 			<div v-else>
-				<item v-for="child in element.children" :key="child.key" :item="child" @delete="deleteElement(child)"></item>
+				<item v-for="child in element.children" :key="child.key" :item="child" @delete="deleteElement({element: child, parent: item})" @edit="editElement({element: child, parent: item})"></item>
 
 				<button v-if="childAllowed.includes(element.type)"
 						type="button"
@@ -58,17 +58,12 @@
     methods: {
       ...mapMutations([
         'editElement',
+        'deleteElement',
         'fillAllowedChildren'
       ]),
       addElement(parent) {
         this.$store.commit('setParent', parent.children);
         this.$modal.show('add-element');
-      },
-      deleteElement(child) {
-        this.$store.commit('deleteElement', {
-          element: child,
-          parent: this.item
-        });
       },
     },
   };

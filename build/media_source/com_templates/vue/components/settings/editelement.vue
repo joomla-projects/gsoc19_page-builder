@@ -98,12 +98,15 @@ export default {
         ])
     },
     watch: {
-        elementSelected() {
-            this.threshold = this.parent[0].attributes.size.value - this.elementSelected.options.size;
-            this.element_class = this.elementSelected.options.class;
-            this.element_module_chrome = this.elementSelected.options.module_chrome ? this.elementSelected.options.module_chrome : 'none';
-            if(this.elementSelected.options.offset)
-                this.element_offset = this.elementSelected.options.offset;
+        elementSelected: {
+            deep: true,
+            handler() {
+                this.threshold = this.parent.attributes.size.value - this.elementSelected.options.size;
+                this.element_class = this.elementSelected.options.class;
+                this.element_module_chrome = this.elementSelected.options.module_chrome ? this.elementSelected.options.module_chrome : 'none';
+                if(this.elementSelected.options.offset)
+                    this.element_offset = this.elementSelected.options.offset;
+            },
         }
     },
     data() {
@@ -174,7 +177,7 @@ export default {
         }
     },
     created() {
-        this.threshold = this.parent[0].attributes.size.value - this.elementSelected.options.size;
+        this.threshold = this.parent.attributes.size.value - this.elementSelected.options.size;
     },
     methods: {
         ...mapMutations([
