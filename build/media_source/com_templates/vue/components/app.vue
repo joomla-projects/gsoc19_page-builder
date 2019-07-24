@@ -66,7 +66,6 @@
         'ifChildAllowed',
         'mapElements',
         'closeNav',
-        'updateGridSize',
         'deleteElement',
         'setParent'
       ]),
