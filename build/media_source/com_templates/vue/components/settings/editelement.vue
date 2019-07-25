@@ -101,7 +101,8 @@ export default {
         elementSelected: {
             deep: true,
             handler() {
-                this.threshold = this.parent.attributes.size.value - this.elementSelected.options.size;
+                if(this.parent)
+                    this.threshold = this.parent.attributes.size.value - this.elementSelected.options.size;
                 this.element_class = this.elementSelected.options.class;
                 this.element_module_chrome = this.elementSelected.options.module_chrome ? this.elementSelected.options.module_chrome : 'none';
                 if(this.elementSelected.options.offset)
@@ -177,7 +178,8 @@ export default {
         }
     },
     created() {
-        this.threshold = this.parent.attributes.size.value - this.elementSelected.options.size;
+        if(this.parent)
+            this.threshold = this.parent.attributes.size.value - this.elementSelected.options.size;
     },
     methods: {
         ...mapMutations([

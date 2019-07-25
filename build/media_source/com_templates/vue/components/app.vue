@@ -69,7 +69,8 @@
         'closeNav',
         'deleteElement',
         'setParent',
-        'updateElementArray'
+        'updateElementArray',
+        'editElement'
       ]),
       addElement() {
         this.setParent(this.elementArray);
