@@ -2,7 +2,9 @@
 	<grid-layout :layout="allItems"
 		:col-num="size"
 		:is-draggable="true"
-		:is-resizable="true">
+		:is-resizable="true"
+		@layout-updated="layoutUpdated"
+	>
 
 		<!-- Columns -->
 		<grid-item v-for="column in columns" :key="column.i"
@@ -111,7 +113,12 @@
       },
       size() {
         return Number.parseInt(this.grid.attributes.size.value) || 12;
-      }
+      },
+      maxRow() {
+        let maxY = 0;
+        this.columns.forEach(col => maxY = Math.max(col.y, maxY));
+        return maxY;
+      },
     },
     data() {
       return {
@@ -271,6 +278,28 @@
         const col = this.getColumnByIndex(i);
         col.h = 1;
         col.element.options.size = newW;
+      },
+      layoutUpdated() {
+        for (let y = 0; y <= this.maxRow; y += 1) {
+          let free = false;
+          let x = 0;
+
+          do {
+            const occupied = this.atPosition(x, y);
+
+            if (occupied && free !== false) {
+              occupied.x = free;
+              free = false;
+              x = occupied.x + occupied.w;
+            } else if (!occupied && free === false) {
+              free = x;
+            } else if (occupied) {
+              x += occupied.w;
+            } else {
+              x += 1;
+            }
+          } while (x < this.size);
+        }
       },
       updateBackground() {
         const row = document.querySelector(`#grid-${this.grid.key} .item-content`);
