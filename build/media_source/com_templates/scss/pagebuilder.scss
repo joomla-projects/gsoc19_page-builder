@@ -35,10 +35,6 @@ select {
     background-color: $light-blue;
     border: 2px solid $white;
 
-    .handle {
-      cursor: grab;
-    }
-
     .desc {
       padding: .3rem .5rem;
     }
@@ -109,7 +105,16 @@ select {
     }
   }
 
-  .btn-wrapper {
+  .btn-wrapper.left {
+    visibility: hidden;
+    position: absolute;
+    cursor: grab;
+    top: 43%;
+    margin-left: -1.75rem;
+    z-index: 10;
+  }
+
+  .btn-wrapper.right {
     visibility: hidden;
     position: absolute;
     right: 0;

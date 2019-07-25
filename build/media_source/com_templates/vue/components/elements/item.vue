@@ -1,6 +1,11 @@
 <template>
 	<div :class="['item', 'pagebuilder_' + element.type, element.options.class]" :id="element.type + '-' + element.key">
-		<div class="btn-wrapper btn-group">
+    
+    <div class="btn-wrapper btn-group left">
+      <i class="btn btn-primary btn-sm fa fa-align-justify handle"></i>
+    </div>
+
+		<div class="btn-wrapper btn-group right">
 			<button type="button" class="btn btn-primary btn-sm" @click="$emit('edit')">
 				<span class="icon-options"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
@@ -12,7 +17,6 @@
 		</div>
 
 		<div class="item-content">
-      <i class="fa fa-align-justify handle"></i>
 			<div class="desc">
 				<span>{{ element.title }}</span>
 				<span v-if="element.options.class">.{{ element.options.class }}</span>
