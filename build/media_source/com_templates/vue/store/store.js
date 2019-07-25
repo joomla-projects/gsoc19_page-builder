@@ -140,8 +140,6 @@ const mutations = {
     findMaxKey(state.elementArray);
   },
   editElement(state, {element, parent}) {
-    // console.log(element);
-    // console.log(parent);
     state.selectedSettings = 'edit-element';
     state.elementSelected = element;
     state.parent = parent;
@@ -171,6 +169,9 @@ const mutations = {
       state.elementSelected.options.offsetClass = payload.offsetClass;
     }
   },
+  updateElementArray(state, payload) {
+    state.elementArray = payload;
+  }
 };
 
 export default new Vuex.Store({

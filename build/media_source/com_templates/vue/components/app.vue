@@ -14,10 +14,11 @@
 		<div class="pagebuilder" id="pagebuilder">
 			<h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
 
-			<!-- TODO: make the rows sortable again ('draggable' breaks resizable elements) -->
 			<!-- Element -->
-			<item v-for="element in elementArray" :key="element.key" :class="['row-wrapper']"
-				  :item="element" @delete="deleteElement({ element })" @edit="editElement({ element })"></item>
+      <draggable v-model="elementArray" handle=".handle">
+        <item v-for="element in elementArray" :key="element.key" :class="['row-wrapper']"
+            :item="element" @delete="deleteElement({ element })" @edit="editElement({ element })"></item>
+      </draggable>
 			<!-- Element Ends -->
 
 			<button @click="addElement()" class="btn btn-success btn-block" type="button">
@@ -33,19 +34,19 @@
 
 <script>
   import {mapMutations, mapState} from 'vuex';
+  import draggable from 'vuedraggable'
 
   export default {
     computed: {
       ...mapState([
-        'elementArray',
         'selectedSettings'
       ]),
-      gridSize: {
+      elementArray: {
         get() {
-          return this.$store.state.gridSize;
+          return this.$store.state.elementArray;
         },
         set(value) {
-          this.updateGridSize(value);
+          this.updateElementArray(value);
         }
       }
     },
@@ -66,14 +67,17 @@
         'ifChildAllowed',
         'mapElements',
         'closeNav',
-        'updateGridSize',
         'deleteElement',
-        'setParent'
+        'setParent',
+        'updateElementArray'
       ]),
       addElement() {
         this.setParent(this.elementArray);
         this.$modal.show('add-element');
       },
+    },
+    components: {
+      draggable
     }
   };
 </script>

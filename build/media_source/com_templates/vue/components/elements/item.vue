@@ -12,6 +12,7 @@
 		</div>
 
 		<div class="item-content">
+      <i class="fa fa-align-justify handle"></i>
 			<div class="desc">
 				<span>{{ element.title }}</span>
 				<span v-if="element.options.class">.{{ element.options.class }}</span>

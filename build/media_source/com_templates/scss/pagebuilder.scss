@@ -35,6 +35,10 @@ select {
     background-color: $light-blue;
     border: 2px solid $white;
 
+    .handle {
+      cursor: grab;
+    }
+
     .desc {
       padding: .3rem .5rem;
     }
