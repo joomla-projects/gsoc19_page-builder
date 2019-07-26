@@ -31,8 +31,7 @@ steps:
     depends_on: [ composer ]
     commands:
       - echo $(date)
-      - ./libraries/vendor/bin/phpcs --config-set installed_paths ../../joomla/cms-coding-standards/lib,../../joomla/coding-standards
-      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php --ignore=libraries/vendor/*,tests/*,build/*,node_modules/*,media/*,libraries/autoload_psr4.php,installation/template/error.php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+      - ./libraries/vendor/bin/phpcs --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
       - echo $(date)
 
   - name: npm
@@ -171,8 +170,15 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
 
-  - name: system-tests-postgres
+  - name: system-tests-mysql8
     depends_on: [ system-tests-mysql ]
+    image: joomlaprojects/docker-systemtests:latest
+    failure: ignore
+    commands:
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
+
+  - name: system-tests-postgres
+    depends_on: [ system-tests-mysql8 ]
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
@@ -238,6 +244,15 @@ services:
       MYSQL_ROOT_PASSWORD: joomla_ut
       MYSQL_DATABASE: test_joomla
 
+  - name: mysql8
+    image: mysql:8
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
+
   - name: memcached
     image: memcached:alpine
 
@@ -255,6 +270,6 @@ services:
 
 ---
 kind: signature
-hmac: ad4742a66bfcacf14dc48a47a9cb80cf6a1a51692148b296059f3242d184f992
+hmac: 47926192602bc35c5b1d82da1623ec5c2038184f31f44bb86aee25789a745f80
 
 ...
