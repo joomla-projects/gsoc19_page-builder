@@ -74,10 +74,6 @@
                     </select>
                 </div>
             </div>
-            <div v-for="attrib in elementSelected.attributes" :key="attrib.name" class="form-group">
-                <label :for="attrib.name">{{ attrib.label }}</label>
-                <input v-model="attrib.value" :type="attrib.type" :id="attrib.name" :name="attrib.name" class="form-control">
-            </div>
             <div>
                 <button type="button" class="btn btn-success" @click="modifyElement">{{ translate('COM_TEMPLATES_ADD') }}</button>
                 <button type="button" class="btn btn-secondary" @click="closeNav">{{ translate('JTOOLBAR_CLOSE') }}</button>
