@@ -111,9 +111,6 @@
 
         return {x: lastX, y: maxY};
       },
-      size() {
-        return Number.parseInt(this.grid.attributes.size.value) || 12;
-      },
       maxRow() {
         let maxY = 0;
         this.columns.forEach(col => maxY = Math.max(col.y, maxY));
@@ -131,6 +128,7 @@
           y: 1,
         },
         columns: [],
+        size: 12,
       };
     },
     watch: {
@@ -138,12 +136,6 @@
         deep: true,
         handler() {
           this.mapElementChanges();
-        }
-      },
-      size: {
-        deep: true,
-        handler() {
-          this.updateBackground();
         }
       },
     },
@@ -300,12 +292,6 @@
             }
           } while (x < this.size);
         }
-      },
-      updateBackground() {
-        const row = document.querySelector(`#grid-${this.grid.key} .item-content`);
-        const percentageWidth = (1 / this.size) * 100;
-        const pixelWidth = (row.getBoundingClientRect().width / 100) * percentageWidth;
-        row.style.backgroundSize = `${pixelWidth}px 150px`;
       },
     },
   };
