@@ -41,6 +41,10 @@
 									@click="selectGrid([3, 6, 3])" :class="{active: select == [3, 6, 3]}"></div>
 							</div>
 						</div>
+						<div v-if="element.id === 'moduleposition'">
+							<label for="moduleposition_name">{{ translate('COM_TEMPLATES_POSITION_NAME') }}</label>
+							<input type="text" name="moduleposition_name" id="moduleposition_name" class="form-control" v-model="moduleposition_name">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -67,6 +71,7 @@
 		images: window.Joomla.getOptions('com_templates').images,
 		config: '',
 		select: [],
+		moduleposition_name: ''
       };
     },
     computed: {
@@ -80,7 +85,8 @@
         if (selection) {
           this.$store.commit('addElement', {
             name: selection.dataset.id,
-            config: this.config,
+			config: this.config,
+			moduleposition_name: this.moduleposition_name,
           });
         }
         this.$modal.hide('add-element');

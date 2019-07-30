@@ -62,6 +62,9 @@
                     </table>
                 </div>
                 <div v-if="elementSelected.type === 'moduleposition'">
+                    <label for="moduleposition_name">{{ translate('COM_TEMPLATES_POSITION_NAME') }}</label>
+                    <input type="text" name="moduleposition_name" id="moduleposition_name" class="form-control" v-model="element_moduleposition_name">
+                    <br>
                     <label for="module_chrome">{{ translate('COM_TEMPLATES_SELECT_MODULE_CHROME') }}</label>
                     <select class="custom-select" id="module_chrome" name="module_chrome" v-model="element_module_chrome">
                         <option value="none">{{ translate('COM_TEMPLATES_NONE') }}</option>
@@ -101,6 +104,7 @@ export default {
                     this.threshold = this.parent.attributes.size.value - this.elementSelected.options.size;
                 this.element_class = this.elementSelected.options.class;
                 this.element_module_chrome = this.elementSelected.options.module_chrome ? this.elementSelected.options.module_chrome : 'none';
+                this.element_moduleposition_name = this.elementSelected.options.name ? this.elementSelected.options.name : '';
                 if(this.elementSelected.options.offset)
                     this.element_offset = this.elementSelected.options.offset;
             },
@@ -117,6 +121,7 @@ export default {
                 lg: ''
             },
             threshold: '',
+            element_moduleposition_name: '',
             offset: [
                 {
                     value: '',
@@ -176,6 +181,7 @@ export default {
     created() {
         if(this.parent)
             this.threshold = this.parent.attributes.size.value - this.elementSelected.options.size;
+        this.element_moduleposition_name = this.elementSelected.options.name ? this.elementSelected.options.name : '';
     },
     methods: {
         ...mapMutations([
@@ -185,6 +191,7 @@ export default {
             let modify = {};
             modify.class = (this.element_class !== '') ?  this.element_class : '';
             modify.module_chrome = this.element_module_chrome;
+            modify.moduleposition_name = this.element_moduleposition_name;
             modify.offset = this.element_offset;
             modify.offsetClass = (this.element_offset.xs ? 'offset-xs-' + this.element_offset.xs : '')
                                 + (this.element_offset.sm ? ' offset-sm-' + this.element_offset.sm : '')

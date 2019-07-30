@@ -32,6 +32,7 @@ Text::script('COM_TEMPLATES_MAX_COLUMN_SIZE', true);
 Text::script('COM_TEMPLATES_NO_CHILD_ALLOWED', true);
 Text::script('COM_TEMPLATES_NONE', true);
 Text::script('COM_TEMPLATES_OUTLINE', true);
+Text::script('COM_TEMPLATES_POSITION_NAME', true);
 Text::script('COM_TEMPLATES_ROUNDED', true);
 Text::script('COM_TEMPLATES_SELECT_ELEMENT', true);
 Text::script('COM_TEMPLATES_SELECT_LAYOUT', true);

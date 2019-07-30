@@ -48,7 +48,7 @@ const mutations = {
     mutations.fillAllowedChildren(state, parent.type);
     state.parent = parent;
   },
-  addElement(state, {name, config}) {
+  addElement(state, {name, config, moduleposition_name}) {
     let newElement = {};
     state.maxKey += 1;
 
@@ -70,6 +70,18 @@ const mutations = {
             lg: ''
           },
           offsetClass: '',
+        },
+        children: []
+      };
+    }
+    else if (name === 'moduleposition' && moduleposition_name) {
+      newElement = {
+        key: state.maxKey,
+        type: 'moduleposition',
+        title: 'Module Position',
+        options: {
+          class: '',
+          name: moduleposition_name
         },
         children: []
       };
@@ -162,8 +174,10 @@ const mutations = {
   },
   modifyElement(state, payload) {
     state.elementSelected.options.class = payload.class;
-    if(state.elementSelected.type === 'moduleposition')
+    if(state.elementSelected.type === 'moduleposition'){
       state.elementSelected.options.module_chrome = payload.module_chrome;
+      state.elementSelected.options.name = payload.moduleposition_name;
+    }
     if(state.elementSelected.type === 'column'){
       state.elementSelected.options.offset = payload.offset;
       state.elementSelected.options.offsetClass = payload.offsetClass;
