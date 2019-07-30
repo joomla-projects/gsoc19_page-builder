@@ -3,7 +3,7 @@
 		:col-num="size"
 		:is-draggable="true"
 		:is-resizable="true"
-		@layout-updated="layoutUpdated"
+		@layout-updated="reorder"
 	>
 
 		<!-- Columns -->
@@ -271,26 +271,45 @@
         col.h = 1;
         col.element.options.size = newW;
       },
-      layoutUpdated() {
+      reorder() {
+        let free = false;
+        let space = false;
+
         for (let y = 0; y <= this.maxRow; y += 1) {
-          let free = false;
           let x = 0;
 
           do {
             const occupied = this.atPosition(x, y);
 
-            if (occupied && free !== false) {
+            if (occupied && space >= occupied.w && free !== false) {
+              // Set column into space of last row
+              occupied.y = y - 1;
+              occupied.x = free;
+              free = false;
+              space = false;
+            } else if (occupied && free !== false) {
+              // Set column on free position
               occupied.x = free;
               free = false;
               x = occupied.x + occupied.w;
-            } else if (!occupied && free === false) {
-              free = x;
             } else if (occupied) {
+              // Go further in grid
               x += occupied.w;
+            } else if (!occupied && free === false) {
+              // Set free position
+              free = x;
             } else {
+              // There is a free position already, so just go further
               x += 1;
             }
           } while (x < this.size);
+
+          // Set available space for column in next row
+          if (free !== false) {
+            space = this.size - free;
+          } else {
+            space = false;
+          }
         }
       },
     },
