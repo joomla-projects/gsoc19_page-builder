@@ -180,6 +180,14 @@
         });
       },
       mapElementChanges() {
+        // Search for removed children
+        this.columns.forEach(col => {
+          const found = this.grid.children.indexOf(col.element);
+          if (found === -1) {
+            // Remove column from grid
+            this.columns.splice(this.columns.indexOf(col), 1);
+          }
+        });
         // Search for new children
         this.grid.children.forEach(child => {
           const found = this.columns.find(col => col.element === child);
@@ -187,20 +195,12 @@
             const newPosition = this.nextSpace;
             this.columns.push({
               i: this.nextIndex,
-              w: child.options.size || newPosition.w,
+              w: newPosition.w,
               h: 1,
               x: newPosition.x,
               y: newPosition.y,
               element: child,
             });
-          }
-        });
-        // Search for removed children
-        this.columns.forEach(col => {
-          const found = this.grid.children.indexOf(col.element);
-          if (found === -1) {
-            // Remove column from grid
-            this.columns.splice(this.columns.indexOf(col), 1);
           }
         });
       },
