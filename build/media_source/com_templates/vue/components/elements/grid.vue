@@ -91,10 +91,7 @@
       },
       addBtnPosition() {
         let lastX = 0;
-        let maxY = 0;
-        this.columns.forEach(col => {
-          maxY = Math.max(maxY, col.y, col.y + col.h - 1);
-        });
+        let maxY = this.maxRow;
 
         // Get last free position on last row
         let x;
