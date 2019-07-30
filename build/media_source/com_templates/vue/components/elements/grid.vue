@@ -14,7 +14,7 @@
 			:h="1"
 			:x="column.x"
 			:y="column.y"
-			@move="move"
+			@moved="reorder"
 			@resize="resize"
 			@resized="changeSize">
 			<item :item="column.element" @delete="deleteElement({element: column.element, parent: grid})" @edit="editElement({element: column.element, parent: grid})"></item>
@@ -203,19 +203,6 @@
       },
       getColumnByIndex(i) {
         return this.columns.find(col => col.i === i);
-      },
-      move(i, newX, newY) {
-        const movedChild = this.getColumnByIndex(i);
-
-        // Col moves right
-        if (movedChild.x < newX) {
-          this.moveToRight(movedChild.x, movedChild.y);
-        }
-
-        // Col moves left
-        if (movedChild.x > newX) {
-          this.moveToLeft(movedChild.x, movedChild.y);
-        }
       },
       resize(i, newH, newW) {
         const resizedCol = this.getColumnByIndex(i);
