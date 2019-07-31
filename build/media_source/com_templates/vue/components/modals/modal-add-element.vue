@@ -42,8 +42,10 @@
 							</div>
 						</div>
 						<div v-if="element.id === 'moduleposition'">
-							<label for="moduleposition_name">{{ translate('COM_TEMPLATES_POSITION_NAME') }}</label>
-							<input type="text" name="moduleposition_name" id="moduleposition_name" class="form-control" v-model="moduleposition_name">
+							<label ref="moduleposition_name_label" for="moduleposition_name" class="required">{{ translate('COM_TEMPLATES_POSITION_NAME') }}
+								<span class="star" aria-hidden="true">&nbsp;*</span>
+							</label>
+							<input ref="moduleposition_name_input" type="text" name="moduleposition_name" id="moduleposition_name" class="form-control required" v-model="moduleposition_name">
 						</div>
 					</div>
 				</div>
@@ -81,14 +83,22 @@
     },
     methods: {
       add() {
-        const selection = document.querySelector('.element-selection.active');
+		const selection = document.querySelector('.element-selection.active');
         if (selection) {
+			if(selection.dataset.id == 'moduleposition') {
+				if(this.moduleposition_name == '') {
+					this.$refs.moduleposition_name_label[0].classList.add("invalid");
+					this.$refs.moduleposition_name_input[0].classList.add("invalid");
+					return;
+				}
+			}
           this.$store.commit('addElement', {
             name: selection.dataset.id,
 			config: this.config,
 			moduleposition_name: this.moduleposition_name,
           });
-        }
+		}
+		this.moduleposition_name = '';
         this.$modal.hide('add-element');
       },
       opened() {
