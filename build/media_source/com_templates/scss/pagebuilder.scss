@@ -28,6 +28,8 @@ select {
 
 .pagebuilder {
   transition: margin-left .35s;
+  margin-left: auto;
+  margin-right: auto;
 
   .item {
     position: relative;

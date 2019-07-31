@@ -11,7 +11,24 @@
 			</div>
 		</div>
 
-		<div class="pagebuilder" id="pagebuilder">
+    <div class="topbar">
+      <ul class="nav nav-pills">
+        <li class="nav-item" @click="deviceWidth = '420px'">
+          <a class="nav-link" data-toggle="pill" role="tab"><i class="fas fa-mobile-alt fa-lg"></i></a>
+        </li>
+        <li class="nav-item" @click="deviceWidth = '820px'">
+          <a class="nav-link" data-toggle="pill" role="tab"><i class="fas fa-tablet-alt fa-lg"></i></a>
+        </li>
+        <li class="nav-item" @click="deviceWidth = '1050px'">
+          <a class="nav-link" data-toggle="pill" role="tab"><i class="fas fa-laptop fa-lg"></i></a>
+        </li>
+        <li class="nav-item" @click="deviceWidth = '1250px'">
+          <a class="nav-link active" data-toggle="pill" role="tab"><i class="fas fa-desktop fa-lg"></i></a>
+        </li>
+      </ul>
+    </div>
+
+		<div class="pagebuilder" id="pagebuilder" :style="{ width: deviceWidth }">
 			<h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
 
 			<!-- Element -->
@@ -48,6 +65,14 @@
         set(value) {
           this.updateElementArray(value);
         }
+      },
+      deviceWidth: {
+        get() {
+          return this.$store.state.deviceWidth;
+        },
+        set(value) {
+          this.updateDeviceWidth(value);
+        }
       }
     },
     watch: {
@@ -70,6 +95,7 @@
         'deleteElement',
         'setParent',
         'updateElementArray',
+        'updateDeviceWidth',
         'editElement'
       ]),
       addElement() {

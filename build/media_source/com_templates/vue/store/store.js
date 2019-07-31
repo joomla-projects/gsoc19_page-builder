@@ -13,6 +13,7 @@ const state = {
   elements: window.Joomla.getOptions('com_templates').elements,
   elementArray: {},
   maxKey: 0,
+  deviceWidth: '1200px'
 };
 
 const mutations = {
@@ -185,6 +186,9 @@ const mutations = {
   },
   updateElementArray(state, payload) {
     state.elementArray = payload;
+  },
+  updateDeviceWidth(state, payload) {
+    state.deviceWidth = payload;
   }
 };
 
