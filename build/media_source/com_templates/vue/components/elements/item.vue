@@ -20,7 +20,7 @@
 			<div class="desc">
 				<span>{{ element.title }}</span>
 				<span v-if="element.options.class">.{{ element.options.class }}</span>
-        <span v-if="element.options.name">(Name-{{ element.options.name }})</span>
+        <span v-if="element.options.name">(Name-{{ element.options.name }})(Module Chrome-{{ element.options.module_chrome }})</span>
 			</div>
 
 			<grid v-if="element.type === 'grid'" :grid="element"></grid>

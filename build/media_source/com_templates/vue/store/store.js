@@ -82,7 +82,8 @@ const mutations = {
         title: 'Module Position',
         options: {
           class: '',
-          name: moduleposition_name
+          name: moduleposition_name,
+          module_chrome: 'none'
         },
         children: []
       };
