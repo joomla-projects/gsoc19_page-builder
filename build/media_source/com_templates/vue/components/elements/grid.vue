@@ -1,5 +1,6 @@
 <template>
-	<grid-layout :layout="allItems"
+	<grid-layout
+		:layout="columns"
 		:col-num="size"
 		:is-draggable="true"
 		:is-resizable="true"
@@ -19,22 +20,6 @@
 			@resized="changeSize">
 			<item :item="column.element" @delete="deleteElement({element: column.element, parent: grid})" @edit="editElement({element: column.element, parent: grid})"></item>
 		</grid-item>
-
-		<!-- Button to add new elements into the grid -->
-		<grid-item :static="true"
-			:i="addElementBtn.i"
-			:w="addElementBtn.w"
-			:h="addElementBtn.h"
-			:x="addBtnPosition.x"
-			:y="addBtnPosition.y">
-
-			<button @click="addColumn()" class="column-btn btn btn-sm btn-success" type="button">
-				<span class="icon-new"></span>
-				<span>{{ translate('COM_TEMPLATES_ADD_COLUMN') }}</span>
-			</button>
-
-		</grid-item>
-
 	</grid-layout>
 </template>
 
@@ -50,9 +35,6 @@
       },
     },
     computed: {
-      allItems() {
-        return this.columns.concat(this.addElementBtn);
-      },
       nextIndex() {
         let index = 0;
         if (this.columns.length) {
@@ -89,25 +71,6 @@
 
         return {x: x, y: y, w: w};
       },
-      addBtnPosition() {
-        let lastX = 0;
-        let maxY = this.maxRow;
-
-        // Get last free position on last row
-        let x;
-        for (x = 0; x < this.size; x += 1) {
-          if (this.atPosition(x, maxY)) {
-            lastX = x + 1;
-          }
-        }
-
-        if (lastX === this.size) {
-          lastX = 0;
-          maxY += 1;
-        }
-
-        return {x: lastX, y: maxY};
-      },
       maxRow() {
         let maxY = 0;
         this.columns.forEach(col => maxY = Math.max(col.y, maxY));
@@ -116,14 +79,6 @@
     },
     data() {
       return {
-        addElementBtn: {
-          i: 'add',
-          w: 1,
-          h: 1,
-          // Default x and y to set button into layout
-          x: 0,
-          y: 1,
-        },
         columns: [],
         size: 12,
       };
@@ -146,14 +101,6 @@
         'setParent',
         'addElement'
       ]),
-      addColumn() {
-        // TODO: make type of new column selectable
-        this.setParent(this.grid.children);
-        this.addElement({
-          name: 'column',
-          config: ''
-        });
-      },
       mapGrid() {
         let x = 0;
         let y = 0;

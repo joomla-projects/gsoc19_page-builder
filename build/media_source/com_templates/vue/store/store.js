@@ -47,7 +47,7 @@ const mutations = {
   },
   setParent(state, parent) {
     mutations.fillAllowedChildren(state, parent.type);
-    state.parent = parent;
+    state.parent = parent.children || parent;
   },
   addElement(state, {name, config, moduleposition_name}) {
     let newElement = {};

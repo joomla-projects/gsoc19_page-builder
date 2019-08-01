@@ -1,11 +1,16 @@
 <template>
 	<div :class="['item', 'pagebuilder_' + element.type, element.options.class]" :id="element.type + '-' + element.key">
-    
+
     <div v-if="handleRequired" class="btn-wrapper btn-group left">
       <i class="btn btn-primary btn-sm fa fa-align-justify handle"></i>
     </div>
 
 		<div class="btn-wrapper btn-group right">
+			<button type="button" class="btn btn-success btn-sm" @click="add(element)"
+					v-if="childAllowed.includes(element.type)">
+				<span class="icon-plus"></span>
+				<span class="sr-only">{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}</span>
+			</button>
 			<button type="button" class="btn btn-primary btn-sm" @click="$emit('edit')">
 				<span class="icon-options"></span>
 				<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
@@ -20,21 +25,16 @@
 			<div class="desc">
 				<span>{{ element.title }}</span>
 				<span v-if="element.options.class">.{{ element.options.class }}</span>
-        <span v-if="element.options.name">(Name-{{ element.options.name }})(Module Chrome-{{ element.options.module_chrome }})</span>
+        		<span v-if="element.options.name">(Name-{{ element.options.name }})(Module Chrome-{{ element.options.module_chrome }})</span>
 			</div>
 
 			<grid v-if="element.type === 'grid'" :grid="element"></grid>
 
 			<div v-else>
-				<item v-for="child in element.children" :key="child.key" :item="child" @delete="deleteElement({element: child, parent: item})" @edit="editElement({element: child, parent: item})"></item>
-
-				<button v-if="childAllowed.includes(element.type)"
-						type="button"
-						class="btn btn-sm btn-success btn-add"
-						@click="addElement(element)">
-					<span class="icon-new"></span>
-					<span class="sr-only">{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}</span>
-				</button>
+				<item v-for="child in element.children" :key="child.key" :item="child"
+						@delete="deleteElement({element: child, parent: item})"
+						@edit="editElement({element: child, parent: item})">
+				</item>
 			</div>
 		</div>
 	</div>
@@ -66,13 +66,23 @@
     },
     methods: {
       ...mapMutations([
+        'addElement',
         'editElement',
         'deleteElement',
-        'fillAllowedChildren'
+        'fillAllowedChildren',
+        'setParent'
       ]),
-      addElement(parent) {
-        this.$store.commit('setParent', parent.children);
-        this.$modal.show('add-element');
+      add(parent) {
+        this.setParent(parent);
+
+        if (parent.type === 'grid') {
+          this.addElement({
+            name: 'column',
+            config: ''
+          });
+        } else {
+          this.$modal.show('add-element');
+        }
       },
     },
   };
