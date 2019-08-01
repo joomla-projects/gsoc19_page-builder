@@ -45,31 +45,21 @@
         return index + 1;
       },
       nextSpace() {
-        let x = 0, y = 0, occupied = this.atPosition(x, y);
+        let y = this.maxRow;
+        let x = 0;
 
-        while (occupied) {
-          x += occupied.w;
+        this.columns.forEach(col => {
+          if (col.y === y && col.x >= x) {
+            x = col.x + col.w;
 
-          if (x === this.size) {
-            y += 1;
-            x = 0;
+            if (x === this.size) {
+              x = 0;
+              y += 1;
+            }
           }
+        });
 
-          occupied = this.atPosition(x, y);
-        }
-
-        // Get available width to fill row
-        let w = 1;
-        let position = x + w;
-        occupied = this.atPosition(position, y);
-
-        while (!occupied && position < this.size) {
-          w += 1;
-          position += 1;
-          occupied = this.atPosition(position, y);
-        }
-
-        return {x: x, y: y, w: w};
+        return {x: x, y: y, w: this.size - x};
       },
       maxRow() {
         let maxY = 0;
