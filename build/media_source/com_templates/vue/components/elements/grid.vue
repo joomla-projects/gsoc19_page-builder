@@ -203,18 +203,17 @@
           do {
             const occupied = this.atPosition(x, y, newLayout);
 
-            if (occupied && space && free !== false) {
+            if (occupied && space) {
               // Set column into space of last row
               if (space >= occupied.w ) {
                 occupied.y = y - 1;
-                occupied.x = free;
-                x = free + space;
+                occupied.x = this.size - space;
+                x = occupied.x + occupied.w;
                 y -= 1;
               } else {
                 // Not enough space -> reset position
                 x = 0;
               }
-              free = false;
               space = false;
             } else if (occupied && free !== false) {
               // Set column on free position
@@ -237,6 +236,7 @@
           // Set available space for column in next row
           if (free !== false) {
             space = this.size - free;
+            free = false;
           } else {
             space = false;
           }
