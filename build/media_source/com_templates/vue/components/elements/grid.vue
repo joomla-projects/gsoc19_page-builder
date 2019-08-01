@@ -88,7 +88,7 @@
         'deleteElement',
         'editElement',
         'setParent',
-        'addElement'
+        'updateChildrenOrder'
       ]),
       mapGrid() {
         let x = 0;
@@ -199,6 +199,7 @@
       reorder(newLayout) {
         let free = false;
         let space = false;
+        const reorderedColumns = [];
 
         for (let y = 0; y <= this.maxRow; y += 1) {
           let x = 0;
@@ -206,9 +207,14 @@
           do {
             const occupied = this.atPosition(x, y, newLayout);
 
+            // Set new order into store too
+            if (occupied && occupied.element) {
+              reorderedColumns.push(occupied.element);
+            }
+
             if (occupied && space) {
               // Set column into space of last row
-              if (space >= occupied.w ) {
+              if (space >= occupied.w) {
                 occupied.y = y - 1;
                 occupied.x = this.size - space;
                 x = occupied.x + occupied.w;
@@ -244,6 +250,8 @@
             space = false;
           }
         }
+
+        this.updateChildrenOrder({parent: this.grid, children: reorderedColumns});
       },
     },
   };
