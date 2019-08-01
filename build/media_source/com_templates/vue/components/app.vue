@@ -34,7 +34,7 @@
 			<!-- Element -->
       <draggable v-model="elementArray" handle=".handle">
         <item v-for="element in elementArray" :key="element.key" :class="['row-wrapper']"
-            :item="element" @delete="deleteElement({ element })" @edit="editElement({ element })"></item>
+            :item="element" :handleRequired="true" @delete="deleteElement({ element })" @edit="editElement({ element })"></item>
       </draggable>
 			<!-- Element Ends -->
 

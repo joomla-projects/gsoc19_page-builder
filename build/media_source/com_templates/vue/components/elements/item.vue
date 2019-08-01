@@ -1,7 +1,7 @@
 <template>
 	<div :class="['item', 'pagebuilder_' + element.type, element.options.class]" :id="element.type + '-' + element.key">
     
-    <div class="btn-wrapper btn-group left">
+    <div v-if="handleRequired" class="btn-wrapper btn-group left">
       <i class="btn btn-primary btn-sm fa fa-align-justify handle"></i>
     </div>
 
@@ -50,6 +50,9 @@
         required: true,
         type: Object,
       },
+      handleRequired: {
+        type: Boolean
+      }
     },
     computed: {
       ...mapState([
