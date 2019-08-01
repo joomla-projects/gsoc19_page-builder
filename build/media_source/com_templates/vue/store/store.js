@@ -138,7 +138,6 @@ const mutations = {
         class: '',
       },
       children: children,
-      attributes: gridType.attributes,
     };
   },
   setMaxKey(state) {

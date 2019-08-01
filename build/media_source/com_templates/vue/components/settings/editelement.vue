@@ -94,14 +94,15 @@ export default {
         ...mapState([
             'elementSelected',
             'parent'
-        ])
+        ]),
+        threshold() {
+            return this.gridSize - this.elementSelected.options.size;
+        }
     },
     watch: {
         elementSelected: {
             deep: true,
             handler() {
-                if(this.parent)
-                    this.threshold = this.parent.attributes.size.value - this.elementSelected.options.size;
                 this.element_class = this.elementSelected.options.class;
                 this.element_module_chrome = this.elementSelected.options.module_chrome ? this.elementSelected.options.module_chrome : 'none';
                 this.element_moduleposition_name = this.elementSelected.options.name ? this.elementSelected.options.name : '';
@@ -120,7 +121,7 @@ export default {
                 md: '',
                 lg: ''
             },
-            threshold: '',
+            gridSize: 12,
             element_moduleposition_name: '',
             offset: [
                 {
@@ -179,9 +180,7 @@ export default {
         }
     },
     created() {
-        if(this.parent)
-            this.threshold = this.parent.attributes.size.value - this.elementSelected.options.size;
-        this.element_moduleposition_name = this.elementSelected.options.name ? this.elementSelected.options.name : '';
+      this.element_moduleposition_name = this.elementSelected.options.name ? this.elementSelected.options.name : '';
     },
     methods: {
         ...mapMutations([
