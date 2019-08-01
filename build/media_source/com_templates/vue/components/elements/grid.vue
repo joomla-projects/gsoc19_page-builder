@@ -105,10 +105,13 @@
           };
 
           x += col.w;
-          if (x === this.size) {
+          if (x >= this.size) {
             x = 0;
             y += 1;
+            col.x = x;
+            col.y = y;
           }
+
           this.columns.push(col);
         });
       },
