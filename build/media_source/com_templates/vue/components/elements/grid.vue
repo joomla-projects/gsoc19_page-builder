@@ -15,7 +15,6 @@
 			:h="1"
 			:x="column.x"
 			:y="column.y"
-			@moved="reorder"
 			@resize="resize"
 			@resized="changeSize">
 			<item :item="column.element" @delete="deleteElement({element: column.element, parent: grid})" @edit="editElement({element: column.element, parent: grid})"></item>
@@ -181,8 +180,10 @@
           col.x -= 1;
         }
       },
-      atPosition(x, y) {
-        return this.columns.find(col => {
+      atPosition(x, y, layout) {
+        const columns = layout || this.columns;
+
+        return columns.find(col => {
           const inRow = y === col.y || (y >= col.y && y <= col.y + col.h - 1);
           return inRow && (x === col.x || (x >= col.x && x <= col.x + col.w - 1));
         });
@@ -192,7 +193,7 @@
         col.h = 1;
         col.element.options.size = newW;
       },
-      reorder() {
+      reorder(newLayout) {
         let free = false;
         let space = false;
 
@@ -200,12 +201,19 @@
           let x = 0;
 
           do {
-            const occupied = this.atPosition(x, y);
+            const occupied = this.atPosition(x, y, newLayout);
 
-            if (occupied && space >= occupied.w && free !== false) {
+            if (occupied && space && free !== false) {
               // Set column into space of last row
-              occupied.y = y - 1;
-              occupied.x = free;
+              if (space >= occupied.w ) {
+                occupied.y = y - 1;
+                occupied.x = free;
+                x = free + space;
+                y -= 1;
+              } else {
+                // Not enough space -> reset position
+                x = 0;
+              }
               free = false;
               space = false;
             } else if (occupied && free !== false) {
@@ -219,6 +227,7 @@
             } else if (!occupied && free === false) {
               // Set free position
               free = x;
+              x += 1;
             } else {
               // There is a free position already, so just go further
               x += 1;
