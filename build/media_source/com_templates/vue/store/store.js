@@ -191,8 +191,6 @@ const mutations = {
     state.deviceWidth = payload;
   },
   updateChildrenOrder(state, {parent, children}) {
-    console.log(parent);
-    console.log(children);
     parent.children = children;
   },
 };
