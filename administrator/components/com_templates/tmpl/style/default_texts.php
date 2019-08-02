@@ -31,6 +31,7 @@ Text::script('COM_TEMPLATES_INSERT', true);
 Text::script('COM_TEMPLATES_MAX_COLUMN_SIZE', true);
 Text::script('COM_TEMPLATES_NO_CHILD_ALLOWED', true);
 Text::script('COM_TEMPLATES_NONE', true);
+Text::script('COM_TEMPLATES_OFFSET', true);
 Text::script('COM_TEMPLATES_OUTLINE', true);
 Text::script('COM_TEMPLATES_POSITION_NAME', true);
 Text::script('COM_TEMPLATES_ROUNDED', true);

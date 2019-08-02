@@ -140,6 +140,10 @@ select {
     }
   }
 
+  .col-offset {
+    background-color: $light-blue;
+  }
+
   .row-wrapper {
     position: relative;
     border: 2px dashed $grey;

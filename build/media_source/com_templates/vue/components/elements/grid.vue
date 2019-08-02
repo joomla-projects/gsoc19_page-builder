@@ -1,15 +1,16 @@
 <template>
 	<grid-layout
-		:layout="columns"
+		:layout="allColumns"
 		:col-num="size"
 		:is-draggable="true"
 		:is-resizable="true"
+		:vertical-compact="false"
 		@layout-updated="reorder"
 	>
 
 		<!-- Columns -->
 		<grid-item v-for="column in columns" :key="column.i"
-			:class="['col-wrapper', column.element.type, column.element.options.offsetClass, column.element.options.class]"
+			:class="['col-wrapper', column.element.type, column.element.options.class]"
 			:i="column.i"
 			:w="column.w"
 			:h="1"
@@ -17,7 +18,25 @@
 			:y="column.y"
 			@resize="resize"
 			@resized="changeSize">
-			<item :item="column.element" @delete="deleteElement({element: column.element, parent: grid})" @edit="editElement({element: column.element, parent: grid})"></item>
+
+			<item :item="column.element"
+					@delete="deleteElement({element: column.element, parent: grid})"
+					@edit="editElement({element: column.element, parent: grid})">
+			</item>
+		</grid-item>
+
+		<!-- Offsets -->
+		<grid-item v-for="off in offsets" :key="off.i"
+				:static="true"
+				:class="['col-wrapper', 'col-offset']"
+				:i="off.i"
+				:w="off.w"
+				:h="off.h"
+				:x="off.column.x - off.w"
+				:y="off.column.y">
+			<div class="desc">
+				{{ translate('COM_TEMPLATES_OFFSET') + ' ' + off.w }}
+			</div>
 		</grid-item>
 	</grid-layout>
 </template>
@@ -34,6 +53,9 @@
       },
     },
     computed: {
+      allColumns() {
+        return this.columns.concat(this.offsets);
+      },
       nextIndex() {
         let index = 0;
         if (this.columns.length) {
@@ -69,6 +91,7 @@
     data() {
       return {
         columns: [],
+        offsets: [],
         size: 12,
       };
     },
@@ -82,6 +105,7 @@
     },
     created() {
       this.mapGrid();
+      this.initOffsets();
     },
     methods: {
       ...mapMutations([
@@ -122,11 +146,19 @@
           if (found === -1) {
             // Remove column from grid
             this.columns.splice(this.columns.indexOf(col), 1);
+            this.reorder();
           }
         });
-        // Search for new children
+        // Search for new children and offsets
         this.grid.children.forEach(child => {
           const found = this.columns.find(col => col.element === child);
+          if (found && child.options.offset.lg && !found.offset) {
+            this.createOffset(found);
+            this.reorder();
+          } else if (found && !child.options.offset.lg && found.offset) {
+            this.removeOffset(found);
+            this.reorder();
+          }
           if (!found) {
             const newPosition = this.nextSpace;
             this.columns.push({
@@ -139,6 +171,35 @@
             });
           }
         });
+      },
+      initOffsets() {
+        this.columns.forEach(col => {
+          // TODO: take current device offset (not just 'lg')
+          if (col.element.options.offset.lg) {
+            this.createOffset(col);
+          }
+        });
+      },
+      createOffset(column) {
+        const offset = column.element.options.offset.lg;
+        this.moveToRight(column.x, column.y, offset);
+
+        const offsetObj = {
+          i: `offset-${column.i}`,
+          x: column.x - offset,
+          y: column.y,
+          w: offset,
+          h: 1,
+          column: column,
+        };
+
+        column.offset = offsetObj;
+        this.offsets.push(offsetObj);
+      },
+      removeOffset(column) {
+        const offset = column.offset;
+        this.offsets.splice(this.columns.indexOf(offset), 1);
+        delete column.offset;
       },
       getColumnByIndex(i) {
         return this.columns.find(col => col.i === i);
@@ -196,7 +257,7 @@
         col.h = 1;
         col.element.options.size = newW;
       },
-      reorder(newLayout) {
+      reorder() {
         let free = false;
         let space = false;
         const reorderedColumns = [];
@@ -205,7 +266,15 @@
           let x = 0;
 
           do {
-            const occupied = this.atPosition(x, y, newLayout);
+            const occupied = this.atPosition(x, y);
+            let offsetW = 0;
+            let fullW = occupied ? occupied.w : 1;
+
+            // Mind the offset
+            if (occupied && occupied.offset) {
+              fullW += occupied.offset.w;
+              offsetW = occupied.offset.w;
+            }
 
             // Set new order into store too
             if (occupied && occupied.element) {
@@ -214,10 +283,10 @@
 
             if (occupied && space) {
               // Set column into space of last row
-              if (space >= occupied.w) {
+              if (space >= fullW) {
                 occupied.y = y - 1;
-                occupied.x = this.size - space;
-                x = occupied.x + occupied.w;
+                occupied.x = this.size - space + offsetW;
+                x = occupied.x + fullW;
                 y -= 1;
               } else {
                 // Not enough space -> reset position
@@ -226,12 +295,15 @@
               space = false;
             } else if (occupied && free !== false) {
               // Set column on free position
-              occupied.x = free;
+              occupied.x = free + offsetW;
               free = false;
               x = occupied.x + occupied.w;
             } else if (occupied) {
               // Go further in grid
-              x += occupied.w;
+              if (occupied.offset) {
+                occupied.x += offsetW;
+              }
+              x += fullW;
             } else if (!occupied && free === false) {
               // Set free position
               free = x;
