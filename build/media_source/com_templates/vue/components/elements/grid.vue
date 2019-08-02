@@ -147,6 +147,9 @@
           const found = this.grid.children.indexOf(col.element);
           if (found === -1) {
             // Remove column from grid
+            if (col.offset) {
+              this.offsets.splice(this.offsets.indexOf(col.offset), 1);
+            }
             this.columns.splice(this.columns.indexOf(col), 1);
             this.reorder();
           }
