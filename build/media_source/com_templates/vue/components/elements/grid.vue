@@ -198,7 +198,7 @@
         this.moveToRight(column.x, column.y, offset);
 
         const offsetObj = {
-          i: `offset-${column.i}`,
+          i: `offset-${column.element.key}`,
           x: column.x - offset,
           y: column.y,
           w: offset,
@@ -211,13 +211,18 @@
       },
       removeOffset(column) {
         const offset = column.offset;
-        this.offsets.splice(this.columns.indexOf(offset), 1);
+        this.offsets.splice(this.offsets.indexOf(offset), 1);
         delete column.offset;
       },
       updateOffsets() {
-        this.offsets = [];
+        this.columns.forEach(col => {
+          if (col.element.options.offset[this.activeDevice]) {
+            this.createOffset(col);
+          } else if (col.offset) {
+            this.removeOffset(col);
+          }
+        });
         this.reorder();
-        this.initOffsets();
       },
       getColumnByIndex(i) {
         return this.columns.find(col => col.i === i);
