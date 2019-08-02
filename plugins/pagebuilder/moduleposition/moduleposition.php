@@ -59,7 +59,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	 */
 	public function onRender($data)
 	{
-		$html = '<jdoc:include ';
+		$html = '<jdoc:include';
 
 		if (isset($data->options))
 		{
