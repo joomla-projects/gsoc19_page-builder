@@ -59,10 +59,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	 */
 	public function onRender($data)
 	{
-		// TODO: include modules when they are integrated into the pagebuilder with type and name
-		// $include = '<jdoc:include type="' . $type . '" name="' . $name . '" style="' . $style . '" />';
-		$html    = '<span ';
-		$classes = array('grid');
+		$html = '<jdoc:include ';
 
 		if (isset($data->options))
 		{
@@ -71,18 +68,19 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 				$classes[] = $data->options->class;
 			}
 
-			$html .= empty($data->options->style) ? '' : ' style="' . $data->options->style . '"';
-			$html .= empty($data->options->type) ? '' : ' type="' . $data->options->type . '"';
+			$html .= empty($data->options->type) ? ' type="modules"' : ' type="' . $data->options->type . '"';
+			$html .= empty($data->options->name) ? '' : ' name="' . $data->options->name . '"';
+			$html .= empty($data->options->module_chrome) ? '' : ' style="' . $data->options->module_chrome . '"';
 		}
 
-		$html .= ' class="' . implode(' ', $classes) . '"';
-		$html .= '> POSITION ';
+		// TODO: gets changed to '> </jdoc:include>'
+		$html .= ' />';
 
 		return array(
 			'title' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
 			'id'    => 'moduleposition',
 			'start' => $html,
-			'end'   => '</span>'
+			'end'   => null
 		);
 	}
 }
