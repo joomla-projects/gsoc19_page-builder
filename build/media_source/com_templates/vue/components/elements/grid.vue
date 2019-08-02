@@ -174,6 +174,7 @@
               y: newPosition.y,
               element: child,
             });
+            this.updateSize({element: child, size: newPosition.w});
           }
         });
       },
