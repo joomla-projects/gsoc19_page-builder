@@ -42,7 +42,7 @@
 </template>
 
 <script>
-  import {mapMutations} from 'vuex';
+  import {mapMutations, mapState} from 'vuex';
 
   export default {
     name: 'grid',
@@ -53,6 +53,9 @@
       },
     },
     computed: {
+      ...mapState([
+        'activeDevice',
+      ]),
       allColumns() {
         return this.columns.concat(this.offsets);
       },
@@ -100,6 +103,11 @@
         deep: true,
         handler() {
           this.mapElementChanges();
+        }
+      },
+      activeDevice: {
+        handler() {
+          this.updateOffsets();
         }
       },
     },
@@ -157,10 +165,10 @@
         // Search for new children and offsets
         this.grid.children.forEach(child => {
           const found = this.columns.find(col => col.element === child);
-          if (found && child.options.offset.lg && !found.offset) {
+          if (found && child.options.offset[this.activeDevice] && !found.offset) {
             this.createOffset(found);
             this.reorder();
-          } else if (found && !child.options.offset.lg && found.offset) {
+          } else if (found && !child.options.offset[this.activeDevice] && found.offset) {
             this.removeOffset(found);
             this.reorder();
           }
@@ -180,14 +188,13 @@
       },
       initOffsets() {
         this.columns.forEach(col => {
-          // TODO: take current device offset (not just 'lg')
-          if (col.element.options.offset.lg) {
+          if (col.element.options.offset[this.activeDevice]) {
             this.createOffset(col);
           }
         });
       },
       createOffset(column) {
-        const offset = column.element.options.offset.lg;
+        const offset = column.element.options.offset[this.activeDevice];
         this.moveToRight(column.x, column.y, offset);
 
         const offsetObj = {
@@ -206,6 +213,11 @@
         const offset = column.offset;
         this.offsets.splice(this.columns.indexOf(offset), 1);
         delete column.offset;
+      },
+      updateOffsets() {
+        this.offsets = [];
+        this.reorder();
+        this.initOffsets();
       },
       getColumnByIndex(i) {
         return this.columns.find(col => col.i === i);

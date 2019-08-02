@@ -13,7 +13,14 @@ const state = {
   elements: window.Joomla.getOptions('com_templates').elements,
   elementArray: {},
   maxKey: 0,
-  deviceWidth: '1200px'
+  deviceWidth: '1250px',
+  activeDevice: 'lg',
+  resolution: {
+    lg: '1250px',
+    md: '1050px',
+    sm: '820px',
+    xs: '420px',
+  }
 };
 
 const mutations = {
@@ -189,6 +196,12 @@ const mutations = {
   },
   updateDeviceWidth(state, payload) {
     state.deviceWidth = payload;
+
+    for (const key in state.resolution) {
+      if (state.resolution[key] === payload) {
+        state.activeDevice = key;
+      }
+    }
   },
   updateChildrenOrder(state, {parent, children}) {
     parent.children = children;
