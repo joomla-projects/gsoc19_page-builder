@@ -22,14 +22,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 abstract class RenderHelper
 {
 	/**
-	 * Defines how much columns the grid should have
-	 * @var number
-	 *
-	 * @since   4.0
-	 */
-	private static $gridSize = 12;
-
-	/**
 	 * Decode pagebuilder param and render the elements
 	 *
 	 * @param   string $param JSON with grids, columns and modules, build by the pagebuilder
@@ -47,8 +39,6 @@ abstract class RenderHelper
 		{
 			throw new \Exception('No elements available');
 		}
-
-		self::$gridSize = isset($elements->gridSize) ? $elements->gridSize : 12;
 
 		PluginHelper::importPlugin('pagebuilder');
 
