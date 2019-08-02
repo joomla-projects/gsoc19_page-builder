@@ -193,6 +193,9 @@ const mutations = {
   updateChildrenOrder(state, {parent, children}) {
     parent.children = children;
   },
+  updateSize(state, {element, size}) {
+    element.options.size = size;
+  },
 };
 
 export default new Vuex.Store({

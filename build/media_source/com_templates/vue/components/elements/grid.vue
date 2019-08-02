@@ -112,7 +112,8 @@
         'deleteElement',
         'editElement',
         'setParent',
-        'updateChildrenOrder'
+        'updateChildrenOrder',
+        'updateSize'
       ]),
       mapGrid() {
         let x = 0;
@@ -257,6 +258,7 @@
         const col = this.getColumnByIndex(i);
         col.h = 1;
         col.element.options.size = newW;
+        this.updateSize({element: col.element, size: newW});
       },
       reorder() {
         let free = false;
