@@ -167,10 +167,8 @@
           const found = this.columns.find(col => col.element === child);
           if (found && child.options.offset[this.activeDevice] && !found.offset) {
             this.createOffset(found);
-            this.reorder();
           } else if (found && !child.options.offset[this.activeDevice] && found.offset) {
             this.removeOffset(found);
-            this.reorder();
           }
           if (!found) {
             const newPosition = this.nextSpace;
@@ -204,6 +202,7 @@
           w: offset,
           h: 1,
           column: column,
+          device: this.activeDevice,
         };
 
         column.offset = offsetObj;
@@ -213,16 +212,17 @@
         const offset = column.offset;
         this.offsets.splice(this.offsets.indexOf(offset), 1);
         delete column.offset;
+        this.moveToLeft(column.x, column.y, offset.w);
       },
       updateOffsets() {
         this.columns.forEach(col => {
-          if (col.element.options.offset[this.activeDevice]) {
-            this.createOffset(col);
-          } else if (col.offset) {
+          if (col.offset && col.offset.device !== this.activeDevice) {
             this.removeOffset(col);
           }
+          if (col.element.options.offset[this.activeDevice]) {
+            this.createOffset(col);
+          }
         });
-        this.reorder();
       },
       getColumnByIndex(i) {
         return this.columns.find(col => col.i === i);
@@ -260,11 +260,11 @@
           col.y = y;
         }
       },
-      moveToLeft(x, y) {
+      moveToLeft(x, y, w) {
         const col = this.atPosition(x, y);
         if (col) {
-          this.moveToLeft(col.x + col.w, y);
-          col.x -= 1;
+          this.moveToLeft(col.x + col.w, y, w);
+          col.x -= w || 1;
         }
       },
       atPosition(x, y, layout) {
