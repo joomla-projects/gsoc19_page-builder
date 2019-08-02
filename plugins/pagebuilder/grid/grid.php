@@ -59,8 +59,8 @@ class PlgPagebuilderGrid extends CMSPlugin
 	 */
 	public function onRender($data)
 	{
-		$html    = '<div ';
-		$classes = array('grid', 'row');
+		$html    = '<div';
+		$classes = ['grid', 'row'];
 
 		if (isset($data->options))
 		{
