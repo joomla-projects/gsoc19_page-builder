@@ -119,9 +119,17 @@
         let y = 0;
 
         this.grid.children.forEach((child) => {
+          // Takes care of elements other than 'column'
+          const colSize = child.type !== 'column' ? this.size : child.options.size || 1;
+
+          if (x + colSize > this.size) {
+            x = 0;
+            y += 1;
+          }
+
           const col = {
             i: this.nextIndex,
-            w: child.type !== 'column' ? this.size : child.options.size || 1, // Takes care of elements other than 'column'
+            w: colSize,
             h: 1,
             x: x,
             y: y,
@@ -129,13 +137,6 @@
           };
 
           x += col.w;
-          if (x >= this.size) {
-            x = 0;
-            y += 1;
-            col.x = x;
-            col.y = y;
-          }
-
           this.columns.push(col);
         });
       },
