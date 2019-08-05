@@ -35,7 +35,7 @@
 				:x="off.column.x - off.w"
 				:y="off.column.y">
 			<div class="desc">
-				{{ translate('COM_TEMPLATES_OFFSET') + ' ' + off.w }}
+				{{ translate('COM_TEMPLATES_OFFSET') + ' ' + off.device + '-' + off.w }}
 			</div>
 		</grid-item>
 	</grid-layout>

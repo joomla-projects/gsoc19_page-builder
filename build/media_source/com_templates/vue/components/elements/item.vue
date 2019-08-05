@@ -1,5 +1,5 @@
 <template>
-	<div :class="['item', 'pagebuilder_' + element.type, element.options.class]" :id="element.type + '-' + element.key">
+	<div :class="['item', 'pagebuilder_' + element.type, element.options.class]" :id="element.type + '-' + element.key" @dragover.prevent @drop.prevent="drop($event)">
 
     <div v-if="handleRequired" class="btn-wrapper btn-group left">
       <i class="btn btn-primary btn-sm fa fa-align-justify handle"></i>
@@ -84,6 +84,13 @@
           this.$modal.show('add-element');
         }
       },
+      drop(event) {
+        var data = event.dataTransfer.getData("text");
+        event.target.appendChild(document.getElementById(data));
+        event.target.classList.add("fixedElement");
+        if(event.target.children[0].children[0])
+          event.target.children[0].children[0].disabled = true;
+	    },
     },
   };
 </script>

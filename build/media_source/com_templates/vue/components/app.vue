@@ -11,7 +11,8 @@
 			</div>
 		</div>
 
-    <div class="topbar">
+    <div class="topbar row">
+      <div class="col">
       <ul class="nav nav-pills">
         <li class="nav-item" @click="deviceWidth = '420px'">
           <a class="nav-link" data-toggle="pill" role="tab"><i class="fas fa-mobile-alt fa-lg"></i></a>
@@ -26,6 +27,23 @@
           <a class="nav-link active" data-toggle="pill" role="tab"><i class="fas fa-desktop fa-lg"></i></a>
         </li>
       </ul>
+      </div>
+      <div class="col">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <div class="nav-link" id="dragComponent" draggable="true" @dragstart="drag($event)">
+              <i class="fas fa-file-alt"></i>
+              {{ translate(COM_TEMPLATES_COMPONENT) }}
+            </div>
+          </li>
+          <li>
+            <div class="nav-link" id="dragMessage" draggable="true" @dragstart="drag($event)">
+              <i class="fas fa-envelope"></i>
+              {{ translate(COM_TEMPLATES_MESSAGE) }}
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
 
 		<div class="pagebuilder" id="pagebuilder" :style="{ width: deviceWidth }">
@@ -102,6 +120,9 @@
         this.setParent(this.elementArray);
         this.$modal.show('add-element');
       },
+      drag(event) {
+        event.dataTransfer.setData("text", event.target.id);
+	    }
     },
     components: {
       draggable
