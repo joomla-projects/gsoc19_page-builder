@@ -13,20 +13,7 @@
 
     <div class="topbar row">
       <div class="col">
-      <ul class="nav nav-pills">
-        <li class="nav-item" @click="deviceWidth = '420px'">
-          <a class="nav-link" data-toggle="pill" role="tab"><i class="fas fa-mobile-alt fa-lg"></i></a>
-        </li>
-        <li class="nav-item" @click="deviceWidth = '820px'">
-          <a class="nav-link" data-toggle="pill" role="tab"><i class="fas fa-tablet-alt fa-lg"></i></a>
-        </li>
-        <li class="nav-item" @click="deviceWidth = '1050px'">
-          <a class="nav-link" data-toggle="pill" role="tab"><i class="fas fa-laptop fa-lg"></i></a>
-        </li>
-        <li class="nav-item" @click="deviceWidth = '1250px'">
-          <a class="nav-link active" data-toggle="pill" role="tab"><i class="fas fa-desktop fa-lg"></i></a>
-        </li>
-      </ul>
+		  <devices></devices>
       </div>
       <div class="col">
         <ul class="nav nav-pills">
@@ -74,7 +61,8 @@
   export default {
     computed: {
       ...mapState([
-        'selectedSettings'
+        'selectedSettings',
+        'deviceWidth'
       ]),
       elementArray: {
         get() {
@@ -84,14 +72,6 @@
           this.updateElementArray(value);
         }
       },
-      deviceWidth: {
-        get() {
-          return this.$store.state.deviceWidth;
-        },
-        set(value) {
-          this.updateDeviceWidth(value);
-        }
-      }
     },
     watch: {
       elementArray: {
@@ -113,7 +93,6 @@
         'deleteElement',
         'setParent',
         'updateElementArray',
-        'updateDeviceWidth',
         'editElement'
       ]),
       addElement() {
