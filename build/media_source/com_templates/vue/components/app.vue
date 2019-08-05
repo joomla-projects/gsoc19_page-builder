@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div id="sidebar" class="sidebar">
-				<div class="sidebar-content">
+			<div class="sidebar-content">
 				<h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
 				<button type="button" class="btn btn-lg closebtn" @click="closeNav()">
 					<span class="icon-cancel"></span>
@@ -11,36 +11,38 @@
 			</div>
 		</div>
 
-    <div class="topbar row">
-      <div class="col">
-		  <devices></devices>
-      </div>
-      <div class="col">
-        <ul class="nav nav-pills">
-          <li class="nav-item">
-            <div class="nav-link" id="dragComponent" draggable="true" @dragstart="drag($event)">
-              <i class="fas fa-file-alt"></i>
-              {{ translate('COM_TEMPLATES_COMPONENT') }}
-            </div>
-          </li>
-          <li>
-            <div class="nav-link" id="dragMessage" draggable="true" @dragstart="drag($event)">
-              <i class="fas fa-envelope"></i>
-              {{ translate('COM_TEMPLATES_MESSAGE') }}
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
+		<div class="topbar row">
+			<div class="col">
+				<devices></devices>
+			</div>
+			<div class="col">
+				<ul class="nav nav-pills">
+					<li class="nav-item">
+						<div class="nav-link" id="dragComponent" draggable="true" @dragstart="drag($event)">
+							<i class="fas fa-file-alt"></i>
+							{{ translate('COM_TEMPLATES_COMPONENT') }}
+						</div>
+					</li>
+					<li>
+						<div class="nav-link" id="dragMessage" draggable="true" @dragstart="drag($event)">
+							<i class="fas fa-envelope"></i>
+							{{ translate('COM_TEMPLATES_MESSAGE') }}
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
 
 		<div class="pagebuilder" id="pagebuilder" :style="{ width: deviceWidth }">
 			<h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
 
 			<!-- Element -->
-      <draggable v-model="elementArray" handle=".handle">
-        <item v-for="element in elementArray" :key="element.key" :class="['row-wrapper']"
-            :item="element" :handleRequired="true" @delete="deleteElement({ element })" @edit="editElement({ element })"></item>
-      </draggable>
+			<draggable v-model="elementArray" handle=".handle">
+				<item v-for="element in elementArray" :key="element.key" :class="['row-wrapper']"
+						:item="element" :handleRequired="true"
+						@delete="deleteElement({ element })"
+						@edit="editElement({ element })"></item>
+			</draggable>
 			<!-- Element Ends -->
 
 			<button @click="addElement()" class="btn btn-success btn-block" type="button">
@@ -56,7 +58,7 @@
 
 <script>
   import {mapMutations, mapState} from 'vuex';
-  import draggable from 'vuedraggable'
+  import draggable from 'vuedraggable';
 
   export default {
     computed: {
@@ -100,8 +102,8 @@
         this.$modal.show('add-element');
       },
       drag(event) {
-        event.dataTransfer.setData("text", event.target.id);
-	    }
+        event.dataTransfer.setData('text', event.target.id);
+      }
     },
     components: {
       draggable

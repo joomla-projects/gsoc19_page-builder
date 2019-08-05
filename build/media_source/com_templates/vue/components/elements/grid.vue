@@ -119,7 +119,6 @@
       ...mapMutations([
         'deleteElement',
         'editElement',
-        'setParent',
         'updateChildrenOrder',
         'updateSize'
       ]),
