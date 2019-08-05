@@ -33,13 +33,13 @@
           <li class="nav-item">
             <div class="nav-link" id="dragComponent" draggable="true" @dragstart="drag($event)">
               <i class="fas fa-file-alt"></i>
-              {{ translate(COM_TEMPLATES_COMPONENT) }}
+              {{ translate('COM_TEMPLATES_COMPONENT') }}
             </div>
           </li>
           <li>
             <div class="nav-link" id="dragMessage" draggable="true" @dragstart="drag($event)">
               <i class="fas fa-envelope"></i>
-              {{ translate(COM_TEMPLATES_MESSAGE) }}
+              {{ translate('COM_TEMPLATES_MESSAGE') }}
             </div>
           </li>
         </ul>
