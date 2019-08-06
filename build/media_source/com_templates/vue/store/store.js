@@ -13,8 +13,8 @@ const state = {
   elements: window.Joomla.getOptions('com_templates').elements,
   elementArray: {},
   maxKey: 0,
-  deviceWidth: '1200px',
-  activeDevice: 'lg',
+  deviceWidth: '768px',
+  activeDevice: 'sm',
   resolution: {
     lg: '1200px',
     md: '992px',
