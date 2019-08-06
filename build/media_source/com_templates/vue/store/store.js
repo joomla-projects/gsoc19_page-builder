@@ -13,6 +13,7 @@ const state = {
   elements: window.Joomla.getOptions('com_templates').elements,
   elementArray: {},
   maxKey: 0,
+  size: 12,
   deviceWidth: '768px',
   activeDevice: 'sm',
   resolution: {
@@ -69,13 +70,18 @@ const mutations = {
         type: 'column',
         title: 'Column',
         options: {
-          size: 12,
+          size: {
+            xs: state.size,
+            sm: 0,
+            md: 0,
+            lg: 0,
+          },
           class: '',
           offset: {
-            xs: '',
-            sm: '',
-            md: '',
-            lg: ''
+            xs: 0,
+            sm: 0,
+            md: 0,
+            lg: 0,
           },
           offsetClass: '',
         },
@@ -124,13 +130,18 @@ const mutations = {
         type: 'column',
         title: columnType.title,
         options: {
-          size: size,
+          size: {
+            xs: size,
+            sm: 0,
+            md: 0,
+            lg: 0,
+          },
           class: '',
           offset: {
-            xs: '',
-            sm: '',
-            md: '',
-            lg: ''
+            xs: 0,
+            sm: 0,
+            md: 0,
+            lg: 0,
           },
           offsetClass: '',
         },
@@ -202,11 +213,35 @@ const mutations = {
     parent.children = children;
   },
   updateSize(state, {element, size}) {
-    element.options.size = size;
+    element.options.size[state.activeDevice] = size;
+  },
+};
+
+const getters = {
+  getElementSize: (state) => (element) => {
+    if (element.options && element.options.size) {
+      let size = element.options.size[state.activeDevice];
+
+      // Get size above (mobile-first principle)
+      if (!size) {
+        const deviceOrder = ['xs', 's', 'md', 'lg'];
+
+        for (const device of deviceOrder) {
+          if (element.options.size[device]) {
+            return element.options.size[device];
+          }
+        }
+      }
+
+      return size;
+    }
+
+    return state.size;
   },
 };
 
 export default new Vuex.Store({
   state,
   mutations,
+  getters,
 });

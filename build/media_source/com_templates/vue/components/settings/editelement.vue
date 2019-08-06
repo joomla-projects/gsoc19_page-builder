@@ -92,11 +92,13 @@ export default {
     name: 'edit-element',
     computed: {
         ...mapState([
+            'activeDevice',
             'elementSelected',
-            'parent'
+            'parent',
+            'size'
         ]),
         threshold() {
-            return this.gridSize - this.elementSelected.options.size;
+            return this.size - this.elementSelected.options.size[this.activeDevice];
         }
     },
     watch: {
@@ -121,7 +123,6 @@ export default {
                 md: '',
                 lg: ''
             },
-            gridSize: 12,
             element_moduleposition_name: '',
             offset: [
                 {

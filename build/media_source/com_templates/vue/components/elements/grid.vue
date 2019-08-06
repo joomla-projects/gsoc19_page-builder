@@ -42,7 +42,7 @@
 </template>
 
 <script>
-  import {mapMutations, mapState} from 'vuex';
+  import {mapGetters, mapMutations, mapState} from 'vuex';
 
   export default {
     name: 'grid',
@@ -55,6 +55,10 @@
     computed: {
       ...mapState([
         'activeDevice',
+        'size'
+      ]),
+      ...mapGetters([
+        'getElementSize'
       ]),
       allColumns() {
         return this.columns.concat(this.offsets);
@@ -95,7 +99,6 @@
       return {
         columns: [],
         offsets: [],
-        size: 12,
       };
     },
     watch: {
@@ -128,7 +131,7 @@
 
         this.grid.children.forEach((child) => {
           // Takes care of elements other than 'column'
-          const colSize = child.type !== 'column' ? this.size : child.options.size || 1;
+          const colSize = this.getElementSize(child);
 
           if (x + colSize > this.size) {
             x = 0;
@@ -277,7 +280,6 @@
       changeSize(i, newH, newW) {
         const col = this.getColumnByIndex(i);
         col.h = 1;
-        col.element.options.size = newW;
         this.updateSize({element: col.element, size: newW});
       },
       reorder() {
