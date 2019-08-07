@@ -12,7 +12,7 @@
 		</div>
 
 		<div class="topbar row">
-			<div class="col">
+			<div class="col-8">
 				<devices></devices>
 			</div>
 			<div class="col">
