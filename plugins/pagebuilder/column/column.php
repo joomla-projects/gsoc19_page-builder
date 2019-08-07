@@ -71,7 +71,20 @@ class PlgPagebuilderColumn extends CMSPlugin
 
 			if (!empty($data->options->size))
 			{
-				$classes[] = 'col-' . $data->options->size;
+				if (is_string($data->options->size))
+				{
+					$classes[] = 'col-' . $data->options->size;
+				}
+				else
+				{
+					foreach ($data->options->size as $device => $size)
+					{
+						if (!empty($size))
+						{
+							$classes[] = $device === 'xs' ? 'col-' . $size : 'col-' . $device . '-' . $size;
+						}
+					}
+				}
 			}
 
 			if (!empty($data->options->offsetClass))

@@ -63,17 +63,11 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 
 		if (isset($data->options))
 		{
-			if (!empty($data->options->class))
-			{
-				$classes[] = $data->options->class;
-			}
-
 			$html .= empty($data->options->type) ? ' type="modules"' : ' type="' . $data->options->type . '"';
 			$html .= empty($data->options->name) ? '' : ' name="' . $data->options->name . '"';
 			$html .= empty($data->options->module_chrome) ? '' : ' style="' . $data->options->module_chrome . '"';
 		}
 
-		// TODO: gets changed to '> </jdoc:include>'
 		$html .= ' />';
 
 		return array(
