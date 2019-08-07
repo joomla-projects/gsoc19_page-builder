@@ -215,6 +215,9 @@ const mutations = {
   updateSize(state, {element, size}) {
     element.options.size[state.activeDevice] = size;
   },
+  updateGrid(state) {
+    document.getElementById('jform_params_grid').value = JSON.stringify(state.elementArray);
+  },
 };
 
 const getters = {

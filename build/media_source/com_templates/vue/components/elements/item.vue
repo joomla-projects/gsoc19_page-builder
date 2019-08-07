@@ -1,5 +1,5 @@
 <template>
-	<div :class="['item', 'pagebuilder_' + element.type, element.options.class]" :id="element.type + '-' + element.key"
+	<div :class="['item', 'pagebuilder_' + element.type, element.options.class, element.options.component ? 'drag_component' : '', element.options.message ? 'drag_message' : '' ]" :id="element.type + '-' + element.key"
 			@dragover.prevent @drop.prevent="drop($event)">
 
 		<div v-if="handleRequired" class="btn-wrapper btn-group left">
@@ -74,7 +74,8 @@
         'editElement',
         'deleteElement',
         'fillAllowedChildren',
-        'setParent'
+        'setParent',
+        'updateGrid'
       ]),
       add(parent) {
         this.setParent(parent);
@@ -104,6 +105,7 @@
           event.target.__vue__.$data.element.options.component = true;
         else 
           event.target.__vue__.$data.element.options.message = true;
+        this.updateGrid();
       },
     },
   };

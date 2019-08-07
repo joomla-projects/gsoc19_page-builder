@@ -89,6 +89,16 @@
       this.mapElements(JSON.parse(document.getElementById('jform_params_grid').value));
       this.ifChildAllowed();
     },
+    mounted() {
+      if(document.getElementsByClassName('drag_component').length) {
+        var element = document.getElementsByClassName('drag_component')[0];
+        element.appendChild(document.getElementById('drag_component'));
+      }
+      if(document.getElementsByClassName('drag_message').length) {
+        var element = document.getElementsByClassName('drag_message')[0];
+        element.appendChild(document.getElementById('drag_message'));
+      }
+    },
     methods: {
       ...mapMutations([
         'ifChildAllowed',
@@ -97,7 +107,8 @@
         'deleteElement',
         'setParent',
         'updateElementArray',
-        'editElement'
+        'editElement',
+        'updateGrid',
       ]),
       addElement() {
         this.setParent(this.elementArray);
@@ -107,8 +118,16 @@
         event.dataTransfer.setData('text', event.target.id);
       },
       restorePosition(event, location) {
-        document.getElementsByClassName('drag_' + location)[0].classList.remove('drag_' + location);
+        var element = document.getElementsByClassName('drag_' + location)[0];
+        if(location == 'component') {
+          element.__vue__.$data.element.options.component = false;
+        }
+        else {
+          element.__vue__.$data.element.options.message = false;
+        }
+        element.classList.remove('drag_' + location);
         document.getElementById('placeholder_' + location).appendChild(document.getElementById('drag_' + location));
+        this.updateGrid();
       }
     },
     components: {
