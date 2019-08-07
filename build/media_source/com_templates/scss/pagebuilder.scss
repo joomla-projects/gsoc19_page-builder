@@ -27,6 +27,20 @@ select {
   -webkit-appearance: menulist;
 }
 
+.nav-link {
+
+  &.drag {
+    border: 2px solid;
+
+    .fa-times-circle {
+      cursor: pointer;
+      float: left;
+      margin-right: 0.75rem;
+      margin-top: 0.25rem;
+    }
+  }
+}
+
 .pagebuilder {
   transition: margin-left .35s;
   margin-left: auto;
@@ -107,7 +121,7 @@ select {
       }
     }
 
-    &.fixedElement {
+    &.drag_component,&.drag_message {
       background-color: $yellow !important;
     }
   }

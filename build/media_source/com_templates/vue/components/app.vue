@@ -17,16 +17,18 @@
 			</div>
 			<div class="col">
 				<ul class="nav nav-pills">
-					<li class="nav-item">
-						<div class="nav-link" id="dragComponent" draggable="true" @dragstart="drag($event)">
+					<li class="nav-item" id="placeholder_component">
+						<div class="nav-link drag" id="drag_component" draggable="true" @dragstart="drag($event)">
 							<i class="fas fa-file-alt"></i>
-							{{ translate('COM_TEMPLATES_COMPONENT') }}
+							<span>{{ translate('COM_TEMPLATES_COMPONENT') }}</span>
+              <i class="fas fa-times-circle" @click="restorePosition($event, 'component')"></i>
 						</div>
 					</li>
-					<li>
-						<div class="nav-link" id="dragMessage" draggable="true" @dragstart="drag($event)">
+					<li class="nav-item" id="placeholder_message">
+						<div class="nav-link drag" id="drag_message" draggable="true" @dragstart="drag($event)">
 							<i class="fas fa-envelope"></i>
-							{{ translate('COM_TEMPLATES_MESSAGE') }}
+							<span>{{ translate('COM_TEMPLATES_MESSAGE') }}</span>
+              <i class="fas fa-times-circle" @click="restorePosition($event, 'message')"></i>
 						</div>
 					</li>
 				</ul>
@@ -103,6 +105,10 @@
       },
       drag(event) {
         event.dataTransfer.setData('text', event.target.id);
+      },
+      restorePosition(event, location) {
+        document.getElementsByClassName('drag_' + location)[0].classList.remove('drag_' + location);
+        document.getElementById('placeholder_' + location).appendChild(document.getElementById('drag_' + location));
       }
     },
     components: {

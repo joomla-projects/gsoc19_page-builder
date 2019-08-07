@@ -1,5 +1,8 @@
 <template>
 	<ul class="nav nav-pills">
+    <li class="nav-item">
+      <p class="nav-link" role="tab">Select Device</p>
+    </li>
 		<li class="nav-item" @click="setDevice('xs')">
 			<a class="nav-link" data-toggle="pill" role="tab"><i class="fas fa-mobile-alt fa-lg"></i></a>
 		</li>

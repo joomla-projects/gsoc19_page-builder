@@ -88,11 +88,11 @@
         }
       },
       drop(event) {
+        if(event.target.classList[1] == 'pagebuilder_moduleposition' || event.target.classList[4] == 'col-offset')
+          return;
         const data = event.dataTransfer.getData('text');
         event.target.appendChild(document.getElementById(data));
-        event.target.classList.add('fixedElement');
-        if (event.target.children[0].children[0])
-          event.target.children[0].children[0].disabled = true;
+        event.target.classList.add(data);
       },
     },
   };
