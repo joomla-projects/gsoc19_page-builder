@@ -27,6 +27,12 @@
 				{{ translate('COM_TEMPLATES_DEVICE_LG') }}
 			</button>
 		</li>
+		<li class="nav-item">
+			<button @click="setDevice('xl', $event)" class="btn btn-info" type="button">
+				<span class="fas fa-desktop fa-lg" aria-hidden="true"></span>
+				{{ translate('COM_TEMPLATES_DEVICE_XL') }}
+			</button>
+		</li>
 	</ul>
 </template>
 

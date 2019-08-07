@@ -14,13 +14,13 @@ const state = {
   elementArray: {},
   maxKey: 0,
   size: 12,
-  deviceWidth: '768px',
   activeDevice: 'sm',
   resolution: {
-    lg: '1200px',
-    md: '992px',
-    sm: '768px',
-    xs: '576px',
+    xl: '1200px',
+    lg: '992px',
+    md: '768px',
+    sm: '576px',
+    xs: '450px', // Smaller as 'sm'
   }
 };
 
@@ -75,6 +75,7 @@ const mutations = {
             sm: 0,
             md: 0,
             lg: 0,
+            xl: 0,
           },
           class: '',
           offset: {
@@ -82,6 +83,7 @@ const mutations = {
             sm: 0,
             md: 0,
             lg: 0,
+            xl: 0,
           },
           offsetClass: '',
         },
@@ -206,7 +208,6 @@ const mutations = {
     state.elementArray = payload;
   },
   updateDeviceWidth(state, device) {
-    state.deviceWidth = state.resolution[device];
     state.activeDevice = device;
   },
   updateChildrenOrder(state, {parent, children}) {
@@ -227,7 +228,7 @@ const getters = {
 
       // Get size above (mobile-first principle)
       if (!size) {
-        const deviceOrder = ['xs', 's', 'md', 'lg'];
+        const deviceOrder = ['xs', 's', 'md', 'lg', 'xl'];
 
         for (const device of deviceOrder) {
           if (element.options.size[device]) {

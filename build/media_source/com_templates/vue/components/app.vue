@@ -65,9 +65,13 @@
   export default {
     computed: {
       ...mapState([
+        'activeDevice',
+        'resolution',
         'selectedSettings',
-        'deviceWidth'
       ]),
+      deviceWidth() {
+        return this.resolution[this.activeDevice];
+      },
       elementArray: {
         get() {
           return this.$store.state.elementArray;
