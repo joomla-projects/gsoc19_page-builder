@@ -39,7 +39,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row"><i class="fas fa-laptop fa-2x"></i></th>
+                                <th scope="row"><i class="fas fa-tablet-alt fa-2x fa-rotate-270"></i></th>
                                 <td class="control-group">
                                     <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.md">
                                         <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
@@ -49,9 +49,19 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row"><i class="fas fa-desktop fa-2x"></i></th>
+                                <th scope="row"><i class="fas fa-laptop fa-2x"></i></th>
                                 <td class="control-group">
                                     <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.lg">
+                                        <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
+                                            {{opt.label}}
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><i class="fas fa-desktop fa-2x"></i></th>
+                                <td class="control-group">
+                                    <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.xl">
                                         <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
                                             {{opt.label}}
                                         </option>
@@ -121,7 +131,8 @@ export default {
                 xs: '',
                 sm: '',
                 md: '',
-                lg: ''
+                lg: '',
+                xl: ''
             },
             element_moduleposition_name: '',
             offset: [
@@ -196,7 +207,8 @@ export default {
             modify.offsetClass = (this.element_offset.xs ? 'offset-xs-' + this.element_offset.xs : '')
                                 + (this.element_offset.sm ? ' offset-sm-' + this.element_offset.sm : '')
                                 + (this.element_offset.md ? ' offset-md-' + this.element_offset.md : '')
-                                + (this.element_offset.lg ? ' offset-lg-' + this.element_offset.lg : '');
+                                + (this.element_offset.lg ? ' offset-lg-' + this.element_offset.lg : '')
+                                + (this.element_offset.xl ? ' offset-xl-' + this.element_offset.xl : '');
             this.$store.commit('modifyElement', modify);
         }
     },
