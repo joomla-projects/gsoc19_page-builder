@@ -92,7 +92,7 @@
       drop(event) {
         var classArray = Object.values(event.target.classList);
         if(classArray.includes('pagebuilder_moduleposition') || classArray.includes('col-offset')) {
-          notifications.error('COM_TEMPLATE_NOT_SUPPORTED');
+          notifications.error('COM_TEMPLATES_NOT_SUPPORTED');
           return;
         }
         if(classArray.includes('drag_component') || classArray.includes('drag_message')) {
@@ -103,7 +103,7 @@
         event.target.classList.add(data);
         if(data == 'drag_component')
           event.target.__vue__.$data.element.options.component = true;
-        else 
+        else
           event.target.__vue__.$data.element.options.message = true;
         this.updateGrid();
       },
