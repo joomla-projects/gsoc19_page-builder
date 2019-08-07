@@ -90,17 +90,20 @@
       },
       drop(event) {
         var classArray = Object.values(event.target.classList);
-        if(event.target.classList[1] == 'pagebuilder_moduleposition' || classArray.includes('col-offset')) {
+        if(classArray.includes('pagebuilder_moduleposition') || classArray.includes('col-offset')) {
           notifications.error('COM_TEMPLATE_NOT_SUPPORTED');
           return;
         }
         if(classArray.includes('drag_component') || classArray.includes('drag_message')) {
-          notifications.error('COM_TEMPLATE_BOTH_NOT_SUPPORTED');
           return;
         }
         const data = event.dataTransfer.getData('text');
         event.target.appendChild(document.getElementById(data));
         event.target.classList.add(data);
+        if(data == 'drag_component')
+          event.target.__vue__.$data.element.options.component = true;
+        else 
+          event.target.__vue__.$data.element.options.message = true;
       },
     },
   };
