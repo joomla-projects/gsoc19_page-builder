@@ -45,6 +45,7 @@
 
 <script>
   import {mapMutations, mapState} from 'vuex';
+  import {notifications} from "./../../app/Notifications";
 
   export default {
     name: 'item',
@@ -88,8 +89,15 @@
         }
       },
       drop(event) {
-        if(event.target.classList[1] == 'pagebuilder_moduleposition' || event.target.classList[4] == 'col-offset')
+        var classArray = Object.values(event.target.classList);
+        if(event.target.classList[1] == 'pagebuilder_moduleposition' || classArray.includes('col-offset')) {
+          notifications.error('COM_TEMPLATE_NOT_SUPPORTED');
           return;
+        }
+        if(classArray.includes('drag_component') || classArray.includes('drag_message')) {
+          notifications.error('COM_TEMPLATE_BOTH_NOT_SUPPORTED');
+          return;
+        }
         const data = event.dataTransfer.getData('text');
         event.target.appendChild(document.getElementById(data));
         event.target.classList.add(data);
