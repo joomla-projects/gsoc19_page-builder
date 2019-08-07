@@ -58,108 +58,79 @@ const mutations = {
     state.parent = parent.children || parent;
   },
   addElement(state, {name, config, moduleposition_name}) {
-    let newElement = {};
+    const type = state.elements.find(el => el.id === name);
     state.maxKey += 1;
 
+    let newElement = {
+      key: state.maxKey,
+      type: type.id,
+      title: type.title,
+      options: {
+        size: {
+          xs: state.size,
+          sm: 0,
+          md: 0,
+          lg: 0,
+          xl: 0,
+        },
+        class: '',
+        offset: {
+          xs: 0,
+          sm: 0,
+          md: 0,
+          lg: 0,
+          xl: 0,
+        },
+        offsetClass: '',
+        name: moduleposition_name,
+        module_chrome: 'none'
+      },
+      children: []
+    };
+
     if (name === 'grid' && config) {
-      newElement = mutations.getGrid(state, config);
-    }
-    else if (name === 'column') {
-      newElement = {
-        key: state.maxKey,
-        type: 'column',
-        title: 'Column',
-        options: {
-          size: {
-            xs: state.size,
-            sm: 0,
-            md: 0,
-            lg: 0,
-            xl: 0,
-          },
-          class: '',
-          offset: {
-            xs: 0,
-            sm: 0,
-            md: 0,
-            lg: 0,
-            xl: 0,
-          },
-          offsetClass: '',
-        },
-        children: []
-      };
-    }
-    else if (name === 'moduleposition' && moduleposition_name) {
-      newElement = {
-        key: state.maxKey,
-        type: 'moduleposition',
-        title: 'Module Position',
-        options: {
-          class: '',
-          name: moduleposition_name,
-          module_chrome: 'none'
-        },
-        children: []
-      };
-    }
-    else {
-      const type = state.elements.find(el => el.id === name);
-      newElement = {
-        key: state.maxKey,
-        type: name,
-        title: type ? type.title : name,
-        options: {
-          class: ''
-        },
-        children: []
-      };
+      newElement.children = mutations.getConfiguredChildren(state, 'column', config)
     }
 
     state.parent.push(newElement);
   },
-  getGrid(state, sizes) {
-    const columnType = state.elements.find(el => el.id === 'column');
-    const gridType = state.elements.find(el => el.id === 'grid');
-    const gridKey = state.maxKey;
+  getConfiguredChildren(state, name, configs) {
+    const type = state.elements.find(el => el.id === name);
     const children = [];
 
-    sizes.forEach(size => {
-      state.maxKey += 1;
+    // TODO: config could be anything (not only size) => make key-value object (?)
+    if (configs) {
+      configs.forEach(config => {
+        state.maxKey += 1;
 
-      children.push({
-        key: state.maxKey,
-        type: 'column',
-        title: columnType.title,
-        options: {
-          size: {
-            xs: size,
-            sm: 0,
-            md: 0,
-            lg: 0,
+        children.push({
+          key: state.maxKey,
+          type: type.id,
+          title: type.title,
+          options: {
+            size: {
+              xs: config,
+              sm: 0,
+              md: 0,
+              lg: 0,
+              xl: 0,
+            },
+            class: '',
+            offset: {
+              xs: 0,
+              sm: 0,
+              md: 0,
+              lg: 0,
+              xl: 0,
+            },
+            offsetClass: '',
           },
-          class: '',
-          offset: {
-            xs: 0,
-            sm: 0,
-            md: 0,
-            lg: 0,
-          },
-          offsetClass: '',
-        },
-        children: []
+          children: []
+        });
       });
-    });
+    }
 
-    return {
-      key: gridKey,
-      type: 'grid',
-      title: gridType.title,
-      options: {
-        class: '',
-      },
-      children: children,
-    };
+    return children;
   },
   setMaxKey(state) {
     // Inner function that goes recursive through all items
