@@ -110,7 +110,9 @@
       },
       activeDevice: {
         handler() {
+          this.updateSizes();
           this.updateOffsets();
+          this.reorder();
         }
       },
     },
@@ -122,8 +124,7 @@
       ...mapMutations([
         'deleteElement',
         'editElement',
-        'updateChildrenOrder',
-        'updateSize'
+        'updateChildrenOrder'
       ]),
       mapGrid() {
         let x = 0;
@@ -182,7 +183,7 @@
               y: newPosition.y,
               element: child,
             });
-            this.updateSize({element: child, size: newPosition.w});
+            child.options.size[this.activeDevice] = newPosition.w;
           }
         });
       },
@@ -223,6 +224,13 @@
           }
           if (col.element.options.offset[this.activeDevice]) {
             this.createOffset(col);
+          }
+        });
+      },
+      updateSizes() {
+        this.columns.forEach(col => {
+          if (col.w !== col.element.options.size[this.activeDevice]) {
+            col.w = this.getElementSize(col.element);
           }
         });
       },
@@ -280,7 +288,7 @@
       changeSize(i, newH, newW) {
         const col = this.getColumnByIndex(i);
         col.h = 1;
-        this.updateSize({element: col.element, size: newW});
+        col.element.options.size[this.activeDevice] = newW;
       },
       reorder() {
         let free = false;
