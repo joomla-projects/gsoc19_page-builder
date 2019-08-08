@@ -2,16 +2,12 @@
  * Apodis stylesheet to display elements created by pagebuilder
  */
 
-.container {
-  border: 1px solid green;
+body {
+  background-color: #aac1db;
 }
 
 .column {
   min-height: 5rem;
-  border: 1px solid black;
-  background-color: rgba(244, 255, 123, 0.63);
-
-  &:nth-of-type(odd) {
-    background-color: rgba(136, 255, 231, 0.48);
-  }
+  border: 1px solid rgb(172, 172, 172);
+  background-color: white;
 }
