@@ -101,6 +101,15 @@ abstract class RenderHelper
 
 			$html .= $renderData['start'];
 
+			if (!empty($element->options->component))
+			{
+				$html .= '<jdoc:include type="component" />';
+			}
+			elseif (!empty($element->options->message))
+			{
+				$html .= '<jdoc:include type="message" />';
+			}
+
 			if (!empty($element->children))
 			{
 				$html .= self::render($element->children);
