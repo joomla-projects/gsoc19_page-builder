@@ -131,7 +131,6 @@ const mutations = {
               lg: 0,
               xl: 0,
             },
-            offsetClass: '',
           },
           children: []
         });
@@ -176,7 +175,6 @@ const mutations = {
     state.elementSelected.options.class = payload.class;
     if(state.elementSelected.type === 'column'){
       state.elementSelected.options.offset = payload.offset;
-      state.elementSelected.options.offsetClass = payload.offsetClass;
     }
   },
   updateElementArray(state, payload) {

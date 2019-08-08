@@ -198,11 +198,6 @@ export default {
             let modify = {};
             modify.class = (this.element_class !== '') ?  this.element_class : '';
             modify.offset = this.element_offset;
-            modify.offsetClass = (this.element_offset.xs ? 'offset-xs-' + this.element_offset.xs : '')
-                                + (this.element_offset.sm ? ' offset-sm-' + this.element_offset.sm : '')
-                                + (this.element_offset.md ? ' offset-md-' + this.element_offset.md : '')
-                                + (this.element_offset.lg ? ' offset-lg-' + this.element_offset.lg : '')
-                                + (this.element_offset.xl ? ' offset-xl-' + this.element_offset.xl : '');
             this.modifyElement(modify);
         }
     },

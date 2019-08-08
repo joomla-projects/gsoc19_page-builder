@@ -89,9 +89,15 @@ class PlgPagebuilderColumn extends CMSPlugin
 				}
 			}
 
-			if (!empty($data->options->offsetClass))
+			if (!empty($data->options->offset))
 			{
-				$classes[] = $data->options->offsetClass;
+				foreach ($data->options->offset as $device => $offset)
+				{
+					if (!empty($offset))
+					{
+						$classes[] = 'offset-' . $device . '-' . $offset;
+					}
+				}
 			}
 		}
 
