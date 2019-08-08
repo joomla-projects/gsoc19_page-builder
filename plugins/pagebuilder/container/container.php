@@ -44,7 +44,9 @@ class PlgPagebuilderContainer extends CMSPlugin
 			'description' => Text::_('PLG_PAGEBUILDER_CONTAINER_DESC'),
 			'id'          => 'container',
 			'parent'      => array('root', 'column'),
-			'children'    => true
+			'children'    => true,
+			'component'   => true,
+			'message'     => true
 		);
 	}
 

@@ -91,7 +91,7 @@
     },
     created() {
       this.mapElements(JSON.parse(document.getElementById('jform_params_grid').value));
-      this.ifChildAllowed();
+      this.checkAllowedElements();
     },
     mounted() {
       if(document.getElementsByClassName('drag_component').length) {
@@ -105,7 +105,7 @@
     },
     methods: {
       ...mapMutations([
-        'ifChildAllowed',
+        'checkAllowedElements',
         'mapElements',
         'closeNav',
         'deleteElement',

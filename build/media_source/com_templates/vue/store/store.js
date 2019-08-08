@@ -10,6 +10,8 @@ const state = {
   parent: '',
   allowedChildren: [],
   childAllowed: [],
+  componentAllowed: [],
+  messageAllowed: [],
   elements: window.Joomla.getOptions('com_templates').elements,
   elementArray: {},
   maxKey: 0,
@@ -30,10 +32,16 @@ const mutations = {
     state.parent = elements;
     mutations.setMaxKey(state);
   },
-  ifChildAllowed(state) {
+  checkAllowedElements(state) {
     state.elements.forEach(el => {
       if (el.children) {
         state.childAllowed.push(el.id);
+      }
+      if (el.component) {
+        state.componentAllowed.push(el.id);
+      }
+      if (el.message) {
+        state.messageAllowed.push(el.id);
       }
     });
   },

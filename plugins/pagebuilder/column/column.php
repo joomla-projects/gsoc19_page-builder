@@ -44,7 +44,9 @@ class PlgPagebuilderColumn extends CMSPlugin
 			'description' => Text::_('PLG_PAGEBUILDER_COLUMN_DESC'),
 			'id'          => 'column',
 			'parent'      => array('grid'),
-			'children'    => true
+			'children'    => true,
+			'component'   => true,
+			'message'     => true
 		);
 	}
 

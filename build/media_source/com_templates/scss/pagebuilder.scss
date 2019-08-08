@@ -31,6 +31,7 @@ select {
 
   &.drag {
     border: 2px solid;
+    cursor: grab;
 
     .fa-times-circle {
       cursor: pointer;

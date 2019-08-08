@@ -61,6 +61,8 @@
     computed: {
       ...mapState([
         'childAllowed',
+        'componentAllowed',
+        'messageAllowed'
       ]),
     },
     data() {
@@ -91,20 +93,21 @@
       },
       drop(event) {
         var classArray = Object.values(event.target.classList);
-        if(classArray.includes('pagebuilder_moduleposition') || classArray.includes('col-offset')) {
-          notifications.error('COM_TEMPLATES_NOT_SUPPORTED');
+        if (classArray.includes('drag_component') || classArray.includes('drag_message')) {
           return;
         }
-        if(classArray.includes('drag_component') || classArray.includes('drag_message')) {
+        var data = event.dataTransfer.getData('text');
+        if (data == 'drag_component' && this.componentAllowed.includes(event.target.__vue__.item.type)) {
+          event.target.__vue__.item.options.component = true;
+        }
+        else if (data == 'drag_message' && this.messageAllowed.includes(event.target.__vue__.item.type)){
+          event.target.__vue__.item.options.message = true;
+        }
+        else {
           return;
         }
-        const data = event.dataTransfer.getData('text');
         event.target.appendChild(document.getElementById(data));
         event.target.classList.add(data);
-        if(data == 'drag_component')
-          event.target.__vue__.$data.element.options.component = true;
-        else
-          event.target.__vue__.$data.element.options.message = true;
         this.updateGrid();
       },
     },
