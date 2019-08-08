@@ -39,6 +39,16 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	{
 		Text::script('PLG_PAGEBUILDER_MODULEPOSITION_NAME');
 
+		$chromeValues = array(
+			'None' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_NONE'),
+			'HTML5' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_HTML5'),
+			'Horz' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_HORZ'),
+			'Outline' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_OUTLINE'),
+			'Rounded' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_ROUNDED'),
+			'Table' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_TABLE'),
+			'XHTML' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_XHTML'),
+		);
+
 		return array(
 			'title'       => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
 			'description' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_DESC'),
@@ -46,7 +56,23 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 			'parent'      => array('root', 'grid', 'container', 'column'),
 			'children'    => false,
 			'component'   => false,
-			'message'     => false
+			'message'     => false,
+			'config'  => array(
+				'position_name' => array(
+					'value' => '',
+					'type' => 'text',
+					'required' => true,
+					'show' => true,
+					'label' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_POSITION_NAME')
+				),
+				'module_chrome' => array(
+					'value' => $chromeValues,
+					'type' => 'select',
+					'required' => false,
+					'show' => false,
+					'label' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME')
+				)
+			)
 		);
 	}
 
@@ -66,7 +92,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 		if (isset($data->options))
 		{
 			$html .= empty($data->options->type) ? ' type="modules"' : ' type="' . $data->options->type . '"';
-			$html .= empty($data->options->name) ? '' : ' name="' . $data->options->name . '"';
+			$html .= empty($data->options->position_name) ? '' : ' name="' . $data->options->position_name . '"';
 			$html .= empty($data->options->module_chrome) ? '' : ' style="' . $data->options->module_chrome . '"';
 		}
 

@@ -26,9 +26,9 @@
 			<div class="desc">
 				<span>{{ element.title }}</span>
 				<span v-if="element.options.class">.{{ element.options.class }}</span>
-				<span v-if="element.options.name">
-					(Name-{{ element.options.name }})(Module Chrome-{{ element.options.module_chrome }})
-				</span>
+				<div v-for="detail in showDetails">
+					<span>{{ detail.label }} - {{ detail.value }}</span>
+				</div>
 			</div>
 
 			<grid v-if="element.type === 'grid'" :grid="element"></grid>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  import {mapMutations, mapState} from 'vuex';
+  import {mapGetters, mapMutations, mapState} from 'vuex';
   import {notifications} from "./../../app/Notifications";
 
   export default {
@@ -64,6 +64,25 @@
         'componentAllowed',
         'messageAllowed'
       ]),
+      ...mapGetters([
+        'getType'
+      ]),
+      showDetails() {
+        const type = this.getType(this.item);
+
+        if (type && type.config) {
+          const show = [];
+          for (const key in type.config) {
+            if (type.config.hasOwnProperty(key) && type.config[key].show) {
+              show.push({ label: type.config[key].label, value: this.item.options[key] });
+            }
+          }
+
+          return show;
+        }
+
+        return [];
+      }
     },
     data() {
       return {

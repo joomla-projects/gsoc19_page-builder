@@ -15,7 +15,8 @@
 						<li v-for="element in allowedChildren" data-toggle="list" role="tabpanel"
 							class="element-selection list-group-item list-group-item-action"
 							:data-id="element.id"
-							:href="'#list-'+element.id">
+							:href="'#list-'+element.id"
+							@click="setElement(element.id)">
 							{{ element.title }}
 						</li>
 					</div>
@@ -23,6 +24,8 @@
 				<div class="col-8 tab-content">
 					<div v-for="element in allowedChildren" :id="'list-'+element.id" class="tab-pane fade" role="tabpanel">
 						{{ element.description }}
+
+						<!-- TODO: generalise grid config -->
 						<div v-if="element.id === 'grid'" class="image-selection">
 							<div class="row">
 								<div class="col-4 icon" v-html="images.row12 + '<p>100%</p>'"
@@ -41,11 +44,18 @@
 									@click="selectGrid([3, 6, 3])" :class="{active: select == [3, 6, 3]}"></div>
 							</div>
 						</div>
-						<div v-if="element.id === 'moduleposition'">
-							<label ref="moduleposition_name_label" for="moduleposition_name" class="required">{{ translate('COM_TEMPLATES_POSITION_NAME') }}
+
+						<div v-for="(conf, id) in element.config" v-if="conf.required" class="element-configuration">
+							<label :for="id">
+								{{ conf.label }}
 								<span class="star" aria-hidden="true">&nbsp;*</span>
 							</label>
-							<input ref="moduleposition_name_input" type="text" name="moduleposition_name" id="moduleposition_name" class="form-control required" v-model="moduleposition_name">
+							<select v-if="conf.type === 'select'" @id="id" @name="id" class="custom-select" required
+									v-model="config[id]" @blur="check(element.id, $event)">
+								<option v-for="(value, key) in conf.value" :value="key">{{ value }}</option>
+							</select>
+							<input v-else :type="conf.type" :id="id" :name="id" class="form-control" required
+									v-model="config[id]" @blur="check(element.id, $event)"/>
 						</div>
 					</div>
 				</div>
@@ -70,10 +80,11 @@
     name: 'modal-add-element',
     data() {
       return {
-		images: window.Joomla.getOptions('com_templates').images,
-		config: '',
-		select: [],
-		moduleposition_name: ''
+        images: window.Joomla.getOptions('com_templates').images,
+        selectedElement: '',
+        config: '',
+        childConfig: '',
+        select: [],
       };
     },
     computed: {
@@ -83,22 +94,16 @@
     },
     methods: {
       add() {
-		const selection = document.querySelector('.element-selection.active');
-        if (selection) {
-			if(selection.dataset.id == 'moduleposition') {
-				if(this.moduleposition_name == '') {
-					this.$refs.moduleposition_name_label[0].classList.add("invalid");
-					this.$refs.moduleposition_name_input[0].classList.add("invalid");
-					return;
-				}
-			}
-          this.$store.commit('addElement', {
-            name: selection.dataset.id,
-			config: this.config,
-			moduleposition_name: this.moduleposition_name,
-          });
-		}
-		this.moduleposition_name = '';
+        if (!this.validate()) {
+          return;
+        }
+
+        this.$store.commit('addElement', {
+          name: this.selectedElement,
+          config: this.config,
+          childConfig: this.childConfig,
+        });
+
         this.$modal.hide('add-element');
       },
       opened() {
@@ -110,11 +115,58 @@
           content.classList.add('show');
           content.classList.add('active');
         }
-	  },
-	  selectGrid(config) {
-		this.config = config;
-		this.select = config.toString();
-	  }
+
+        this.selectedElement = this.allowedChildren[0].id;
+        this.config = this.allowedChildren[0].config || [];
+      },
+      selectGrid(config) {
+        this.childConfig = config;
+        this.select = config.toString();
+      },
+      setElement(id) {
+        this.selectedElement = id;
+        this.config = {};
+
+        // Set configuration to fill
+        const type = this.allowedChildren.find(child => child.id === id);
+        for (const key in type.config) {
+          if (type.config.hasOwnProperty(key)) {
+            this.config[key] = '';
+          }
+        }
+      },
+      check(id, event) {
+        if (!event.target.value) {
+          event.target.classList.add('invalid');
+          document.querySelector(`#list-${id} label`).classList.add('invalid');
+        } else {
+          event.target.classList.remove('invalid');
+          document.querySelector(`#list-${id} label`).classList.remove('invalid');
+        }
+      },
+      validate() {
+        const selected = document.querySelector(`#list-${this.selectedElement}`);
+
+        // Check for invalid fields or labels (triggered
+        if (selected.querySelector('.invalid')) {
+          return false;
+        }
+
+        // Check for invalid values
+        let valid = true;
+        const configs = selected.querySelectorAll('.element-configuration');
+
+        configs.forEach(config => {
+          const field = config.querySelector('input, select');
+          if (!field.value) {
+            valid = false;
+            field.classList.add('invalid');
+            config.querySelector('label').classList.add('invalid');
+          }
+        });
+
+        return valid;
+      },
     },
   };
 </script>

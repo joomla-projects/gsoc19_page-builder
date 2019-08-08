@@ -52,11 +52,7 @@ const mutations = {
     state.elements.forEach(el => {
       el.parent.forEach(item => {
         if (item === name) {
-          state.allowedChildren.push({
-            'title': el.title,
-            'id': el.id,
-            'description': el.description
-          });
+          state.allowedChildren.push(el);
         }
       });
     });
@@ -65,7 +61,7 @@ const mutations = {
     mutations.fillAllowedChildren(state, parent.type);
     state.parent = parent.children || parent;
   },
-  addElement(state, {name, config, moduleposition_name}) {
+  addElement(state, {name, config, childConfig}) {
     const type = state.elements.find(el => el.id === name);
     state.maxKey += 1;
 
@@ -89,15 +85,19 @@ const mutations = {
           lg: 0,
           xl: 0,
         },
-        offsetClass: '',
-        name: moduleposition_name,
-        module_chrome: 'none'
       },
       children: []
     };
 
-    if (name === 'grid' && config) {
-      newElement.children = mutations.getConfiguredChildren(state, 'column', config)
+    // Merge config with element.config
+    for (let key in config) {
+      if (config.hasOwnProperty(key)) {
+        newElement.options[key] = config[key];
+      }
+    }
+
+    if (name === 'grid' && childConfig) {
+      newElement.children = mutations.getConfiguredChildren(state, 'column', childConfig)
     }
 
     state.parent.push(newElement);
@@ -174,10 +174,6 @@ const mutations = {
   },
   modifyElement(state, payload) {
     state.elementSelected.options.class = payload.class;
-    if(state.elementSelected.type === 'moduleposition'){
-      state.elementSelected.options.module_chrome = payload.module_chrome;
-      state.elementSelected.options.name = payload.moduleposition_name;
-    }
     if(state.elementSelected.type === 'column'){
       state.elementSelected.options.offset = payload.offset;
       state.elementSelected.options.offsetClass = payload.offsetClass;
@@ -220,6 +216,9 @@ const getters = {
     }
 
     return state.size;
+  },
+  getType: (state) => (element) => {
+    return state.elements.find(el => el.id === element.type || element.id);
   },
 };
 
