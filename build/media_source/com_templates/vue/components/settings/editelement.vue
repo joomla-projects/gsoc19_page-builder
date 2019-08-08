@@ -6,7 +6,9 @@
             <div class="form-group">
                 <label for="element_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
                 <input type="text" name="element_class" id="element_class" class="form-control" v-model="element_class">
-                <hr>
+			</div>
+
+			<div class="form-group">
                 <div v-if="elementSelected.type === 'column'">
                     <label for="element_offset">{{ translate('COM_TEMPLATES_ADD_OFFSET') }}</label>
                     <br>
@@ -71,24 +73,20 @@
                         </tbody>
                     </table>
                 </div>
-                <div v-if="elementSelected.type === 'moduleposition'">
-                    <label for="moduleposition_name">{{ translate('COM_TEMPLATES_POSITION_NAME') }}</label>
-                    <input type="text" name="moduleposition_name" id="moduleposition_name" class="form-control" v-model="element_moduleposition_name">
-                    <br>
-                    <label for="module_chrome">{{ translate('COM_TEMPLATES_SELECT_MODULE_CHROME') }}</label>
-                    <select class="custom-select" id="module_chrome" name="module_chrome" v-model="element_module_chrome">
-                        <option value="none">{{ translate('COM_TEMPLATES_NONE') }}</option>
-                        <option value="rounded">{{ translate('COM_TEMPLATES_ROUNDED') }}</option>
-                        <option value="table">{{ translate('COM_TEMPLATES_TABLE') }}</option>
-                        <option value="horz">{{ translate('COM_TEMPLATES_HORZ') }}</option>
-                        <option value="xhtml">{{ translate('COM_TEMPLATES_XHTML') }}</option>
-                        <option value="html5">{{ translate('COM_TEMPLATES_HTML5') }}</option>
-                        <option value="outline">{{ translate('COM_TEMPLATES_OUTLINE') }}</option>
-                    </select>
-                </div>
-            </div>
+			</div>
+
+			<div v-for="(config, id) in configs" class="form-group">
+				<label :for="id">{{ config.label }}</label>
+				<select v-if="config.type === 'select'" :id="id" :name="id" class="custom-select"
+                        :required="config.required" v-model="elementSelected.options[id]">
+					<option v-for="(value, key) in config.value" :value="key">{{ value }}</option>
+				</select>
+				<input v-else :id="id" @name="id" :type="config.type" class="form-control"
+                        :required="config.required" v-model="elementSelected.options[id]" />
+			</div>
+
             <div>
-                <button type="button" class="btn btn-success" @click="modifyElement">{{ translate('COM_TEMPLATES_ADD') }}</button>
+                <button type="button" class="btn btn-success" @click="add">{{ translate('COM_TEMPLATES_ADD') }}</button>
                 <button type="button" class="btn btn-secondary" @click="closeNav">{{ translate('JTOOLBAR_CLOSE') }}</button>
             </div>
         </fieldset>
@@ -104,20 +102,22 @@ export default {
         ...mapState([
             'activeDevice',
             'elementSelected',
+            'elements',
             'parent',
             'size'
         ]),
         threshold() {
             return this.size - this.elementSelected.options.size[this.activeDevice];
-        }
+        },
+        configs() {
+          return this.elements.find(el => el.id === this.elementSelected.type).config;
+        },
     },
     watch: {
         elementSelected: {
             deep: true,
             handler() {
                 this.element_class = this.elementSelected.options.class;
-                this.element_module_chrome = this.elementSelected.options.module_chrome ? this.elementSelected.options.module_chrome : 'none';
-                this.element_moduleposition_name = this.elementSelected.options.name ? this.elementSelected.options.name : '';
                 if(this.elementSelected.options.offset)
                     this.element_offset = this.elementSelected.options.offset;
             },
@@ -126,7 +126,6 @@ export default {
     data() {
         return {
             element_class: '',
-            element_module_chrome: 'none',
             element_offset: {
                 xs: '',
                 sm: '',
@@ -134,7 +133,6 @@ export default {
                 lg: '',
                 xl: ''
             },
-            element_moduleposition_name: '',
             offset: [
                 {
                     value: '',
@@ -191,25 +189,21 @@ export default {
             ]
         }
     },
-    created() {
-      this.element_moduleposition_name = this.elementSelected.options.name ? this.elementSelected.options.name : '';
-    },
     methods: {
         ...mapMutations([
-            'closeNav'
+            'closeNav',
+            'modifyElement'
         ]),
-        modifyElement() {
+        add() {
             let modify = {};
             modify.class = (this.element_class !== '') ?  this.element_class : '';
-            modify.module_chrome = this.element_module_chrome;
-            modify.moduleposition_name = this.element_moduleposition_name;
             modify.offset = this.element_offset;
             modify.offsetClass = (this.element_offset.xs ? 'offset-xs-' + this.element_offset.xs : '')
                                 + (this.element_offset.sm ? ' offset-sm-' + this.element_offset.sm : '')
                                 + (this.element_offset.md ? ' offset-md-' + this.element_offset.md : '')
                                 + (this.element_offset.lg ? ' offset-lg-' + this.element_offset.lg : '')
                                 + (this.element_offset.xl ? ' offset-xl-' + this.element_offset.xl : '');
-            this.$store.commit('modifyElement', modify);
+            this.modifyElement(modify);
         }
     },
 }
