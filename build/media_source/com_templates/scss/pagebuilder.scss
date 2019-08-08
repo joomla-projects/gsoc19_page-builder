@@ -245,9 +245,16 @@ select {
     margin-left: 50px;
   }
 
-  .table th {
-    text-align: center;
-    padding: 2px 12px;
+  .table {
+
+    td {
+      padding: 8px 12px;
+    }
+    
+    th {
+      text-align: center;
+      padding: 2px 12px;
+    }
   }
 
   .form-group {

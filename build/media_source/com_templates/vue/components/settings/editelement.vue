@@ -21,7 +21,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <th scope="row"><i class="fas fa-mobile-alt fa-2x"></i></th>
+                                <th scope="row"><i class="fas fa-mobile-alt fa-lg"></i></th>
                                 <td class="control-group">
                                     <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.xs">
                                         <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
@@ -31,7 +31,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row"><i class="fas fa-tablet-alt fa-2x"></i></th>
+                                <th scope="row"><i class="fas fa-tablet-alt fa-lg"></i></th>
                                 <td class="control-group">
                                     <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.sm">
                                         <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
@@ -41,7 +41,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row"><i class="fas fa-tablet-alt fa-2x fa-rotate-270"></i></th>
+                                <th scope="row"><i class="fas fa-tablet-alt fa-lg fa-rotate-270"></i></th>
                                 <td class="control-group">
                                     <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.md">
                                         <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
@@ -51,7 +51,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row"><i class="fas fa-laptop fa-2x"></i></th>
+                                <th scope="row"><i class="fas fa-laptop fa-lg"></i></th>
                                 <td class="control-group">
                                     <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.lg">
                                         <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
@@ -61,7 +61,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row"><i class="fas fa-desktop fa-2x"></i></th>
+                                <th scope="row"><i class="fas fa-desktop fa-lg"></i></th>
                                 <td class="control-group">
                                     <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.xl">
                                         <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">

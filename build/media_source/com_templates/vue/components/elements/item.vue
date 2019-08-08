@@ -112,7 +112,7 @@
       },
       drop(event) {
         var classArray = Object.values(event.target.classList);
-        if (classArray.includes('drag_component') || classArray.includes('drag_message')) {
+        if (classArray.includes('drag_component') || classArray.includes('drag_message') || classArray.includes('col-offset')) {
           return;
         }
         var data = event.dataTransfer.getData('text');
