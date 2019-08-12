@@ -1,3 +1,4 @@
+import './bootstrap/bootstrap.min.js';
 import Vue from 'vue';
 import VueJsModal from 'vue-js-modal';
 import App from './components/app.vue';
