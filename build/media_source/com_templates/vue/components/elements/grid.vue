@@ -99,6 +99,7 @@
       return {
         columns: [],
         offsets: [],
+        reorderedColumns: [],
       };
     },
     watch: {
@@ -163,6 +164,7 @@
             }
             this.columns.splice(this.columns.indexOf(col), 1);
             this.reorder();
+            this.update();
           }
         });
         // Search for new children and offsets
@@ -293,7 +295,7 @@
       reorder() {
         let free = false;
         let space = false;
-        const reorderedColumns = [];
+        this.reorderedColumns = [];
 
         for (let y = 0; y <= this.maxRow; y += 1) {
           let x = 0;
@@ -310,8 +312,8 @@
             }
 
             // Set new order into store too
-            if (occupied && occupied.element) {
-              reorderedColumns.push(occupied.element);
+            if (occupied && occupied.element && !this.reorderedColumns.includes(occupied.element)) {
+              this.reorderedColumns.push(occupied.element);
             }
 
             if (occupied && space) {
@@ -355,9 +357,10 @@
             space = false;
           }
         }
-
-        this.updateChildrenOrder({parent: this.grid, children: reorderedColumns});
       },
+      update() {
+        this.updateChildrenOrder({parent: this.grid, children: this.reorderedColumns});
+      }
     },
   };
 </script>
