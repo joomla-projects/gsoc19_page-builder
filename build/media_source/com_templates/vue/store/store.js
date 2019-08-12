@@ -95,7 +95,7 @@ const mutations = {
     Object.assign(newElement, config);
 
     if (name === 'grid' && childConfig) {
-      newElement.children = mutations.getConfiguredChildren(state, 'column', childConfig)
+      newElement.children = mutations.getConfiguredChildren(state, 'column', childConfig);
     }
 
     state.parent.push(newElement);
