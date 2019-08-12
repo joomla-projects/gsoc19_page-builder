@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
+import { persistedStateOptions } from './plugins/persistedstate';
 
 Vue.use(Vuex);
 
-const state = {
+const stateVariables = {
   elementSelected: '',
   columnSelected: '',
   selectedSettings: '',
@@ -18,12 +20,12 @@ const state = {
   size: 12,
   activeDevice: 'sm',
   resolution: {
-    xl: '1200px',
+    xl: '100%',
     lg: '992px',
     md: '768px',
     sm: '576px',
     xs: '450px', // Smaller as 'sm'
-  }
+  },
 };
 
 const mutations = {
@@ -33,7 +35,7 @@ const mutations = {
     mutations.setMaxKey(state);
   },
   checkAllowedElements(state) {
-    state.elements.forEach(el => {
+    state.elements.forEach((el) => {
       if (el.children) {
         state.childAllowed.push(el.id);
       }
@@ -46,12 +48,12 @@ const mutations = {
     });
   },
   fillAllowedChildren(state, name) {
-    name = name || 'root';
+    const itemName = name || 'root';
     state.allowedChildren = [];
 
-    state.elements.forEach(el => {
-      el.parent.forEach(item => {
-        if (item === name) {
+    state.elements.forEach((el) => {
+      el.parent.forEach((item) => {
+        if (item === itemName) {
           state.allowedChildren.push(el);
         }
       });
@@ -65,7 +67,7 @@ const mutations = {
     const type = state.elements.find(el => el.id === name);
     state.maxKey += 1;
 
-    let newElement = {
+    const newElement = {
       key: state.maxKey,
       type: type.id,
       title: type.title,
@@ -86,15 +88,11 @@ const mutations = {
           xl: 0,
         },
       },
-      children: []
+      children: [],
     };
 
     // Merge config with element.config
-    for (let key in config) {
-      if (config.hasOwnProperty(key)) {
-        newElement.options[key] = config[key];
-      }
-    }
+    Object.assign(newElement, config);
 
     if (name === 'grid' && childConfig) {
       newElement.children = mutations.getConfiguredChildren(state, 'column', childConfig)
@@ -108,7 +106,7 @@ const mutations = {
 
     // TODO: config could be anything (not only size) => make key-value object (?)
     if (configs) {
-      configs.forEach(config => {
+      configs.forEach((config) => {
         state.maxKey += 1;
 
         children.push({
@@ -142,8 +140,8 @@ const mutations = {
   setMaxKey(state) {
     // Inner function that goes recursive through all items
     const findMaxKey = (elements) => {
-      elements.forEach(element => {
-        state.maxKey = Math.max(element.key,  state.maxKey);
+      elements.forEach((element) => {
+        state.maxKey = Math.max(element.key, state.maxKey);
         findMaxKey(element.children);
       });
     };
@@ -173,7 +171,7 @@ const mutations = {
   },
   modifyElement(state, payload) {
     state.elementSelected.options.class = payload.class;
-    if(state.elementSelected.type === 'column'){
+    if (state.elementSelected.type === 'column') {
       state.elementSelected.options.offset = payload.offset;
     }
   },
@@ -192,9 +190,9 @@ const mutations = {
 };
 
 const getters = {
-  getElementSize: (state) => (element) => {
+  getElementSize: state => (element) => {
     if (element.options && element.options.size) {
-      let size = element.options.size[state.activeDevice];
+      const size = element.options.size[state.activeDevice];
 
       // Get size above (mobile-first principle)
       if (!size) {
@@ -212,13 +210,15 @@ const getters = {
 
     return state.size;
   },
-  getType: (state) => (element) => {
+  getType: state => (element) => {
     return state.elements.find(el => el.id === element.type || element.id);
   },
 };
 
 export default new Vuex.Store({
-  state,
+  state: stateVariables,
   mutations,
   getters,
+  plugins: [createPersistedState(persistedStateOptions)],
+  strict: false,
 });
