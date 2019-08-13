@@ -174,13 +174,17 @@ const getters = {
 
       // Get size above (mobile-first principle)
       if (!size) {
-        const deviceOrder = ['xs', 's', 'md', 'lg', 'xl'];
+        const deviceOrder = Object.keys(state.resolution);
+        const activeIndex = deviceOrder.indexOf(state.activeDevice);
 
-        for (const device of deviceOrder) {
+        for (let index = activeIndex; index >= 0; index -= 1) {
+          const device = deviceOrder[index];
           if (element.options.size[device]) {
             return element.options.size[device];
           }
         }
+
+        return state.size;
       }
 
       return size;

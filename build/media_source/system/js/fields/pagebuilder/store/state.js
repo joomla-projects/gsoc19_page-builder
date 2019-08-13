@@ -25,10 +25,10 @@ export default {
   size: 12,
   activeDevice: 'sm',
   resolution: {
-    xl: '100%',
-    lg: '992px',
-    md: '768px',
+    xs: '450px', // Smaller as 'sm',
     sm: '576px',
-    xs: '450px', // Smaller as 'sm'
+    md: '768px',
+    lg: '992px',
+    xl: '100%'
   }
 }
