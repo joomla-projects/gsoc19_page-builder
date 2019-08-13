@@ -36,4 +36,19 @@ class PagebuilderField extends FormField
 	 * @since  4.0
 	 */
 	protected $layout = 'joomla.form.field.pagebuilder';
+
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   4.0
+	 */
+	protected function getInput()
+	{
+		// Value is in json format, so decode double-quotes for html value="..."
+		$this->value = htmlspecialchars($this->value);
+
+		return parent::getInput();
+	}
 }
