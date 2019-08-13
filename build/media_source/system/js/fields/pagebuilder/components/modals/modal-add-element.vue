@@ -80,7 +80,7 @@
     name: 'modal-add-element',
     data() {
       return {
-        images: window.Joomla.getOptions('com_templates').images,
+        images: window.Joomla.getOptions('system.pagebuilder').images,
         selectedElement: '',
         config: '',
         childConfig: '',

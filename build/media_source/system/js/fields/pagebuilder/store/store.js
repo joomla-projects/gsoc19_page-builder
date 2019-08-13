@@ -1,32 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import state from './state';
 import createPersistedState from 'vuex-persistedstate';
 import { persistedStateOptions } from './plugins/persistedstate';
 
 Vue.use(Vuex);
-
-const stateVariables = {
-  elementSelected: '',
-  columnSelected: '',
-  selectedSettings: '',
-  parent: '',
-  allowedChildren: [],
-  childAllowed: [],
-  componentAllowed: [],
-  messageAllowed: [],
-  elements: window.Joomla.getOptions('com_templates').elements,
-  elementArray: {},
-  maxKey: 0,
-  size: 12,
-  activeDevice: 'sm',
-  resolution: {
-    xl: '100%',
-    lg: '992px',
-    md: '768px',
-    sm: '576px',
-    xs: '450px', // Smaller as 'sm'
-  },
-};
 
 const mutations = {
   mapElements(state, elements) {
@@ -216,7 +194,7 @@ const getters = {
 };
 
 export default new Vuex.Store({
-  state: stateVariables,
+  state,
   mutations,
   getters,
   plugins: [createPersistedState(persistedStateOptions)],

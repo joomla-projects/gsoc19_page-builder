@@ -28,7 +28,7 @@ Vue.config.productionTip = false;
 
 document.addEventListener('DOMContentLoaded',
   () => new Vue({
-    el: '#com-templates',
+    el: '#pagebuilder-editor',
     store,
     render: h => h(App),
   })

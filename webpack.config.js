@@ -4,10 +4,10 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 module.exports = {
   mode: 'production',
   entry: [
-    './build/media_source/com_templates/vue/pagebuilder.js'
+    './build/media_source/system/js/fields/pagebuilder/pagebuilder.js'
   ],
   output: {
-    path: path.resolve(__dirname, './media/com_templates/js'),
+    path: path.resolve(__dirname, './media/system/js/fields/pagebuilder'),
     filename: 'pagebuilder.min.js',
   },
   module: {
