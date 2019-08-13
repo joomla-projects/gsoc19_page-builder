@@ -67,13 +67,12 @@
 					filter="string"
 				/>
 			</fieldset>
-			<fieldset name="pagebuilder">
+			<fieldset name="pagebuilder" label="TPL_APODIS_PAGEBUILDER">
 				<field
 					name="grid"
-					type="hidden"
-					default="[]"
-					label="TPL_APODIS_JSON_PARAMETER"
-					filter="string"
+					type="pagebuilder"
+					hidden="true"
+					label="TPL_APODIS_PAGEBUILDER"
 				/>
 			</fieldset>
 		</fields>
