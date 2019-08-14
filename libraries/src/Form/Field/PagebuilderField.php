@@ -47,6 +47,11 @@ class PagebuilderField extends FormField
 	protected function getInput()
 	{
 		// Value is in json format, so decode double-quotes for html value="..."
+		if (empty($this->value))
+		{
+			$this->value = '[]';
+		}
+
 		$this->value = htmlspecialchars($this->value);
 
 		return parent::getInput();
