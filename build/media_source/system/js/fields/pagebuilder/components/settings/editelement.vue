@@ -2,15 +2,15 @@
     <div>
         <!-- Settings for editing elements -->
         <fieldset>
-            <legend>{{ translate('COM_TEMPLATES_EDIT') }}{{ elementSelected.type }}</legend>
+            <legend>{{ translate('JLIB_PAGEBUILDER_EDIT') }}{{ elementSelected.type }}</legend>
             <div class="form-group">
-                <label for="element_class">{{ translate('COM_TEMPLATES_ADD_CLASS') }}</label>
+                <label for="element_class">{{ translate('JLIB_PAGEBUILDER_ADD_CLASS') }}</label>
                 <input type="text" name="element_class" id="element_class" class="form-control" v-model="element_class">
 			</div>
 
 			<div class="form-group">
                 <div v-if="elementSelected.type === 'column'">
-                    <label for="element_offset">{{ translate('COM_TEMPLATES_ADD_OFFSET') }}</label>
+                    <label for="element_offset">{{ translate('JLIB_PAGEBUILDER_ADD_OFFSET') }}</label>
                     <br>
                     <table class="table">
                         <thead>
@@ -86,7 +86,7 @@
 			</div>
 
             <div>
-                <button type="button" class="btn btn-success" @click="add">{{ translate('COM_TEMPLATES_ADD') }}</button>
+                <button type="button" class="btn btn-success" @click="add">{{ translate('JLIB_PAGEBUILDER_ADD') }}</button>
                 <button type="button" class="btn btn-secondary" @click="closeNav">{{ translate('JTOOLBAR_CLOSE') }}</button>
             </div>
         </fieldset>

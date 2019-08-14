@@ -10,15 +10,15 @@
 			<button type="button" class="btn btn-success btn-sm" @click="add(element)"
 					v-if="childAllowed.includes(element.type)">
 				<span class="icon-plus"></span>
-				<span class="sr-only">{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}</span>
+				<span class="sr-only">{{ translate('JLIB_PAGEBUILDER_ADD_ELEMENT') }}</span>
 			</button>
 			<button type="button" class="btn btn-primary btn-sm" @click="$emit('edit')">
 				<span class="icon-options"></span>
-				<span class="sr-only">{{ translate('COM_TEMPLATES_EDIT') }}</span>
+				<span class="sr-only">{{ translate('JLIB_PAGEBUILDER_EDIT') }}</span>
 			</button>
 			<button type="button" class="btn btn-danger btn-sm" @click="$emit('delete')">
 				<span class="icon-cancel"></span>
-				<span class="sr-only">{{ translate('COM_TEMPLATES_DELETE_ELEMENT') }}</span>
+				<span class="sr-only">{{ translate('JLIB_PAGEBUILDER_DELETE_ELEMENT') }}</span>
 			</button>
 		</div>
 

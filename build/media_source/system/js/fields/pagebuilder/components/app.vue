@@ -2,7 +2,7 @@
 	<div>
 		<div id="sidebar" class="sidebar">
 			<div class="sidebar-content">
-				<h2>{{ translate('COM_TEMPLATES_SETTINGS') }}</h2>
+				<h2>{{ translate('JLIB_PAGEBUILDER_SETTINGS') }}</h2>
 				<button type="button" class="btn btn-lg closebtn" @click="closeNav()">
 					<span class="icon-cancel"></span>
 				</button>
@@ -20,14 +20,14 @@
 					<li class="nav-item" id="placeholder_component">
 						<div class="nav-link drag" id="drag_component" draggable="true" @dragstart="drag($event)">
 							<i class="fas fa-file-alt"></i>
-							<span>{{ translate('COM_TEMPLATES_COMPONENT') }}</span>
+							<span>{{ translate('JLIB_PAGEBUILDER_COMPONENT') }}</span>
               <i class="fas fa-times-circle" @click="restorePosition($event, 'component')"></i>
 						</div>
 					</li>
 					<li class="nav-item" id="placeholder_message">
 						<div class="nav-link drag" id="drag_message" draggable="true" @dragstart="drag($event)">
 							<i class="fas fa-envelope"></i>
-							<span>{{ translate('COM_TEMPLATES_MESSAGE') }}</span>
+							<span>{{ translate('JLIB_PAGEBUILDER_MESSAGE') }}</span>
               <i class="fas fa-times-circle" @click="restorePosition($event, 'message')"></i>
 						</div>
 					</li>
@@ -36,7 +36,7 @@
 		</div>
 
 		<div class="pagebuilder" id="pagebuilder" :style="{ width: deviceWidth }">
-			<h2>{{ translate('COM_TEMPLATES_VIEW') }}</h2>
+			<h2>{{ translate('JLIB_PAGEBUILDER_VIEW') }}</h2>
 
 			<!-- Element -->
 			<draggable v-model="elementArray" handle=".handle">
@@ -49,7 +49,7 @@
 
 			<button @click="addElement()" class="btn btn-success btn-block" type="button">
 				<span class="icon-new"></span>
-				<span>{{ translate('COM_TEMPLATES_ADD_ELEMENT') }}</span>
+				<span>{{ translate('JLIB_PAGEBUILDER_ADD_ELEMENT') }}</span>
 			</button>
 
 			<!-- Modals -->

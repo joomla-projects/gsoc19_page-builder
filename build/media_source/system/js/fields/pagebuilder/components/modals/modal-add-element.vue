@@ -3,7 +3,7 @@
 			height="500" width="800px"
 			:clickToClose="false" @opened="opened">
 		<div class="modal-header">
-			<h3 class="modal-title">{{ translate('COM_TEMPLATES_SELECT_ELEMENT') }}</h3>
+			<h3 class="modal-title">{{ translate('JLIB_PAGEBUILDER_SELECT_ELEMENT') }}</h3>
 			<button @click="$modal.hide('add-element')" type="button" class="close" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
@@ -60,14 +60,14 @@
 					</div>
 				</div>
 			</div>
-			<small class="form-text text-muted">{{ translate('COM_TEMPLATES_ADD_ELEMENT_DESC') }}</small>
+			<small class="form-text text-muted">{{ translate('JLIB_PAGEBUILDER_ADD_ELEMENT_DESC') }}</small>
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-secondary" @click="$modal.hide('add-element')">
 				{{ translate('JTOOLBAR_CLOSE') }}
 			</button>
 			<button type="button" class="btn btn-success" @click="add">
-				{{ translate('COM_TEMPLATES_INSERT') }}
+				{{ translate('JLIB_PAGEBUILDER_INSERT') }}
 			</button>
 		</div>
 	</modal>

@@ -1,36 +1,36 @@
 <template>
 	<ul id="devices" class="nav nav-pills">
 		<li class="nav-item">
-			<span class="nav-link">{{ translate('COM_TEMPLATES_SELECT_DEVICE')}}</span>
+			<span class="nav-link">{{ translate('JLIB_PAGEBUILDER_SELECT_DEVICE')}}</span>
 		</li>
 		<li class="nav-item">
 			<button @click="setDevice('xs', $event)" id="xs" class="btn btn-info" type="button">
 				<span class="fas fa-mobile-alt fa-lg" aria-hidden="true"></span>
-				{{ translate('COM_TEMPLATES_DEVICE_XS') }}
+				{{ translate('JLIB_PAGEBUILDER_DEVICE_XS') }}
 			</button>
 		</li>
 		<li class="nav-item">
 			<button @click="setDevice('sm', $event)" id="sm" class="btn btn-info" type="button">
 				<span class="fas fa-tablet-alt fa-lg" aria-hidden="true"></span>
-				{{ translate('COM_TEMPLATES_DEVICE_SM') }}
+				{{ translate('JLIB_PAGEBUILDER_DEVICE_SM') }}
 			</button>
 		</li>
 		<li class="nav-item">
 			<button @click="setDevice('md', $event)" id="md" class="btn btn-info" type="button">
 				<span class="fas fa-tablet-alt fa-lg fa-rotate-270" aria-hidden="true"></span>
-				{{ translate('COM_TEMPLATES_DEVICE_MD') }}
+				{{ translate('JLIB_PAGEBUILDER_DEVICE_MD') }}
 			</button>
 		</li>
 		<li class="nav-item">
 			<button @click="setDevice('lg', $event)" id="lg" class="btn btn-info" type="button">
 				<span class="fas fa-laptop fa-lg" aria-hidden="true"></span>
-				{{ translate('COM_TEMPLATES_DEVICE_LG') }}
+				{{ translate('JLIB_PAGEBUILDER_DEVICE_LG') }}
 			</button>
 		</li>
 		<li class="nav-item">
 			<button @click="setDevice('xl', $event)" id="xl" class="btn btn-info" type="button">
 				<span class="fas fa-desktop fa-lg" aria-hidden="true"></span>
-				{{ translate('COM_TEMPLATES_DEVICE_XL') }}
+				{{ translate('JLIB_PAGEBUILDER_DEVICE_XL') }}
 			</button>
 		</li>
 	</ul>
