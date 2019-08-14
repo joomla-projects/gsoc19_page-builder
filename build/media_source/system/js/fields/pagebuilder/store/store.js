@@ -141,7 +141,7 @@ const mutations = {
   },
   closeNav() {
     document.getElementById('sidebar').style.width = '0';
-    document.getElementById('pagebuilder').style.marginLeft = '0';
+    document.getElementById('pagebuilder').style.marginLeft = 'auto';
   },
   openNav() {
     document.getElementById('sidebar').style.width = '250px';
