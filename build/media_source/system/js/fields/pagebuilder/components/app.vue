@@ -35,7 +35,7 @@
 			</div>
 		</div>
 
-		<div class="pagebuilder" id="pagebuilder" :style="{ width: deviceWidth }">
+		<div class="pagebuilder" id="pagebuilder" :style="widthStyle">
 			<h2>{{ translate('JLIB_PAGEBUILDER_VIEW') }}</h2>
 
 			<!-- Element -->
@@ -69,8 +69,20 @@
         'resolution',
         'selectedSettings',
       ]),
-      deviceWidth() {
-        return this.resolution[this.activeDevice];
+      widthStyle() {
+        const deviceOrder = Object.keys(this.resolution);
+        const activeIndex = deviceOrder.indexOf(this.activeDevice);
+        const styles = {
+          'min-width': activeIndex === 0 ? 0 : this.resolution[this.activeDevice],
+          'max-width': activeIndex === deviceOrder.length - 1 ? '100%' : this.resolution[deviceOrder[activeIndex + 1]],
+        };
+
+        let styleString = '';
+        for (const name in styles) {
+          styleString += `${name}: ${styles[name]}; `;
+        }
+
+        return styleString;
       },
       elementArray: {
         get() {
