@@ -74,7 +74,7 @@
           const show = [];
           for (const key in type.config) {
             if (type.config.hasOwnProperty(key) && type.config[key].show) {
-              show.push({ label: type.config[key].label, value: this.item.options[key] });
+              show.push({ label: type.config[key].label, value: (this.item.options[key] || this.item[key]) });
             }
           }
 

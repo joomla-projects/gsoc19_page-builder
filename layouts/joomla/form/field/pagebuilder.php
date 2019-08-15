@@ -86,6 +86,7 @@ Text::script('JLIB_PAGEBUILDER_INSERT', true);
 Text::script('JLIB_PAGEBUILDER_MAX_COLUMN_SIZE', true);
 Text::script('JLIB_PAGEBUILDER_MESSAGE', true);
 Text::script('JLIB_PAGEBUILDER_NO_CHILD_ALLOWED', true);
+Text::script('JLIB_PAGEBUILDER_NONE', true);
 Text::script('JLIB_PAGEBUILDER_OFFSET', true);
 Text::script('JLIB_PAGEBUILDER_POSITION_NAME', true);
 Text::script('JLIB_PAGEBUILDER_SELECT_DEVICE', true);

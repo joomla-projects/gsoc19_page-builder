@@ -63,7 +63,8 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 					'type' => 'text',
 					'required' => true,
 					'show' => true,
-					'label' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_POSITION_NAME')
+					'label' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_POSITION_NAME'),
+					'placeholder' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_ENTER_NAME')
 				),
 				'module_chrome' => array(
 					'value' => $chromeValues,

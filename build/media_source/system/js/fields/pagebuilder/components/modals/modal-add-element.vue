@@ -55,7 +55,7 @@
 								<option v-for="(value, key) in conf.value" :value="key">{{ value }}</option>
 							</select>
 							<input v-else :type="conf.type" :id="id" :name="id" class="form-control" required
-									v-model="config[id]" @blur="check(element.id, $event)"/>
+									:placeholder="conf.placeholder" v-model="config[id]" @blur="check(element.id, $event)"/>
 						</div>
 					</div>
 				</div>

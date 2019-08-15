@@ -5,7 +5,7 @@
             <legend>{{ translate('JLIB_PAGEBUILDER_EDIT') }}{{ elementSelected.type }}</legend>
             <div class="form-group">
                 <label for="element_class">{{ translate('JLIB_PAGEBUILDER_ADD_CLASS') }}</label>
-                <input type="text" name="element_class" id="element_class" class="form-control" v-model="element_class">
+                <input type="text" name="element_class" id="element_class" class="form-control" :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="element_class">
 			</div>
 
 			<div class="form-group">
@@ -82,7 +82,7 @@
 					<option v-for="(value, key) in config.value" :value="key">{{ value }}</option>
 				</select>
 				<input v-else :id="id" @name="id" :type="config.type" class="form-control"
-                        :required="config.required" v-model="elementSelected.options[id]" />
+                        :required="config.required" v-model="elementSelected.options[id] || elementSelected[id]" />
 			</div>
 
             <div>
@@ -113,6 +113,10 @@ export default {
           return this.elements.find(el => el.id === this.elementSelected.type).config;
         },
     },
+    mounted() {
+        if(this.elementSelected.options.offset)
+            this.element_offset = this.elementSelected.options.offset;
+    },
     watch: {
         elementSelected: {
             deep: true,
@@ -126,16 +130,10 @@ export default {
     data() {
         return {
             element_class: '',
-            element_offset: {
-                xs: '',
-                sm: '',
-                md: '',
-                lg: '',
-                xl: ''
-            },
+            element_offset: {},
             offset: [
                 {
-                    value: '',
+                    value: 0,
                     label: 'No offset'
                 },
                 {
