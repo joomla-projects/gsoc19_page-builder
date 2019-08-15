@@ -70,7 +70,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 					'value' => $chromeValues,
 					'type' => 'select',
 					'required' => false,
-					'show' => false,
+					'show' => true,
 					'label' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME')
 				)
 			)
