@@ -20,50 +20,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row"><i class="fas fa-mobile-alt fa-lg"></i></th>
+                            <tr v-for="size in offset_sizes">
+                                <th scope="row"><i :class="['fas', 'fa-' + size.icon, 'fa-lg', 'fa-rotate-' + size.rotate]"></i></th>
                                 <td class="control-group">
-                                    <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.xs">
-                                        <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
-                                            {{opt.label}}
-                                        </option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fas fa-tablet-alt fa-lg"></i></th>
-                                <td class="control-group">
-                                    <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.sm">
-                                        <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
-                                            {{opt.label}}
-                                        </option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fas fa-tablet-alt fa-lg fa-rotate-270"></i></th>
-                                <td class="control-group">
-                                    <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.md">
-                                        <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
-                                            {{opt.label}}
-                                        </option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fas fa-laptop fa-lg"></i></th>
-                                <td class="control-group">
-                                    <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.lg">
-                                        <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
-                                            {{opt.label}}
-                                        </option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><i class="fas fa-desktop fa-lg"></i></th>
-                                <td class="control-group">
-                                    <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset.xl">
+                                    <select name="element_offset" id="element_offset" class="custom-select custom-select-sm" v-model="element_offset[size.label]">
                                         <option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
                                             {{opt.label}}
                                         </option>
@@ -130,6 +90,33 @@ export default {
         return {
             element_class: '',
             element_offset: {},
+            offset_sizes: [
+                {
+                    icon: 'mobile-alt',
+                    label: 'xs',
+                    rotate: '0'
+                },
+                {
+                    icon: 'tablet-alt',
+                    label: 'sm',
+                    rotate: '0'
+                },
+                {
+                    icon: 'tablet-alt',
+                    label: 'md',
+                    rotate: '270'
+                },
+                {
+                    icon: 'laptop',
+                    label: 'lg',
+                    rotate: '0'
+                },
+                {
+                    icon: 'desktop',
+                    label: 'xl',
+                    rotate: '0'
+                },
+            ],
             offset: [
                 {
                     value: 0,
