@@ -79,7 +79,7 @@
 				<label :for="id">{{ config.label }}</label>
 				<select v-if="config.type === 'select'" :id="id" :name="id" class="custom-select"
                         :required="config.required" v-model="elementSelected.options[id] || elementSelected[id]">
-					<option v-for="(value, key) in config.value" :value="key">{{ value }}</option>
+					<option v-for="(value, key) in config.value" :value="value">{{ key }}</option>
 				</select>
 				<input v-else :id="id" @name="id" :type="config.type" class="form-control"
                         :required="config.required" v-model="elementSelected.options[id] || elementSelected[id]" />

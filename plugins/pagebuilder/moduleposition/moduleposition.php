@@ -40,7 +40,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 		Text::script('PLG_PAGEBUILDER_MODULEPOSITION_NAME');
 
 		$chromeValues = array(
-			'None' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_NONE'),
+			'None' => '',
 			'HTML5' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_HTML5'),
 			'Horz' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_HORZ'),
 			'Outline' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_OUTLINE'),
