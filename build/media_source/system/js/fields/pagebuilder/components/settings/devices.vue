@@ -1,33 +1,9 @@
 <template>
 	<ul id="devices" class="nav nav-pills">
-		<li class="nav-item">
-			<button @click="setDevice('xs')" id="xs" class="btn btn-info" type="button">
-				<span class="fas fa-mobile-alt fa-lg" aria-hidden="true"></span>
-				<span class="sr-only">{{ translate('JLIB_PAGEBUILDER_DEVICE_XS_SR_DESC') }}</span>
-			</button>
-		</li>
-		<li class="nav-item">
-			<button @click="setDevice('sm')" id="sm" class="btn btn-info" type="button">
-				<span class="fas fa-tablet-alt fa-lg" aria-hidden="true"></span>
-				<span class="sr-only">{{ translate('JLIB_PAGEBUILDER_DEVICE_SM_SR_DESC') }}</span>
-			</button>
-		</li>
-		<li class="nav-item">
-			<button @click="setDevice('md')" id="md" class="btn btn-info" type="button">
-				<span class="fas fa-tablet-alt fa-lg fa-rotate-270" aria-hidden="true"></span>
-				<span class="sr-only">{{ translate('JLIB_PAGEBUILDER_DEVICE_MD_SR_DESC') }}</span>
-			</button>
-		</li>
-		<li class="nav-item">
-			<button @click="setDevice('lg')" id="lg" class="btn btn-info" type="button">
-				<span class="fas fa-laptop fa-lg" aria-hidden="true"></span>
-				<span class="sr-only">{{ translate('JLIB_PAGEBUILDER_DEVICE_LG_SR_DESC') }}</span>
-			</button>
-		</li>
-		<li class="nav-item">
-			<button @click="setDevice('xl')" id="xl" class="btn btn-info" type="button">
-				<span class="fas fa-desktop fa-lg" aria-hidden="true"></span>
-				<span class="sr-only">{{ translate('JLIB_PAGEBUILDER_DEVICE_XL_SR_DESC') }}</span>
+		<li v-for="(icon, size) in deviceBtns" class="nav-item">
+			<button @click="setDevice(size)" :id="size" class="btn btn-info" type="button">
+				<span :class="'fas ' + icon + ' fa-lg'" aria-hidden="true"></span>
+				<span class="sr-only">{{ translate(`JLIB_PAGEBUILDER_DEVICE_${size.toUpperCase()}_SR_DESC`) }}</span>
 			</button>
 		</li>
 		<li class="nav-item">
@@ -48,6 +24,17 @@
       deviceDesc() {
         return document.getElementById('device-desc');
       },
+    },
+    data() {
+      return {
+        deviceBtns: {
+          xs: 'fa-mobile-alt',
+          sm: 'fa-tablet-alt',
+          md: 'fa-tablet-alt fa-rotate-270',
+          lg: 'fa-laptop',
+          xl: 'fa-desktop',
+        },
+      };
     },
     mounted() {
       document.querySelector(`#devices #${this.activeDevice}`).classList.add('active');
