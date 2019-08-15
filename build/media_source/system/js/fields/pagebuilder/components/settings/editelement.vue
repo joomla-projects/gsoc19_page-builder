@@ -73,18 +73,17 @@
                         </tbody>
                     </table>
                 </div>
+                <div v-for="(config, id) in configs" class="form-group">
+                    <label :for="id">{{ config.label }}</label>
+                    <select v-if="config.type === 'select'" :id="id" :name="id" class="custom-select"
+                            :required="config.required" v-model="elementSelected.options[id] || elementSelected[id]">
+                        <option v-for="(value, key) in config.value" :value="value">{{ key }}</option>
+                    </select>
+                    <input v-else :id="id" @name="id" :type="config.type" class="form-control"
+                            :required="config.required" v-model="elementSelected.options[id] || elementSelected[id]" />
+			    </div>
 			</div>
-
-			<div v-for="(config, id) in configs" class="form-group">
-				<label :for="id">{{ config.label }}</label>
-				<select v-if="config.type === 'select'" :id="id" :name="id" class="custom-select"
-                        :required="config.required" v-model="elementSelected.options[id] || elementSelected[id]">
-					<option v-for="(value, key) in config.value" :value="value">{{ key }}</option>
-				</select>
-				<input v-else :id="id" @name="id" :type="config.type" class="form-control"
-                        :required="config.required" v-model="elementSelected.options[id] || elementSelected[id]" />
-			</div>
-
+            
             <div>
                 <button type="button" class="btn btn-success" @click="add">{{ translate('JLIB_PAGEBUILDER_ADD') }}</button>
                 <button type="button" class="btn btn-secondary" @click="closeNav">{{ translate('JTOOLBAR_CLOSE') }}</button>

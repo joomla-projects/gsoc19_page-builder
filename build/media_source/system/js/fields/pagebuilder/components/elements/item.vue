@@ -26,7 +26,7 @@
 			<div class="desc">
 				<span>{{ element.title }}</span>
 				<span v-if="element.options.class">.{{ element.options.class }}</span>
-				<div v-for="detail in showDetails">
+				<div v-for="detail in showDetails" v-if="detail.value">
 					<span>{{ detail.label }} - {{ detail.value }}</span>
 				</div>
 			</div>
