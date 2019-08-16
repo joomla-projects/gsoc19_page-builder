@@ -42,6 +42,18 @@
 				{{ translate('JLIB_PAGEBUILDER_OFFSET') + ' ' + off.device + '-' + off.w }}
 			</div>
 		</grid-item>
+
+		<!-- Always creates a row at the end to ensure a correct layout -->
+		<grid-item
+				:static="true"
+				class="col-invisible"
+				:i="rowPlaceholder.i"
+				:w="rowPlaceholder.w"
+				:h="rowPlaceholder.h"
+				:x="size - 1"
+				:y="lastRow"
+		>
+		</grid-item>
 	</grid-layout>
 </template>
 
@@ -65,7 +77,7 @@
         'getElementSize'
       ]),
       allColumns() {
-        return this.columns.concat(this.offsets);
+        return this.columns.concat(this.offsets).concat(this.rowPlaceholder);
       },
       nextIndex() {
         let index = 0;
@@ -98,11 +110,29 @@
         this.columns.forEach(col => maxY = Math.max(col.y, maxY));
         return maxY;
       },
+      lastRow() {
+        const x = this.size;
+        let y = this.maxRow;
+
+        const col = this.columns.find(col => col.y === y && col.x + col.w === x);
+        if (col) {
+          y += 1;
+        }
+
+        return y;
+      },
     },
     data() {
       return {
         columns: [],
         offsets: [],
+        rowPlaceholder: {
+          i: 'rowPlaceholder',
+          x: 11,
+          y: 1,
+          w: 1,
+          h: 1,
+        },
         reorderedColumns: [],
         resizeStartX: 0,
       };
@@ -389,7 +419,6 @@
             column.y += 1;
             column.w += 1;
             column.element.options.size[this.activeDevice] = column.w;
-            // TODO: Trigger layout
           }
         }
         this.resizeStartX = 0;
