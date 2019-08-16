@@ -5,11 +5,14 @@
 		:is-draggable="true"
 		:is-resizable="true"
 		:vertical-compact="false"
-		@layout-updated="reorder"
+		@layout-updated="updateLayout"
 	>
 
 		<!-- Columns -->
-		<grid-item v-for="column in columns" :key="column.i"
+		<grid-item
+			v-for="column in columns"
+			ref="gridItems"
+			:key="column.i"
 			:class="['col-wrapper', column.element.type, column.element.options.class]"
 			:i="column.i"
 			:w="column.w"
@@ -17,7 +20,8 @@
 			:x="column.x"
 			:y="column.y"
 			@resize="resize"
-			@resized="changeSize">
+			@resized="changeSize"
+		>
 
 			<item :item="column.element"
 					@delete="deleteElement({element: column.element, parent: grid})"
@@ -100,6 +104,7 @@
         columns: [],
         offsets: [],
         reorderedColumns: [],
+        resizeStartX: 0,
       };
     },
     watch: {
@@ -164,7 +169,7 @@
             }
             this.columns.splice(this.columns.indexOf(col), 1);
             this.reorder();
-            this.update();
+            this.updateChildrenOrder({parent: this.grid, children: this.reorderedColumns});
           }
         });
         // Search for new children and offsets
@@ -292,6 +297,10 @@
         col.h = 1;
         col.element.options.size[this.activeDevice] = newW;
       },
+      updateLayout(){
+        this.reorder();
+        this.setResizeListeners();
+      },
       reorder() {
         let free = false;
         let space = false;
@@ -358,9 +367,33 @@
           }
         }
       },
-      update() {
-        this.updateChildrenOrder({parent: this.grid, children: this.reorderedColumns});
-      }
+      setResizeListeners() {
+        this.$refs.gridItems.forEach((item) => {
+          item.$refs.handle.addEventListener('mousedown', (event) => this.handleResizeMouseDown(event, item));
+          item.$refs.handle.addEventListener('mouseup', (event) => this.handleResizeMouseUp(event, item));
+        });
+      },
+      handleResizeMouseDown(event, item) {
+        if (item.innerX + item.innerW === this.size && item.innerW !== this.size) {
+          this.resizeStartX = event.x;
+        }
+      },
+      handleResizeMouseUp(event, item) {
+        // Is item at the end of the row?
+        if (item.innerX + item.innerW === this.size && item.innerW !== this.size) {
+          // Is this resize on purpose?
+          if (this.resizeStartX && event.x > this.resizeStartX + 100) {
+            const column = this.getColumnByIndex(item.i);
+            this.moveToRight(0, column.y + 1, column.w + 1);
+            column.x = 0;
+            column.y += 1;
+            column.w += 1;
+            column.element.options.size[this.activeDevice] = column.w;
+            // TODO: Trigger layout
+          }
+        }
+        this.resizeStartX = 0;
+      },
     },
   };
 </script>
