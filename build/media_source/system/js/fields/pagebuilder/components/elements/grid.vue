@@ -296,7 +296,7 @@
         // Move next col first to make space
         const nextX = col.x + col.w;
 
-        if (nextX === this.size) {
+        if (nextX === this.size || nextX + w >= this.size) {
           // At the end of the row? Shift to the start of the next row
           this.moveToRight(0, y + 1, col.w);
           col.x = 0;
