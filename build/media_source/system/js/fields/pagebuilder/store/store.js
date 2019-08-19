@@ -87,13 +87,13 @@ const mutations = {
       configs.forEach((config) => {
         state.maxKey += 1;
 
-        children.push({
+        let newChild = {
           key: state.maxKey,
           type: type.id,
           title: type.title,
           options: {
             size: {
-              xs: config,
+              xs: 0,
               sm: 0,
               md: 0,
               lg: 0,
@@ -109,7 +109,10 @@ const mutations = {
             },
           },
           children: []
-        });
+        };
+        newChild.options.size[state.activeDevice] = config;
+
+        children.push(newChild);
       });
     }
 
