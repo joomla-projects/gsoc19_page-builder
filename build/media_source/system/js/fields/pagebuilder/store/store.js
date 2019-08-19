@@ -51,7 +51,7 @@ const mutations = {
       title: type.title,
       options: {
         size: {
-          xs: state.size,
+          xs: 0,
           sm: 0,
           md: 0,
           lg: 0,
@@ -69,6 +69,7 @@ const mutations = {
       children: [],
     };
 
+    newElement.options.size[state.activeDevice] = state.size;
     // Merge config with element.config
     Object.assign(newElement, config);
 
