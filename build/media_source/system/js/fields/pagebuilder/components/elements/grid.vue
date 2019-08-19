@@ -1,5 +1,6 @@
 <template>
 	<grid-layout
+		ref="gridLayout"
 		:layout="allColumns"
 		:col-num="size"
 		:is-draggable="true"
@@ -120,6 +121,9 @@
         }
 
         return y;
+      },
+      columnWidth() {
+        return this.$refs.gridLayout.width / this.size;
       },
     },
     data() {
@@ -404,20 +408,21 @@
         });
       },
       handleResizeMouseDown(event, item) {
+        // Is item at the end of the row?
         if (item.innerX + item.innerW === this.size && item.innerW !== this.size) {
           this.resizeStartX = event.x;
         }
       },
       handleResizeMouseUp(event, item) {
-        // Is item at the end of the row?
-        if (item.innerX + item.innerW === this.size && item.innerW !== this.size) {
-          // Is this resize on purpose?
-          if (this.resizeStartX && event.x > this.resizeStartX + 100) {
+        const dragDistance = event.x - this.resizeStartX;
+        if (this.resizeStartX && dragDistance > this.columnWidth) {
+          const addWidth = Math.round(dragDistance / this.columnWidth);
+          if (addWidth) {
             const column = this.getColumnByIndex(item.i);
-            this.moveToRight(0, column.y + 1, column.w + 1);
+            this.moveToRight(0, column.y + 1, column.w + addWidth);
             column.x = 0;
             column.y += 1;
-            column.w += 1;
+            column.w += addWidth;
             column.element.options.size[this.activeDevice] = column.w;
           }
         }
