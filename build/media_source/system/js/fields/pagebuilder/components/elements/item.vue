@@ -111,22 +111,19 @@
         }
       },
       drop(event) {
-        var classArray = Object.values(event.target.classList);
+        let classArray = Object.values(event.target.classList);
         if (classArray.includes('drag_component') || classArray.includes('drag_message') || classArray.includes('col-offset')) {
           return;
         }
-        var data = event.dataTransfer.getData('text');
-        if (data == 'drag_component' && this.componentAllowed.includes(event.target.__vue__.item.type)) {
-          event.target.__vue__.item.options.component = true;
-        }
-        else if (data == 'drag_message' && this.messageAllowed.includes(event.target.__vue__.item.type)){
-          event.target.__vue__.item.options.message = true;
+        let data = event.dataTransfer.getData('text').split('_')[1];
+        if (this.componentAllowed.includes(event.target.__vue__.item.type)) {
+          event.target.__vue__.item.options[data] = true;
         }
         else {
           return;
         }
-        event.target.appendChild(document.getElementById(data));
-        event.target.classList.add(data);
+        event.target.appendChild(document.getElementById('drag_' + data));
+        event.target.classList.add('drag_' + data);
         this.updateGrid();
       },
     },

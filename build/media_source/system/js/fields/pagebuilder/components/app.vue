@@ -21,14 +21,14 @@
 						<div class="nav-link drag" id="drag_component" draggable="true" @dragstart="drag($event)">
 							<i class="fas fa-file-alt"></i>
 							<span>{{ translate('JLIB_PAGEBUILDER_COMPONENT') }}</span>
-              <i class="fas fa-times-circle" @click="restorePosition($event, 'component')"></i>
+              <i class="fas fa-times-circle" @click="restorePosition('component')"></i>
 						</div>
 					</li>
 					<li class="nav-item" id="placeholder_message">
 						<div class="nav-link drag" id="drag_message" draggable="true" @dragstart="drag($event)">
 							<i class="fas fa-envelope"></i>
 							<span>{{ translate('JLIB_PAGEBUILDER_MESSAGE') }}</span>
-              <i class="fas fa-times-circle" @click="restorePosition($event, 'message')"></i>
+              <i class="fas fa-times-circle" @click="restorePosition('message')"></i>
 						</div>
 					</li>
 				</ul>
@@ -107,11 +107,11 @@
     },
     mounted() {
       if(document.getElementsByClassName('drag_component').length) {
-        var element = document.getElementsByClassName('drag_component')[0];
+        let element = document.getElementsByClassName('drag_component')[0];
         element.appendChild(document.getElementById('drag_component'));
       }
       if(document.getElementsByClassName('drag_message').length) {
-        var element = document.getElementsByClassName('drag_message')[0];
+        let element = document.getElementsByClassName('drag_message')[0];
         element.appendChild(document.getElementById('drag_message'));
       }
     },
@@ -125,6 +125,7 @@
         'updateElementArray',
         'editElement',
         'updateGrid',
+        'restorePosition'
       ]),
       addElement() {
         this.setParent(this.elementArray);
@@ -133,18 +134,6 @@
       drag(event) {
         event.dataTransfer.setData('text', event.target.id);
       },
-      restorePosition(event, location) {
-        var element = document.getElementsByClassName('drag_' + location)[0];
-        if(location == 'component') {
-          element.__vue__.$data.element.options.component = false;
-        }
-        else {
-          element.__vue__.$data.element.options.message = false;
-        }
-        element.classList.remove('drag_' + location);
-        document.getElementById('placeholder_' + location).appendChild(document.getElementById('drag_' + location));
-        this.updateGrid();
-      }
     },
     components: {
       draggable
