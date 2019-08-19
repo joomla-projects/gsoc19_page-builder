@@ -53,8 +53,8 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ($itemid ? ' itemid-' . $itemid : '')
 	. ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-
-<?php echo RenderHelper::renderElements($pageGrid); ?>
+	<!-- This renders the elements on the webpage -->
+	<?php echo RenderHelper::renderElements($pageGrid); ?>
 
 </body>
 </html>

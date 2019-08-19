@@ -92,9 +92,9 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 
 		if (isset($data->options))
 		{
-			$html .= empty($data->options->type) ? ' type="modules"' : ' type="' . $data->options->type . '"';
-			$html .= empty($data->options->position_name) ? '' : ' name="' . $data->options->position_name . '"';
-			$html .= empty($data->options->module_chrome) ? '' : ' style="' . $data->options->module_chrome . '"';
+			$html .= ' type="modules"';
+			$html .= empty($data->position_name) ? '' : ' name="' . $data->position_name . '"';
+			$html .= empty($data->module_chrome) ? '' : ' style="' . $data->module_chrome . '"';
 		}
 
 		$html .= ' />';
