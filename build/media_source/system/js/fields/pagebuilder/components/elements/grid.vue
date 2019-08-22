@@ -201,8 +201,9 @@
           const found = this.grid.children.indexOf(col.element);
           if (found === -1) {
             this.columns.splice(this.columns.indexOf(col), 1);
-            this.reorder();
-            this.updateChildrenOrder({parent: this.grid, children: this.reorderedColumns});
+            // Following columns fill the created gap
+            this.moveToLeft(col.x + col.w, col.y, col.w);
+            changes = true;
           }
         });
 
@@ -331,11 +332,21 @@
         col.h = 1;
         col.element.options.size[this.activeDevice] = newW;
       },
+      changePosition() {
+        this.moved = true;
+      },
       updateLayout() {
         this.resetOffsets();
         this.positioning();
         this.initOffsets();
         this.setResizeListeners();
+
+        if (this.moved) {
+          const colElements = [];
+          this.columns.forEach(col => colElements.push(col.element));
+          this.updateChildrenOrder({parent: this.grid, children: colElements});
+          this.moved = false;
+        }
       },
       positioning() {
         // Bring columns in correct order to fill gaps one after another
