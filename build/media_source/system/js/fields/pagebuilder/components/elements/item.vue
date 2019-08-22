@@ -45,7 +45,6 @@
 
 <script>
   import {mapGetters, mapMutations, mapState} from 'vuex';
-  import {notifications} from "./../../app/Notifications";
 
   export default {
     name: 'item',
