@@ -43,36 +43,40 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="advanced">
-				<field
-					name="logoFile"
-					type="media"
-					default=""
-					label="TPL_APODIS_LOGO_LABEL"
-				/>
-
-				<field
-					name="siteTitle"
-					type="text"
-					default=""
-					label="JGLOBAL_TITLE"
-					filter="string"
-				/>
-
-				<field
-					name="siteDescription"
-					type="text"
-					default=""
-					label="JGLOBAL_DESCRIPTION"
-					filter="string"
-				/>
-			</fieldset>
 			<fieldset name="pagebuilder" label="TPL_APODIS_PAGEBUILDER">
 				<field
 					name="grid"
 					type="pagebuilder"
 					hidden="true"
 					label="TPL_APODIS_PAGEBUILDER"
+				/>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="baseBG"
+					type="color"
+					default="#dedede"
+					label="TPL_APODIS_BASE_BG"
+					validate="color"
+					required="true"
+				/>
+
+				<field
+					name="baseColor"
+					type="color"
+					default="#212529"
+					label="TPL_APODIS_BASE_COLOR"
+					validate="color"
+					required="true"
+				/>
+
+				<field
+					name="linkColor"
+					type="color"
+					default="#283365"
+					label="TPL_APODIS_LINK_COLOR"
+					validate="color"
+					required="true"
 				/>
 			</fieldset>
 		</fields>
