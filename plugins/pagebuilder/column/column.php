@@ -59,8 +59,13 @@ class PlgPagebuilderColumn extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onRender($data)
+	public function onRenderPagebuilderElement($context, $data)
 	{
+		if ($context !== 'com_template.pagebuilder.column')
+		{
+			return;
+		}
+
 		$html    = '<div ';
 		$classes = array('column');
 

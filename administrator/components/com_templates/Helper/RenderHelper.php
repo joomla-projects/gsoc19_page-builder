@@ -58,16 +58,20 @@ abstract class RenderHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private static function getPluginRenderer($name, $data)
+	private static function getPluginRenderer($data)
 	{
-		$pluginRenderer = Factory::getApplication()->triggerEvent('onRender', array($data));
+		$context = 'com_template.pagebuilder.' . $data->type;
+
+		$pluginRenderer = Factory::getApplication()->triggerEvent('onRenderPagebuilderElement', array($context, $data));
 
 		foreach ($pluginRenderer as $plugin)
 		{
-			if (strtolower($plugin['id']) === strtolower($name))
+			if (empty($plugin))
 			{
-				return $plugin;
+				continue;
 			}
+
+			return $plugin;
 		}
 
 		return false;
@@ -88,9 +92,7 @@ abstract class RenderHelper
 
 		foreach ($elements as $element)
 		{
-			$name = $element->type;
-
-			$renderData = self::getPluginRenderer($name, $element);
+			$renderData = self::getPluginRenderer($element);
 
 			// Create default element to fill space
 			if (!$renderData)
