@@ -136,13 +136,21 @@ const mutations = {
     state.parent = parent;
     mutations.openNav();
   },
+  checkComponent(state, element) {
+    if (element.options.component) {
+      mutations.restorePosition(state, 'component');
+    }
+    if (element.options.message) {
+      mutations.restorePosition(state, 'message');
+    }
+    if (element.children) {
+      element.children.forEach(child => this.checkComponent(state, child));
+    }
+  },
   deleteElement(state, {element, parent}) {
     const elements = parent ? parent.children : state.elementArray;
     const index = elements.indexOf(element);
-    if(element.options.component)
-      mutations.restorePosition(state, 'component');
-    if(element.options.message)
-      mutations.restorePosition(state, 'message');
+    mutations.checkComponent(state, element);
     if (index > -1) {
       elements.splice(index, 1);
     }
