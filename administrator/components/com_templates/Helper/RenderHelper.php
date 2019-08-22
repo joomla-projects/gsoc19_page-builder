@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 /**
  * Template Helper class.
  *
- * @since  4.0
+ * @since  __DEPLOY_VERSION__
  */
 abstract class RenderHelper
 {
@@ -28,7 +28,7 @@ abstract class RenderHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws \Exception
 	 */
 	public static function renderElements($param)
@@ -56,7 +56,7 @@ abstract class RenderHelper
 	 *
 	 * @return  array|boolean
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private static function getPluginRenderer($name, $data)
 	{
@@ -80,7 +80,7 @@ abstract class RenderHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private static function render($elements)
 	{
