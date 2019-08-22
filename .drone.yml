@@ -56,21 +56,21 @@ steps:
 
   - name: php72-unit
     depends_on: [ phpcs ]
-    image: php:7.2
+    image: joomlaprojects/docker-images:php7.2
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php73-unit
     depends_on: [ phpcs ]
-    image: php:7.3
+    image: joomlaprojects/docker-images:php7.3
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
 
   - name: php74-unit
     depends_on: [ phpcs ]
-    image: phpdaily/php:7.4-dev
+    image: joomlaprojects/docker-images:php7.4
     failure: ignore
     commands:
       - php -v
@@ -78,7 +78,7 @@ steps:
 
   - name: php80-unit
     depends_on: [ phpcs ]
-    image: phpdaily/php:8.0-dev
+    image: joomlaprojects/docker-images:php8.0
     failure: ignore
     commands:
       - php -v
@@ -270,6 +270,6 @@ services:
 
 ---
 kind: signature
-hmac: 47926192602bc35c5b1d82da1623ec5c2038184f31f44bb86aee25789a745f80
+hmac: 7a4fd65abcde5d52258eae086b3566e32044b5849e2c3c0d22432b6269f4be9f
 
 ...
