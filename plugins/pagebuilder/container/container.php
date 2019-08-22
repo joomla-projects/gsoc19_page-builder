@@ -46,18 +46,7 @@ class PlgPagebuilderContainer extends CMSPlugin
 			'parent'      => array('root', 'column'),
 			'children'    => true,
 			'component'   => true,
-			'message'     => true,
-			'config'      => [
-				'fluid' => [
-					'type' => 'select',
-					'value' => [
-						Text::_('JYES') => '1',
-						Text::_('JNO') => '0'
-					],
-					'label' => Text::_('PLG_PAGEBUILDER_CONTAINER_FLUID'),
-					'default' => 0
-				]
-			]
+			'message'     => true
 		);
 	}
 
@@ -82,11 +71,6 @@ class PlgPagebuilderContainer extends CMSPlugin
 
 		if (isset($data->options))
 		{
-			if (!empty($data->options->fluid))
-			{
-				$classes = ['container-fluid'];
-			}
-
 			if (!empty($data->options->class))
 			{
 				$classes[] = $data->options->class;
