@@ -73,6 +73,7 @@ export default {
         },
     },
     mounted() {
+        this.element_class = this.elementSelected.options.class;
         if(this.elementSelected.options.offset)
             this.element_offset = this.elementSelected.options.offset;
     },

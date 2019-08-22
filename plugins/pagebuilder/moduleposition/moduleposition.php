@@ -14,7 +14,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 /**
  * Plugin to add a moduleposition element to the pagebuilder
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class PlgPagebuilderModuleposition extends CMSPlugin
 {
@@ -22,7 +22,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	 * Load plugin language files automatically
 	 *
 	 * @var    boolean
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $autoloadLanguage = true;
 
@@ -33,7 +33,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	 *
 	 * @return  array   A list of icon definition associative arrays
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onAddElement($params)
 	{
@@ -84,7 +84,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	 *
 	 * @return  array   A list of icon definition associative arrays
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onRender($data)
 	{

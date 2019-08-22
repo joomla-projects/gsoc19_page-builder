@@ -136,13 +136,21 @@ const mutations = {
     state.parent = parent;
     mutations.openNav();
   },
+  checkComponent(state, element) {
+    if (element.options.component) {
+      mutations.restorePosition(state, 'component');
+    }
+    if (element.options.message) {
+      mutations.restorePosition(state, 'message');
+    }
+    if (element.children) {
+      element.children.forEach(child => this.checkComponent(state, child));
+    }
+  },
   deleteElement(state, {element, parent}) {
     const elements = parent ? parent.children : state.elementArray;
     const index = elements.indexOf(element);
-    if(element.options.component)
-      mutations.restorePosition(state, 'component');
-    if(element.options.message)
-      mutations.restorePosition(state, 'message');
+    mutations.checkComponent(state, element);
     if (index > -1) {
       elements.splice(index, 1);
     }
@@ -175,8 +183,10 @@ const mutations = {
   },
   restorePosition(state, location) {
     let element = document.getElementsByClassName('drag_' + location)[0];
-    element.__vue__.$data.element.options[location] = false;
-    element.classList.remove('drag_' + location);
+    if (element) {
+      element.__vue__.$data.element.options[location] = false;
+      element.classList.remove('drag_' + location);
+    }
     document.getElementById('placeholder_' + location).appendChild(document.getElementById('drag_' + location));
     mutations.updateGrid(state);
   }
