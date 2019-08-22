@@ -273,8 +273,13 @@
       },
       updateSizes() {
         this.columns.forEach(col => {
-          if (col.w !== col.element.options.size[this.activeDevice]) {
-            col.w = this.getElementSize(col.element);
+          const activeSize = this.getElementSize(col.element);
+          if (col.w < activeSize) {
+            this.moveToRight(col.x + col.w, col.y, activeSize - col.w);
+            col.w = activeSize;
+          } else if (col.w > activeSize) {
+            this.moveToLeft(col.x + col.w, col.y, col.w - activeSize);
+            col.w = activeSize;
           }
         });
       },
