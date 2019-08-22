@@ -16,7 +16,7 @@ $red: #f0aaae;
 $light-red: #f0c2c5;
 $bs-blue: #108193;
 $drop-red: #f08080;
-$yellow: rgb(244, 255, 123);
+$yellow: #fbffa6;
 
 // Z-index
 $zindex-backdrop: 1050;
@@ -26,19 +26,23 @@ select {
   -webkit-appearance: menulist;
 }
 
-.nav-link {
+button.nav-link.drag {
+  cursor: grab;
+  border: 2px solid;
+  border-radius: .25rem;
+  background-color: $yellow;
+  margin: auto;
 
-  &.drag {
-    border: 2px solid;
-    cursor: grab;
-
-    .fa-times-circle {
-      cursor: pointer;
-      float: left;
-      margin-right: 0.75rem;
-      margin-top: 0.25rem;
-    }
+  .icon-remove {
+    cursor: pointer;
+    float: left;
+    margin-right: 0.75rem;
+    margin-top: 0.25rem;
   }
+}
+
+.topbar .drag .icon-remove {
+  display: none;
 }
 
 .pagebuilder {
@@ -119,8 +123,8 @@ select {
       }
     }
 
-    &.drag_component,&.drag_message {
-      background-color: $yellow !important;
+    .drag .icon-remove {
+      display: inline-block;
     }
   }
 
@@ -142,14 +146,6 @@ select {
     // Overwrite backend template Atum
     [class^="icon-"] {
       margin-right: 0;
-    }
-  }
-
-  button {
-    cursor: pointer;
-
-    &:hover {
-      cursor: pointer;
     }
   }
 

@@ -18,18 +18,18 @@
 			<div class="col">
 				<ul class="nav nav-pills">
 					<li class="nav-item" id="placeholder_component">
-						<div class="nav-link drag" id="drag_component" draggable="true" @dragstart="drag($event)">
+						<button type="button" class="nav-link drag" id="drag_component" draggable="true" @dragstart="drag($event)">
 							<i class="fas fa-file-alt"></i>
 							<span>{{ translate('JLIB_PAGEBUILDER_COMPONENT') }}</span>
-              <i class="fas fa-times-circle" @click="restorePosition('component')"></i>
-						</div>
+							<i class="fas fa-times-circle icon-remove" @click="restorePosition('component')"></i>
+						</button>
 					</li>
 					<li class="nav-item" id="placeholder_message">
-						<div class="nav-link drag" id="drag_message" draggable="true" @dragstart="drag($event)">
+						<button type="button" class="nav-link drag" id="drag_message" draggable="true" @dragstart="drag($event)">
 							<i class="fas fa-envelope"></i>
 							<span>{{ translate('JLIB_PAGEBUILDER_MESSAGE') }}</span>
-              <i class="fas fa-times-circle" @click="restorePosition('message')"></i>
-						</div>
+							<i class="fas fa-times-circle icon-remove" @click="restorePosition('message')"></i>
+						</button>
 					</li>
 				</ul>
 			</div>
