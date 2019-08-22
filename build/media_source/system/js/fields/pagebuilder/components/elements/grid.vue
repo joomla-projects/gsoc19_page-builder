@@ -22,6 +22,7 @@
 			:y="column.y"
 			@resize="resize"
 			@resized="changeSize"
+			@moved="changePosition"
 		>
 
 			<item :item="column.element"
@@ -89,7 +90,7 @@
         }
         return index + 1;
       },
-      nextSpace() {
+      lastSpace() {
         let y = this.maxRow;
         let x = 0;
 
@@ -129,6 +130,7 @@
     data() {
       return {
         columns: [],
+        moved: false,
         offsets: [],
         rowPlaceholder: {
           i: 'rowPlaceholder',
@@ -151,8 +153,7 @@
       activeDevice: {
         handler() {
           this.updateSizes();
-          this.updateOffsets();
-          this.reorder();
+          this.updateLayout();
         }
       },
     },
@@ -193,29 +194,23 @@
         });
       },
       mapElementChanges() {
+        let changes = false;
+
         // Search for removed children
         this.columns.forEach(col => {
           const found = this.grid.children.indexOf(col.element);
           if (found === -1) {
-            // Remove column from grid
-            if (col.offset) {
-              this.offsets.splice(this.offsets.indexOf(col.offset), 1);
-            }
             this.columns.splice(this.columns.indexOf(col), 1);
             this.reorder();
             this.updateChildrenOrder({parent: this.grid, children: this.reorderedColumns});
           }
         });
-        // Search for new children and offsets
+
+        // Search for new children
         this.grid.children.forEach(child => {
           const found = this.columns.find(col => col.element === child);
-          if (found && child.options.offset[this.activeDevice] && !found.offset) {
-            this.createOffset(found);
-          } else if (found && !child.options.offset[this.activeDevice] && found.offset) {
-            this.removeOffset(found);
-          }
           if (!found) {
-            const newPosition = this.nextSpace;
+            const newPosition = this.lastSpace;
             this.columns.push({
               i: this.nextIndex,
               w: newPosition.w,
@@ -225,8 +220,13 @@
               element: child,
             });
             child.options.size[this.activeDevice] = newPosition.w;
+            changes = true;
           }
         });
+
+        if (changes) {
+          this.updateLayout();
+        }
       },
       initOffsets() {
         this.columns.forEach(col => {
@@ -235,9 +235,22 @@
           }
         });
       },
+      resetOffsets() {
+        this.columns.forEach(col => {
+          if (col.offset) {
+            this.removeOffset(col);
+          }
+        });
+        this.offsets = [];
+      },
       createOffset(column) {
         const offset = column.element.options.offset[this.activeDevice];
         this.moveToRight(column.x, column.y, offset);
+
+        // Be sure that there is space for offset
+        if (column.x === 0) {
+          this.moveToRight(column.x, column.y, offset);
+        }
 
         const offsetObj = {
           i: `offset-${column.element.key}`,
@@ -254,19 +267,8 @@
       },
       removeOffset(column) {
         const offset = column.offset;
-        this.offsets.splice(this.offsets.indexOf(offset), 1);
         delete column.offset;
         this.moveToLeft(column.x, column.y, offset.w);
-      },
-      updateOffsets() {
-        this.columns.forEach(col => {
-          if (col.offset && col.offset.device !== this.activeDevice) {
-            this.removeOffset(col);
-          }
-          if (col.element.options.offset[this.activeDevice]) {
-            this.createOffset(col);
-          }
-        });
       },
       updateSizes() {
         this.columns.forEach(col => {
@@ -300,7 +302,7 @@
         // Move next col first to make space
         const nextX = col.x + col.w;
 
-        if (nextX === this.size || nextX + w >= this.size) {
+        if (nextX === this.size || nextX + w > this.size) {
           // At the end of the row? Shift to the start of the next row
           this.moveToRight(0, y + 1, col.w);
           col.x = 0;
@@ -313,15 +315,13 @@
       },
       moveToLeft(x, y, w) {
         const col = this.atPosition(x, y);
-        if (col) {
+        if (col && col.x > 0) {
           this.moveToLeft(col.x + col.w, y, w);
           col.x -= w || 1;
         }
       },
-      atPosition(x, y, layout) {
-        const columns = layout || this.columns;
-
-        return columns.find(col => {
+      atPosition(x, y) {
+        return this.columns.find(col => {
           const inRow = y === col.y || (y >= col.y && y <= col.y + col.h - 1);
           return inRow && (x === col.x || (x >= col.x && x <= col.x + col.w - 1));
         });
@@ -331,75 +331,58 @@
         col.h = 1;
         col.element.options.size[this.activeDevice] = newW;
       },
-      updateLayout(){
-        this.reorder();
+      updateLayout() {
+        this.resetOffsets();
+        this.positioning();
+        this.initOffsets();
         this.setResizeListeners();
       },
-      reorder() {
-        let free = false;
-        let space = false;
-        this.reorderedColumns = [];
+      positioning() {
+        // Bring columns in correct order to fill gaps one after another
+        this.columns.sort((col1, col2) => {
+          if (col1.y < col2.y || (col1.y === col2.y && col1.x < col2.x)) {
+            return -1;
+          }
+          if (col1.y > col2.y || (col1.y === col2.y && col1.x > col2.x)) {
+            return 1;
+          }
+          return 0;
+        });
 
-        for (let y = 0; y <= this.maxRow; y += 1) {
-          let x = 0;
-
-          do {
-            const occupied = this.atPosition(x, y);
-            let offsetW = 0;
-            let fullW = occupied ? occupied.w : 1;
-
-            // Mind the offset
-            if (occupied && occupied.offset) {
-              fullW += occupied.offset.w;
-              offsetW = occupied.offset.w;
-            }
-
-            // Set new order into store too
-            if (occupied && occupied.element && !this.reorderedColumns.includes(occupied.element)) {
-              this.reorderedColumns.push(occupied.element);
-            }
-
-            if (occupied && space) {
-              // Set column into space of last row
-              if (space >= fullW) {
-                occupied.y = y - 1;
-                occupied.x = this.size - space + offsetW;
-                x = occupied.x + fullW;
-                y -= 1;
-              } else {
-                // Not enough space -> reset position
-                x = 0;
-              }
-              space = false;
-            } else if (occupied && free !== false) {
-              // Set column on free position
-              occupied.x = free + offsetW;
-              free = false;
-              x = occupied.x + occupied.w;
-            } else if (occupied) {
-              // Go further in grid
-              if (occupied.offset) {
-                occupied.x += offsetW;
-              }
-              x += fullW;
-            } else if (!occupied && free === false) {
-              // Set free position
-              free = x;
-              x += 1;
-            } else {
-              // There is a free position already, so just go further
-              x += 1;
-            }
-          } while (x < this.size);
-
-          // Set available space for column in next row
-          if (free !== false) {
-            space = this.size - free;
-            free = false;
-          } else {
-            space = false;
+        for (const col of this.columns) {
+          const freePosition = this.getGap(col.x, col.y, col.w);
+          if (freePosition) {
+            col.x = freePosition.x;
+            col.y = freePosition.y;
           }
         }
+      },
+      getGap(colX, colY, colW) {
+        let freeX = false;
+        let freeY = false;
+        let space = false;
+        let stop = false;
+
+        for (let y = colY; y >= 0; y -= 1) {
+          if (stop) {
+            break;
+          }
+
+          // First x is not higher than column.x, in other rows the x just gives enough width
+          const maxX = y === colY ? colX - 1 : this.size - colW;
+          for (let x = maxX; x >= 0; x -= 1) {
+            if (this.atPosition(x, y)) {
+              stop = true;
+              break;
+            } else {
+              freeX = x;
+              freeY = y;
+              space = true;
+            }
+          }
+        }
+
+        return space ? {x: freeX, y: freeY} : false;
       },
       setResizeListeners() {
         this.$refs.gridItems.forEach((item) => {
