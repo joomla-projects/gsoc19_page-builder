@@ -16,15 +16,11 @@ $red: #f0aaae;
 $light-red: #f0c2c5;
 $bs-blue: #108193;
 $drop-red: #f08080;
-$yellow: rgb(244,255,123);
+$yellow: rgb(244, 255, 123);
 
 // Z-index
 $zindex-backdrop: 1050;
 $zindex-sidebar: 1050;
-
-fieldset .btn-group .btn-danger {
-  margin-left: 0.75rem !important;
-}
 
 select {
   -webkit-appearance: menulist;
@@ -91,9 +87,7 @@ select {
       margin: 0 10px;
 
       > .item-content {
-        // Repeating background needed to overwrite Vuetify
-        background: linear-gradient(to right, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px) repeat;
-        // background-size needed for easy modifying by js (default 12 columns)
+        background: linear-gradient(to right, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px);
         background-size: 8.3% 150px;
 
         &:hover {
@@ -144,6 +138,11 @@ select {
     right: 0;
     background-color: $white;
     border: 1px solid $grey;
+
+    // Overwrite backend template Atum
+    [class^="icon-"] {
+      margin-right: 0;
+    }
   }
 
   button {
@@ -151,15 +150,6 @@ select {
 
     &:hover {
       cursor: pointer;
-    }
-  }
-
-  .btn-add {
-    display: block;
-    margin: 2rem auto;
-
-    > span {
-      width: auto;
     }
   }
 
@@ -171,11 +161,6 @@ select {
     position: relative;
     border: 2px dashed $grey;
     min-height: 15rem;
-
-    .column-btn {
-      width: 100%;
-      height: 100%;
-    }
 
     .col-wrapper:hover {
       cursor: grab;
@@ -253,7 +238,7 @@ select {
     td {
       padding: 8px 12px;
     }
-    
+
     th {
       text-align: center;
       padding: 2px 12px;
