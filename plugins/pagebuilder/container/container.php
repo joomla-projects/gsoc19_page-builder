@@ -82,6 +82,11 @@ class PlgPagebuilderContainer extends CMSPlugin
 
 		if (isset($data->options))
 		{
+			if (!empty($data->options->fluid))
+			{
+				$classes = array('container-fluid');
+			}
+
 			if (!empty($data->options->class))
 			{
 				$classes[] = $data->options->class;
