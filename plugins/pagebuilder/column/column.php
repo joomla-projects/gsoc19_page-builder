@@ -31,7 +31,7 @@ class PlgPagebuilderColumn extends CMSPlugin
 	 *
 	 * @param   array  $params  Data for the element
 	 *
-	 * @return  array   A list of icon definition associative arrays
+	 * @return  array   data for the element inside the editor
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -53,9 +53,10 @@ class PlgPagebuilderColumn extends CMSPlugin
 	/**
 	 * Get rendering options for frontend templates
 	 *
-	 * @param   array  $data  Options set in pagebuilder editor like classes, size etc.
+	 * @param   string  $context  Indicates the type of the rendered element
+	 * @param   array   $data     Options set in pagebuilder editor like classes, size etc.
 	 *
-	 * @return  array   A list of icon definition associative arrays
+	 * @return  array   tags and their attributes to render the element
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -63,7 +64,7 @@ class PlgPagebuilderColumn extends CMSPlugin
 	{
 		if ($context !== 'com_template.pagebuilder.column')
 		{
-			return;
+			return array();
 		}
 
 		$html    = '<div ';
