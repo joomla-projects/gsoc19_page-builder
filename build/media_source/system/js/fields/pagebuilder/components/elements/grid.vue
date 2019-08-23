@@ -37,7 +37,7 @@
 				:class="['col-wrapper', 'col-offset']"
 				:i="off.i"
 				:w="off.w"
-				:h="off.h"
+				:h="off.column.h"
 				:x="off.column.x - off.w"
 				:y="off.column.y">
 			<div class="desc">
@@ -219,7 +219,6 @@
         });
 
         if (changes) {
-          this.setHeight();
           this.updateLayout();
         }
       },
@@ -280,15 +279,14 @@
       setHeight() {
         for (let y = 0; y <= this.maxRow; y += 1) {
           const colsInRow = this.columns.filter((col) => col.y === y);
-          let maxHeight = 1;
+          let height = 1;
 
           colsInRow.forEach((col)  => {
-            const childrenHeight = this.getChildrenLength(col.element);
-            maxHeight = Math.max(maxHeight, childrenHeight);
+            height = Math.max(height, this.getChildrenLength(col.element));
           });
 
           colsInRow.forEach((col) => {
-            col.h = maxHeight;
+            col.h = height;
           });
         }
       },
@@ -300,6 +298,9 @@
         });
 
         return maxHeight;
+      },
+      resetHeight() {
+        this.columns.forEach((col) => col.h = 1);
       },
       getColumnByIndex(i) {
         return this.columns.find(col => col.i === i);
@@ -360,8 +361,10 @@
       },
       updateLayout() {
         this.resetOffsets();
+        this.resetHeight();
         this.positioning();
         this.initOffsets();
+        this.setHeight();
         this.setResizeListeners();
 
         if (this.moved) {
