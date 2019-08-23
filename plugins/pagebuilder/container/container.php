@@ -70,8 +70,13 @@ class PlgPagebuilderContainer extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onRender($data)
+	public function onRenderPagebuilderElement($context, $data)
 	{
+		if ($context !== 'com_template.pagebuilder.container')
+		{
+			return;
+		}
+
 		$html = '<div ';
 		$classes = array('container');
 
