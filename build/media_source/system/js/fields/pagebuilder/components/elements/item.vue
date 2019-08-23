@@ -1,6 +1,5 @@
 <template>
-	<div :class="['item', 'pagebuilder_' + element.type, element.options.class, element.options.component ? 'drag_component' : '', element.options.message ? 'drag_message' : '' ]" :id="element.type + '-' + element.key"
-			@dragover.prevent @drop.prevent="drop($event)">
+	<div :class="classes" :id="element.type + '-' + element.key" @dragover.prevent @drop.prevent="drop($event)">
 
 		<div v-if="handleRequired" class="btn-wrapper btn-group left">
 			<i class="btn btn-primary btn-sm fa fa-align-justify handle"></i>
@@ -66,6 +65,13 @@
       ...mapGetters([
         'getType'
       ]),
+      classes() {
+        return [
+          'item',
+          `pagebuilder_${this.element.type} ${this.element.options.class}`,
+          this.element.options.component ? 'drag_component' : '',
+          this.element.options.message ? 'drag_message' : ''];
+      },
       showDetails() {
         const type = this.getType(this.item);
 
@@ -73,7 +79,7 @@
           const show = [];
           for (const key in type.config) {
             if (type.config.hasOwnProperty(key) && type.config[key].show) {
-              show.push({ label: type.config[key].label, value: (this.item.options[key] || this.item[key]) });
+              show.push({label: type.config[key].label, value: (this.item.options[key] || this.item[key])});
             }
           }
 
