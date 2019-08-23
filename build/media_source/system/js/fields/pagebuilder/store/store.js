@@ -70,8 +70,8 @@ const mutations = {
     };
 
     newElement.options.size[state.activeDevice] = state.size;
-    // Merge config with element.config
-    Object.assign(newElement, config);
+    // Merge config with element.options
+    Object.assign(newElement.options, config);
 
     if (name === 'grid' && childConfig) {
       newElement.children = mutations.getConfiguredChildren(state, 'column', childConfig);
