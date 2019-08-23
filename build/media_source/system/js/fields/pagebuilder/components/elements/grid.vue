@@ -17,7 +17,7 @@
 			:class="['col-wrapper', column.element.type, column.element.options.class]"
 			:i="column.i"
 			:w="column.w"
-			:h="1"
+			:h="column.h"
 			:x="column.x"
 			:y="column.y"
 			@resize="resize"
@@ -45,15 +45,15 @@
 			</div>
 		</grid-item>
 
-		<!-- Always creates a row at the end to ensure a correct layout -->
-		<grid-item
+		<!-- Creates a row at the end to ensure a correct layout -->
+		<grid-item v-if="lastSpace.x !== 0"
 				:static="true"
 				class="col-invisible"
 				:i="rowPlaceholder.i"
 				:w="rowPlaceholder.w"
 				:h="rowPlaceholder.h"
-				:x="size - 1"
-				:y="lastRow"
+				:x="lastSpace.x"
+				:y="lastSpace.y"
 		>
 		</grid-item>
 	</grid-layout>
@@ -112,17 +112,6 @@
         this.columns.forEach(col => maxY = Math.max(col.y, maxY));
         return maxY;
       },
-      lastRow() {
-        const x = this.size;
-        let y = this.maxRow;
-
-        const col = this.columns.find(col => col.y === y && col.x + col.w === x);
-        if (col) {
-          y += 1;
-        }
-
-        return y;
-      },
       columnWidth() {
         return this.$refs.gridLayout.width / this.size;
       },
@@ -152,7 +141,7 @@
       },
       activeDevice: {
         handler() {
-          this.updateSizes();
+          this.updateDeviceSizes();
           this.updateLayout();
         }
       },
@@ -192,6 +181,7 @@
           x += col.w;
           this.columns.push(col);
         });
+        this.setHeight();
       },
       mapElementChanges() {
         let changes = false;
@@ -210,6 +200,9 @@
         // Search for new children
         this.grid.children.forEach(child => {
           const found = this.columns.find(col => col.element === child);
+          if (found && found.h !== found.element.children.length) {
+            changes = true;
+          }
           if (!found) {
             const newPosition = this.lastSpace;
             this.columns.push({
@@ -226,6 +219,7 @@
         });
 
         if (changes) {
+          this.setHeight();
           this.updateLayout();
         }
       },
@@ -271,7 +265,7 @@
         delete column.offset;
         this.moveToLeft(column.x, column.y, offset.w);
       },
-      updateSizes() {
+      updateDeviceSizes() {
         this.columns.forEach(col => {
           const activeSize = this.getElementSize(col.element);
           if (col.w < activeSize) {
@@ -282,6 +276,30 @@
             col.w = activeSize;
           }
         });
+      },
+      setHeight() {
+        for (let y = 0; y <= this.maxRow; y += 1) {
+          const colsInRow = this.columns.filter((col) => col.y === y);
+          let maxHeight = 1;
+
+          colsInRow.forEach((col)  => {
+            const childrenHeight = this.getChildrenLength(col.element);
+            maxHeight = Math.max(maxHeight, childrenHeight);
+          });
+
+          colsInRow.forEach((col) => {
+            col.h = maxHeight;
+          });
+        }
+      },
+      getChildrenLength(element) {
+        let maxHeight = element.children.length;
+
+        element.children.forEach((child) => {
+          maxHeight += this.getChildrenLength(child);
+        });
+
+        return maxHeight;
       },
       getColumnByIndex(i) {
         return this.columns.find(col => col.i === i);
@@ -334,7 +352,7 @@
       },
       changeSize(i, newH, newW) {
         const col = this.getColumnByIndex(i);
-        col.h = 1;
+        col.h = newH !== col.h ? col.h : newH;
         col.element.options.size[this.activeDevice] = newW;
       },
       changePosition() {

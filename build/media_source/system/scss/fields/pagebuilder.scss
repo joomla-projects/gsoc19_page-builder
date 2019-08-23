@@ -52,7 +52,8 @@ button.nav-link.drag {
 
   .item {
     position: relative;
-    min-height: 10rem;
+    min-height: 7rem;
+    height: 100%;
     background-color: $light-blue;
     border: 2px solid $white;
 
@@ -100,7 +101,7 @@ button.nav-link.drag {
 
         .vue-grid-item {
 
-          .item:first-of-type {
+          > .item {
             background-color: $light-green;
 
             &:hover {
