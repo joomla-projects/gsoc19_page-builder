@@ -101,6 +101,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 
 		return array(
 			'title' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
+			'config' => $data->options,
 			'id'    => 'moduleposition',
 			'start' => $html,
 			'end'   => null

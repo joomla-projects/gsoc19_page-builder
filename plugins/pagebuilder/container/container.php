@@ -46,7 +46,18 @@ class PlgPagebuilderContainer extends CMSPlugin
 			'parent'      => array('root', 'column'),
 			'children'    => true,
 			'component'   => true,
-			'message'     => true
+			'message'     => true,
+			'config'      => [
+				'fluid' => [
+					'type' => 'select',
+					'value' => [
+						Text::_('JYES') => 1,
+						Text::_('JNO') => 0
+					],
+					'label' => Text::_('PLG_PAGEBUILDER_CONTAINER_FLUID'),
+					'default' => 0
+				]
+			]
 		);
 	}
 
@@ -77,6 +88,7 @@ class PlgPagebuilderContainer extends CMSPlugin
 
 		return array(
 			'title' => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
+			'config' => $data->options,
 			'id'    => 'container',
 			'start' => $html,
 			'end'   => '</div>'

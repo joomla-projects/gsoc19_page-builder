@@ -77,6 +77,7 @@ class PlgPagebuilderGrid extends CMSPlugin
 
 		return array(
 			'title' => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
+			'config' => $data->options,
 			'id'    => 'grid',
 			'start' => $html,
 			'end'   => '</div>'

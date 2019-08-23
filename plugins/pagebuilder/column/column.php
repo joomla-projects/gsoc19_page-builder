@@ -106,6 +106,7 @@ class PlgPagebuilderColumn extends CMSPlugin
 
 		return array(
 			'title' => Text::_('PLG_PAGEBUILDER_COLUMN_NAME'),
+			'config' => $data->options,
 			'id'    => 'column',
 			'start' => $html,
 			'end'   => '</div>'
