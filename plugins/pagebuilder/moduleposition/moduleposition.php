@@ -30,9 +30,9 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select([$db->quoteName('position')])#
-			->from($db->quoteName('#__modules'))
-			->where($db->quoteName('published') . ' = 1')
+			->select([$db->quoteName('m.position')])
+			->from($db->quoteName('#__modules', 'm'))
+			->join("", $db->quoteName('#__extensions', 'e'), ' m.module = e.name and e.`client_id` = 0')
 			->order('position asc');
 
 		$modelresults = $db->setQuery($query)->loadObjectList();
