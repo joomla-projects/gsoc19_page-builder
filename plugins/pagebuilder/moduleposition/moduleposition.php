@@ -26,6 +26,24 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	 */
 	protected $autoloadLanguage = true;
 
+	private function loadValidModulePositions(){
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true)
+            ->select([$db->quoteName('position')]) #
+            ->from($db->quoteName('#__modules'))
+            ->where($db->quoteName('published') . ' = 1')
+            ->order('position asc');
+
+        $modelresults = $db->setQuery($query)->loadObjectList();
+        $positions = [];
+        foreach($modelresults as $res){
+            $res = $res->position;
+            if ($res == NULL) $res = "NONE";
+            $positions[$res] = $res;
+        }
+        return $positions;
+    }
+
 	/**
 	 * Add moduleposition element which can have every other element as child
 	 *
@@ -59,8 +77,8 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 			'message'     => false,
 			'config'  => array(
 				'position_name' => array(
-					'value' => '',
-					'type' => 'text',
+					'value' => $this->loadValidModulePositions(),
+					'type' => 'select',
 					'required' => true,
 					'show' => true,
 					'label' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_POSITION_NAME'),
