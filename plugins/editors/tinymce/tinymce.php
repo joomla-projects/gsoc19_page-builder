@@ -187,6 +187,28 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
+		// load external plugins
+		if (isset($extraOptions->external_plugins) && $extraOptions->external_plugins)
+		{
+			foreach (json_decode(json_encode($extraOptions->external_plugins), true) as $external)
+			{
+				// get the path for readability
+				$path = $external['path'];
+
+				// if we have a name and path, add it to the list
+				if ($external['name'] != '' && $path != '')
+				{
+					if (substr($path, 0, 1) == '/')
+					{
+						// treat as a local path, so add the root
+						$path = Uri::root() . substr($path, 1);
+					}
+
+					$externalPlugins[$external['name']] = $path;
+				}
+			}
+		}
+
 		// Merge the params
 		$levelParams->loadObject($toolbarParams);
 		$levelParams->loadObject($extraOptions);
@@ -237,9 +259,14 @@ class PlgEditorTinymce extends CMSPlugin
 		 */
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('template')
-			->from('#__template_styles')
-			->where('client_id=0 AND home=' . $db->quote('1'));
+			->select($db->quoteName('template'))
+			->from($db->quoteName('#__template_styles'))
+			->where(
+				[
+					$db->quoteName('client_id') . ' = 0',
+					$db->quoteName('home') . ' = ' . $db->quote('1')
+				]
+			);
 
 		$db->setQuery($query);
 
@@ -1064,8 +1091,10 @@ class PlgEditorTinymce extends CMSPlugin
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote($this->_type))
-			->where($db->quoteName('element') . ' = ' . $db->quote($this->_name));
+			->where($db->quoteName('folder') . ' = :folder')
+			->where($db->quoteName('element') . ' = :element')
+			->bind(':folder', $this->_type)
+			->bind(':element', $this->_name);
 		$db->setQuery($query);
 
 		return (int) $db->loadResult();

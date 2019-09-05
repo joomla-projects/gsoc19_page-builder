@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0" type="template" client="site">
+	<name>apodis</name>
+	<version>1.0</version>
+	<creationDate>07/06/2019</creationDate>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.</copyright>
+	<description>TPL_APODIS_XML_DESCRIPTION</description>
+	<files>
+		<filename>component.php</filename>
+		<filename>error.php</filename>
+		<filename>favicon.ico</filename>
+		<filename>index.php</filename>
+		<filename>joomla.asset.json</filename>
+		<filename>offline.php</filename>
+		<filename>templateDetails.xml</filename>
+		<folder>css</folder>
+		<folder>html</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>scss</folder>
+		<folder>language</folder>
+	</files>
+	<positions>
+		<position>menu</position>
+		<position>search</position>
+		<position>banner</position>
+		<position>top-a</position>
+		<position>top-b</position>
+		<position>main-top</position>
+		<position>main-bottom</position>
+		<position>breadcrumbs</position>
+		<position>sidebar-left</position>
+		<position>sidebar-right</position>
+		<position>bottom-a</position>
+		<position>bottom-b</position>
+		<position>footer</position>
+		<position>debug</position>
+	</positions>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.tpl_apodis.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_apodis.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="pagebuilder" label="TPL_APODIS_PAGEBUILDER">
+				<field
+					name="grid"
+					type="pagebuilder"
+					hidden="true"
+					label="TPL_APODIS_PAGEBUILDER"
+				/>
+			</fieldset>
+			<fieldset name="advanced">
+				<field
+					name="baseBG"
+					type="color"
+					default="#dedede"
+					label="TPL_APODIS_BASE_BG"
+					validate="color"
+					required="true"
+				/>
+
+				<field
+					name="baseColor"
+					type="color"
+					default="#212529"
+					label="TPL_APODIS_BASE_COLOR"
+					validate="color"
+					required="true"
+				/>
+
+				<field
+					name="linkColor"
+					type="color"
+					default="#283365"
+					label="TPL_APODIS_LINK_COLOR"
+					validate="color"
+					required="true"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
