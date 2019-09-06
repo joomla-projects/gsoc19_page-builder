@@ -60,14 +60,9 @@
 									:placeholder="conf.placeholder" v-model="config[id]" @blur="check(element.id, $event)"/>
 
 
-							<div v-else>
-								<input style="max-width: 91%;" :type="conf.type" :id="id" :name="id" class="form-control" required
-									   :placeholder="conf.placeholder" v-model="config[id]" @blur="check(element.id, $event)"/>
-								<div id="inputselection_wrapper">
-									<span class="inputselection_list" v-for="custom_pos in Object.keys(conf.value)">{{custom_pos}}</span>
-								</div>
-
-							</div>
+							<input-selection :id="id" :name="id" v-model="config[id]" @blur="check(element.id, $event)" v-else
+											 required :placeholder="conf.placeholder"  :type="conf.type"
+											 :options="Object.keys(conf.value)"></input-selection>
 
 
 						</div>
@@ -89,12 +84,12 @@
 
 <script>
   import {mapState} from 'vuex';
-  import VueSimpleSuggest from 'vue-simple-suggest'
+  import inputSelection from './input-selection.vue'
 
   export default {
     name: 'modal-add-element',
       components: {
-          VueSimpleSuggest
+          inputSelection
       },
     data() {
       return {
@@ -102,8 +97,7 @@
         selectedElement: '',
         config: '',
         childConfig: '',
-        select: [],
-          list : ['a','b','c']
+        select: []
       };
     },
     computed: {
@@ -190,12 +184,3 @@
   };
 </script>
 
-
-<style>
-	#inputselection_wrapper {
-
-	}
-	.inputselection_list{
-		display: block;
-	}
-</style>
