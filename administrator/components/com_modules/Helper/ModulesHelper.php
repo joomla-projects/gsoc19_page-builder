@@ -56,6 +56,47 @@ abstract class ModulesHelper
 	}
 
 	/**
+	 * Get a list of modules positions which are defined / used in the pagebuilder
+	 *
+	 * @return  array  A list of positions
+	 * @since 4.0
+	 */
+
+	public static function getPageBuilderPositions()
+	{
+		$customPosNames = [];
+		$db             = Factory::getDbo();
+		$query          = $db->getQuery(true)
+			->select('params')
+			->from('#__template_styles');
+
+		$db->setQuery($query);
+
+		$list = $db->loadObjectList();
+		foreach ($list as $param)
+		{
+			$paramsConf = json_decode($param->params, true);
+			if ($paramsConf != null && isset($paramsConf["grid"]))
+			{
+				$paramsGridConf = json_decode($paramsConf["grid"], true);
+
+				array_walk_recursive($paramsGridConf, function ($value, $key) use (&$customPosNames) {
+					if ($key == "position_name")
+					{
+						$customPosNames[] = [
+							"value"   => $value,
+							"text"    => $value,
+							"disable" => false
+						];
+					}
+				});
+			}
+		}
+
+		return $customPosNames;
+	}
+
+	/**
 	 * Get a list of modules positions
 	 *
 	 * @param   integer  $clientId       Client ID
@@ -65,6 +106,7 @@ abstract class ModulesHelper
 	 */
 	public static function getPositions($clientId, $editPositions = false)
 	{
+
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT(position)')
@@ -168,15 +210,15 @@ abstract class ModulesHelper
 
 		$db->setQuery($query);
 		$modules = $db->loadObjectList();
-		$lang = Factory::getLanguage();
+		$lang    = Factory::getLanguage();
 
 		foreach ($modules as $i => $module)
 		{
 			$extension = $module->value;
-			$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-			$source = $path . "/modules/$extension";
-				$lang->load("$extension.sys", $path, null, false, true)
-			||	$lang->load("$extension.sys", $source, null, false, true);
+			$path      = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
+			$source    = $path . "/modules/$extension";
+			$lang->load("$extension.sys", $path, null, false, true)
+			|| $lang->load("$extension.sys", $source, null, false, true);
 			$modules[$i]->text = Text::_($module->text);
 		}
 
@@ -194,7 +236,7 @@ abstract class ModulesHelper
 	 */
 	public static function getAssignmentOptions($clientId)
 	{
-		$options = array();
+		$options   = array();
 		$options[] = HTMLHelper::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
 		$options[] = HTMLHelper::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
 
@@ -230,20 +272,20 @@ abstract class ModulesHelper
 		if (!$loaded)
 		{
 			$lang->load('tpl_' . $template . '.sys', $path, null, false, false)
-			||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
-			||	$lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
-			||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
+			|| $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
+			|| $lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
+			|| $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
 		}
 
 		$langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
-		$text = Text::_($langKey);
+		$text    = Text::_($langKey);
 
 		// Avoid untranslated strings
 		if (!self::isTranslatedText($langKey, $text))
 		{
 			// Modules component translation
 			$langKey = strtoupper('COM_MODULES_POSITION_' . $position);
-			$text = Text::_($langKey);
+			$text    = Text::_($langKey);
 
 			// Avoid untranslated strings
 			if (!self::isTranslatedText($langKey, $text))
@@ -289,7 +331,7 @@ abstract class ModulesHelper
 			$text = $value;
 		}
 
-		$option = new \stdClass;
+		$option        = new \stdClass;
 		$option->value = $value;
 		$option->text  = $text;
 
@@ -308,7 +350,7 @@ abstract class ModulesHelper
 	 */
 	public static function createOptionGroup($label = '', $options = array())
 	{
-		$group = array();
+		$group          = array();
 		$group['value'] = $label;
 		$group['text']  = $label;
 		$group['items'] = $options;
