@@ -49,6 +49,7 @@ const mutations = {
       key: state.maxKey,
       type: type.id,
       title: type.title,
+      style: [],
       options: {
         size: {
           xs: 0,
@@ -92,6 +93,7 @@ const mutations = {
           key: state.maxKey,
           type: type.id,
           title: type.title,
+          style: [],
           options: {
             size: {
               xs: 0,
