@@ -71,15 +71,18 @@ class PlgPagebuilderContainer extends CMSPlugin
 	 *
 	 * @since 4.0
 	 */
-	private function renderStyle($styleConfig) {
+	private function renderStyle($styleConfig)
+	{
 		$styleString = "";
 
-		foreach ($styleConfig as $setting){
-			$setting = (array)$setting;
-			$key = array_keys($setting)[0];
-			$value = $setting[$key];
+		foreach ($styleConfig as $setting)
+		{
+			$setting     = (array) $setting;
+			$key         = array_keys($setting)[0];
+			$value       = $setting[$key];
 			$styleString .= "$key:$value;";
 		}
+
 		return $styleString;
 	}
 

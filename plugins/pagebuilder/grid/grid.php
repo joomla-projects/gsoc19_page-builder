@@ -35,15 +35,18 @@ class PlgPagebuilderGrid extends CMSPlugin
 	 *
 	 * @since 4.0
 	 */
-	private function renderStyle($styleConfig) {
+	private function renderStyle($styleConfig)
+	{
 		$styleString = "";
 
-		foreach ($styleConfig as $setting){
-			$setting = (array)$setting;
-			$key = array_keys($setting)[0];
-			$value = $setting[$key];
+		foreach ($styleConfig as $setting)
+		{
+			$setting     = (array) $setting;
+			$key         = array_keys($setting)[0];
+			$value       = $setting[$key];
 			$styleString .= "$key:$value;";
 		}
+
 		return $styleString;
 	}
 
@@ -105,11 +108,11 @@ class PlgPagebuilderGrid extends CMSPlugin
 		$html .= '>';
 
 		return array(
-			'title' => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
+			'title'  => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
 			'config' => $data->options,
-			'id'    => 'grid',
-			'start' => $html,
-			'end'   => '</div>'
+			'id'     => 'grid',
+			'start'  => $html,
+			'end'    => '</div>'
 		);
 	}
 }

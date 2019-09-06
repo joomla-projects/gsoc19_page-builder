@@ -59,15 +59,18 @@ class PlgPagebuilderColumn extends CMSPlugin
 	 *
 	 * @since 4.0
 	 */
-	private function renderStyle($styleConfig) {
+	private function renderStyle($styleConfig)
+	{
 		$styleString = "";
 
-		foreach ($styleConfig as $setting){
-			$setting = (array)$setting;
-			$key = array_keys($setting)[0];
-			$value = $setting[$key];
+		foreach ($styleConfig as $setting)
+		{
+			$setting     = (array) $setting;
+			$key         = array_keys($setting)[0];
+			$value       = $setting[$key];
 			$styleString .= "$key:$value;";
 		}
+
 		return $styleString;
 	}
 
@@ -134,11 +137,11 @@ class PlgPagebuilderColumn extends CMSPlugin
 		$html .= '>';
 
 		return array(
-			'title' => Text::_('PLG_PAGEBUILDER_COLUMN_NAME'),
+			'title'  => Text::_('PLG_PAGEBUILDER_COLUMN_NAME'),
 			'config' => $data->options,
-			'id'    => 'column',
-			'start' => $html,
-			'end'   => '</div>'
+			'id'     => 'column',
+			'start'  => $html,
+			'end'    => '</div>'
 		);
 	}
 }
