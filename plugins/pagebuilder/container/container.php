@@ -61,6 +61,28 @@ class PlgPagebuilderContainer extends CMSPlugin
 		);
 	}
 
+
+	/**
+	 * concat the style information of the element
+	 *
+	 * @param $styleConfig the style config
+	 *
+	 * @return string the concat html style
+	 *
+	 * @since 4.0
+	 */
+	private function renderStyle($styleConfig) {
+		$styleString = "";
+
+		foreach ($styleConfig as $setting){
+			$setting = (array)$setting;
+			$key = array_keys($setting)[0];
+			$value = $setting[$key];
+			$styleString .= "$key:$value;";
+		}
+		return $styleString;
+	}
+
 	/**
 	 * Get rendering options for frontend templates
 	 *
@@ -95,6 +117,8 @@ class PlgPagebuilderContainer extends CMSPlugin
 		}
 
 		$html .= ' class="' . implode(' ', $classes) . '"';
+
+		$html .= ' style="' . $this->renderStyle($data->style) . '"';
 		$html .= '>';
 
 		return array(
