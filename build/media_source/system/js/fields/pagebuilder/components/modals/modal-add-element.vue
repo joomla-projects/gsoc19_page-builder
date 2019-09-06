@@ -22,6 +22,8 @@
 					</div>
 				</div>
 				<div class="col-8 tab-content">
+
+
 					<div v-for="element in allowedChildren" :id="'list-'+element.id" class="tab-pane fade" role="tabpanel">
 						{{ element.description }}
 
@@ -54,8 +56,20 @@
 									v-model="config[id]" @blur="check(element.id, $event)">
 								<option v-for="(value, key) in conf.value" :value="key">{{ value }}</option>
 							</select>
-							<input v-else :type="conf.type" :id="id" :name="id" class="form-control" required
+							<input v-else-if="conf.type === 'input'" :type="conf.type" :id="id" :name="id" class="form-control" required
 									:placeholder="conf.placeholder" v-model="config[id]" @blur="check(element.id, $event)"/>
+
+
+							<div v-else>
+								<input style="max-width: 91%;" :type="conf.type" :id="id" :name="id" class="form-control" required
+									   :placeholder="conf.placeholder" v-model="config[id]" @blur="check(element.id, $event)"/>
+								<div id="inputselection_wrapper">
+									<span class="inputselection_list" v-for="custom_pos in Object.keys(conf.value)">{{custom_pos}}</span>
+								</div>
+
+							</div>
+
+
 						</div>
 					</div>
 				</div>
@@ -75,9 +89,13 @@
 
 <script>
   import {mapState} from 'vuex';
+  import VueSimpleSuggest from 'vue-simple-suggest'
 
   export default {
     name: 'modal-add-element',
+      components: {
+          VueSimpleSuggest
+      },
     data() {
       return {
         images: window.Joomla.getOptions('system.pagebuilder').images,
@@ -85,6 +103,7 @@
         config: '',
         childConfig: '',
         select: [],
+          list : ['a','b','c']
       };
     },
     computed: {
@@ -170,3 +189,13 @@
     },
   };
 </script>
+
+
+<style>
+	#inputselection_wrapper {
+
+	}
+	.inputselection_list{
+		display: block;
+	}
+</style>

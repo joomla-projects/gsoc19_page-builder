@@ -81,7 +81,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 			'config'      => array(
 				'position_name' => array(
 					'value'       => $this->loadValidModulePositions(),
-					'type'        => 'select',
+					'type'        => 'inputselect',
 					'required'    => true,
 					'show'        => true,
 					'label'       => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_POSITION_NAME'),
