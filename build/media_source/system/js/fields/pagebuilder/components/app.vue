@@ -33,6 +33,10 @@
 					</li>
 				</ul>
 			</div>
+			<div class="col col-12" style="height: 100px">
+				<h2>{{ translate('JLIB_PAGEBUILDER_PREVIEW') }}</h2>
+				<div v-html="renderPreview" :style="previewStyle"></div>
+			</div>
 		</div>
 
 		<div class="pagebuilder" id="pagebuilder" :style="widthStyle">
@@ -55,20 +59,38 @@
 			<!-- Modals -->
 			<add-element-modal id="add-element"></add-element-modal>
 		</div>
+
 	</div>
 </template>
 
 <script>
   import {mapMutations, mapState} from 'vuex';
   import draggable from 'vuedraggable';
+  import axios from "axios";
 
   export default {
+      data() {
+          return {
+              renderPreview: ""
+          }
+      },
     computed: {
       ...mapState([
         'activeDevice',
         'resolution',
         'selectedSettings',
+          'advancedSettings'
       ]),
+        previewStyle() {
+            this.loadAdvancedSettings();
+            let height = 30;
+            this.getChildrenSizeOfPageContent(this.elementArray);
+            return {
+                'height': `${height}px`,
+                'background-color': `${this.advancedSettings.bgColor}`,
+                'color': `${this.advancedSettings.baseColor}`,
+            }
+        },
       widthStyle() {
         const deviceOrder = Object.keys(this.resolution);
         const activeIndex = deviceOrder.indexOf(this.activeDevice);
@@ -97,6 +119,7 @@
       elementArray: {
         handler(newVal) {
           document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
+            this.liveViewPost(JSON.stringify(newVal));
         },
         deep: true,
       },
@@ -106,6 +129,7 @@
       this.checkAllowedElements();
     },
     mounted() {
+        this.loadAdvancedSettings();
       if(document.getElementsByClassName('drag_component').length) {
         let element = document.getElementsByClassName('drag_component')[0];
         element.appendChild(document.getElementById('drag_component'));
@@ -114,6 +138,7 @@
         let element = document.getElementsByClassName('drag_message')[0];
         element.appendChild(document.getElementById('drag_message'));
       }
+        this.liveViewPost(JSON.stringify(this.elementArray));
     },
     methods: {
       ...mapMutations([
@@ -125,7 +150,8 @@
         'updateElementArray',
         'editElement',
         'updateGrid',
-        'restorePosition'
+          'restorePosition',
+          'setAdvancedSettings'
       ]),
       addElement() {
         this.setParent(this.elementArray);
@@ -134,9 +160,50 @@
       drag(event) {
         event.dataTransfer.setData('text', event.target.id);
       },
+        getChildrenSizeOfPageContent(rootPoint) {
+
+        },
+        loadAdvancedSettings() {
+            this.setAdvancedSettings({
+                bgColor: document.getElementById('jform_params_baseBG').value,
+                baseColor: document.getElementById('jform_params_baseColor').value,
+                linkColor: document.getElementById('jform_params_linkColor').value
+            })
+        },
+        liveViewPost(data) {
+            let dataConf = {
+                task: 'ajax.fetchAssociations',
+                format: 'json',
+                data: window.btoa(data),
+                baseBG: `${this.advancedSettings.bgColor}`,
+                baseColor: `${this.advancedSettings.baseColor}`,
+                linkColor: `${this.advancedSettings.linkColor}`,
+                action: 'pagebuilder_liveview'
+            };
+            const queryString = Object.keys(dataConf).reduce((a, k) => {
+                a.push(`${k}=${encodeURIComponent(dataConf[k])}`);
+                return a;
+            }, []).join('&');
+            const url = `${document.location.href}&${queryString}`;
+            axios.get(url).then((res) => {
+                this.renderPreview = res.data.data;
+            })
+        }
     },
     components: {
       draggable
     }
   };
 </script>
+
+<style lang="scss">
+	#renderPreview {
+		height: 100px;
+
+		div {
+			height: 50px;
+			border: solid 1px black;
+
+		}
+	}
+</style>

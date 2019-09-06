@@ -30,7 +30,8 @@ $menu     = $app->getMenu()->getActive();
 $pageGrid = $this->params->get('grid');
 
 // Enable assets
-$wa->enableAsset('template.apodis.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
+if (!$pageGrid) $pageGrid = $_GET["grid"];
+else $wa->enableAsset('template.apodis.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css');
@@ -40,6 +41,11 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 $bgcolor = $this->params->get('baseBG', '#dedede');
 $baseColor = $this->params->get('baseColor', '#212529');
 $linkColor = $this->params->get('linkColor', '#283365');
+
+
+if (isset($_GET["baseBG"])) $bgcolor = $_GET["baseBG"];
+if (isset($_GET["baseColor"])) $baseColor = $_GET["baseColor"];
+if (isset($_GET["linkColor"])) $linkColor = $_GET["linkColor"];
 
 $css = '
 	body {
@@ -52,7 +58,11 @@ $css = '
 ';
 
 $this->addStyleDeclaration($css);
+
+if (!isset($_GET["task"]) or $_GET["task"] != "ajax.fetchAssociations")
+{
 ?>
+
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
@@ -60,6 +70,8 @@ $this->addStyleDeclaration($css);
 	<jdoc:include type="styles"/>
 	<jdoc:include type="scripts"/>
 </head>
+
+<?php } ?>
 
 <body class="site <?php echo $option
 	. ' view-' . $view

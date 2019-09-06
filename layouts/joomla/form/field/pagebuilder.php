@@ -95,6 +95,7 @@ Text::script('JLIB_PAGEBUILDER_SELECT_LAYOUT', true);
 Text::script('JLIB_PAGEBUILDER_SELECT_MODULE_CHROME', true);
 Text::script('JLIB_PAGEBUILDER_SETTINGS', true);
 Text::script('JLIB_PAGEBUILDER_VIEW', true);
+Text::script('JLIB_PAGEBUILDER_PREVIEW', true);
 Text::script('JSEARCH_RESET', true);
 Text::script('JTOOLBAR_BACK', true);
 Text::script('JTOOLBAR_CLOSE', true);

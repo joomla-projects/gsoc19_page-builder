@@ -79,6 +79,13 @@ const mutations = {
 
     state.parent.push(newElement);
   },
+
+  setAdvancedSettings(state, payload) {
+    for (let key in payload) {
+      state.advancedSettings[key] = payload[key]
+    }
+
+  },
   getConfiguredChildren(state, name, configs) {
     const type = state.elements.find(el => el.id === name);
     const children = [];
@@ -220,6 +227,9 @@ const getters = {
   getType: state => (element) => {
     return state.elements.find(el => el.id === element.type || element.id);
   },
+  getAdvancedSettings: state => () => {
+    return state.advancedSettings
+  }
 };
 
 export default new Vuex.Store({
