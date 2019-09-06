@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\Registry\Registry;
 
 /**
  * Modules component helper.
@@ -75,10 +76,11 @@ abstract class ModulesHelper
 		$list = $db->loadObjectList();
 		foreach ($list as $param)
 		{
-			$paramsConf = json_decode($param->params, true);
+			$paramsConf = (new Registry($param->params))->toArray();
+
 			if ($paramsConf != null && isset($paramsConf["grid"]))
 			{
-				$paramsGridConf = json_decode($paramsConf["grid"], true);
+				$paramsGridConf = (new Registry($paramsConf["grid"]))->toArray();
 
 				array_walk_recursive($paramsGridConf, function ($value, $key) use (&$customPosNames) {
 					if ($key == "position_name")
