@@ -1,6 +1,7 @@
 import './bootstrap/bootstrap.min.js';
 import Vue from 'vue';
 import VueJsModal from 'vue-js-modal';
+import VueGridLayout from 'vue-grid-layout';
 import App from './components/app.vue';
 import Translate from './plugins/translate';
 import editelement from './components/settings/editelement.vue';
@@ -9,7 +10,6 @@ import AddElementModal from './components/modals/modal-add-element.vue';
 import store from './store/store';
 import Item from './components/elements/item.vue';
 import Grid from './components/elements/grid.vue';
-import VueGridLayout from 'vue-grid-layout';
 
 // Add the plugins
 Vue.use(Translate);
@@ -31,5 +31,4 @@ document.addEventListener('DOMContentLoaded',
     el: '#pagebuilder-editor',
     store,
     render: h => h(App),
-  })
-);
+  }));

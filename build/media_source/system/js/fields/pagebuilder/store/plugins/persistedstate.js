@@ -2,7 +2,7 @@
 export const persistedStateOptions = {
   key: 'joomlaPageBuilder',
   paths: [
-    'activeDevice'
+    'activeDevice',
   ],
-  storage: window.localStorage
-}
+  storage: window.localStorage,
+};

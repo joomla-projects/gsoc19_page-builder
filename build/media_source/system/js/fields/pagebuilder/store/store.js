@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import state from './state';
 import createPersistedState from 'vuex-persistedstate';
+import state from './state';
 import { persistedStateOptions } from './plugins/persistedstate';
 
 Vue.use(Vuex);
@@ -41,7 +41,7 @@ const mutations = {
     mutations.fillAllowedChildren(state, parent.type);
     state.parent = parent.children || parent;
   },
-  addElement(state, {name, config, childConfig}) {
+  addElement(state, { name, config, childConfig }) {
     const type = state.elements.find(el => el.id === name);
     state.maxKey += 1;
 
@@ -88,7 +88,7 @@ const mutations = {
       configs.forEach((config) => {
         state.maxKey += 1;
 
-        let newChild = {
+        const newChild = {
           key: state.maxKey,
           type: type.id,
           title: type.title,
@@ -109,7 +109,7 @@ const mutations = {
               xl: 0,
             },
           },
-          children: []
+          children: [],
         };
         newChild.options.size[state.activeDevice] = config;
 
@@ -130,7 +130,7 @@ const mutations = {
 
     findMaxKey(state.elementArray);
   },
-  editElement(state, {element, parent}) {
+  editElement(state, { element, parent }) {
     state.selectedSettings = 'edit-element';
     state.elementSelected = element;
     state.parent = parent;
@@ -147,7 +147,7 @@ const mutations = {
       element.children.forEach(child => this.checkComponent(state, child));
     }
   },
-  deleteElement(state, {element, parent}) {
+  deleteElement(state, { element, parent }) {
     const elements = parent ? parent.children : state.elementArray;
     const index = elements.indexOf(element);
     mutations.checkComponent(state, element);
@@ -175,21 +175,21 @@ const mutations = {
   updateDeviceWidth(state, device) {
     state.activeDevice = device;
   },
-  updateChildrenOrder(state, {parent, children}) {
+  updateChildrenOrder(state, { parent, children }) {
     parent.children = children;
   },
   updateGrid(state) {
     document.getElementById('jform_params_grid').value = JSON.stringify(state.elementArray);
   },
   restorePosition(state, location) {
-    let element = document.getElementsByClassName('drag_' + location)[0];
+    const element = document.getElementsByClassName(`drag_${location}`)[0];
     if (element) {
       element.__vue__.$data.element.options[location] = false;
-      element.classList.remove('drag_' + location);
+      element.classList.remove(`drag_${location}`);
     }
-    document.getElementById('placeholder_' + location).appendChild(document.getElementById('drag_' + location));
+    document.getElementById(`placeholder_${location}`).appendChild(document.getElementById(`drag_${location}`));
     mutations.updateGrid(state);
-  }
+  },
 };
 
 const getters = {
@@ -217,9 +217,7 @@ const getters = {
 
     return state.size;
   },
-  getType: state => (element) => {
-    return state.elements.find(el => el.id === element.type || element.id);
-  },
+  getType: state => element => state.elements.find(el => el.id === element.type || element.id),
 };
 
 export default new Vuex.Store({
