@@ -49,7 +49,7 @@ const mutations = {
       key: state.maxKey,
       type: type.id,
       title: type.title,
-      style: [],
+      style: [{'color': 'blue'}, {'background-color': 'yellow'}, {'height': '100px'}],
       options: {
         size: {
           xs: 0,
@@ -170,6 +170,11 @@ const mutations = {
     if (state.elementSelected.type === 'column') {
       state.elementSelected.options.offset = payload.offset;
     }
+  },
+  modifyStyle(state, payload) {
+    Object.keys(payload).forEach((styleTag) => {
+      state.elementSelected.style[styleTag] = payload[styleTag]
+    })
   },
   updateElementArray(state, payload) {
     state.elementArray = payload;

@@ -10,6 +10,11 @@
 						   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="element_class">
 					<span class="fa fa-plus add_class_button hoverCursor" @click="add"
 						  title="Add" aria-hidden="true"></span>
+
+					<input type="text" name="element_class" id="element_height" class="class_input"
+						   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="element_style.height">
+					<span class="fa fa-plus add_class_button hoverCursor" @click="height"
+						  title="Add" aria-hidden="true"></span>
 				</div>
 			</div>
 
@@ -98,8 +103,10 @@
             return {
                 element_class: {
                     name: '',
-
 				},
+                element_style: {
+                    height: ''
+                },
                 element_offset: {},
                 offset_sizes: [
                     {
@@ -187,13 +194,19 @@
         methods: {
             ...mapMutations([
                 'closeNav',
-                'modifyElement'
+                'modifyElement',
+                'modifyStyle'
             ]),
             add() {
                 let modify = {};
                 modify.class = (this.element_class !== '') ? this.element_class : '';
                 modify.offset = this.element_offset;
                 this.modifyElement(modify);
+            },
+            height() {
+                if (this.element_style.height !== '') {
+                    this.modifyStyle({'height': this.element_style.height});
+                }
             }
         },
     }
