@@ -66,8 +66,6 @@
 <script>
     import {mapMutations, mapState} from 'vuex';
     import draggable from 'vuedraggable';
-    import axios from "axios";
-
     export default {
         data() {
             return {
@@ -104,6 +102,7 @@
                 }
             },
         },
+
         watch: {
             elementArray: {
                 handler(newVal) {
