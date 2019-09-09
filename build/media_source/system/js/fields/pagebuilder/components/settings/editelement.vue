@@ -10,7 +10,7 @@
 						   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="element_class">
 					<span class="fa fa-plus add_class_button hoverCursor" @click="add"
 						  title="Add" aria-hidden="true"></span>
-
+					<verte display="widget" v-model="element_style.color"></verte>
 				</div>
 			</div>
 
@@ -86,6 +86,9 @@
                 this.element_offset = this.elementSelected.options.offset;
         },
         watch: {
+            element_style() {
+                console.log(element_style)
+            },
             elementSelected: {
                 deep: true,
                 handler() {
@@ -101,7 +104,8 @@
                     name: '',
 				},
                 element_style: {
-                    height: ''
+                    height: '',
+                    color: ''
                 },
                 element_offset: {},
                 offset_sizes: [
