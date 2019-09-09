@@ -19,10 +19,14 @@
 			  content: this.value
 		  }
 		},
+        beforeDestroy() {
+            this.content = "";
+            this.$emit('input', "")
+        },
 		methods: {
             select_item(payload){
-                this.content = payload
-				this.toggleSelection()
+                this.content = payload;
+                this.toggleSelection();
 			},
             toggleSelection(){
                 this.show_list = !this.show_list
