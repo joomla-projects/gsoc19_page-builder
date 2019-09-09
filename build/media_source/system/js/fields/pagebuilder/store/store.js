@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import state from './state';
-import { persistedStateOptions } from './plugins/persistedstate';
+import {persistedStateOptions} from './plugins/persistedstate';
 
 Vue.use(Vuex);
 
@@ -41,7 +41,7 @@ const mutations = {
     mutations.fillAllowedChildren(state, parent.type);
     state.parent = parent.children || parent;
   },
-  addElement(state, { name, config, childConfig }) {
+  addElement(state, {name, config, childConfig}) {
     const type = state.elements.find(el => el.id === name);
     state.maxKey += 1;
 
@@ -132,7 +132,7 @@ const mutations = {
 
     findMaxKey(state.elementArray);
   },
-  editElement(state, { element, parent }) {
+  editElement(state, {element, parent}) {
     state.selectedSettings = 'edit-element';
     state.elementSelected = element;
     state.parent = parent;
@@ -149,7 +149,7 @@ const mutations = {
       element.children.forEach(child => this.checkComponent(state, child));
     }
   },
-  deleteElement(state, { element, parent }) {
+  deleteElement(state, {element, parent}) {
     const elements = parent ? parent.children : state.elementArray;
     const index = elements.indexOf(element);
     mutations.checkComponent(state, element);
@@ -173,7 +173,13 @@ const mutations = {
   },
   modifyStyle(state, payload) {
     Object.keys(payload).forEach((styleTag) => {
-      state.elementSelected.style[styleTag] = payload[styleTag]
+      let cleanedCssStyleList = state.elementSelected.style.filter(elem => {
+        return Object.keys(elem)[0].toString() !== styleTag.toString()
+      });
+      let obj = {};
+      obj[styleTag] = payload[styleTag];
+      cleanedCssStyleList.push(obj);
+      state.elementSelected.style = cleanedCssStyleList;
     })
   },
   updateElementArray(state, payload) {
@@ -182,7 +188,7 @@ const mutations = {
   updateDeviceWidth(state, device) {
     state.activeDevice = device;
   },
-  updateChildrenOrder(state, { parent, children }) {
+  updateChildrenOrder(state, {parent, children}) {
     parent.children = children;
   },
   updateGrid(state) {

@@ -11,10 +11,6 @@
 					<span class="fa fa-plus add_class_button hoverCursor" @click="add"
 						  title="Add" aria-hidden="true"></span>
 
-					<input type="text" name="element_class" id="element_height" class="class_input"
-						   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="element_style.height">
-					<span class="fa fa-plus add_class_button hoverCursor" @click="height"
-						  title="Add" aria-hidden="true"></span>
 				</div>
 			</div>
 
@@ -203,11 +199,6 @@
                 modify.offset = this.element_offset;
                 this.modifyElement(modify);
             },
-            height() {
-                if (this.element_style.height !== '') {
-                    this.modifyStyle({'height': this.element_style.height});
-                }
-            }
         },
     }
 </script>
