@@ -126,9 +126,6 @@
                 'size'
             ]),
             backgroundcolor_converter() {
-                let h;
-                let s;
-                let l;
                 let hslString = this.element_style.backgroundcolor;
                 let splitString = hslString.split(",");
                 let numbersFilter = splitString.map(this.filter_number);
@@ -137,12 +134,10 @@
                 if (hexValue === '#NaNNaNNaN') {
                     hexValue = '';
                 }
+                this.modifyStyle({'background-color': hexValue});
                 return hexValue;
             },
             fontcolor_converter() {
-                let h;
-                let s;
-                let l;
                 let hslString = this.element_style.fontcolor;
                 let splitString = hslString.split(",");
                 let numbersFilter = splitString.map(this.filter_number);
@@ -151,12 +146,10 @@
                 if (hexValue === '#NaNNaNNaN') {
                     hexValue = '';
                 }
+                this.modifyStyle({'font-color': hexValue});
                 return hexValue;
             },
             linkcolor_converter() {
-                let h;
-                let s;
-                let l;
                 let hslString = this.element_style.linkcolor;
                 let splitString = hslString.split(",");
                 let numbersFilter = splitString.map(this.filter_number);
@@ -165,6 +158,7 @@
                 if (hexValue === '#NaNNaNNaN') {
                     hexValue = '';
                 }
+                this.modifyStyle({'link-color': hexValue});
                 return hexValue;
             },
             threshold() {
@@ -180,9 +174,6 @@
                 this.element_offset = this.elementSelected.options.offset;
         },
         watch: {
-            element_style() {
-                console.log("test");
-            },
             elementSelected: {
                 deep: true,
                 handler() {
@@ -201,7 +192,6 @@
                     name: '',
                 },
                 element_style: {
-                    height: '',
                     backgroundcolor: 'hsl(0,0%,0%)',
                     fontcolor: 'hsl(0,0%,0%)',
                     linkcolor: 'hsl(0,0%,0%)',

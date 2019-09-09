@@ -83,6 +83,8 @@ const mutations = {
   getConfiguredChildren(state, name, configs) {
     const type = state.elements.find(el => el.id === name);
     const children = [];
+    console.log(JSON.stringify(state));
+    console.log(JSON.stringify(type));
 
     // TODO: config could be anything (not only size) => make key-value object (?)
     if (configs) {
