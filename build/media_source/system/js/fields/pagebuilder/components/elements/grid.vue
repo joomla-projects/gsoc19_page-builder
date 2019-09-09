@@ -244,7 +244,9 @@
         // Be sure that there is space for offset
         if (column.x === 0) {
           this.moveToRight(column.x, column.y, offset);
-        }
+        } else if(column.x < offset) { // if offset run over left border push it back
+            column.x = offset;
+		}
 
         const offsetObj = {
           i: `offset-${column.element.key}`,
