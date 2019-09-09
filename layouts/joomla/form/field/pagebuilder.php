@@ -100,6 +100,10 @@ Text::script('JSEARCH_RESET', true);
 Text::script('JTOOLBAR_BACK', true);
 Text::script('JTOOLBAR_CLOSE', true);
 Text::script('JLIB_PAGEBUILDER_DEVICE', true);
+Text::script('JLIB_PAGEBUILDER_BACKGROUND_COLOR', true);
+Text::script('JLIB_PAGEBUILDER_RESET', true);
+Text::script('JLIB_PAGEBUILDER_FONT_COLOR', true);
+Text::script('JLIB_PAGEBUILDER_LINK_COLOR', true);
 ?>
 
 <input type="text" id="<?php echo $id ?>" name="<?php echo $name ?>" class="hidden" value="<?php echo $value ?>">

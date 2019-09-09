@@ -15,9 +15,11 @@ import 'verte/dist/verte.css';
 
 
 
+
 // Add the plugins
 Vue.use(Translate);
 Vue.use(VueJsModal);
+
 
 // Use the Components
 Vue.component('devices', Devices);

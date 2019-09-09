@@ -10,7 +10,59 @@
 						   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="element_class">
 					<span class="fa fa-plus add_class_button hoverCursor" @click="add"
 						  title="Add" aria-hidden="true"></span>
-					<verte display="widget" v-model="element_style.color"></verte>
+
+					<div id="color_picker_container" v-if="elementSelected.type === 'column'">
+						<div id="backgroundcolor_input_area">
+							<label>{{ translate('JLIB_PAGEBUILDER_BACKGROUND_COLOR') }}</label>
+							<input type="text" name="background_color" id="backgroundcolor_input"
+								   class="backgroundcolor_input" @click="open_backgroundcolor_picker"
+								   v-model="backgroundcolor_converter">
+							<div v-if="backgroundcolor_picker" class="background_picker_container">
+								<verte display="widget" v-model="element_style.backgroundcolor"
+									   id="backgroundcolor_picker"></verte>
+								<button type="button" class="btn btn-secondary background_reset_button"
+										@click="reset_backgroundcolor">{{ translate('JLIB_PAGEBUILDER_RESET') }}
+								</button>
+								<button type="button" class="btn btn-secondary background_close_button"
+										@click="close_backgroundcolor_picker">{{ translate('JLIB_PAGEBUILDER_CLOSE') }}
+								</button>
+							</div>
+						</div>
+
+						<div id="fontcolor_input_area">
+							<label>{{ translate('JLIB_PAGEBUILDER_FONT_COLOR') }}</label>
+							<input type="text" name="fontcolor_color" id="fontcolor_input"
+								   class="fontcolor_input" @click="open_fontcolor_picker"
+								   v-model="fontcolor_converter">
+							<div v-if="fontcolor_picker" class="fontcolor_picker_container">
+								<verte display="widget" v-model="element_style.fontcolor"
+									   id="fontcolor_picker"></verte>
+								<button type="button" class="btn btn-secondary fontcolor_reset_button"
+										@click="reset_fontcolor">{{ translate('JLIB_PAGEBUILDER_RESET') }}
+								</button>
+								<button type="button" class="btn btn-secondary fontcolor_close_button"
+										@click="close_fontcolor_picker">{{ translate('JLIB_PAGEBUILDER_CLOSE') }}
+								</button>
+							</div>
+						</div>
+
+						<div id="linkcolor_input_area">
+							<label>{{ translate('JLIB_PAGEBUILDER_LINK_COLOR') }}</label>
+							<input type="text" name="linkcolor_color" id="linkcolor_input"
+								   class="linkcolor_input" @click="open_linkcolor_picker"
+								   v-model="linkcolor_converter">
+							<div v-if="linkcolor_picker" class="linkcolor_picker_container">
+								<verte display="widget" v-model="element_style.linkcolor"
+									   id="linkcolor_picker"></verte>
+								<button type="button" class="btn btn-secondary linkcolor_reset_button"
+										@click="reset_linkcolor">{{ translate('JLIB_PAGEBUILDER_RESET') }}
+								</button>
+								<button type="button" class="btn btn-secondary linkcolor_close_button"
+										@click="close_linkcolor_picker">{{ translate('JLIB_PAGEBUILDER_CLOSE') }}
+								</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -73,6 +125,48 @@
                 'parent',
                 'size'
             ]),
+            backgroundcolor_converter() {
+                let h;
+                let s;
+                let l;
+                let hslString = this.element_style.backgroundcolor;
+                let splitString = hslString.split(",");
+                let numbersFilter = splitString.map(this.filter_number);
+
+                let hexValue = this.hslToHex(numbersFilter[0], numbersFilter[1], numbersFilter[2]);
+                if (hexValue === '#NaNNaNNaN') {
+                    hexValue = '';
+                }
+                return hexValue;
+            },
+            fontcolor_converter() {
+                let h;
+                let s;
+                let l;
+                let hslString = this.element_style.fontcolor;
+                let splitString = hslString.split(",");
+                let numbersFilter = splitString.map(this.filter_number);
+
+                let hexValue = this.hslToHex(numbersFilter[0], numbersFilter[1], numbersFilter[2]);
+                if (hexValue === '#NaNNaNNaN') {
+                    hexValue = '';
+                }
+                return hexValue;
+            },
+            linkcolor_converter() {
+                let h;
+                let s;
+                let l;
+                let hslString = this.element_style.linkcolor;
+                let splitString = hslString.split(",");
+                let numbersFilter = splitString.map(this.filter_number);
+
+                let hexValue = this.hslToHex(numbersFilter[0], numbersFilter[1], numbersFilter[2]);
+                if (hexValue === '#NaNNaNNaN') {
+                    hexValue = '';
+                }
+                return hexValue;
+            },
             threshold() {
                 return this.size - this.elementSelected.options.size[this.activeDevice];
             },
@@ -87,7 +181,7 @@
         },
         watch: {
             element_style() {
-                console.log(element_style)
+                console.log("test");
             },
             elementSelected: {
                 deep: true,
@@ -100,12 +194,17 @@
         },
         data() {
             return {
+                backgroundcolor_picker: false,
+                fontcolor_picker: false,
+                linkcolor_picker: false,
                 element_class: {
                     name: '',
-				},
+                },
                 element_style: {
                     height: '',
-                    color: ''
+                    backgroundcolor: 'hsl(0,0%,0%)',
+                    fontcolor: 'hsl(0,0%,0%)',
+                    linkcolor: 'hsl(0,0%,0%)',
                 },
                 element_offset: {},
                 offset_sizes: [
@@ -203,11 +302,100 @@
                 modify.offset = this.element_offset;
                 this.modifyElement(modify);
             },
+            open_backgroundcolor_picker() {
+                if (!this.backgroundcolor_picker) {
+                    this.backgroundcolor_picker = true;
+                }
+            },
+            reset_backgroundcolor() {
+                this.element_style.backgroundcolor = "hsl(0,0%,0%)";
+            },
+            close_backgroundcolor_picker() {
+                this.backgroundcolor_picker = false;
+            },
+            open_fontcolor_picker() {
+                if (!this.fontcolor_picker) {
+                    this.fontcolor_picker = true;
+                }
+            },
+            reset_fontcolor() {
+                this.element_style.fontcolor = "hsl(0,0%,0%)";
+            },
+            close_fontcolor_picker() {
+                this.fontcolor_picker = false;
+            },
+            open_linkcolor_picker() {
+                if (!this.linkcolor_picker) {
+                    this.linkcolor_picker = true;
+                }
+            },
+            reset_linkcolor() {
+                this.element_style.linkcolor = "hsl(0,0%,0%)";
+            },
+            close_linkcolor_picker() {
+                this.linkcolor_picker = false;
+            },
+            filter_number(word) {
+                return parseInt(word.split("").filter(c => c.match(/\d/)).join(""))
+            },
+            hslToHex(h, s, l) {
+                h /= 360;
+                s /= 100;
+                l /= 100;
+                let r, g, b;
+                if (s === 0) {
+                    r = g = b = l; // achromatic
+                } else {
+                    const hue2rgb = (p, q, t) => {
+                        if (t < 0) t += 1;
+                        if (t > 1) t -= 1;
+                        if (t < 1 / 6) return p + (q - p) * 6 * t;
+                        if (t < 1 / 2) return q;
+                        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                        return p;
+                    };
+                    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                    const p = 2 * l - q;
+                    r = hue2rgb(p, q, h + 1 / 3);
+                    g = hue2rgb(p, q, h);
+                    b = hue2rgb(p, q, h - 1 / 3);
+                }
+                const toHex = x => {
+                    const hex = Math.round(x * 255).toString(16);
+                    return hex.length === 1 ? '0' + hex : hex;
+                };
+                return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+            },
         },
     }
 </script>
 
+
 <style lang="scss">
+
+	.background_close_button {
+		width: 45%;
+	}
+
+	.background_reset_button {
+		width: 45%;
+	}
+
+	.fontcolor_close_button {
+		width: 45%;
+	}
+
+	.fontcolor_reset_button {
+		width: 45%;
+	}
+
+	.linkcolor_close_button {
+		width: 45%;
+	}
+
+	.linkcolor_reset_button {
+		width: 45%;
+	}
 
 	.fa-rotate-270 {
 		margin-top: 0px;
@@ -226,6 +414,18 @@
 	}
 
 	.class_input {
+		padding: 5px;
+	}
+
+	.backgroundcolor_input {
+		padding: 5px;
+	}
+
+	.fontcolor_input {
+		padding: 5px;
+	}
+
+	.linkcolor_input {
 		padding: 5px;
 	}
 
