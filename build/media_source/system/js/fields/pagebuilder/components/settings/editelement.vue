@@ -36,7 +36,7 @@
 						<div id="fontcolor_input_area">
 							<label>{{ translate('JLIB_PAGEBUILDER_FONT_COLOR') }}</label>
 							<input type="text" name="fontcolor_color" id="fontcolor_input"
-								   class="fontcolor_input" @click="open_fontcolor_picker"
+								   class="fontcolor_input"
 								   v-model="fontcolor_converter">
 							<div id="fontcolor_display" class="fontcolor_display hoverCursor"
 								 @click="open_fontcolor_picker"
@@ -57,7 +57,7 @@
 						<div id="linkcolor_input_area">
 							<label>{{ translate('JLIB_PAGEBUILDER_LINK_COLOR') }}</label>
 							<input type="text" name="linkcolor_color" id="linkcolor_input"
-								   class="linkcolor_input" @click="open_linkcolor_picker"
+								   class="linkcolor_input"
 								   v-model="linkcolor_converter">
 							<div id="linkcolor_display" class="linkcolor_display hoverCursor"
 								 @click="open_linkcolor_picker"
@@ -162,29 +162,53 @@
                     }
                 }
             },
-            fontcolor_converter() {
-                let hslString = this.element_style.fontcolor;
-                let splitString = hslString.split(",");
-                let numbersFilter = splitString.map(this.filter_number);
+            fontcolor_converter: {
+                get: function () {
+                    let hslString = this.element_style.fontcolor;
+                    let splitString = hslString.split(",");
+                    let numbersFilter = splitString.map(this.filter_number);
 
-                let hexValue = this.hslToHex(numbersFilter[0], numbersFilter[1], numbersFilter[2]);
-                if (hexValue === '#NaNNaNNaN') {
-                    hexValue = '';
+                    let hexValue = this.hslToHex(numbersFilter[0], numbersFilter[1], numbersFilter[2]);
+                    if (hexValue === '#NaNNaNNaN') {
+                        hexValue = '';
+                    }
+                    this.modifyStyle({'font-color': hexValue});
+                    return hexValue;
+                },
+                set: function (data) {
+                    let testData = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(data);
+
+                    if (testData) {
+                        this.element_style.fontcolor = this.hexToHSL(data);
+                        console.log(this.element_style.fontcolor);
+                    } else {
+                        console.log('invalid');
+                    }
                 }
-                this.modifyStyle({'font-color': hexValue});
-                return hexValue;
             },
-            linkcolor_converter() {
-                let hslString = this.element_style.linkcolor;
-                let splitString = hslString.split(",");
-                let numbersFilter = splitString.map(this.filter_number);
+            linkcolor_converter: {
+                get: function () {
+                    let hslString = this.element_style.linkcolor;
+                    let splitString = hslString.split(",");
+                    let numbersFilter = splitString.map(this.filter_number);
 
-                let hexValue = this.hslToHex(numbersFilter[0], numbersFilter[1], numbersFilter[2]);
-                if (hexValue === '#NaNNaNNaN') {
-                    hexValue = '';
+                    let hexValue = this.hslToHex(numbersFilter[0], numbersFilter[1], numbersFilter[2]);
+                    if (hexValue === '#NaNNaNNaN') {
+                        hexValue = '';
+                    }
+                    this.modifyStyle({'link-color': hexValue});
+                    return hexValue;
+                },
+                set: function (data) {
+                    let testData = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(data);
+
+                    if (testData) {
+                        this.element_style.linkcolor = this.hexToHSL(data);
+                        console.log(this.element_style.linkcolor);
+                    } else {
+                        console.log('invalid');
+                    }
                 }
-                this.modifyStyle({'link-color': hexValue});
-                return hexValue;
             },
             threshold() {
                 return this.size - this.elementSelected.options.size[this.activeDevice];
@@ -324,6 +348,10 @@
                 this.modifyElement(modify);
             },
             open_backgroundcolor_picker() {
+                if (!this.backgroundcolor_picker) {
+                    this.fontcolor_picker = false;
+                    this.linkcolor_picker = false;
+				}
                 this.backgroundcolor_picker = !this.backgroundcolor_picker;
             },
             reset_backgroundcolor() {
@@ -333,6 +361,10 @@
                 this.backgroundcolor_picker = false;
             },
             open_fontcolor_picker() {
+                if (!this.fontcolor_picker) {
+                    this.backgroundcolor_picker = false;
+                    this.linkcolor_picker = false;
+				}
                 this.fontcolor_picker = !this.fontcolor_picker;
             },
             reset_fontcolor() {
@@ -342,6 +374,10 @@
                 this.fontcolor_picker = false;
             },
             open_linkcolor_picker() {
+                if (!this.linkcolor_picker) {
+                    this.fontcolor_picker = false;
+                    this.backgroundcolor_picker = false;
+				}
                 this.linkcolor_picker = !this.linkcolor_picker;
             },
             reset_linkcolor() {
