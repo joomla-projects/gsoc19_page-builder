@@ -2,13 +2,12 @@
 	<div class="pagebuilder_container">
 		<div id="sidebar" class="sidebar">
 			<div class="sidebar-content">
-				<h2>{{ translate('JLIB_PAGEBUILDER_SETTINGS') }}
+				<h2>{{ translate('JLIB_PAGEBUILDER_SETTINGS')}}
 
 					<button type="button" class="btn btn-lg closeButton" @click="closeNav()" aria-label="Close">
 						<span class="icon-cancel"></span>
 					</button>
 				</h2>
-
 
 				<component :is="selectedSettings"></component>
 			</div>

@@ -83,8 +83,6 @@ const mutations = {
   getConfiguredChildren(state, name, configs) {
     const type = state.elements.find(el => el.id === name);
     const children = [];
-    console.log(JSON.stringify(state));
-    console.log(JSON.stringify(type));
 
     // TODO: config could be anything (not only size) => make key-value object (?)
     if (configs) {
@@ -174,6 +172,7 @@ const mutations = {
     }
   },
   modifyStyle(state, payload) {
+   // console.log(state, payload);
     Object.keys(payload).forEach((styleTag) => {
       let cleanedCssStyleList = state.elementSelected.style.filter(elem => {
         return Object.keys(elem)[0].toString() !== styleTag.toString()
@@ -181,7 +180,8 @@ const mutations = {
       let obj = {};
       obj[styleTag] = payload[styleTag];
       cleanedCssStyleList.push(obj);
-      state.elementSelected.style = cleanedCssStyleList;
+    // state.elementSelected.style = cleanedCssStyleList;
+      //state.elementSelected.class = "fjdngiof"
     })
   },
   updateElementArray(state, payload) {
