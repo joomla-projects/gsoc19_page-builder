@@ -18,14 +18,16 @@
 			<div class="col">
 				<ul class="nav nav-pills">
 					<li class="nav-item" id="placeholder_component">
-						<button type="button" class="nav-link drag" id="drag_component" draggable="true" @dragstart="drag($event)">
+						<button type="button" class="nav-link drag" id="drag_component" draggable="true"
+								@dragstart="drag($event)">
 							<i class="fas fa-file-alt"></i>
 							<span>{{ translate('JLIB_PAGEBUILDER_COMPONENT') }}</span>
 							<i class="fas fa-times-circle icon-remove" @click="restorePosition('component')"></i>
 						</button>
 					</li>
 					<li class="nav-item" id="placeholder_message">
-						<button type="button" class="nav-link drag" id="drag_message" draggable="true" @dragstart="drag($event)">
+						<button type="button" class="nav-link drag" id="drag_message" draggable="true"
+								@dragstart="drag($event)">
 							<i class="fas fa-envelope"></i>
 							<span>{{ translate('JLIB_PAGEBUILDER_MESSAGE') }}</span>
 							<i class="fas fa-times-circle icon-remove" @click="restorePosition('message')"></i>
@@ -45,9 +47,9 @@
 			<!-- Element -->
 			<draggable v-model="elementArray" handle=".handle">
 				<item v-for="element in elementArray" :key="element.key" :class="['row-wrapper']"
-						:item="element" :handleRequired="true"
-						@delete="deleteElement({ element })"
-						@edit="editElement({ element })"></item>
+					  :item="element" :handleRequired="true"
+					  @delete="deleteElement({ element })"
+					  @edit="editElement({ element })"></item>
 			</draggable>
 			<!-- Element Ends -->
 
@@ -69,28 +71,28 @@
   import axios from "axios";
 
   export default {
-      data() {
-          return {
-              renderPreview: ""
-          }
-      },
+    data() {
+      return {
+        renderPreview: ""
+      }
+    },
     computed: {
       ...mapState([
         'activeDevice',
         'resolution',
         'selectedSettings',
-          'advancedSettings'
+        'advancedSettings'
       ]),
-        previewStyle() {
-            this.loadAdvancedSettings();
-            let height = 30;
-            this.getChildrenSizeOfPageContent(this.elementArray);
-            return {
-                'height': `${height}px`,
-                'background-color': `${this.advancedSettings.bgColor}`,
-                'color': `${this.advancedSettings.baseColor}`,
-            }
-        },
+      previewStyle() {
+        this.loadAdvancedSettings();
+        let height = 30;
+        this.getChildrenSizeOfPageContent(this.elementArray);
+        return {
+          'height': `${height}px`,
+          'background-color': `${this.advancedSettings.bgColor}`,
+          'color': `${this.advancedSettings.baseColor}`,
+        }
+      },
       widthStyle() {
         const deviceOrder = Object.keys(this.resolution);
         const activeIndex = deviceOrder.indexOf(this.activeDevice);
@@ -119,7 +121,7 @@
       elementArray: {
         handler(newVal) {
           document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
-            this.liveViewPost(JSON.stringify(newVal));
+          this.liveViewPost(JSON.stringify(newVal));
         },
         deep: true,
       },
@@ -129,16 +131,16 @@
       this.checkAllowedElements();
     },
     mounted() {
-        this.loadAdvancedSettings();
-      if(document.getElementsByClassName('drag_component').length) {
+      this.loadAdvancedSettings();
+      if (document.getElementsByClassName('drag_component').length) {
         let element = document.getElementsByClassName('drag_component')[0];
         element.appendChild(document.getElementById('drag_component'));
       }
-      if(document.getElementsByClassName('drag_message').length) {
+      if (document.getElementsByClassName('drag_message').length) {
         let element = document.getElementsByClassName('drag_message')[0];
         element.appendChild(document.getElementById('drag_message'));
       }
-        this.liveViewPost(JSON.stringify(this.elementArray));
+      this.liveViewPost(JSON.stringify(this.elementArray));
     },
     methods: {
       ...mapMutations([
@@ -150,8 +152,8 @@
         'updateElementArray',
         'editElement',
         'updateGrid',
-          'restorePosition',
-          'setAdvancedSettings'
+        'restorePosition',
+        'setAdvancedSettings'
       ]),
       addElement() {
         this.setParent(this.elementArray);
@@ -160,35 +162,35 @@
       drag(event) {
         event.dataTransfer.setData('text', event.target.id);
       },
-        getChildrenSizeOfPageContent(rootPoint) {
+      getChildrenSizeOfPageContent(rootPoint) {
 
-        },
-        loadAdvancedSettings() {
-            this.setAdvancedSettings({
-                bgColor: document.getElementById('jform_params_baseBG').value,
-                baseColor: document.getElementById('jform_params_baseColor').value,
-                linkColor: document.getElementById('jform_params_linkColor').value
-            })
-        },
-        liveViewPost(data) {
-            let dataConf = {
-                task: 'ajax.fetchAssociations',
-                format: 'json',
-                data: window.btoa(data),
-                baseBG: `${this.advancedSettings.bgColor}`,
-                baseColor: `${this.advancedSettings.baseColor}`,
-                linkColor: `${this.advancedSettings.linkColor}`,
-                action: 'pagebuilder_liveview'
-            };
-            const queryString = Object.keys(dataConf).reduce((a, k) => {
-                a.push(`${k}=${encodeURIComponent(dataConf[k])}`);
-                return a;
-            }, []).join('&');
-            const url = `${document.location.href}&${queryString}`;
-            axios.get(url).then((res) => {
-                this.renderPreview = res.data.data;
-            })
-        }
+      },
+      loadAdvancedSettings() {
+        this.setAdvancedSettings({
+          bgColor: document.getElementById('jform_params_baseBG').value,
+          baseColor: document.getElementById('jform_params_baseColor').value,
+          linkColor: document.getElementById('jform_params_linkColor').value
+        })
+      },
+      liveViewPost(data) {
+        let dataConf = {
+          task: 'ajax.fetchAssociations',
+          format: 'json',
+          data: window.btoa(data),
+          baseBG: `${this.advancedSettings.bgColor}`,
+          baseColor: `${this.advancedSettings.baseColor}`,
+          linkColor: `${this.advancedSettings.linkColor}`,
+          action: 'pagebuilder_liveview'
+        };
+        const queryString = Object.keys(dataConf).reduce((a, k) => {
+          a.push(`${k}=${encodeURIComponent(dataConf[k])}`);
+          return a;
+        }, []).join('&');
+        const url = `${document.location.href}&${queryString}`;
+        axios.get(url).then((res) => {
+          this.renderPreview = res.data.data;
+        })
+      }
     },
     components: {
       draggable
