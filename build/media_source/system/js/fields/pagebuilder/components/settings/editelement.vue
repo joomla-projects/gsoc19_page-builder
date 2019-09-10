@@ -15,8 +15,12 @@
 						<div id="backgroundcolor_input_area">
 							<label>{{ translate('JLIB_PAGEBUILDER_BACKGROUND_COLOR') }}</label>
 							<input type="text" name="background_color" id="backgroundcolor_input"
-								   class="backgroundcolor_input" @click="open_backgroundcolor_picker"
+								   class="backgroundcolor_input"
 								   v-model="backgroundcolor_converter">
+							<div id="backgroundcolor_display" class="backgroundcolor_display hoverCursor"
+								 @click="open_backgroundcolor_picker"
+								 :style="{'background-color': element_style.backgroundcolor}"
+								 title="backgroundcolor_display" aria-hidden="true"></div>
 							<div v-if="backgroundcolor_picker" class="background_picker_container">
 								<verte display="widget" v-model="element_style.backgroundcolor"
 									   id="backgroundcolor_picker"></verte>
@@ -34,6 +38,10 @@
 							<input type="text" name="fontcolor_color" id="fontcolor_input"
 								   class="fontcolor_input" @click="open_fontcolor_picker"
 								   v-model="fontcolor_converter">
+							<div id="fontcolor_display" class="fontcolor_display hoverCursor"
+								 @click="open_fontcolor_picker"
+								 title="fontcolor_display" aria-hidden="true"
+								 :style="{'background-color': element_style.fontcolor}"></div>
 							<div v-if="fontcolor_picker" class="fontcolor_picker_container">
 								<verte display="widget" v-model="element_style.fontcolor"
 									   id="fontcolor_picker"></verte>
@@ -51,6 +59,10 @@
 							<input type="text" name="linkcolor_color" id="linkcolor_input"
 								   class="linkcolor_input" @click="open_linkcolor_picker"
 								   v-model="linkcolor_converter">
+							<div id="linkcolor_display" class="linkcolor_display hoverCursor"
+								 @click="open_linkcolor_picker"
+								 title="linkcolor_display" aria-hidden="true"
+								 :style="{'background-color': element_style.linkcolor}"></div>
 							<div v-if="linkcolor_picker" class="linkcolor_picker_container">
 								<verte display="widget" v-model="element_style.linkcolor"
 									   id="linkcolor_picker"></verte>
@@ -125,18 +137,30 @@
                 'parent',
                 'size'
             ]),
-            backgroundcolor_converter() {
-                console.log("test");
-                let hslString = this.element_style.backgroundcolor;
-                let splitString = hslString.split(",");
-                let numbersFilter = splitString.map(this.filter_number);
 
-                let hexValue = this.hslToHex(numbersFilter[0], numbersFilter[1], numbersFilter[2]);
-                if (hexValue === '#NaNNaNNaN') {
-                    hexValue = '';
+            backgroundcolor_converter: {
+                get: function () {
+                    let hslString = this.element_style.backgroundcolor;
+                    let splitString = hslString.split(",");
+                    let numbersFilter = splitString.map(this.filter_number);
+
+                    let hexValue = this.hslToHex(numbersFilter[0], numbersFilter[1], numbersFilter[2]);
+                    if (hexValue === '#NaNNaNNaN') {
+                        hexValue = '';
+                    }
+                    this.modifyStyle({'background-color': hexValue});
+                    return hexValue;
+                },
+                set: function (data) {
+                    let testData = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(data);
+
+                    if (testData) {
+                        this.element_style.backgroundcolor = this.hexToHSL(data);
+                        console.log(this.element_style.backgroundcolor);
+                    } else {
+                        console.log('invalid');
+                    }
                 }
-                this.modifyStyle({'background-color': hexValue});
-                return hexValue;
             },
             fontcolor_converter() {
                 let hslString = this.element_style.fontcolor;
@@ -300,9 +324,7 @@
                 this.modifyElement(modify);
             },
             open_backgroundcolor_picker() {
-                if (!this.backgroundcolor_picker) {
-                    this.backgroundcolor_picker = true;
-                }
+                this.backgroundcolor_picker = !this.backgroundcolor_picker;
             },
             reset_backgroundcolor() {
                 this.element_style.backgroundcolor = "hsl(0,0%,0%)";
@@ -311,9 +333,7 @@
                 this.backgroundcolor_picker = false;
             },
             open_fontcolor_picker() {
-                if (!this.fontcolor_picker) {
-                    this.fontcolor_picker = true;
-                }
+                this.fontcolor_picker = !this.fontcolor_picker;
             },
             reset_fontcolor() {
                 this.element_style.fontcolor = "hsl(0,0%,0%)";
@@ -322,9 +342,7 @@
                 this.fontcolor_picker = false;
             },
             open_linkcolor_picker() {
-                if (!this.linkcolor_picker) {
-                    this.linkcolor_picker = true;
-                }
+                this.linkcolor_picker = !this.linkcolor_picker;
             },
             reset_linkcolor() {
                 this.element_style.linkcolor = "hsl(0,0%,0%)";
@@ -378,6 +396,17 @@
                 l = +(l * 100).toFixed(1);
 
                 return "hsl(" + h + "," + s + "%," + l + "%)";
+            },
+            hslStringToHex(hslString) {
+                let splitString = hslString.split(",");
+                let numbersFilter = splitString.map(this.filter_number);
+
+                let hexValue = this.hslToHex(numbersFilter[0], numbersFilter[1], numbersFilter[2]);
+                if (hexValue === '#NaNNaNNaN') {
+                    hexValue = '';
+                }
+                this.modifyStyle({'background-color': hexValue});
+                return hexValue;
             },
             hslToHex(h, s, l) {
                 h /= 360;
@@ -460,17 +489,14 @@
 
 	.backgroundcolor_input {
 		padding: 5px;
-		width: 204px;
 	}
 
 	.fontcolor_input {
 		padding: 5px;
-		width: 204px;
 	}
 
 	.linkcolor_input {
 		padding: 5px;
-		width: 204px;
 	}
 
 	.add_class_button {
@@ -479,6 +505,33 @@
 
 	.hoverCursor:hover {
 		cursor: pointer;
+	}
+
+	.backgroundcolor_display {
+		width: 28px;
+		height: 28px;
+		float: right;
+		margin-top: 3px;
+		margin-right: 20px;
+		padding: 3px;
+	}
+
+	.fontcolor_display {
+		width: 28px;
+		height: 28px;
+		float: right;
+		margin-top: 3px;
+		margin-right: 20px;
+		padding: 3px;
+	}
+
+	.linkcolor_display {
+		width: 28px;
+		height: 28px;
+		float: right;
+		margin-top: 3px;
+		margin-right: 20px;
+		padding: 3px;
 	}
 
 </style>
