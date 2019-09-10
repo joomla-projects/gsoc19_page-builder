@@ -49,7 +49,7 @@ const mutations = {
       key: state.maxKey,
       type: type.id,
       title: type.title,
-      style: [{'color': 'blue'}, {'background-color': 'yellow'}, {'height': '100px'}],
+      style: {},
       options: {
         size: {
           xs: 0,
@@ -93,7 +93,7 @@ const mutations = {
           key: state.maxKey,
           type: type.id,
           title: type.title,
-          style: [],
+          style: {},
           options: {
             size: {
               xs: 0,
@@ -172,17 +172,10 @@ const mutations = {
     }
   },
   modifyStyle(state, payload) {
-   // console.log(state, payload);
     Object.keys(payload).forEach((styleTag) => {
-      let cleanedCssStyleList = state.elementSelected.style.filter(elem => {
-        return Object.keys(elem)[0].toString() !== styleTag.toString()
-      });
-      let obj = {};
-      obj[styleTag] = payload[styleTag];
-      cleanedCssStyleList.push(obj);
-    // state.elementSelected.style = cleanedCssStyleList;
-      //state.elementSelected.class = "fjdngiof"
-    })
+      state.elementSelected.style[styleTag] = `${payload[styleTag]}`;
+    });
+    mutations.updateGrid(state)
   },
   updateElementArray(state, payload) {
     state.elementArray = payload;
