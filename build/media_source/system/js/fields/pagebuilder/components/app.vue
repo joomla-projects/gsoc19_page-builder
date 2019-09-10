@@ -35,12 +35,13 @@
 					</li>
 				</ul>
 			</div>
-			<div class="col col-12" style="height: 100px">
+		</div>
+		<div class="row">
+			<div class="col" style="height: 100px">
 				<h2>{{ translate('JLIB_PAGEBUILDER_PREVIEW') }}</h2>
 				<div v-html="renderPreview" :style="previewStyle"></div>
 			</div>
 		</div>
-
 		<div class="pagebuilder" id="pagebuilder" :style="widthStyle">
 			<h2>{{ translate('JLIB_PAGEBUILDER_VIEW') }}</h2>
 
