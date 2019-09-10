@@ -68,7 +68,6 @@
 <script>
   import {mapMutations, mapState} from 'vuex';
   import draggable from 'vuedraggable';
-  import axios from "axios";
 
   export default {
     data() {
@@ -187,9 +186,28 @@
           return a;
         }, []).join('&');
         const url = `${document.location.href}&${queryString}`;
-        axios.get(url).then((res) => {
-          this.renderPreview = res.data.data;
-        })
+
+        let _self = this;
+
+        Joomla.request(
+            {
+              url: url,
+              method: 'GET',
+              data: '',
+              perform: true,
+              headers: {'Content-Type': 'application/json;charset=utf-8'},
+              onSuccess: function (response) {
+                response = JSON.parse(response);
+                _self.renderPreview = response.data;
+                console.log(_self.renderPreview)
+              },
+              onError: function (xhr) {
+                // Remove js messages, if they exist.
+                Joomla.removeMessages();
+                Joomla.renderMessages(Joomla.ajaxErrorsMessages(xhr));
+              }
+            }
+        );
       }
     },
     components: {
