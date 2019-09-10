@@ -75,12 +75,9 @@ class PlgPagebuilderContainer extends CMSPlugin
 	{
 		$styleString = "";
 
-		foreach ($styleConfig as $setting)
+		foreach ($styleConfig as $style => $setting)
 		{
-			$setting     = (array) $setting;
-			$key         = array_keys($setting)[0];
-			$value       = $setting[$key];
-			$styleString .= "$key:$value;";
+			$styleString .= "$style:$setting;";
 		}
 
 		return $styleString;
