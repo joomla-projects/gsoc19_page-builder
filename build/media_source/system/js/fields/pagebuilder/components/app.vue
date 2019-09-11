@@ -1,6 +1,7 @@
 <template>
 	<div class="pagebuilder_container">
-		<div id="sidebar" class="sidebar"  style="overflow: scroll">
+
+		<div id="sidebar" class="sidebar">
 			<div class="sidebar-content">
 				<h2>{{ translate('JLIB_PAGEBUILDER_SETTINGS')}}
 
@@ -65,6 +66,7 @@
 <script>
     import {mapMutations, mapState} from 'vuex';
     import draggable from 'vuedraggable';
+
     export default {
         data() {
             return {
@@ -159,6 +161,15 @@
 			border: solid 1px black;
 
 		}
+	}
+
+	.sidebar {
+		transition: 0.6666s;
+		overflow: scroll;
+	}
+
+	#sidebar::-webkit-scrollbar {
+		display: none;
 	}
 
 	.pagebuilder_container {

@@ -14,8 +14,6 @@ import Verte from 'verte';
 import 'verte/dist/verte.css';
 
 
-
-
 // Add the plugins
 Vue.use(Translate);
 Vue.use(VueJsModal);
