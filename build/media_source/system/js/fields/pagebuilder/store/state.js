@@ -10,6 +10,7 @@ if (!joptions) {
 
 // The initial state
 export default {
+  sidebar_reset_trigger: false,
   elementSelected: '',
   columnSelected: '',
   selectedSettings: '',

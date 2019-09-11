@@ -1,6 +1,6 @@
 <template>
 	<div class="pagebuilder_container">
-		<div id="sidebar" class="sidebar">
+		<div id="sidebar" class="sidebar"  style="overflow: scroll">
 			<div class="sidebar-content">
 				<h2>{{ translate('JLIB_PAGEBUILDER_SETTINGS')}}
 
@@ -108,7 +108,7 @@
                     document.getElementById('jform_params_grid').value = JSON.stringify(newVal);
                 },
                 deep: true,
-            },
+            }
         },
         created() {
             this.mapElements(JSON.parse(document.getElementById('jform_params_grid').value));

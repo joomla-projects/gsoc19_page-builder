@@ -136,7 +136,7 @@ const mutations = {
     state.selectedSettings = 'edit-element';
     state.elementSelected = element;
     state.parent = parent;
-    mutations.openNav();
+    mutations.openNav(state);
   },
   checkComponent(state, element) {
     if (element.options.component) {
@@ -161,7 +161,8 @@ const mutations = {
     document.getElementById('sidebar').style.width = '0';
     document.getElementById('pagebuilder').style.marginLeft = 'auto';
   },
-  openNav() {
+  openNav(state) {
+    state.sidebar_reset_trigger = !state.sidebar_reset_trigger;
     document.getElementById('sidebar').style.width = '250px';
     document.getElementById('pagebuilder').style.marginLeft = '250px';
   },
