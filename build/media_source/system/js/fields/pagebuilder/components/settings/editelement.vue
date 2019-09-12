@@ -1,126 +1,132 @@
 <template>
 	<div>
 		<!-- Settings for editing elements -->
-		<div>
+		<div class="form-group">
+			<hr>
 			<legend> {{ translate('JLIB_PAGEBUILDER_EDIT') }}{{ elementSelected.type }}</legend>
-			<div class="form-group">
+			<div>
 				<label for="element_class">{{ translate('JLIB_PAGEBUILDER_ADD_CLASS') }}</label>
 				<div>
 					<input type="text" name="element_class" id="element_class" class="class_input"
 						   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="element_class">
 					<span class="fa fa-plus add_class_button hoverCursor" @click="add"
 						  title="Add" aria-hidden="true"></span>
-
-					<div id="color_picker_container" v-if="elementSelected.type === 'column'">
-						<div id="backgroundcolor_input_area">
-							<label>{{ translate('JLIB_PAGEBUILDER_BACKGROUND_COLOR') }}</label>
-							<input type="text" name="background_color" id="backgroundcolor_input"
-								   class="backgroundcolor_input"
-								   v-model="backgroundcolor_converter">
-							<div id="backgroundcolor_display" class="backgroundcolor_display hoverCursor"
-								 @click="open_backgroundcolor_picker"
-								 :style="{'background-color': element_style.backgroundcolor}"
-								 title="backgroundcolor_display" aria-hidden="true"></div>
-							<div v-if="backgroundcolor_picker" class="background_picker_container">
-								<verte display="widget" v-model="element_style.backgroundcolor"
-									   id="backgroundcolor_picker"></verte>
-								<button type="button" class="btn btn-secondary background_reset_button"
-										@click="reset_backgroundcolor">{{ translate('JLIB_PAGEBUILDER_RESET') }}
-								</button>
-								<button type="button" class="btn btn-secondary background_close_button"
-										@click="close_backgroundcolor_picker">{{ translate('JLIB_PAGEBUILDER_CLOSE') }}
-								</button>
-							</div>
-						</div>
-
-						<div id="fontcolor_input_area">
-							<label>{{ translate('JLIB_PAGEBUILDER_FONT_COLOR') }}</label>
-							<input type="text" name="fontcolor_color" id="fontcolor_input"
-								   class="fontcolor_input"
-								   v-model="fontcolor_converter">
-							<div id="fontcolor_display" class="fontcolor_display hoverCursor"
-								 @click="open_fontcolor_picker"
-								 title="fontcolor_display" aria-hidden="true"
-								 :style="{'background-color': element_style.fontcolor}"></div>
-							<div v-if="fontcolor_picker" class="fontcolor_picker_container">
-								<verte display="widget" v-model="element_style.fontcolor"
-									   id="fontcolor_picker"></verte>
-								<button type="button" class="btn btn-secondary fontcolor_reset_button"
-										@click="reset_fontcolor">{{ translate('JLIB_PAGEBUILDER_RESET') }}
-								</button>
-								<button type="button" class="btn btn-secondary fontcolor_close_button"
-										@click="close_fontcolor_picker">{{ translate('JLIB_PAGEBUILDER_CLOSE') }}
-								</button>
-							</div>
-						</div>
-
-						<div id="linkcolor_input_area">
-							<label>{{ translate('JLIB_PAGEBUILDER_LINK_COLOR') }}</label>
-							<input type="text" name="linkcolor_color" id="linkcolor_input"
-								   class="linkcolor_input"
-								   v-model="linkcolor_converter">
-							<div id="linkcolor_display" class="linkcolor_display hoverCursor"
-								 @click="open_linkcolor_picker"
-								 title="linkcolor_display" aria-hidden="true"
-								 :style="{'background-color': element_style.linkcolor}"></div>
-							<div v-if="linkcolor_picker" class="linkcolor_picker_container">
-								<verte display="widget" v-model="element_style.linkcolor"
-									   id="linkcolor_picker"></verte>
-								<button type="button" class="btn btn-secondary linkcolor_reset_button"
-										@click="reset_linkcolor">{{ translate('JLIB_PAGEBUILDER_RESET') }}
-								</button>
-								<button type="button" class="btn btn-secondary linkcolor_close_button"
-										@click="close_linkcolor_picker">{{ translate('JLIB_PAGEBUILDER_CLOSE') }}
-								</button>
-							</div>
-						</div>
-					</div>
 				</div>
-			</div>
-
-			<div class="form-group">
-				<div v-if="elementSelected.type === 'column'">
-					<label for="element_offset">{{ translate('JLIB_PAGEBUILDER_ADD_OFFSET') }}</label>
-					<br>
-					<table class="table">
-						<thead>
-						<tr>
-							<th scope="col">{{ translate('JLIB_PAGEBUILDER_DEVICE') }}</th>
-							<th scope="col">{{ translate('JLIB_PAGEBUILDER_OFFSET') }}</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr v-for="size in offset_sizes">
-							<th scope="row"><i :class="['fas', 'fa-' + size.icon, 'fa-lg', 'fa-rotate-' + size.rotate]"
-											   class="icons_pictures"></i></th>
-							<td class="control-group">
-								<select name="element_offset" id="element_offset" class="custom-select custom-select-sm"
-										v-model="element_offset[size.label]">
-									<option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
-										{{opt.label}}
-									</option>
-								</select>
-							</td>
-						</tr>
-						</tbody>
-					</table>
-				</div>
-				<div v-for="(config, id) in configs" class="form-group">
-					<label :for="id">{{ config.label }}</label>
-					<select v-if="config.type === 'select'" :id="id" :name="id" class="custom-select"
-							:required="config.required" v-model="elementSelected.options[id]">
-						<option v-for="(value, key) in config.value" :value="value">{{ key }}</option>
-					</select>
-					<input v-else :id="id" @name="id" :type="config.type" class="form-control"
-						   :required="config.required" v-model="elementSelected.options[id]"/>
-				</div>
-			</div>
-
-			<div class="buttonsOnBottom">
-				<button type="button" class="btn btn-secondary" @click="closeNav">{{ translate('JTOOLBAR_CLOSE') }}
-				</button>
 			</div>
 		</div>
+
+		<div id="color_picker_container" class="form-group" v-if="elementSelected.type === 'column'">
+			<hr>
+			<div id="backgroundcolor_input_area">
+				<label>{{ translate('JLIB_PAGEBUILDER_BACKGROUND_COLOR') }}</label>
+				<input type="text" name="background_color" id="backgroundcolor_input"
+					   class="backgroundcolor_input"
+					   v-model="backgroundcolor_converter">
+				<div id="backgroundcolor_display" class="backgroundcolor_display hoverCursor"
+					 @click="open_backgroundcolor_picker"
+					 :style="{'background-color': element_style.backgroundcolor}"
+					 title="backgroundcolor_display" aria-hidden="true"></div>
+				<div v-if="backgroundcolor_picker" class="background_picker_container">
+					<verte display="widget" v-model="element_style.backgroundcolor"
+						   id="backgroundcolor_picker"></verte>
+					<button type="button" class="btn btn-secondary background_reset_button"
+							@click="reset_backgroundcolor">{{ translate('JLIB_PAGEBUILDER_RESET') }}
+					</button>
+					<button type="button" class="btn btn-secondary background_close_button"
+							@click="close_backgroundcolor_picker">{{ translate('JLIB_PAGEBUILDER_CLOSE') }}
+					</button>
+				</div>
+			</div>
+
+			<div id="fontcolor_input_area">
+				<label>{{ translate('JLIB_PAGEBUILDER_FONT_COLOR') }}</label>
+				<input type="text" name="fontcolor_color" id="fontcolor_input"
+					   class="fontcolor_input"
+					   v-model="fontcolor_converter">
+				<div id="fontcolor_display" class="fontcolor_display hoverCursor"
+					 @click="open_fontcolor_picker"
+					 title="fontcolor_display" aria-hidden="true"
+					 :style="{'background-color': element_style.fontcolor}"></div>
+				<div v-if="fontcolor_picker" class="fontcolor_picker_container">
+					<verte display="widget" v-model="element_style.fontcolor"
+						   id="fontcolor_picker"></verte>
+					<button type="button" class="btn btn-secondary fontcolor_reset_button"
+							@click="reset_fontcolor">{{ translate('JLIB_PAGEBUILDER_RESET') }}
+					</button>
+					<button type="button" class="btn btn-secondary fontcolor_close_button"
+							@click="close_fontcolor_picker">{{ translate('JLIB_PAGEBUILDER_CLOSE') }}
+					</button>
+				</div>
+			</div>
+
+			<div id="linkcolor_input_area">
+				<label>{{ translate('JLIB_PAGEBUILDER_LINK_COLOR') }}</label>
+				<input type="text" name="linkcolor_color" id="linkcolor_input"
+					   class="linkcolor_input"
+					   v-model="linkcolor_converter">
+				<div id="linkcolor_display" class="linkcolor_display hoverCursor"
+					 @click="open_linkcolor_picker"
+					 title="linkcolor_display" aria-hidden="true"
+					 :style="{'background-color': element_style.linkcolor}"></div>
+				<div v-if="linkcolor_picker" class="linkcolor_picker_container">
+					<verte display="widget" v-model="element_style.linkcolor"
+						   id="linkcolor_picker"></verte>
+					<button type="button" class="btn btn-secondary linkcolor_reset_button"
+							@click="reset_linkcolor">{{ translate('JLIB_PAGEBUILDER_RESET') }}
+					</button>
+					<button type="button" class="btn btn-secondary linkcolor_close_button"
+							@click="close_linkcolor_picker">{{ translate('JLIB_PAGEBUILDER_CLOSE') }}
+					</button>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="form-group">
+			<hr>
+			<div v-if="elementSelected.type === 'column'">
+				<label for="element_offset">{{ translate('JLIB_PAGEBUILDER_ADD_OFFSET') }}</label>
+				<br>
+				<table class="table">
+					<thead>
+					<tr>
+						<th scope="col">{{ translate('JLIB_PAGEBUILDER_DEVICE') }}</th>
+						<th scope="col">{{ translate('JLIB_PAGEBUILDER_OFFSET') }}</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr v-for="size in offset_sizes">
+						<th scope="row"><i :class="['fas', 'fa-' + size.icon, 'fa-lg', 'fa-rotate-' + size.rotate]"
+										   class="icons_pictures"></i></th>
+						<td class="control-group">
+							<select name="element_offset" id="element_offset" class="custom-select custom-select-sm"
+									v-model="element_offset[size.label]">
+								<option v-for="opt in offset" v-if="opt.value <= threshold" :value="opt.value">
+									{{opt.label}}
+								</option>
+							</select>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<div v-for="(config, id) in configs" class="form-group">
+				<label :for="id">{{ config.label }}</label>
+				<select v-if="config.type === 'select'" :id="id" :name="id" class="custom-select"
+						:required="config.required" v-model="elementSelected.options[id]">
+					<option v-for="(value, key) in config.value" :value="value">{{ key }}</option>
+				</select>
+				<input v-else :id="id" @name="id" :type="config.type" class="form-control"
+					   :required="config.required" v-model="elementSelected.options[id]"/>
+			</div>
+		</div>
+
+		<div class="buttonsOnBottom">
+			<button type="button" class="btn btn-secondary" @click="closeNav">{{ translate('JTOOLBAR_CLOSE') }}
+			</button>
+		</div>
+
 	</div>
 </template>
 
