@@ -20,7 +20,7 @@
 			<div id="backgroundcolor_input_area">
 				<label>{{ translate('JLIB_PAGEBUILDER_BACKGROUND_COLOR') }}</label>
 				<input type="text" name="background_color" id="backgroundcolor_input"
-					   class="backgroundcolor_input"
+					   class="backgroundcolor_input" v-bind:class="{ red_input: this.color_input_red.background }"
 					   v-model="backgroundcolor_converter">
 				<div id="backgroundcolor_display" class="backgroundcolor_display hoverCursor"
 					 @click="open_backgroundcolor_picker"
@@ -41,7 +41,7 @@
 			<div id="fontcolor_input_area">
 				<label>{{ translate('JLIB_PAGEBUILDER_FONT_COLOR') }}</label>
 				<input type="text" name="fontcolor_color" id="fontcolor_input"
-					   class="fontcolor_input"
+					   class="fontcolor_input" v-bind:class="{ red_input: this.color_input_red.font }"
 					   v-model="fontcolor_converter">
 				<div id="fontcolor_display" class="fontcolor_display hoverCursor"
 					 @click="open_fontcolor_picker"
@@ -62,7 +62,7 @@
 			<div id="linkcolor_input_area">
 				<label>{{ translate('JLIB_PAGEBUILDER_LINK_COLOR') }}</label>
 				<input type="text" name="linkcolor_color" id="linkcolor_input"
-					   class="linkcolor_input"
+					   class="linkcolor_input" v-bind:class="{ red_input: this.color_input_red.link }"
 					   v-model="linkcolor_converter">
 				<div id="linkcolor_display" class="linkcolor_display hoverCursor"
 					 @click="open_linkcolor_picker"
@@ -154,6 +154,8 @@
 
             backgroundcolor_converter: {
                 get: function () {
+                    this.color_input_red.background = false;
+
                     let hslString = this.element_style.backgroundcolor;
                     let splitString = hslString.split(",");
                     let numbersFilter = splitString.map(this.filter_number);
@@ -169,14 +171,16 @@
 
                     if (testData) {
                         this.element_style.backgroundcolor = this.hexToHSL(data);
-                        console.log(this.element_style.backgroundcolor);
+                        this.color_input_red.background = false;
                     } else {
-                        console.log('invalid');
+                        this.color_input_red.background = true;
                     }
                 }
             },
             fontcolor_converter: {
                 get: function () {
+                    this.color_input_red.font = false;
+
                     let hslString = this.element_style.fontcolor;
                     let splitString = hslString.split(",");
                     let numbersFilter = splitString.map(this.filter_number);
@@ -193,14 +197,16 @@
 
                     if (testData) {
                         this.element_style.fontcolor = this.hexToHSL(data);
-                        console.log(this.element_style.fontcolor);
+                        this.color_input_red.font = false;
                     } else {
-                        console.log('invalid');
+                        this.color_input_red.font = true;
                     }
                 }
             },
             linkcolor_converter: {
                 get: function () {
+                    this.color_input_red.link = false;
+
                     let hslString = this.element_style.linkcolor;
                     let splitString = hslString.split(",");
                     let numbersFilter = splitString.map(this.filter_number);
@@ -217,9 +223,9 @@
 
                     if (testData) {
                         this.element_style.linkcolor = this.hexToHSL(data);
-                        console.log(this.element_style.linkcolor);
+                        this.color_input_red.link = false;
                     } else {
-                        console.log('invalid');
+                        this.color_input_red.link = true;
                     }
                 }
             },
@@ -275,7 +281,8 @@
                 backgroundcolor_picker: false,
                 fontcolor_picker: false,
                 linkcolor_picker: false,
-				image_path: '',
+                color_input_red: {background: false, font: false, link: false},
+                image_path: '',
                 element_class: {
                     name: '',
                 },
@@ -373,7 +380,7 @@
                 'closeNav',
                 'modifyElement',
                 'modifyStyle',
-				'modifyImageLink'
+                'modifyImageLink'
             ]),
             loadStyles() {
                 if (this.elementSelected.type === 'column') {
@@ -404,7 +411,7 @@
             },
             add_image() {
                 this.modifyImageLink(this.image_path);
-			},
+            },
             open_backgroundcolor_picker() {
                 if (!this.backgroundcolor_picker) {
                     this.fontcolor_picker = false;
@@ -630,6 +637,10 @@
 
 	.image_input {
 		padding: 5px;
+	}
+
+	.red_input {
+		border: 2px solid #f00;
 	}
 
 </style>
