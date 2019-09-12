@@ -37,9 +37,9 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col" style="height: 100px">
+			<div class="col" style="height: 230px">
 				<h2>{{ translate('JLIB_PAGEBUILDER_PREVIEW') }}</h2>
-				<div v-html="renderPreview" :style="previewStyle"></div>
+				<div v-html="renderPreview" :style="previewStyle" id="renderPreview"></div>
 			</div>
 		</div>
 		<div class="pagebuilder" id="pagebuilder" :style="widthStyle">
@@ -219,12 +219,15 @@
 
 <style lang="scss">
 	#renderPreview {
-		height: 100px;
+		height: 230px;
 
 		div {
 			height: 50px;
-			border: solid 1px black;
 
+			.column {
+				border: solid 1px #c1b9b9;
+				background: #acacae;
+			}
 		}
 	}
 </style>
