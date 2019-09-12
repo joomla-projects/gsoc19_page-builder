@@ -281,7 +281,11 @@
             },
             sidebar_reset_trigger: {
                 handler() {
-                    this.image_link = this.elementSelected.image_link;
+                    this.image_link = this.elementSelected.style['background-image: url'];
+                    this.font_size = this.elementSelected.style['font-size'];
+                    this.font_style = this.elementSelected.style['font-style'];
+                    this.font_family = this.elementSelected.style['font-family'];
+
                     this.backgroundcolor_picker = false;
                     this.fontcolor_picker = false;
                     this.linkcolor_picker = false;
@@ -425,6 +429,9 @@
                         this.element_style['linkcolor'] = this.hexToHSL("#000000")
                     }
                     this.image_link = this.elementSelected.style['background-image: url'];
+                    this.font_size = this.elementSelected.style['font-size'];
+                    this.font_style = this.elementSelected.style['font-style'];
+                    this.font_family = this.elementSelected.style['font-family'];
                 }
             },
             add() {
