@@ -441,7 +441,7 @@
                 this.modifyElement(modify);
             },
             add_image() {
-                this.modifyStyle({"background-image: url": this.image_link});
+                this.modifyStyle({"background-image": `url('${this.image_link}')`});
             },
 			add_font_size() {
                 this.modifyStyle({"font-size": this.font_size + 'px'});
