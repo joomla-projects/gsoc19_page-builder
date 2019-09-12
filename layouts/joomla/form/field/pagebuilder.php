@@ -104,6 +104,7 @@ Text::script('JLIB_PAGEBUILDER_BACKGROUND_COLOR', true);
 Text::script('JLIB_PAGEBUILDER_RESET', true);
 Text::script('JLIB_PAGEBUILDER_FONT_COLOR', true);
 Text::script('JLIB_PAGEBUILDER_LINK_COLOR', true);
+Text::script('JLIB_PAGEBUILDER_ENTER_IMAGE_PATH', true);
 ?>
 
 <input type="text" id="<?php echo $id ?>" name="<?php echo $name ?>" class="hidden" value="<?php echo $value ?>">

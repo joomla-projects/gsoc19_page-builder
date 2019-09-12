@@ -50,6 +50,7 @@ const mutations = {
       type: type.id,
       title: type.title,
       style: {},
+      image_lin: '',
       options: {
         size: {
           xs: 0,
@@ -94,6 +95,7 @@ const mutations = {
           type: type.id,
           title: type.title,
           style: {},
+          image_link: '',
           options: {
             size: {
               xs: 0,
@@ -177,6 +179,9 @@ const mutations = {
       state.elementSelected.style[styleTag] = `${payload[styleTag]}`;
     });
     mutations.updateGrid(state)
+  },
+  modifyImageLink(state, payload) {
+    console.log(state, payload);
   },
   updateElementArray(state, payload) {
     state.elementArray = payload;

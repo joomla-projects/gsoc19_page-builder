@@ -81,7 +81,14 @@
 			</div>
 		</div>
 
-
+		<div>
+			<hr>
+			<label for="element_class">{{ translate('JLIB_PAGEBUILDER_ENTER_IMAGE_PATH') }}</label>
+			<input type="text" name="image_input" id="image_input" class="image_input"
+				   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="image_path">
+			<span class="fa fa-plus add_class_button hoverCursor" @click="add_image"
+				  title="Add Image" aria-hidden="true"></span>
+		</div>
 
 		<div class="form-group">
 			<hr>
@@ -268,6 +275,7 @@
                 backgroundcolor_picker: false,
                 fontcolor_picker: false,
                 linkcolor_picker: false,
+				image_path: '',
                 element_class: {
                     name: '',
                 },
@@ -364,7 +372,8 @@
             ...mapMutations([
                 'closeNav',
                 'modifyElement',
-                'modifyStyle'
+                'modifyStyle',
+				'modifyImageLink'
             ]),
             loadStyles() {
                 if (this.elementSelected.type === 'column') {
@@ -393,6 +402,9 @@
                 modify.offset = this.element_offset;
                 this.modifyElement(modify);
             },
+            add_image() {
+                this.modifyImageLink(this.image_path);
+			},
             open_backgroundcolor_picker() {
                 if (!this.backgroundcolor_picker) {
                     this.fontcolor_picker = false;
@@ -614,6 +626,10 @@
 		margin-top: 3px;
 		margin-right: 20px;
 		padding: 3px;
+	}
+
+	.image_input {
+		padding: 5px;
 	}
 
 </style>
