@@ -81,7 +81,7 @@
 			</div>
 		</div>
 
-		<div>
+		<div id="image_input_area" v-if="elementSelected.type === 'column'">
 			<hr>
 			<label for="element_class">{{ translate('JLIB_PAGEBUILDER_ENTER_IMAGE_PATH') }}</label>
 			<input type="text" name="image_input" id="image_input" class="image_input"
@@ -243,8 +243,6 @@
             this.linkcolor_picker = false;
             this.fontcolor_picker = false;
 
-            this.image_link = this.elementSelected.image_link;
-
             this.element_class = this.elementSelected.options.class;
             if (this.elementSelected.options.offset)
                 this.element_offset = this.elementSelected.options.offset;
@@ -270,7 +268,6 @@
             },
             fontcolor_converter(payload) {
                 this.modifyStyle({"font-color": payload})
-
             },
             linkcolor_converter(payload) {
                 this.modifyStyle({"link-color": payload})
@@ -403,7 +400,7 @@
                     } else {
                         this.element_style['linkcolor'] = this.hexToHSL("#000000")
                     }
-
+                    this.image_link = this.elementSelected.style['background-image: url'];
                 }
             },
             add() {
@@ -413,7 +410,7 @@
                 this.modifyElement(modify);
             },
             add_image() {
-                this.modifyImageLink(this.image_link);
+                this.modifyStyle({"background-image: url": this.image_link});
             },
             open_backgroundcolor_picker() {
                 if (!this.backgroundcolor_picker) {
