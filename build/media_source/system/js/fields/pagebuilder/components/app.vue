@@ -37,9 +37,10 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col" style="height: 230px">
+			<div class="col" style="height: 500px">
 				<h2>{{ translate('JLIB_PAGEBUILDER_PREVIEW') }}</h2>
-				<div v-html="renderPreview" :style="previewStyle" id="renderPreview"></div>
+				<!--<div v-html="renderPreview" :style="previewStyle" id="renderPreview"></div>-->
+				<iframe ref="previewFrame" :src="previewUrl" id="iframe"></iframe>
 			</div>
 		</div>
 		<div class="pagebuilder" id="pagebuilder" :style="widthStyle">
@@ -73,7 +74,9 @@
   export default {
     data() {
       return {
-        renderPreview: ""
+        renderPreview: '',
+        previewUrl: '',
+        baseUrl: ''
       }
     },
     computed: {
@@ -83,16 +86,6 @@
         'selectedSettings',
         'advancedSettings'
       ]),
-      previewStyle() {
-        this.loadAdvancedSettings();
-        let height = 30;
-        this.getChildrenSizeOfPageContent(this.elementArray);
-        return {
-          'height': `${height}px`,
-          'background-color': `${this.advancedSettings.bgColor}`,
-          'color': `${this.advancedSettings.baseColor}`,
-        }
-      },
       widthStyle() {
         const deviceOrder = Object.keys(this.resolution);
         const activeIndex = deviceOrder.indexOf(this.activeDevice);
@@ -141,6 +134,9 @@
         element.appendChild(document.getElementById('drag_message'));
       }
       this.liveViewPost(JSON.stringify(this.elementArray));
+
+      let getUrl = window.location;
+      this.baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
     },
     methods: {
       ...mapMutations([
@@ -172,11 +168,25 @@
           linkColor: document.getElementById('jform_params_linkColor').value
         })
       },
+      updatePreviewUrls() {
+        this.$refs.previewFrame.contentWindow.location.reload(true);
+        this.previewUrl = this.baseUrl + `${Math.random()}`;
+
+        let _self = this;
+        // Trigger iFrame reload
+        setTimeout(() => {
+          _self.previewUrl = _self.baseUrl;
+        }, 10);
+      },
       liveViewPost(data) {
+        let tempId = location.href.split(/&|\?/).filter(v => v.match(/^id/))[0].replace("id=", "");
+
         let dataConf = {
           task: 'ajax.fetchAssociations',
           format: 'json',
           data: window.btoa(data),
+          template_id: tempId,
+          frontend_url: window.btoa(this.previewUrl),
           baseBG: `${this.advancedSettings.bgColor}`,
           baseColor: `${this.advancedSettings.baseColor}`,
           linkColor: `${this.advancedSettings.linkColor}`,
@@ -200,7 +210,7 @@
               onSuccess: function (response) {
                 response = JSON.parse(response);
                 _self.renderPreview = response.data;
-                console.log(_self.renderPreview)
+                _self.updatePreviewUrls();
               },
               onError: function (xhr) {
                 // Remove js messages, if they exist.
@@ -229,5 +239,18 @@
 				background: #acacae;
 			}
 		}
+	}
+
+	iframe {
+		width: 130%;
+		height: 520px;
+		border: 1px solid black;
+		zoom: 0.15;
+		-moz-transform: scale(0.75);
+		-moz-transform-origin: 0 0;
+		-o-transform: scale(0.75);
+		-o-transform-origin: 0 0;
+		-webkit-transform: scale(0.75);
+		-webkit-transform-origin: 0 0;
 	}
 </style>
