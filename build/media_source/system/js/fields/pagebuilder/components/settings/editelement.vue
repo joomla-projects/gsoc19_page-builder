@@ -85,7 +85,7 @@
 			<hr>
 			<label for="element_class">{{ translate('JLIB_PAGEBUILDER_ENTER_IMAGE_PATH') }}</label>
 			<input type="text" name="image_input" id="image_input" class="image_input"
-				   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="image_path">
+				   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="image_link">
 			<span class="fa fa-plus add_class_button hoverCursor" @click="add_image"
 				  title="Add Image" aria-hidden="true"></span>
 		</div>
@@ -243,6 +243,8 @@
             this.linkcolor_picker = false;
             this.fontcolor_picker = false;
 
+            this.image_link = this.elementSelected.image_link;
+
             this.element_class = this.elementSelected.options.class;
             if (this.elementSelected.options.offset)
                 this.element_offset = this.elementSelected.options.offset;
@@ -260,6 +262,7 @@
             },
             sidebar_reset_trigger: {
                 handler() {
+                    this.image_link = this.elementSelected.image_link;
                     this.backgroundcolor_picker = false;
                     this.fontcolor_picker = false;
                     this.linkcolor_picker = false;
@@ -282,7 +285,7 @@
                 fontcolor_picker: false,
                 linkcolor_picker: false,
                 color_input_red: {background: false, font: false, link: false},
-                image_path: '',
+                image_link: '',
                 element_class: {
                     name: '',
                 },
@@ -410,7 +413,7 @@
                 this.modifyElement(modify);
             },
             add_image() {
-                this.modifyImageLink(this.image_path);
+                this.modifyImageLink(this.image_link);
             },
             open_backgroundcolor_picker() {
                 if (!this.backgroundcolor_picker) {
