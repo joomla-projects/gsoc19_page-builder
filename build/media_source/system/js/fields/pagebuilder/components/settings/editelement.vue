@@ -102,7 +102,7 @@
 			<input type="text" name="font_style_input" id="font_style_input" class="font_style_input"
 				   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="font_style">
 			<span class="fa fa-plus add_font_style_button hoverCursor" @click="add_font_style"
-				  title="Add Font Style" aria-hiddene="true"></span>
+				  title="Add Font Style" aria-hidden="true"></span>
 
 			<label class="margin_top_5px" for="font_family_input">{{ translate('JLIB_PAGEBUILDER_ENTER_FONT_FAMILY') }}</label>
 			<input type="text" name="font_family_input" id="font_family_input" class="font_family_input"
