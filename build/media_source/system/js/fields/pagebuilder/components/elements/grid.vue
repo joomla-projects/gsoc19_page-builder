@@ -245,7 +245,8 @@
         if (column.x === 0) {
           this.moveToRight(column.x, column.y, offset);
         } else if(column.x < offset) { // if offset run over left border push it back
-            column.x = offset;
+          this.moveToRight(offset, column.y, offset);
+          //column.x = offset;
 		}
 
         const offsetObj = {
@@ -365,16 +366,19 @@
         this.resetOffsets();
         this.resetHeight();
         this.positioning();
-        this.initOffsets();
-        this.setHeight();
-        this.setResizeListeners();
+        this.$nextTick(() => {
+          this.initOffsets();
+          this.setHeight();
+          this.setResizeListeners();
 
-        if (this.moved) {
-          const colElements = [];
-          this.columns.forEach(col => colElements.push(col.element));
-          this.updateChildrenOrder({parent: this.grid, children: colElements});
-          this.moved = false;
-        }
+          if (this.moved) {
+            const colElements = [];
+            this.columns.forEach(col => colElements.push(col.element));
+            this.updateChildrenOrder({parent: this.grid, children: colElements});
+            this.moved = false;
+          }
+        })
+
       },
       positioning() {
         // Bring columns in correct order to fill gaps one after another
