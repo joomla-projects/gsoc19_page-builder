@@ -18,7 +18,7 @@
 		<div id="color_picker_container" class="form-group" v-if="elementSelected.type === 'column'">
 			<hr>
 			<div id="backgroundcolor_input_area">
-				<label>{{ translate('JLIB_PAGEBUILDER_BACKGROUND_COLOR') }}</label>
+				<label class="margin_top_5px">{{ translate('JLIB_PAGEBUILDER_BACKGROUND_COLOR') }}</label>
 				<input type="text" name="background_color" id="backgroundcolor_input"
 					   class="backgroundcolor_input" v-bind:class="{ red_input: this.color_input_red.background }"
 					   v-model="backgroundcolor_converter">
@@ -39,7 +39,7 @@
 			</div>
 
 			<div id="fontcolor_input_area">
-				<label>{{ translate('JLIB_PAGEBUILDER_FONT_COLOR') }}</label>
+				<label class="margin_top_5px">{{ translate('JLIB_PAGEBUILDER_FONT_COLOR') }}</label>
 				<input type="text" name="fontcolor_color" id="fontcolor_input"
 					   class="fontcolor_input" v-bind:class="{ red_input: this.color_input_red.font }"
 					   v-model="fontcolor_converter">
@@ -60,7 +60,7 @@
 			</div>
 
 			<div id="linkcolor_input_area">
-				<label>{{ translate('JLIB_PAGEBUILDER_LINK_COLOR') }}</label>
+				<label class="margin_top_5px">{{ translate('JLIB_PAGEBUILDER_LINK_COLOR') }}</label>
 				<input type="text" name="linkcolor_color" id="linkcolor_input"
 					   class="linkcolor_input" v-bind:class="{ red_input: this.color_input_red.link }"
 					   v-model="linkcolor_converter">
@@ -81,13 +81,34 @@
 			</div>
 		</div>
 
-		<div id="image_input_area" v-if="elementSelected.type === 'column'">
+		<div id="image_input_area" class="form-group" v-if="elementSelected.type === 'column'">
 			<hr>
-			<label for="element_class">{{ translate('JLIB_PAGEBUILDER_ENTER_IMAGE_PATH') }}</label>
+			<label for="image_input">{{ translate('JLIB_PAGEBUILDER_ENTER_IMAGE_PATH') }}</label>
 			<input type="text" name="image_input" id="image_input" class="image_input"
 				   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="image_link">
 			<span class="fa fa-plus add_class_button hoverCursor" @click="add_image"
 				  title="Add Image" aria-hidden="true"></span>
+		</div>
+
+		<div id="font_settings_area" class="form-group" v-if="elementSelected.type === 'column'">
+			<hr>
+			<label class="margin_top_5px" for="font_size_input">{{ translate('JLIB_PAGEBUILDER_ENTER_FONT_SIZE') }}</label><br>
+			<input type="number" name="font_size_input" id="font_size_input" class="font_size_input"
+				   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="font_size">
+			<span class="fa fa-plus add_font_size_button hoverCursor" @click="add_font_size"
+				  title="Add Font Size" aria-hidden="true"></span>
+
+			<label class="margin_top_5px" for="font_style_input">{{ translate('JLIB_PAGEBUILDER_ENTER_FONT_STYLE') }}</label>
+			<input type="text" name="font_style_input" id="font_style_input" class="font_style_input"
+				   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="font_style">
+			<span class="fa fa-plus add_font_style_button hoverCursor" @click="add_font_style"
+				  title="Add Font Style" aria-hiddene="true"></span>
+
+			<label class="margin_top_5px" for="font_family_input">{{ translate('JLIB_PAGEBUILDER_ENTER_FONT_FAMILY') }}</label>
+			<input type="text" name="font_family_input" id="font_family_input" class="font_family_input"
+				   :placeholder="translate('JLIB_PAGEBUILDER_NONE')" v-model="font_family">
+			<span class="fa fa-plus add_font_family_button hoverCursor" @click="add_font_family"
+				  title="Add Font Family" aria-hidden="true"></span>
 		</div>
 
 		<div class="form-group">
@@ -283,6 +304,9 @@
                 linkcolor_picker: false,
                 color_input_red: {background: false, font: false, link: false},
                 image_link: '',
+                font_size: '',
+                font_style: '',
+				font_family: '',
                 element_class: {
                     name: '',
                 },
@@ -411,6 +435,15 @@
             },
             add_image() {
                 this.modifyStyle({"background-image: url": this.image_link});
+            },
+			add_font_size() {
+                this.modifyStyle({"font-size": this.font_size + 'px'});
+			},
+            add_font_style() {
+                this.modifyStyle({"font-style": this.font_style});
+            },
+            add_font_family() {
+                this.modifyStyle({"font-family": this.font_family});
             },
             open_backgroundcolor_picker() {
                 if (!this.backgroundcolor_picker) {
@@ -604,6 +637,18 @@
 		margin-left: 15px;
 	}
 
+	.add_font_family_button{
+		margin-left: 15px;
+	}
+
+	.add_font_size_button{
+		margin-left: 15px;
+	}
+
+	.add_font_style_button{
+		margin-left: 15px;
+	}
+
 	.hoverCursor:hover {
 		cursor: pointer;
 	}
@@ -639,8 +684,24 @@
 		padding: 5px;
 	}
 
+	.font_size_input {
+		padding: 5px;
+	}
+
+	.font_style_input {
+		padding: 5px;
+	}
+
+	.font_family_input {
+		padding: 5px;
+	}
+
 	.red_input {
 		border: 2px solid #f00;
+	}
+
+	.margin_top_5px {
+		margin-top: 5px;
 	}
 
 </style>
