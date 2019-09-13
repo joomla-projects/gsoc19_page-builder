@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import state from './state';
 import createPersistedState from 'vuex-persistedstate';
-import { persistedStateOptions } from './plugins/persistedstate';
+import state from './state';
+import {persistedStateOptions} from './plugins/persistedstate';
 
 Vue.use(Vuex);
 
@@ -49,6 +49,7 @@ const mutations = {
       key: state.maxKey,
       type: type.id,
       title: type.title,
+      style: {},
       options: {
         size: {
           xs: 0,
@@ -88,10 +89,11 @@ const mutations = {
       configs.forEach((config) => {
         state.maxKey += 1;
 
-        let newChild = {
+        const newChild = {
           key: state.maxKey,
           type: type.id,
           title: type.title,
+          style: {},
           options: {
             size: {
               xs: 0,
@@ -109,7 +111,7 @@ const mutations = {
               xl: 0,
             },
           },
-          children: []
+          children: [],
         };
         newChild.options.size[state.activeDevice] = config;
 
@@ -134,7 +136,7 @@ const mutations = {
     state.selectedSettings = 'edit-element';
     state.elementSelected = element;
     state.parent = parent;
-    mutations.openNav();
+    mutations.openNav(state);
   },
   checkComponent(state, element) {
     if (element.options.component) {
@@ -159,8 +161,9 @@ const mutations = {
     document.getElementById('sidebar').style.width = '0';
     document.getElementById('pagebuilder').style.marginLeft = 'auto';
   },
-  openNav() {
-    document.getElementById('sidebar').style.width = '250px';
+  openNav(state) {
+    state.sidebar_reset_trigger = !state.sidebar_reset_trigger;
+    document.getElementById('sidebar').style.width = '264px';
     document.getElementById('pagebuilder').style.marginLeft = '250px';
   },
   modifyElement(state, payload) {
@@ -168,6 +171,12 @@ const mutations = {
     if (state.elementSelected.type === 'column') {
       state.elementSelected.options.offset = payload.offset;
     }
+  },
+  modifyStyle(state, payload) {
+    Object.keys(payload).forEach((styleTag) => {
+      state.elementSelected.style[styleTag] = `${payload[styleTag]}`;
+    });
+    mutations.updateGrid(state)
   },
   updateElementArray(state, payload) {
     state.elementArray = payload;
@@ -182,14 +191,14 @@ const mutations = {
     document.getElementById('jform_params_grid').value = JSON.stringify(state.elementArray);
   },
   restorePosition(state, location) {
-    let element = document.getElementsByClassName('drag_' + location)[0];
+    const element = document.getElementsByClassName(`drag_${location}`)[0];
     if (element) {
       element.__vue__.$data.element.options[location] = false;
-      element.classList.remove('drag_' + location);
+      element.classList.remove(`drag_${location}`);
     }
-    document.getElementById('placeholder_' + location).appendChild(document.getElementById('drag_' + location));
+    document.getElementById(`placeholder_${location}`).appendChild(document.getElementById(`drag_${location}`));
     mutations.updateGrid(state);
-  }
+  },
 };
 
 const getters = {
@@ -217,9 +226,7 @@ const getters = {
 
     return state.size;
   },
-  getType: state => (element) => {
-    return state.elements.find(el => el.id === element.type || element.id);
-  },
+  getType: state => element => state.elements.find(el => el.id === element.type || element.id),
 };
 
 export default new Vuex.Store({

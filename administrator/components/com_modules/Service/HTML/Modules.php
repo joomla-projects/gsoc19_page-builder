@@ -183,6 +183,8 @@ class Modules
 		$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 		$editPositions   = true;
 		$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
+		$pagebuilderPositions = ModulesHelper::getPageBuilderPositions();
+		$customPositions = array_merge($customPositions, $pagebuilderPositions);
 
 		$app = Factory::getApplication();
 

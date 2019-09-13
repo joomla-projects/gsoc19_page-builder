@@ -22,6 +22,8 @@
 					</div>
 				</div>
 				<div class="col-8 tab-content">
+
+
 					<div v-for="element in allowedChildren" :id="'list-'+element.id" class="tab-pane fade" role="tabpanel">
 						{{ element.description }}
 
@@ -54,8 +56,15 @@
 									v-model="config[id]" @blur="check(element.id, $event)">
 								<option v-for="(value, key) in conf.value" :value="key">{{ value }}</option>
 							</select>
-							<input v-else :type="conf.type" :id="id" :name="id" class="form-control" required
+							<input v-else-if="conf.type === 'input'" :type="conf.type" :id="id" :name="id" class="form-control" required
 									:placeholder="conf.placeholder" v-model="config[id]" @blur="check(element.id, $event)"/>
+
+
+							<input-selection :id="id" :name="id" v-model="config[id]" @blur="check(element.id, $event)" v-else
+											 required :placeholder="conf.placeholder"  :type="conf.type"
+											 :options="Object.keys(conf.value)"></input-selection>
+
+
 						</div>
 					</div>
 				</div>
@@ -75,16 +84,20 @@
 
 <script>
   import {mapState} from 'vuex';
+  import inputSelection from './input-selection.vue'
 
   export default {
     name: 'modal-add-element',
+      components: {
+          inputSelection
+      },
     data() {
       return {
         images: window.Joomla.getOptions('system.pagebuilder').images,
         selectedElement: '',
         config: '',
         childConfig: '',
-        select: [],
+        select: []
       };
     },
     computed: {
@@ -170,3 +183,4 @@
     },
   };
 </script>
+

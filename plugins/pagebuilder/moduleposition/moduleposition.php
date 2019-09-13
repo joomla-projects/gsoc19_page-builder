@@ -26,6 +26,27 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	 */
 	protected $autoloadLanguage = true;
 
+	private function loadValidModulePositions()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select([$db->quoteName('m.position')])
+			->from($db->quoteName('#__modules', 'm'))
+			->join("", $db->quoteName('#__extensions', 'e'), ' m.module = e.name and e.`client_id` = 0')
+			->order('position asc');
+
+		$modelresults = $db->setQuery($query)->loadObjectList();
+		$positions    = [];
+		foreach ($modelresults as $res)
+		{
+			$res = $res->position;
+			if ($res == null) $res = "NONE";
+			$positions[$res] = $res;
+		}
+
+		return $positions;
+	}
+
 	/**
 	 * Add moduleposition element which can have every other element as child
 	 *
@@ -40,13 +61,13 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 		Text::script('PLG_PAGEBUILDER_MODULEPOSITION_NAME');
 
 		$chromeValues = array(
-			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_NONE') => '',
-			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_HTML5') => 'html5',
-			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_HORZ') => 'horz',
+			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_NONE')    => '',
+			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_HTML5')   => 'html5',
+			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_HORZ')    => 'horz',
 			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_OUTLINE') => 'outline',
 			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_ROUNDED') => 'rounded',
-			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_TABLE') => 'table',
-			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_XHTML') => 'xhtml',
+			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_TABLE')   => 'table',
+			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_XHTML')   => 'xhtml',
 		);
 
 		return array(
@@ -57,21 +78,21 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 			'children'    => false,
 			'component'   => false,
 			'message'     => false,
-			'config'  => array(
+			'config'      => array(
 				'position_name' => array(
-					'value' => '',
-					'type' => 'text',
-					'required' => true,
-					'show' => true,
-					'label' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_POSITION_NAME'),
+					'value'       => $this->loadValidModulePositions(),
+					'type'        => 'inputselect',
+					'required'    => true,
+					'show'        => true,
+					'label'       => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_POSITION_NAME'),
 					'placeholder' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_ENTER_NAME')
 				),
 				'module_chrome' => array(
-					'value' => $chromeValues,
-					'type' => 'select',
+					'value'    => $chromeValues,
+					'type'     => 'select',
 					'required' => false,
-					'show' => true,
-					'label' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME')
+					'show'     => true,
+					'label'    => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME')
 				)
 			)
 		);
@@ -106,11 +127,11 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 		$html .= ' />';
 
 		return array(
-			'title' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
+			'title'  => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
 			'config' => $data->options,
-			'id'    => 'moduleposition',
-			'start' => $html,
-			'end'   => null
+			'id'     => 'moduleposition',
+			'start'  => $html,
+			'end'    => null
 		);
 	}
 }

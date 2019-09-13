@@ -95,9 +95,19 @@ Text::script('JLIB_PAGEBUILDER_SELECT_LAYOUT', true);
 Text::script('JLIB_PAGEBUILDER_SELECT_MODULE_CHROME', true);
 Text::script('JLIB_PAGEBUILDER_SETTINGS', true);
 Text::script('JLIB_PAGEBUILDER_VIEW', true);
+Text::script('JLIB_PAGEBUILDER_PREVIEW', true);
 Text::script('JSEARCH_RESET', true);
 Text::script('JTOOLBAR_BACK', true);
 Text::script('JTOOLBAR_CLOSE', true);
+Text::script('JLIB_PAGEBUILDER_DEVICE', true);
+Text::script('JLIB_PAGEBUILDER_BACKGROUND_COLOR', true);
+Text::script('JLIB_PAGEBUILDER_RESET', true);
+Text::script('JLIB_PAGEBUILDER_FONT_COLOR', true);
+Text::script('JLIB_PAGEBUILDER_LINK_COLOR', true);
+Text::script('JLIB_PAGEBUILDER_ENTER_IMAGE_PATH', true);
+Text::script('JLIB_PAGEBUILDER_ENTER_FONT_SIZE', true);
+Text::script('JLIB_PAGEBUILDER_ENTER_FONT_STYLE', true);
+Text::script('JLIB_PAGEBUILDER_ENTER_FONT_FAMILY', true);
 ?>
 
 <input type="text" id="<?php echo $id ?>" name="<?php echo $name ?>" class="hidden" value="<?php echo $value ?>">

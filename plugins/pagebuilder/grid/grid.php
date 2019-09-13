@@ -27,6 +27,28 @@ class PlgPagebuilderGrid extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * concat the style information of the element
+	 *
+	 * @param $styleConfig the style config
+	 *
+	 * @return string the concat html style
+	 *
+	 * @since 4.0
+	 */
+	private function renderStyle($styleConfig)
+	{
+		$styleString = "";
+
+		foreach ($styleConfig as $style => $setting)
+		{
+			$styleString .= "$style:$setting;";
+		}
+
+		return $styleString;
+	}
+
+
+	/**
 	 * Add grid element which can have every other element as child
 	 *
 	 * @param   array  $params  Data for the element
@@ -79,14 +101,15 @@ class PlgPagebuilderGrid extends CMSPlugin
 		}
 
 		$html .= ' class="' . implode(' ', $classes) . '"';
+		$html .= ' style="' . $this->renderStyle($data->style) . '"';
 		$html .= '>';
 
 		return array(
-			'title' => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
+			'title'  => Text::_('PLG_PAGEBUILDER_GRID_NAME'),
 			'config' => $data->options,
-			'id'    => 'grid',
-			'start' => $html,
-			'end'   => '</div>'
+			'id'     => 'grid',
+			'start'  => $html,
+			'end'    => '</div>'
 		);
 	}
 }

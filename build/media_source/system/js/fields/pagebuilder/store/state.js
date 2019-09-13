@@ -10,6 +10,7 @@ if (!joptions) {
 
 // The initial state
 export default {
+  sidebar_reset_trigger: false,
   elementSelected: '',
   columnSelected: '',
   selectedSettings: '',
@@ -29,6 +30,6 @@ export default {
     sm: '576px',
     md: '768px',
     lg: '992px',
-    xl: '1200px'
-  }
-}
+    xl: '1200px',
+  },
+};
