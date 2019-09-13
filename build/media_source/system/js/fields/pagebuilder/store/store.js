@@ -163,7 +163,7 @@ const mutations = {
   },
   openNav(state) {
     state.sidebar_reset_trigger = !state.sidebar_reset_trigger;
-    document.getElementById('sidebar').style.width = '280px';
+    document.getElementById('sidebar').style.width = '264px';
     document.getElementById('pagebuilder').style.marginLeft = '250px';
   },
   modifyElement(state, payload) {
