@@ -58,17 +58,17 @@ composer install
 npm install
 ```
 ### How to get a working installation from the source in Windows
-#### 1		- Clone the repository:
+#### 1	- Clone the repository:
 ```bash
 git clone git@github.com:joomla/joomla-cms.git
 ```
 ##### 2 install xampp or any localhost you prefer make sure php is install.
-		https://www.apachefriends.org/download.html
+	https://www.apachefriends.org/download.html
 #### 3 install composer 
-			1. Go to https://getcomposer.org/ and press the download.
-			2. install the setup. setup will be installed only when php is install if you are using xampp
-				 Goto xampp folder/php/php.exe give this location in your composer directory.
-			3. Goto root directory. then open git bash and do composer install --ignore-platform-reqs
+	1. Go to https://getcomposer.org/ and press the download.
+	2. install the setup. setup will be installed only when php is install if you are using xampp
+	Goto xampp folder/php/php.exe give this location in your composer directory.
+	3. Goto root directory. then open git bash and do composer install --ignore-platform-reqs
 #### 4 npm ci
 #### 5 npm install
 			
