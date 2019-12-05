@@ -57,7 +57,7 @@ if ($module->content) :
 				</div>
 			<?php endif; ?>
 			<?php if ($module->showtitle) : ?>
-				<<?php echo $headerTag; ?> class="card-header<?php echo $headerClass; ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
+				<<?php echo $headerTag; ?> class="card-header"<?php echo $headerClass; ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
 			<?php endif; ?>
 			<div class="module-body">
 				<?php echo $module->content; ?>

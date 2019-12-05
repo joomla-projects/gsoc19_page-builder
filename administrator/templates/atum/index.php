@@ -6,7 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
-
+//This is the main index.php you can imagine it as a root node and can understand frontend starting from here.
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
@@ -71,6 +71,41 @@ $css = '
 	}
 	.sidebar-wrapper > * {
 		opacity: 0;
+	}
+	::-webkit-scrollbar {
+		width: 7px;
+		background-color: #f5f5f5;
+	}
+
+	/* Track */
+	::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+
+		background-color: #f5f5f5;
+	}
+
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+		background-color: #12324C;
+	}
+
+	::-moz-scrollbar {
+		width: 7px;
+		background-color: #f5f5f5;
+	}
+
+	/* Track */
+	::-moz-scrollbar-track {
+		-moz-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+
+		background-color: #f5f5f5;
+	}
+
+	/* Handle */
+	::-moz-scrollbar-thumb {
+		-moz-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+		background-color: #555;
 	}
 ';
 
@@ -137,7 +172,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 				<div class="sidebar-toggle">
 					<a id="menu-collapse" href="#">
 						<span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>
-						<span class="sidebar-item-title"><?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?></span>
+						<span class="sidebar-item-title"><?php echo Text::_('Hide Menu'); ?></span>
 					</a>
 				</div>
 				<jdoc:include type="modules" name="menu" style="none" />

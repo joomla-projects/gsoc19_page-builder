@@ -111,7 +111,7 @@ if ($iconImage)
 	{
 		$iconImage = '&nbsp;<span class="badge badge-secondary">' . substr($iconImage, 6) . '</span>';
 	}
-	else
+	else	
 	{
 		$iconImage = '<span>' . HTMLHelper::_('image', $iconImage, null) . '</span>';
 	}
@@ -158,6 +158,7 @@ if ($current->getParams()->get('menu-quicktask', false))
 
 	if (!$permission || $user->authorise($permission, $scope))
 	{
+		
 		echo '<span class="menu-quicktask"><a href="' . $link . '">';
 		echo '<span class="fa fa-' . $icon . '" title="' . htmlentities(Text::_($title)) . '" aria-hidden="true"></span>';
 		echo '<span class="sr-only">' . Text::_($title) . '</span>';
