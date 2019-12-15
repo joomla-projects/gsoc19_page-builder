@@ -26,7 +26,7 @@
   position: relative;
   top: 0;
   z-index: $zindex-sidebar;
-  background-color: #12324c;
+  background-color: var(--atum-bg-dark);
   box-shadow: $atum-box-shadow;
   overflow: hidden;
   @include media-breakpoint-up(sm) {
@@ -476,8 +476,13 @@
   }
   .toggler-burger {
     display: block;
+    width: 70px;
+    height: 70px;
+    background: var(--atum-link-color);
+    border-radius: 40px;
+    border: 8px solid var(--atum-bg-light);
     position: fixed;
-    bottom: 8px;
+    bottom: 20px;
     right: 10px;
     z-index: $zindex-mobil-toggle;
 
