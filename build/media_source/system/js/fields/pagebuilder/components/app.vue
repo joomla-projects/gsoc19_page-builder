@@ -12,20 +12,20 @@
 		</div>
 
 		<div class="topbar row">
-			<div class="col-8">
+			<div class="col-9">
 				<devices></devices>
 			</div>
 			<div class="col">
 				<ul class="nav nav-pills">
 					<li class="nav-item" id="placeholder_component">
-						<button type="button" class="nav-link drag" id="drag_component" draggable="true" @dragstart="drag($event)">
+						<button type="button" class="nav-link drag" id="drag_component" draggable="true" @dragstart="drag($event)" style="background-color:red; border:#fafafa; color:#fafafa">
 							<i class="fas fa-file-alt"></i>
 							<span>{{ translate('JLIB_PAGEBUILDER_COMPONENT') }}</span>
 							<i class="fas fa-times-circle icon-remove" @click="restorePosition('component')"></i>
 						</button>
-					</li>
+					</li>&nbsp;&nbsp;
 					<li class="nav-item" id="placeholder_message">
-						<button type="button" class="nav-link drag" id="drag_message" draggable="true" @dragstart="drag($event)">
+						<button type="button" class="nav-link drag" id="drag_message" draggable="true" @dragstart="drag($event)" style="background-color:red; border:#fafafa; color:#fafafa">
 							<i class="fas fa-envelope"></i>
 							<span>{{ translate('JLIB_PAGEBUILDER_MESSAGE') }}</span>
 							<i class="fas fa-times-circle icon-remove" @click="restorePosition('message')"></i>
@@ -34,11 +34,12 @@
 				</ul>
 			</div>
 		</div>
-
+    <br />
 		<div class="pagebuilder" id="pagebuilder" :style="widthStyle">
 			<h2>{{ translate('JLIB_PAGEBUILDER_VIEW') }}</h2>
 
 			<!-- Element -->
+      
 			<draggable v-model="elementArray" handle=".handle">
 				<item v-for="element in elementArray" :key="element.key" :class="['row-wrapper']"
 						:item="element" :handleRequired="true"
@@ -46,8 +47,8 @@
 						@edit="editElement({ element })"></item>
 			</draggable>
 			<!-- Element Ends -->
-
-			<button @click="addElement()" class="btn btn-success btn-block" type="button">
+      <br />
+			<button @click="addElement()" class="btn btn-success btn-block" style="max-width: fit-content; margin-left:10px" type="button">
 				<span class="icon-new"></span>
 				<span>{{ translate('JLIB_PAGEBUILDER_ADD_ELEMENT') }}</span>
 			</button>
@@ -73,7 +74,7 @@
         const deviceOrder = Object.keys(this.resolution);
         const activeIndex = deviceOrder.indexOf(this.activeDevice);
         const styles = {
-          'min-width': activeIndex === 0 ? 0 : this.resolution[this.activeDevice],
+          'min-width': '300px',//activeIndex === 0 ? 0 : this.resolution[this.activeDevice], replaced this with fix  px for all sm view
           'max-width': activeIndex === deviceOrder.length - 1 ? '100%' : this.resolution[deviceOrder[activeIndex + 1]],
         };
 

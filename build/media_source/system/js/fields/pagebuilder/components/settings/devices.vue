@@ -1,13 +1,13 @@
 <template>
 	<ul id="devices" class="nav nav-pills">
 		<li v-for="(icon, size) in deviceBtns" class="nav-item">
-			<button @click="setDevice(size)" :id="size" class="btn btn-info" type="button">
+			<button @click="setDevice(size)" :id="size" class="btn btn-info" type="button" >
 				<span :class="'fas ' + icon + ' fa-lg'" aria-hidden="true"></span>
 				<span class="sr-only">{{ translate(`JLIB_PAGEBUILDER_DEVICE_${size.toUpperCase()}_SR_DESC`) }}</span>
 			</button>
 		</li>
 		<li class="nav-item">
-			<span id="device-desc" class="nav-link"></span>
+			<h5 style="font-style: italic;"><span id="device-desc" class="nav-link"></span></h5>
 		</li>
 	</ul>
 </template>
