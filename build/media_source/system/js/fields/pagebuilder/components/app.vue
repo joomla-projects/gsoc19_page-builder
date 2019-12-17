@@ -12,7 +12,7 @@
 		</div>
 
 		<div class="topbar row">
-			<div class="col-8">
+			<div class="col-9">
 				<devices></devices>
 			</div>
 			<div class="col">
@@ -23,7 +23,7 @@
 							<span>{{ translate('JLIB_PAGEBUILDER_COMPONENT') }}</span>
 							<i class="fas fa-times-circle icon-remove" @click="restorePosition('component')"></i>
 						</button>
-					</li>
+					</li>&nbsp;&nbsp;
 					<li class="nav-item" id="placeholder_message">
 						<button type="button" class="nav-link drag" id="drag_message" draggable="true" @dragstart="drag($event)">
 							<i class="fas fa-envelope"></i>
@@ -73,7 +73,7 @@
         const deviceOrder = Object.keys(this.resolution);
         const activeIndex = deviceOrder.indexOf(this.activeDevice);
         const styles = {
-          'min-width': activeIndex === 0 ? 0 : this.resolution[this.activeDevice],
+          'min-width':'300px;', //activeIndex === 0 ? 0 : this.resolution[this.activeDevice],
           'max-width': activeIndex === deviceOrder.length - 1 ? '100%' : this.resolution[deviceOrder[activeIndex + 1]],
         };
 
