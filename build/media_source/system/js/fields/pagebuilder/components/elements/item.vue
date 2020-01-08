@@ -46,6 +46,7 @@
   import {mapGetters, mapMutations, mapState} from 'vuex';
 
   export default {
+  
     name: 'item',
     props: {
       item: {
@@ -57,6 +58,7 @@
       }
     },
     computed: {
+      
       ...mapState([
         'childAllowed',
         'componentAllowed',
@@ -65,10 +67,12 @@
       ...mapGetters([
         'getType'
       ]),
+     
       classes() {
         return [
           'item',
-          'col-9',
+          `${this.element.key>1 ? '' : 'col-10'}`,
+          
           `pagebuilder_${this.element.type} ${this.element.options.class}`,
           this.element.options.component ? 'drag_component' : '',
           this.element.options.message ? 'drag_message' : ''];

@@ -91,7 +91,7 @@ button.nav-link.drag {
 
     &.pagebuilder_container {
       background-color: $light-blue;
-      margin: 0 10px;
+      margin: 0 -13px;
 
       &:hover {
         background-color: $blue;
@@ -100,7 +100,7 @@ button.nav-link.drag {
 
     &.pagebuilder_grid {
       background-color: $light-grey;
-      margin: 0 10px;
+      margin: 0 0;
 
       > .item-content {
         background: linear-gradient(to right, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px);
