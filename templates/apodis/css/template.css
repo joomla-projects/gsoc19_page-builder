@@ -1,0 +1,10 @@
+/**
+ * Apodis stylesheet to display elements created by pagebuilder
+ */
+body {
+  background-color: #aac1db; }
+
+.column {
+  min-height: 5rem;
+  border: 1px solid #acacac;
+  background-color: white; }

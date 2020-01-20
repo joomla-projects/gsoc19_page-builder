@@ -684,6 +684,10 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_privacy_user', 'plugin', 'user', 'privacy', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_quickicon_privacycheck', 'plugin', 'privacycheck', 'quickicon', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_user_terms', 'plugin', 'terms', 'user', 0, 0, 1, 0, '', '{}', 0, NULL, 0, 0),
+(0, 'plg_pagebuilder_column', 'plugin', 'column', 'pagebuilder', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'plg_pagebuilder_container', 'plugin', 'container', 'pagebuilder', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'plg_pagebuilder_grid', 'plugin', 'grid', 'pagebuilder', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'plg_pagebuilder_moduleposition', 'plugin', 'moduleposition', 'pagebuilder', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'plg_privacy_contact', 'plugin', 'contact', 'privacy', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_privacy_content', 'plugin', 'content', 'privacy', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_privacy_message', 'plugin', 'message', 'privacy', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
@@ -1846,7 +1850,8 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
 
 INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
 (10, 'atum', 1, '1', 'atum - Default', ''),
-(11, 'cassiopeia', 0, '1', 'cassiopeia - Default', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}');
+(11, 'cassiopeia', 0, '1', 'cassiopeia - Default', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}'),
+(12, 'apodis', 0, 0, 'apodis - Default', '');
 
 -- --------------------------------------------------------
 

@@ -1,0 +1,248 @@
+// Import BS4 to remove dependency from backend template
+@import "./bs4/bootstrap";
+
+// App.vue
+
+// Colors
+$white: #fff;
+$black: #000;
+$grey: #e7e7e7;
+$light-grey: #f2f2f2;
+$green: #caecc8;
+$light-green: #def6dd;
+$blue: #b0c4e0;
+$light-blue: #b9c9db;
+$red: #f0aaae;
+$light-red: #f0c2c5;
+$bs-blue: #108193;
+$drop-red: #f08080;
+$yellow: #fbffa6;
+
+// Z-index
+$zindex-backdrop: 1050;
+$zindex-sidebar: 1050;
+
+select {
+  -webkit-appearance: menulist;
+}
+
+button.nav-link.drag {
+  cursor: grab;
+  border: 2px solid;
+  border-radius: .25rem;
+  background-color: $yellow;
+  margin: auto;
+
+  .icon-remove {
+    cursor: pointer;
+    float: left;
+    margin-right: 0.75rem;
+    margin-top: 0.25rem;
+  }
+}
+
+.topbar .drag .icon-remove {
+  display: none;
+}
+
+.pagebuilder {
+  transition: margin-left .35s;
+  margin-left: auto;
+  margin-right: auto;
+
+  .item {
+    position: relative;
+    min-height: 7rem;
+    height: 100%;
+    background-color: $light-blue;
+    border: 2px solid $white;
+
+    .desc {
+      padding: .3rem .5rem;
+    }
+
+    &:hover {
+      background-color: $blue;
+
+      > .btn-wrapper {
+        visibility: visible;
+      }
+    }
+
+    &.pagebuilder_moduleposition {
+      background-color: $light-red;
+      margin: 0 10px;
+
+      &:hover {
+        background-color: $red;
+      }
+    }
+
+    &.pagebuilder_container {
+      background-color: $light-blue;
+      margin: 0 10px;
+
+      &:hover {
+        background-color: $blue;
+      }
+    }
+
+    &.pagebuilder_grid {
+      background-color: $light-grey;
+      margin: 0 10px;
+
+      > .item-content {
+        background: linear-gradient(to right, rgba(0, 0, 0, .1) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px);
+        background-size: 8.3% 150px;
+
+        &:hover {
+          background-color: $grey;
+        }
+
+        .vue-grid-item {
+
+          > .item {
+            background-color: $light-green;
+
+            &:hover {
+              background-color: $green;
+            }
+          }
+
+          // Overwrite column resize handle
+          .vue-resizable-handle {
+            top: 50%;
+            background: transparent;
+            cursor: col-resize;
+
+            &:before {
+              font-family: "Font Awesome 5 Free";
+              content: "\f337";
+            }
+          }
+        }
+      }
+    }
+
+    .drag .icon-remove {
+      display: inline-block;
+    }
+  }
+
+  .btn-wrapper.left {
+    visibility: hidden;
+    position: absolute;
+    cursor: grab;
+    top: 43%;
+    z-index: 10;
+  }
+
+  .btn-wrapper.right {
+    visibility: hidden;
+    position: absolute;
+    right: 0;
+    background-color: $white;
+    border: 1px solid $grey;
+
+    // Overwrite backend template Atum
+    [class^="icon-"] {
+      margin-right: 0;
+    }
+  }
+
+  .col-offset {
+    background-color: $light-blue;
+  }
+
+  .row-wrapper {
+    position: relative;
+    border: 2px dashed $grey;
+    min-height: 15rem;
+
+    .col-wrapper:hover {
+      cursor: grab;
+    }
+  }
+
+  .drop {
+    opacity: 0.5;
+    background: $drop-red;
+  }
+
+  .icon-cancel:before {
+    font-size: larger;
+  }
+
+  // Modal
+  .element-selection {
+    cursor: pointer;
+  }
+
+  .image-selection {
+
+    .icon {
+      border: 2px solid transparent;
+      margin-top: auto;
+      margin-bottom: auto;
+      cursor: pointer;
+
+      &.active {
+        border: 0.1em solid $bs-blue;
+      }
+    }
+
+    img {
+      display: block;
+      margin: 1rem auto 0 auto;
+      width: 75%;
+    }
+
+    p {
+      text-align: center;
+      font-size: small;
+    }
+  }
+
+  .v--modal-overlay {
+    z-index: $zindex-backdrop;
+  }
+}
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: $zindex-sidebar;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  background-color: $white;
+  transition: 0.35s;
+
+  .sidebar-content {
+    padding: 7.5px 0 0 15px;
+  }
+
+  .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    margin-left: 50px;
+  }
+
+  .table {
+
+    td {
+      padding: 8px 12px;
+    }
+
+    th {
+      text-align: center;
+      padding: 2px 12px;
+    }
+  }
+
+  .form-group {
+    padding: 0 7.5px 15px 0;
+  }
+}

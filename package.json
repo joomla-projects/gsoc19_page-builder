@@ -15,10 +15,11 @@
     "build:js": "node build.js --compile-js",
     "build:css": "node build.js --compile-css",
     "watch": "node build.js --watch",
+    "watch:vue": "webpack --mode=development --watch",
     "lint:js": "npx eslint .",
     "test": "npx karma start tests/javascript/karma.conf.js --single-run",
     "install": "node build.js --copy-assets && node build.js --build-pages",
-    "postinstall": "node build.js --compile-js && node build.js --compile-css && cd administrator/components/com_media && npm install && npm run build",
+    "postinstall": "webpack && node build.js --compile-js && node build.js --compile-css && cd administrator/components/com_media && npm install && npm run build",
     "update": "node build.js --copy-assets && node build.js --build-pages && node build.js --compile-js && node build.js --compile-css",
     "gzip": "node -e 'require(\"./build/build-modules-js/gzip-assets.es6.js\").gzipFiles()'"
   },
@@ -49,7 +50,14 @@
     "qrcode-generator": "^1.4.3",
     "roboto-fontface": "^0.10.0",
     "skipto": "^2.0.4",
-    "tinymce": "5.0.14"
+    "tinymce": "5.0.14",
+    "vue": "^2.6.10",
+    "vue-grid-layout": "^2.3.4",
+    "vue-js-modal": "^1.3.31",
+    "vue-loader": "^15.7.0",
+    "vuedraggable": "^2.23.0",
+    "vuex": "^3.1.1",
+    "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
@@ -57,6 +65,7 @@
     "@babel/preset-env": "^7.7.1",
     "@fortawesome/fontawesome-free": "^5.11.2",
     "@gfx/zopfli": "^1.0.14",
+    "@vue/cli-service": "^3.8.3",
     "autoprefixer": "^9.6.1",
     "babel-plugin-add-header-comment": "^1.0.3",
     "babel-preset-minify": "^0.4.3",
@@ -67,6 +76,7 @@
     "eslint": "^5.15.3",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.1",
+    "eslint-plugin-vue": "^5.2.2",
     "fs": "0.0.1-security",
     "fs-extra": "^7.0.1",
     "ini": "^1.3.5",
@@ -87,7 +97,9 @@
     "selenium-standalone": "^6.16.0",
     "uglify-es": "^3.3.9",
     "uglifycss": "^0.0.29",
-    "walk-sync": "^2.0.2",
-    "watch": "^1.0.2"
+    "vue-template-compiler": "^2.6.10",
+    "watch": "^1.0.2",
+    "webpack-cli": "^3.3.4",
+    "walk-sync": "^2.0.2"
   }
 }
