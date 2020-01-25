@@ -9,9 +9,10 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\WebAsset\WebAssetItemInterface;
 
 /**
  * JDocument styles renderer
@@ -39,26 +40,59 @@ class StylesRenderer extends DocumentRenderer
 		$tagEnd       = ' />';
 		$buffer       = '';
 		$mediaVersion = $this->_doc->getMediaVersion();
+		$wam          = $this->_doc->getWebAssetManager();
+		$assets       = $wam->getAssets('style', true);
+		$assets       = array_merge(array_values($assets), $this->_doc->_styleSheets);
+		$renderedUrls = [];
 
 		$defaultCssMimes = array('text/css');
 
 		// Generate stylesheet links
-		foreach ($this->_doc->_styleSheets as $src => $attribs)
+		foreach ($assets as $key => $item)
 		{
-			// Check if stylesheet uses IE conditional statements.
-			$conditional = isset($attribs['options']) && isset($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
+			$asset = $item instanceof WebAssetItemInterface ? $item : null;
+
+			if ($asset)
+			{
+				$src = $asset->getUri();
+
+				if (!$src)
+				{
+					continue;
+				}
+
+				$attribs     = $asset->getAttributes();
+				$version     = $asset->getVersion();
+				$conditional = $asset->getOption('conditional');
+			}
+			else
+			{
+				$src     = $key;
+				$attribs = $item;
+				$version = isset($attribs['options']['version']) ? $attribs['options']['version'] : '';
+
+				// Check if stylesheet uses IE conditional statements.
+				$conditional = !empty($attribs['options']['conditional']) ? $attribs['options']['conditional'] : null;
+			}
+
+			// Prevent double rendering
+			if (!empty($renderedUrls[$src]))
+			{
+				continue;
+			}
+
+			$renderedUrls[$src] = true;
 
 			// Check if script uses media version.
-			if (isset($attribs['options']['version']) && $attribs['options']['version'] && strpos($src, '?') === false
-				&& ($mediaVersion || $attribs['options']['version'] !== 'auto'))
+			if ($version && strpos($src, '?') === false && ($mediaVersion || $version !== 'auto'))
 			{
-				$src .= '?' . ($attribs['options']['version'] === 'auto' ? $mediaVersion : $attribs['options']['version']);
+				$src .= '?' . ($version === 'auto' ? $mediaVersion : $version);
 			}
 
 			$buffer .= $tab;
 
 			// This is for IE conditional statements support.
-			if (!is_null($conditional))
+			if (!\is_null($conditional))
 			{
 				$buffer .= '<!--[if ' . $conditional . ']>';
 			}
@@ -75,7 +109,7 @@ class StylesRenderer extends DocumentRenderer
 				}
 
 				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-				if (in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && in_array($value, $defaultCssMimes))
+				if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultCssMimes))
 				{
 					continue;
 				}
@@ -98,7 +132,7 @@ class StylesRenderer extends DocumentRenderer
 			$buffer .= $tagEnd;
 
 			// This is for IE conditional statements support.
-			if (!is_null($conditional))
+			if (!\is_null($conditional))
 			{
 				$buffer .= '<![endif]-->';
 			}
@@ -110,7 +144,7 @@ class StylesRenderer extends DocumentRenderer
 		foreach ($this->_doc->_style as $type => $contents)
 		{
 			// Test for B.C. in case someone still store stylesheet declarations as single string
-			if (is_string($contents))
+			if (\is_string($contents))
 			{
 				$contents = [$contents];
 			}
@@ -119,7 +153,7 @@ class StylesRenderer extends DocumentRenderer
 			{
 				$buffer .= $tab . '<style';
 
-				if (!is_null($type) && (!$this->_doc->isHtml5() || !in_array($type, $defaultCssMimes)))
+				if (!\is_null($type) && (!$this->_doc->isHtml5() || !\in_array($type, $defaultCssMimes)))
 				{
 					$buffer .= ' type="' . $type . '"';
 				}
@@ -163,7 +197,7 @@ class StylesRenderer extends DocumentRenderer
 
 			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new"' . $nonce . '>';
 
-			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+			$prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
 			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
 			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
 
