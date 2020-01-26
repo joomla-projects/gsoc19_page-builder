@@ -1,6 +1,6 @@
 <template>
 	<modal name="add-element" role="dialog" :classes="['modal-content', 'v--modal']"
-			height="500" width="800px"
+			height="70%" width="90%"   v-bind:style="{ 'overflow-y': 'auto' }"
 			:clickToClose="false" @opened="opened">
 		<div class="modal-header">
 			<h3 class="modal-title">{{ translate('JLIB_PAGEBUILDER_SELECT_ELEMENT') }}</h3>
@@ -10,7 +10,7 @@
 		</div>
 		<div class="modal-body">
 			<div class="row">
-				<div class="col-4">
+				<div class="col-12">
 					<div class="list-group" id="list-tab" role="tablist">
 						<li v-for="element in allowedChildren" data-toggle="list" role="tabpanel"
 							class="element-selection list-group-item list-group-item-action"
@@ -21,26 +21,26 @@
 						</li>
 					</div>
 				</div>
-				<div class="col-8 tab-content">
+				<div class="col-12 tab-content">
 					<div v-for="element in allowedChildren" :id="'list-'+element.id" class="tab-pane fade" role="tabpanel">
 						{{ element.description }}
 
 						<!-- TODO: generalise grid config -->
 						<div v-if="element.id === 'grid'" class="image-selection">
 							<div class="row">
-								<div class="col-4 icon" v-html="images.row12 + '<p>100%</p>'"
+								<div class="col-6 col-sm-2 icon" v-html="images.row12 + '<p>100%</p>'"
 									@click="selectGrid([12])" :class="{active: select == [12]}"></div>
-								<div class="col-4 icon" v-html="images.row66 + '<p>(50%-50%)</p>'"
+								<div class="col-6 col-sm-2  icon" v-html="images.row66 + '<p>(50%-50%)</p>'"
 									@click="selectGrid([6, 6])" :class="{active: select == [6, 6]}"></div>
-								<div class="col-4 icon" v-html="images.row48 + '<p>(33%-67%)</p>'"
+								<div class="col-6 col-sm-2 icon" v-html="images.row48 + '<p>(33%-67%)</p>'"
 									@click="selectGrid([4, 8])" :class="{active: select == [4, 8]}"></div>
-								<div class="col-4 icon" v-html="images.row84 + '<p>(67%-33%)</p>'"
+								<div class="col-6 col-sm-2  icon" v-html="images.row84 + '<p>(67%-33%)</p>'"
 									@click="selectGrid([8, 4])" :class="{active: select == [8, 4]}"></div>
-								<div class="col-4 icon" v-html="images.row3333 + '<p>(25%-25%-25%-25%)</p>'"
+								<div class="col-6 col-sm-2  icon" v-html="images.row3333 + '<p>(25%-25%-25%-25%)</p>'"
 									@click="selectGrid([3, 3, 3, 3])" :class="{active: select == [3, 3, 3, 3]}"></div>
-								<div class="col-4 icon" v-html="images.row444 + '<p>(33%-33%-33%)</p>'"
+								<div class="col-6 col-sm-2  icon" v-html="images.row444 + '<p>(33%-33%-33%)</p>'"
 									@click="selectGrid([4, 4, 4])" :class="{active: select == [4, 4, 4]}"></div>
-								<div class="col-4 icon" v-html="images.row363 + '<p>(25%-50%-25%)</p>'"
+								<div class="col-6 col-sm-2  icon" v-html="images.row363 + '<p>(25%-50%-25%)</p>'"
 									@click="selectGrid([3, 6, 3])" :class="{active: select == [3, 6, 3]}"></div>
 							</div>
 						</div>
