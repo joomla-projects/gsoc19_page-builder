@@ -1,6 +1,6 @@
 <template>
 	<modal name="add-element" role="dialog" :classes="['modal-content', 'v--modal']"
-			height="70%" width="90%"   v-bind:style="{ 'overflow-y': 'auto' }"
+			height="70%" width="90%" :style="{ 'overflow-y': 'auto' }"
 			:clickToClose="false" @opened="opened">
 		<div class="modal-header">
 			<h3 class="modal-title">{{ translate('JLIB_PAGEBUILDER_SELECT_ELEMENT') }}</h3>
