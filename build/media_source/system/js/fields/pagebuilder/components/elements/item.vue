@@ -65,7 +65,7 @@
       ...mapGetters([
         'getType'
       ]),
-           classes() {
+    classes() {
         return [
           'item',
           `${this.element.key>1 ?'':'col-10'}`,        

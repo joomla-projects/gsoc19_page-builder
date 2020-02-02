@@ -28,7 +28,8 @@
 /installation/template/css/template.min.css
 /installation/template/css/template.css
 /templates/cassiopeia/css
-
+/package-lock.json
+/administrator/components/com_media/package-lock.json
 # Test Related Files #
 /phpunit.xml
 selenium.log
