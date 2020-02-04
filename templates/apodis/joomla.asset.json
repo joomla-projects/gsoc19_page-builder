@@ -5,17 +5,10 @@
   "license": "GPL-2.0+",
   "assets": [
 	{
-	  "name": "bootstrap",
-	  "type": "preset",
-	  "dependencies": [
-		"bootstrap.js.bundle#script",
-		"bootstrap.css#style"
-	  ]
-	},
-	{
       "name": "template.apodis.base",
 	  "type": "preset",
       "dependencies": [
+		"core#script",
 		"bootstrap"
       ],
 	  "css": [
@@ -31,6 +24,14 @@
       "name": "template.apodis.rtl",
 	  "type": "preset",
       "dependencies": ["template.apodis.base"]
-    }
+    },
+	{
+	  "name": "bootstrap",
+	  "type": "preset",
+	  "dependencies": [
+		"bootstrap.js.bundle#script",
+		"bootstrap.css#style"
+	  ]
+	}
   ]
 }
