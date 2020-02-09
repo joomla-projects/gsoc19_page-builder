@@ -29,13 +29,11 @@ class PlgPagebuilderContainer extends CMSPlugin
 	/**
 	 * Add container element which can have every other element as child
 	 *
-	 * @param   array  $params  Data for the element
-	 *
 	 * @return  array   data for the element inside the editor
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAddElement($params)
+	public function onAddElement(): array
 	{
 		Text::script('PLG_PAGEBUILDER_CONTAINER_NAME');
 
@@ -49,12 +47,12 @@ class PlgPagebuilderContainer extends CMSPlugin
 			'message'     => true,
 			'config'      => [
 				'fluid' => [
-					'type' => 'select',
-					'value' => [
+					'type'    => 'select',
+					'value'   => [
 						Text::_('JYES') => 1,
-						Text::_('JNO') => 0
+						Text::_('JNO')  => 0
 					],
-					'label' => Text::_('PLG_PAGEBUILDER_CONTAINER_FLUID'),
+					'label'   => Text::_('PLG_PAGEBUILDER_CONTAINER_FLUID'),
 					'default' => 0
 				]
 			]
@@ -78,7 +76,7 @@ class PlgPagebuilderContainer extends CMSPlugin
 			return array();
 		}
 
-		$html = '<div ';
+		$html    = '<div ';
 		$classes = array('container');
 
 		if (isset($data->options))
@@ -98,11 +96,11 @@ class PlgPagebuilderContainer extends CMSPlugin
 		$html .= '>';
 
 		return array(
-			'title' => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
+			'title'  => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
 			'config' => $data->options,
-			'id'    => 'container',
-			'start' => $html,
-			'end'   => '</div>'
+			'id'     => 'container',
+			'start'  => $html,
+			'end'    => '</div>'
 		);
 	}
 }

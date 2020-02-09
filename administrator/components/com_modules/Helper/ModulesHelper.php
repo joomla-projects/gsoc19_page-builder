@@ -1,10 +1,10 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_modules
- *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @subpackage  com_modules
+ *
  */
 
 namespace Joomla\Component\Modules\Administrator\Helper;
@@ -16,7 +16,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Registry\Registry;
 
 /**
  * Modules component helper.
@@ -33,7 +32,7 @@ abstract class ModulesHelper
 	public static function getStateOptions()
 	{
 		// Build the filter options.
-		$options   = array();
+		$options   = [];
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JPUBLISHED'));
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JUNPUBLISHED'));
 		$options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
@@ -50,7 +49,7 @@ abstract class ModulesHelper
 	public static function getClientOptions()
 	{
 		// Build the filter options.
-		$options   = array();
+		$options   = [];
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
@@ -60,39 +59,46 @@ abstract class ModulesHelper
 	/**
 	 * Get a list of modules positions which are defined / used in the pagebuilder
 	 *
+	 * @param   int  $clientId  The client ID the template styles belong to
+	 *
 	 * @return  array  A list of positions
-	 * @since 4.0
+	 *
+	 * @since   4.0.0
 	 */
-
-	public static function getPageBuilderPositions()
+	public static function getLayoutBuilderPositions(int $clientId): array
 	{
 		$customPosNames = [];
 		$db             = Factory::getDbo();
 		$query          = $db->getQuery(true)
-			->select('params')
-			->from('#__template_styles');
+			->select($db->quoteName('params'))
+			->from($db->quoteName('#__template_styles'))
+			->where($db->quoteName('client_id') . ' = ' . $clientId);
 
 		$db->setQuery($query);
 
 		$list = $db->loadObjectList();
+
 		foreach ($list as $param)
 		{
-			$paramsConf = (new Registry($param->params))->toArray();
+			$params = json_decode($param->params, true);
 
-			if ($paramsConf != null && isset($paramsConf["grid"]))
+			if ($params['grid'] ?? false)
 			{
-				$paramsGridConf = (new Registry($paramsConf["grid"]))->toArray();
+				$paramsGridConf = json_decode($params['grid'], true);
 
-				array_walk_recursive($paramsGridConf, function ($value, $key) use (&$customPosNames) {
-					if ($key == "position_name")
-					{
-						$customPosNames[] = [
-							"value"   => $value,
-							"text"    => $value,
-							"disable" => false
-						];
+				array_walk_recursive(
+					$paramsGridConf,
+					static function ($value, $key) use (&$customPosNames) {
+						if ($key === 'position_name')
+						{
+							$customPosNames[] = [
+								'value'   => $value,
+								'text'    => $value,
+								'disable' => false
+							];
+						}
 					}
-				});
+				);
 			}
 		}
 
@@ -127,7 +133,8 @@ abstract class ModulesHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()
+				->enqueueMessage($e->getMessage(), 'error');
 
 			return;
 		}

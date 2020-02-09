@@ -1,10 +1,10 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_modules
- *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @subpackage  com_modules
+ *
  */
 
 namespace Joomla\Component\Modules\Administrator\Service\HTML;
@@ -54,7 +54,7 @@ class Modules
 	 */
 	public function types()
 	{
-		$options = array();
+		$options   = array();
 		$options[] = HTMLHelper::_('select.option', 'user', 'COM_MODULES_OPTION_POSITION_USER_DEFINED');
 		$options[] = HTMLHelper::_('select.option', 'template', 'COM_MODULES_OPTION_POSITION_TEMPLATE_DEFINED');
 
@@ -68,7 +68,7 @@ class Modules
 	 */
 	public function templateStates()
 	{
-		$options = array();
+		$options   = array();
 		$options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
 		$options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
 
@@ -78,14 +78,16 @@ class Modules
 	/**
 	 * Returns a published state on a grid
 	 *
-	 * @param   integer  $value     The state value.
+	 * @see     HTMLHelperJGrid::state
+	 *
 	 * @param   integer  $i         The row index
 	 * @param   boolean  $enabled   An optional setting for access control on the action.
 	 * @param   string   $checkbox  An optional prefix for checkboxes.
 	 *
+	 * @param   integer  $value     The state value.
+	 *
 	 * @return  string        The Html code
 	 *
-	 * @see     HTMLHelperJGrid::state
 	 * @since   1.7.1
 	 */
 	public function state($value, $i, $enabled = true, $checkbox = 'cb')
@@ -139,9 +141,11 @@ class Modules
 	 * @param   integer  $state             The state of the module (enabled, unenabled, trashed).
 	 * @param   string   $selectedPosition  The currently selected position for the module.
 	 *
-	 * @return  string   The necessary positions for the widget.
+	 * @return  array   The necessary positions for the widget.
 	 *
 	 * @since   2.5
+	 *
+	 * @throws \Exception
 	 */
 	public function positions($clientId, $state = 1, $selectedPosition = '')
 	{
@@ -149,7 +153,7 @@ class Modules
 		$templateGroups = array();
 
 		// Add an empty value to be able to deselect a module position
-		$option = ModulesHelper::createOption('', Text::_('COM_MODULES_NONE'));
+		$option             = ModulesHelper::createOption('', Text::_('COM_MODULES_NONE'));
 		$templateGroups[''] = ModulesHelper::createOptionGroup('', array($option));
 
 		// Add positions from templates
@@ -165,7 +169,7 @@ class Modules
 			{
 				foreach ($positions as $position)
 				{
-					$text = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
+					$text      = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
 					$options[] = ModulesHelper::createOption($position, $text);
 
 					if (!$isTemplatePosition && $selectedPosition === $position)
@@ -181,11 +185,11 @@ class Modules
 		}
 
 		// Add custom position to options
-		$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
-		$editPositions   = true;
-		$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
-		$pagebuilderPositions = ModulesHelper::getPageBuilderPositions();
-		$customPositions = array_merge($customPositions, $pagebuilderPositions);
+		$customGroupText        = Text::_('COM_MODULES_CUSTOM_POSITION');
+		$editPositions          = true;
+		$customPositions        = ModulesHelper::getPositions($clientId, $editPositions);
+		$layoutBuilderPositions = ModulesHelper::getLayoutBuilderPositions($clientId);
+		$customPositions        = array_merge($customPositions, $layoutBuilderPositions);
 
 		$app = Factory::getApplication();
 
@@ -249,7 +253,8 @@ class Modules
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()
+				->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Pop the first item off the array if it's blank
