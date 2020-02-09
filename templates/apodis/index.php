@@ -30,7 +30,7 @@ $menu     = $app->getMenu()->getActive();
 $pageGrid = $this->params->get('grid');
 
 // Enable assets
-$wa->enableAsset('template.apodis.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
+$wa->usePreset('template.apodis.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css');

@@ -2,7 +2,7 @@
   "name": "joomla",
   "version": "4.0.0",
   "description": "Joomla CMS",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "repository": {
     "type": "git",
     "url": "https://github.com/joomla/joomla-cms.git"
@@ -32,8 +32,8 @@
     "@webcomponents/webcomponentsjs": "2.1.2",
     "awesomplete": "1.1.4",
     "axios": "^0.19.0",
-    "bootstrap": "~4.3",
-    "choices.js": "^7.0.0",
+    "bootstrap": "^4.4.1",
+    "choices.js": "^9.0.0",
     "chosen-js": "1.6.2",
     "codemirror": "5.40.0",
     "cropperjs": "1.2.2",
@@ -41,19 +41,17 @@
     "diff": "3.4.0",
     "dragula": "3.7.2",
     "focus-visible": "^4.1.4",
-    "joomla-ui-custom-elements": "0.0.34",
+    "joomla-ui-custom-elements": "0.0.36",
     "jquery": "^3.4",
     "jquery-migrate": "^3.1.0",
     "mediaelement": "4.2.8",
-    "metismenujs": "^1.0.3",
-    "popper.js": "^1.15.0",
+    "metismenujs": "^1.1.0",
+    "popper.js": "^1.16.0",
     "punycode": "1.4.1",
     "qrcode-generator": "^1.4.3",
     "roboto-fontface": "^0.10.0",
-    "sass": "^1.23.0-module.beta.1",
-    "sass-loader": "^8.0.0",
     "skipto": "^2.0.4",
-    "tinymce": "5.0.1",
+    "tinymce": "5.0.14",
     "vue": "^2.6.10",
     "vue-grid-layout": "^2.3.4",
     "vue-js-modal": "^1.3.31",
@@ -63,10 +61,10 @@
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-transform-classes": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@fortawesome/fontawesome-free": "^5.9.0",
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-transform-classes": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "@gfx/zopfli": "^1.0.14",
     "@vue/cli-service": "^3.8.3",
     "autoprefixer": "^9.6.1",
@@ -102,6 +100,7 @@
     "uglifycss": "^0.0.29",
     "vue-template-compiler": "^2.6.10",
     "watch": "^1.0.2",
-    "webpack-cli": "^3.3.4"
+    "webpack-cli": "^3.3.4",
+    "walk-sync": "^2.0.2"
   }
 }
