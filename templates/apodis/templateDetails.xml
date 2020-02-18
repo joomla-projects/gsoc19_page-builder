@@ -43,14 +43,14 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="pagebuilder" label="TPL_APODIS_PAGEBUILDER">
-				<field
-					name="grid"
-					type="pagebuilder"
-					hidden="true"
-					label="TPL_APODIS_PAGEBUILDER"
-				/>
-			</fieldset>
+<!--			<fieldset name="pagebuilder" label="TPL_APODIS_PAGEBUILDER">-->
+<!--				<field-->
+<!--					name="grid"-->
+<!--					type="pagebuilder"-->
+<!--					hidden="true"-->
+<!--					label="TPL_APODIS_PAGEBUILDER"-->
+<!--				/>-->
+<!--			</fieldset>-->
 			<fieldset name="advanced">
 				<field
 					name="baseBG"
