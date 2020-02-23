@@ -10,9 +10,12 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Session\Session;
+use Joomla\Component\Templates\Administrator\Helper\RenderHelper;
 
 /**
  * Template style controller class.
@@ -151,5 +154,33 @@ class StyleController extends FormController
 		}
 
 		return parent::save($key, $urlVar);
+	}
+
+	/**
+	 * Fetch and report updates in \JSON format, for AJAX requests
+	 *
+	 * @return void
+	 *
+	 * @since 4.0.0
+	 */
+	public function ajax()
+	{
+		$app = $this->app;
+
+		if (!Session::checkToken('post'))
+		{
+			$app->setHeader('status', 403, true);
+			$app->sendHeaders();
+			echo Text::_('JINVALID_TOKEN_NOTICE');
+			$app->close();
+		}
+
+		$input = Factory::getApplication()->input;
+		$elements = $input->json->getRaw();
+		$result = RenderHelper::renderElements($elements);
+
+		echo $result;
+
+		$app->close();
 	}
 }
