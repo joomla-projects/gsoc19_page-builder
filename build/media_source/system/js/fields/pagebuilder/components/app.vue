@@ -2,7 +2,7 @@
 	<div>
 		<div id="sidebar" class="sidebar">
 			<div class="sidebar-content">
-				<h2>{{ translate('JLIB_PAGEBUILDER_SETTINGS') }}</h2>
+				<h2>{{ translate('PLG_PAGEBUILDER_SETTINGS') }}</h2>
 				<button type="button" class="btn btn-lg closebtn" @click="closeNav()">
 					<span class="icon-cancel"></span>
 				</button>
@@ -20,14 +20,14 @@
 					<li class="nav-item" id="placeholder_component">
 						<button type="button" class="nav-link drag" id="drag_component" draggable="true" @dragstart="drag($event)">
 							<i class="fas fa-file-alt"></i>
-							<span>{{ translate('JLIB_PAGEBUILDER_COMPONENT') }}</span>
+							<span>{{ translate('PLG_PAGEBUILDER_COMPONENT') }}</span>
 							<i class="fas fa-times-circle icon-remove" @click="restorePosition('component')"></i>
 						</button>
 					</li>
 					<li class="nav-item" id="placeholder_message">
 						<button type="button" class="nav-link drag" id="drag_message" draggable="true" @dragstart="drag($event)">
 							<i class="fas fa-envelope"></i>
-							<span>{{ translate('JLIB_PAGEBUILDER_MESSAGE') }}</span>
+							<span>{{ translate('PLG_PAGEBUILDER_MESSAGE') }}</span>
 							<i class="fas fa-times-circle icon-remove" @click="restorePosition('message')"></i>
 						</button>
 					</li>
@@ -36,7 +36,7 @@
 		</div>
 
 		<div class="pagebuilder" id="pagebuilder" :style="widthStyle">
-			<h2>{{ translate('JLIB_PAGEBUILDER_VIEW') }}</h2>
+			<h2>{{ translate('PLG_PAGEBUILDER_VIEW') }}</h2>
 
 			<!-- Element -->
 			<draggable v-model="elementArray" handle=".handle">
@@ -49,7 +49,7 @@
 
 			<button @click="addElement()" class="btn btn-success btn-block" type="button">
 				<span class="icon-new"></span>
-				<span>{{ translate('JLIB_PAGEBUILDER_ADD_ELEMENT') }}</span>
+				<span>{{ translate('PLG_PAGEBUILDER_ADD_ELEMENT') }}</span>
 			</button>
 
 			<!-- Modals -->

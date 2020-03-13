@@ -3,7 +3,7 @@
 		<li v-for="(icon, size) in deviceBtns" class="nav-item">
 			<button @click="setDevice(size)" :id="size" class="btn btn-info" type="button">
 				<span :class="'fas ' + icon + ' fa-lg'" aria-hidden="true"></span>
-				<span class="sr-only">{{ translate(`JLIB_PAGEBUILDER_DEVICE_${size.toUpperCase()}_SR_DESC`) }}</span>
+				<span class="sr-only">{{ translate(`PLG_PAGEBUILDER_DEVICE_${size.toUpperCase()}_SR_DESC`) }}</span>
 			</button>
 		</li>
 		<li class="nav-item">
@@ -38,7 +38,7 @@
     },
     mounted() {
       document.querySelector(`#devices #${this.activeDevice}`).classList.add('active');
-      this.deviceDesc.innerText = this.translate(`JLIB_PAGEBUILDER_DEVICE_${this.activeDevice.toUpperCase()}`);
+      this.deviceDesc.innerText = this.translate(`PLG_PAGEBUILDER_DEVICE_${this.activeDevice.toUpperCase()}`);
     },
     methods: {
       ...mapMutations([
@@ -56,7 +56,7 @@
           }
         });
 
-        this.deviceDesc.innerText = this.translate(`JLIB_PAGEBUILDER_DEVICE_${size.toUpperCase()}`);
+        this.deviceDesc.innerText = this.translate(`PLG_PAGEBUILDER_DEVICE_${size.toUpperCase()}`);
       },
     },
   };

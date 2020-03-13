@@ -41,7 +41,7 @@
 				:x="off.column.x - off.w"
 				:y="off.column.y">
 			<div class="desc">
-				{{ translate('JLIB_PAGEBUILDER_OFFSET') + ' ' + off.device + '-' + off.w }}
+				{{ translate('PLG_PAGEBUILDER_OFFSET') + ' ' + off.device + '-' + off.w }}
 			</div>
 		</grid-item>
 
