@@ -29,13 +29,14 @@ class PlgPagebuilderContainer extends CMSPlugin
 	/**
 	 * Add container element which can have every other element as child
 	 *
+	 * @param   string  $context  Where the Page Builder is called
 	 * @param   array  $params  Data for the element
 	 *
 	 * @return  array   data for the element inside the editor
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAddElement($params)
+	public function onPageBuilderAddElement($context, $params)
 	{
 		Text::script('PLG_PAGEBUILDER_CONTAINER_NAME');
 
@@ -71,7 +72,7 @@ class PlgPagebuilderContainer extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onRenderPagebuilderElement($context, $data)
+	public function onPageBuilderRenderElement($context, $data)
 	{
 		if ($context !== 'com_template.pagebuilder.container')
 		{

@@ -15,12 +15,7 @@
 			name="source"
 			type="editor"
 			label="COM_TEMPLATES_FIELD_SOURCE_LABEL"
-			editor="codemirror|none"
-			buttons="no"
-			height="500px"
-			rows="20"
-			cols="80"
-			syntax="php"
+			editor="pagebuilder|codemirror|none"
 			filter="raw"
 		/>
 

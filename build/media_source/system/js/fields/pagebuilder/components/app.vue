@@ -65,7 +65,8 @@
   export default {
     data() {
       return {
-        storeField,
+        storeField: null,
+		    jOptions: Joomla.getOptions('editor.pagebuilder'),
 	  }
 	},
     computed: {
@@ -101,26 +102,8 @@
     watch: {
       elementArray: {
         handler(newVal) {
-          const json = JSON.stringify(newVal);
-
-          const options = {
-            url: 'index.php?option=com_templates&task=style.ajax&format=raw',
-            method: 'POST',
-            data: json,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            onSuccess: (response, xhr) => {
-              const value = '<!--' + json + '-->' + response;
-              console.log('success ', value);
-              this.storeField.value =  value;
-              console.log('stored value ', this.storeField.value);
-            },
-            onError: (xhr) => {
-              console.error('ERROR!', xhr);
-            },
-          };
-          Joomla.request(options);
+          console.log('handle ', newVal);
+          this.storeField.value =  newVal;
         },
         deep: true,
       },
@@ -130,8 +113,6 @@
       this.checkAllowedElements();
     },
     mounted() {
-      this.storeField = document.getElementById('jform_params_grid');
-
       if(document.getElementsByClassName('drag_component').length) {
         let element = document.getElementsByClassName('drag_component')[0];
         element.appendChild(document.getElementById('drag_component'));
