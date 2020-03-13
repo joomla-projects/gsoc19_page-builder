@@ -109,8 +109,51 @@
       },
     },
     created() {
-      this.mapElements(JSON.parse(document.getElementById('jform_params_grid').value));
+      this.storeField = document.getElementById(this.jOptions.id);
+      const initValue = this.storeField.value;
+      const jsonComment = initValue.match(/^<!--(.*)-->/g);
+      const parsedValue = jsonComment ? JSON.parse(jsonComment[1]) : [];
+
+      this.mapElements(parsedValue);
       this.checkAllowedElements();
+
+      /** Register the editor's instance to Joomla Object */
+      Joomla.editors.instances[this.jOptions.id] = {
+        // Required by Joomla's API for the XTD-Buttons
+        getValue: () => Joomla.editors.instances[element.id].instance.getContent(),
+        setValue: text => Joomla.editors.instances[element.id].instance.setContent(text),
+        getSelection: () => Joomla.editors.instances[element.id].instance.selection.getContent({ format: 'text' }),
+        // Some extra instance dependent
+        id: this.jOptions.id,
+        instance: this,
+        onSave: () => {
+			console.log('on save!');
+			let result;
+
+			const options = {
+				url: this.jOptions.renderUrl,
+				method: 'POST',
+				data: json,
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				onSuccess: (response, xhr) => {
+					result = response;
+					console.log('result ', result);
+				},
+				onError: (xhr) => {
+					console.error('ERROR!', xhr);
+				},
+			};
+			const request = Joomla.request(options);
+
+			return result;
+		},
+      };
+
+      /** On save * */
+      console.log('form', document.getElementById(this.jOptions.id).form);
+      document.getElementById(this.jOptions.id).form.addEventListener('submit', () => Joomla.editors.instances[this.jOptions.id].onSave());
     },
     mounted() {
       if(document.getElementsByClassName('drag_component').length) {
