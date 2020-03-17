@@ -46,8 +46,8 @@
 			<fieldset name="pagebuilder" label="TPL_APODIS_PAGEBUILDER">
 				<field
 					name="grid"
-					type="pagebuilder"
-					hidden="true"
+					type="editor"
+					editor="pagebuilder"
 					label="TPL_APODIS_PAGEBUILDER"
 				/>
 			</fieldset>
