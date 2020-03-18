@@ -49,6 +49,7 @@
 					type="editor"
 					editor="pagebuilder"
 					label="TPL_APODIS_PAGEBUILDER"
+					hidden="true"
 				/>
 			</fieldset>
 			<fieldset name="advanced">

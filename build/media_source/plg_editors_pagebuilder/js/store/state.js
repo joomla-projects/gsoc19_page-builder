@@ -3,7 +3,7 @@
  */
 
 // Get data from joomla option storage
-const joptions = Joomla.getOptions('editor.pagebuilder');
+const joptions = Joomla.getOptions('editor_pagebuilder');
 if (!joptions) {
   throw new Error('Missing pagebuilder options.');
 }

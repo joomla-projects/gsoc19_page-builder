@@ -66,9 +66,9 @@
     data() {
       return {
         storeField: null,
-		    jOptions: Joomla.getOptions('editor.pagebuilder'),
-	  }
-	},
+        jOptions: Joomla.getOptions('editor_pagebuilder'),
+      }
+    },
     computed: {
       ...mapState([
         'activeDevice',
@@ -109,6 +109,7 @@
       },
     },
     created() {
+      console.log(this.jOptions);
       this.storeField = document.getElementById(this.jOptions.id);
       const initValue = this.storeField.value;
       const jsonComment = initValue.match(/^<!--(.*)-->/g);
@@ -127,32 +128,31 @@
         id: this.jOptions.id,
         instance: this,
         onSave: () => {
-			console.log('on save!');
-			let result;
+          console.log('on save!');
+          let result;
 
-			const options = {
-				url: this.jOptions.renderUrl,
-				method: 'POST',
-				data: json,
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				onSuccess: (response, xhr) => {
-					result = response;
-					console.log('result ', result);
-				},
-				onError: (xhr) => {
-					console.error('ERROR!', xhr);
-				},
-			};
-			const request = Joomla.request(options);
+          const options = {
+            url: this.jOptions.renderUrl,
+            method: 'POST',
+            data: this.elementArray,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            onSuccess: (response, xhr) => {
+              result = response;
+              console.log('result ', result);
+            },
+            onError: (xhr) => {
+              console.error('ERROR!', xhr);
+            },
+          };
+          const request = Joomla.request(options);
 
-			return result;
-		},
+          return result;
+        },
       };
 
       /** On save * */
-      console.log('form', document.getElementById(this.jOptions.id).form);
       document.getElementById(this.jOptions.id).form.addEventListener('submit', () => Joomla.editors.instances[this.jOptions.id].onSave());
     },
     mounted() {

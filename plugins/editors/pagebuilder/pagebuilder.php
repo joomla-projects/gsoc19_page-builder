@@ -25,6 +25,14 @@ use Joomla\CMS\Uri\Uri;
 class PlgEditorPagebuilder extends CMSPlugin
 {
 	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  3.1.4
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * Display the editor.
 	 *
 	 * @param   string   $name     The control name.
@@ -84,7 +92,7 @@ class PlgEditorPagebuilder extends CMSPlugin
 		);
 
 		$this->includeLanguageStrings();
-		Factory::getDocument()->addScriptOptions('editor.pagebuilder', $options);
+		Factory::getDocument()->addScriptOptions('editor_pagebuilder', $options);
 
 		return '<div id="pagebuilder"></div>'
 			. '<input type="text" class="hidden" name="' . $name . '" id="' . $id . '" value="' . $content . '" ' .
