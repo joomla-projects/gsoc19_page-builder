@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0" type="plugin" group="pagebuilder" method="upgrade">
+	<name>plg_pagebuilder_rendering</name>
+	<author>Joomla! Project</author>
+	<creationDate>February 2020</creationDate>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>4.0.0</version>
+	<description>PLG_PAGEBUILDER_RENDERING_XML_DESCRIPTION</description>
+	<namespace>Joomla\Plugin\Pagebuilder\Rendering</namespace>
+	<files>
+		<filename plugin="rendering">rendering.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_pagebuilder_rendering.ini</language>
+		<language tag="en-GB">en-GB.plg_pagebuilder_rendering.sys.ini</language>
+	</languages>
+</extension>

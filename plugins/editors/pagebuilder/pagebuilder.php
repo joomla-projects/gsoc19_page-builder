@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * PageBuilder Editor Plugin
@@ -24,6 +23,15 @@ use Joomla\CMS\Uri\Uri;
  */
 class PlgEditorPagebuilder extends CMSPlugin
 {
+	/**
+	 * Application object
+	 *
+	 * @var    AdministratorApplication
+	 *
+	 * @since  3.8.0
+	 */
+	protected $app;
+
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
@@ -78,7 +86,7 @@ class PlgEditorPagebuilder extends CMSPlugin
 		$options = array(
 			'elements'  => $pluginElements,
 			'id'        => $id,
-			'renderUrl' => Uri::base(true) . '/index.php?option=com_ajax&plugin=pagebuilder&group=editors&format=raw&action=renderPage',
+			'renderUrl' => 'index.php?option=com_ajax&group=pagebuilder&plugin=rendering&format=raw&method=post',
 			'images'    => array(
 				// Images to select new elements
 				'row12'   => HTMLHelper::_('image', 'media/plg_editors_pagebuilder/images/row_12.png', 'row12'),
@@ -145,123 +153,5 @@ class PlgEditorPagebuilder extends CMSPlugin
 		Text::script('PLG_PAGEBUILDER_SELECT_MODULE_CHROME', true);
 		Text::script('PLG_PAGEBUILDER_SETTINGS', true);
 		Text::script('PLG_PAGEBUILDER_VIEW', true);
-	}
-
-	/**
-	 * API interface to get HTML rendered elements
-	 *
-	 * @throws Exception
-	 * @since  4.0
-	 * @return void
-	 */
-	public static function renderPage()
-	{
-		$app = JFactory::getApplication();
-
-		if (!Session::checkToken('post'))
-		{
-			$app->setHeader('status', 403, true);
-			$app->sendHeaders();
-			echo Text::_('JINVALID_TOKEN_NOTICE');
-			$app->close();
-		}
-
-		$input    = Factory::getApplication()->input;
-		$json     = $input->json->getRaw();
-		$elements = json_decode($json);
-
-		if (empty($elements))
-		{
-			echo '';
-			$app->close();
-		}
-
-		PluginHelper::importPlugin('pagebuilder');
-
-		$elementComment = '<!--' . $json . '-->';
-		$result         = self::render($elements);
-
-		echo $elementComment . $result;
-
-		$app->close();
-	}
-
-	/**
-	 * Retrieve plugin rendering data
-	 * Returns false when no matching plugin was found.
-	 *
-	 * @param   array  $data    element data for the renderer
-	 * @param   string $context page context to get matching elements
-	 *
-	 * @return  array|boolean
-	 *
-	 * @throws Exception
-	 * @since  4.0
-	 */
-	private static function getPluginRenderer($data, $context = 'com_templates.style')
-	{
-		$pluginRenderer = Factory::getApplication()->triggerEvent(
-			'onRenderPagebuilderElement',
-			array($context, $data)
-		);
-
-		foreach ($pluginRenderer as $plugin)
-		{
-			if (empty($plugin))
-			{
-				continue;
-			}
-
-			return $plugin;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Render pagebuilder grid
-	 *
-	 * @param   array $elements blocks that build the website
-	 *
-	 * @return  string
-	 *
-	 * @throws Exception
-	 * @since  4.0
-	 */
-	private static function render($elements)
-	{
-		$html = '';
-
-		foreach ($elements as $element)
-		{
-			$renderData = self::getPluginRenderer($element);
-
-			// Create default element to fill space
-			if (!$renderData)
-			{
-				$renderData['start'] = '<div>';
-				$renderData['end']   = '</div>';
-			}
-
-			$html .= $renderData['start'];
-
-			if (!empty($element->options->component))
-			{
-				$html .= '<jdoc:include type="component" />';
-			}
-			elseif (!empty($element->options->message))
-			{
-				$html .= '<jdoc:include type="message" />';
-			}
-
-			if (!empty($element->children))
-			{
-				$html .= self::render($element->children);
-			}
-
-			$html .= $renderData['end'];
-		}
-
-		return $html;
 	}
 }
