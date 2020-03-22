@@ -65,9 +65,18 @@
   export default {
     data() {
       return {
+        disabled: false,
         storeField: null,
         jOptions: Joomla.getOptions('editor_pagebuilder'),
       }
+    },
+    watch: {
+      elementArray: {
+        handler(newVal) {
+          this.setRenderedFieldValue(newVal);
+        },
+        deep: true,
+      },
     },
     computed: {
       ...mapState([
@@ -103,28 +112,14 @@
       this.storeField = document.getElementById(this.jOptions.id);
       let initValue = [];
 
-      const jsonComment = this.storeField.value.match(new RegExp('^<!--(.*)-->', 'g'));
-      if (jsonComment) {
-        try {
-          initValue = JSON.parse(jsonComment[1]);
-        } catch (e) {
-          console.error('Could not parse initial value ', jsonComment);
-          initValue = [];
-        }
+      try {
+        initValue = JSON.parse(this.jOptions.initValue);
+      } catch (e) {
+        Error('Could not parse initial value');
       }
 
       this.mapElements(initValue);
       this.checkAllowedElements();
-
-      /** Register the editor's instance to Joomla Object */
-      Joomla.editors.instances[this.jOptions.id] = {
-        id: this.jOptions.id,
-        instance: this,
-        onSave: () => this.renderElements(),
-      };
-
-      /** On save * */
-      this.storeField.form.addEventListener('submit', () => Joomla.editors.instances[this.jOptions.id].onSave());
     },
     mounted() {
       if(document.getElementsByClassName('drag_component').length) {
@@ -155,9 +150,8 @@
       drag(event) {
         event.dataTransfer.setData('text', event.target.id);
       },
-      renderElements() {
-        let result = '<!--' + JSON.stringify(this.elementArray) + '-->';
-        const data = this.elementArray;
+      setRenderedFieldValue(value) {
+        const jsonData = JSON.stringify(value);
 
         Joomla.request({
           url: this.jOptions.renderUrl,
@@ -165,19 +159,14 @@
             'Content-Type': 'application/json',
           },
           method: 'POST',
-          perform: true,
-          data: data,
+          data: jsonData,
           onSuccess: (response) => {
-            if (response) {
-              result = response;
-            }
+            this.storeField.value = response;
           },
           onError: () => {
-            console.error('Error on rendering!');
+            Error('Rendering failed!');
           }
         });
-
-        return result;
       },
     },
     components: {

@@ -83,9 +83,13 @@ class PlgEditorPagebuilder extends CMSPlugin
 			'onPageBuilderAddElement', array($context, 'params')
 		);
 
+		preg_match('<!--(.*)-->', $content, $matches);
+		$value = $matches ? $matches[1] : '';
+
 		$options = array(
 			'elements'  => $pluginElements,
 			'id'        => $id,
+			'initValue' => htmlspecialchars_decode($value),
 			'renderUrl' => 'index.php?option=com_ajax&group=pagebuilder&plugin=rendering&format=raw&method=post',
 			'images'    => array(
 				// Images to select new elements
@@ -103,7 +107,7 @@ class PlgEditorPagebuilder extends CMSPlugin
 		Factory::getDocument()->addScriptOptions('editor_pagebuilder', $options);
 
 		return '<div id="pagebuilder"></div>'
-			. '<input type="text" class="hidden" name="' . $name . '" id="' . $id . '" value="' . $content . '" ' .
+			. '<input type="textarea" class="hidden" name="' . $name . '" id="' . $id . '" value="' . $value . '" ' .
 			$readonly . '/>';
 	}
 

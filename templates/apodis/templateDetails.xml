@@ -50,6 +50,7 @@
 					editor="pagebuilder"
 					label="TPL_APODIS_PAGEBUILDER"
 					hidden="true"
+					filter="raw"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
