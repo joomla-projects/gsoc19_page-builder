@@ -83,13 +83,14 @@ class PlgEditorPagebuilder extends CMSPlugin
 			'onPageBuilderAddElement', array($context, 'params')
 		);
 
-		preg_match('<!--(.*)-->', $content, $matches);
+		$decodedContent = htmlspecialchars_decode($content);
+		preg_match('/<!--{pagebuilder-elements:(\[.*])}-->/U', $decodedContent, $matches);
 		$value = $matches ? $matches[1] : '';
 
 		$options = array(
 			'elements'  => $pluginElements,
 			'id'        => $id,
-			'initValue' => htmlspecialchars_decode($value),
+			'initValue' => $value,
 			'renderUrl' => 'index.php?option=com_ajax&group=pagebuilder&plugin=rendering&format=raw&method=post',
 			'images'    => array(
 				// Images to select new elements

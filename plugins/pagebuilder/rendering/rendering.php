@@ -47,7 +47,7 @@ class PlgPagebuilderRendering extends CMSPlugin
 			return 'Elements are not in JSON format!';
 		}
 
-		$elementComment = '<!--' . $json . '-->';
+		$elementComment = '<!--{pagebuilder-elements:' . $jsonElements . '}-->';
 		$result         = empty($elements) ? '' : self::render($elements);
 
 		// Append code to the end, after the elements were rendered
