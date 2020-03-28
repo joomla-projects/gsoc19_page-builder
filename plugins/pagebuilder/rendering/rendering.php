@@ -28,12 +28,19 @@ class PlgPagebuilderRendering extends CMSPlugin
 	 */
 	public function onAjaxRendering()
 	{
-		$input = Factory::getApplication()->input;
-		$json  = $input->json->getRaw();
+		$app = Factory::getApplication();
+		$input = $app->input;
+		$jsonElements  = $input->json->getRaw();
+
+		$context = 'template_overrides';
+		$data = array();
+
+		// Create a code base, before the elements will be rendered
+		$starts = $app->triggerEvent('onPageBuilderBeforeRenderElement', array($context, $data));
 
 		try
 		{
-			$elements = json_decode($json);
+			$elements = json_decode($jsonElements);
 		}
 		catch (Exception $e)
 		{
@@ -43,7 +50,10 @@ class PlgPagebuilderRendering extends CMSPlugin
 		$elementComment = '<!--' . $json . '-->';
 		$result         = empty($elements) ? '' : self::render($elements);
 
-		return $elementComment . $result;
+		// Append code to the end, after the elements were rendered
+		$ends = $app->triggerEvent('onPageBuilderAfterRenderElement', array($context, $data));
+
+		return implode($starts) . $elementComment . $result . implode($ends);
 	}
 
 	/**
@@ -51,17 +61,18 @@ class PlgPagebuilderRendering extends CMSPlugin
 	 * Returns false when no matching plugin was found.
 	 *
 	 * @param   array  $data    element data for the renderer
-	 * @param   string $context page context to get matching elements
 	 *
 	 * @return  array|boolean
 	 *
 	 * @throws Exception
 	 * @since  4.0
 	 */
-	private static function getPluginRenderer($data, $context = 'com_templates.style')
+	private static function getPluginRenderer($data)
 	{
+		$context = $data->type;
+
 		$pluginRenderer = Factory::getApplication()->triggerEvent(
-			'onRenderPagebuilderElement',
+			'onPageBuilderRenderElement',
 			array($context, $data)
 		);
 
