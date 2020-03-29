@@ -11,9 +11,30 @@
 	<description>PLG_PAGEBUILDER_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="pagebuilder">pagebuilder.php</filename>
+		<filename>contexts.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_editors_pagebuilder.ini</language>
 		<language tag="en-GB">en-GB.plg_editors_pagebuilder.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="layout"
+					type="text"
+					label="PLG_PAGEBUILDER_CONTEXT_LAYOUT_LABEL"
+					description="PLG_PAGEBUILDER_CONTEXT_LAYOUT_DESC"
+					default="com_templates.view,com_templates.templates"
+				/>
+				<field
+					name="content"
+					type="text"
+					label="PLG_PAGEBUILDER_CONTEXT_CONTENT_LABEL"
+					description="PLG_PAGEBUILDER_CONTEXT_CONTENT_DESC"
+					default="com_content.article,com_modules.module"
+				/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

@@ -22,22 +22,27 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	 * Load plugin language files automatically
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0
 	 */
 	protected $autoloadLanguage = true;
 
 	/**
 	 * Add moduleposition element which can have every other element as child
 	 *
-     * @param   string  $context  Where the Page Builder is called
-	 * @param   array  $params  Data for the element
+	 * @param   string  $context  Where the Page Builder is called
+	 * @param   array   $params   Data for the element
 	 *
 	 * @return  array   data for the element inside the editor
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0
 	 */
 	public function onPageBuilderAddElement($context, $params)
 	{
+		if (!$this->checkContext($context))
+		{
+			return array();
+		}
+
 		Text::script('PLG_PAGEBUILDER_MODULEPOSITION_NAME');
 
 		$chromeValues = array(
@@ -79,6 +84,36 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	}
 
 	/**
+	 * Checks if the element is allowed for the current context
+	 *
+	 * @param   string  $context where the current Page Builder is used
+	 *
+	 * @return boolean
+	 * @since 4.0
+	 */
+	private function checkContext($context)
+	{
+		$contexts = $this->params->get('context');
+
+		if (strpos($context, $contexts) !== false)
+		{
+			return true;
+		}
+
+		$extensions = $this->params->get('extensions');
+
+		foreach ($extensions as $extension)
+		{
+			if (strpos($context, $extension) !== false)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get rendering options for frontend templates
 	 *
 	 * @param   string  $context  Indicates the type of the rendered element
@@ -90,7 +125,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	 */
 	public function onPageBuilderRenderElement($context, $data)
 	{
-		if ($context !== 'com_template.pagebuilder.moduleposition')
+		if ($context !== 'moduleposition')
 		{
 			return array();
 		}

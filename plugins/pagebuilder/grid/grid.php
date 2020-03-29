@@ -38,6 +38,13 @@ class PlgPagebuilderGrid extends CMSPlugin
 	 */
 	public function onPageBuilderAddElement($context, $params)
 	{
+		$configContext = $this->params->get('context');
+
+		if (strpos($context, $configContext) === false)
+		{
+			return array();
+		}
+
 		Text::script('PLG_PAGEBUILDER_GRID_NAME');
 
 		return array(
@@ -63,7 +70,7 @@ class PlgPagebuilderGrid extends CMSPlugin
 	 */
 	public function onPageBuilderRenderElement($context, $data)
 	{
-		if ($context !== 'com_template.pagebuilder.grid')
+		if ($context !== 'grid')
 		{
 			return array();
 		}

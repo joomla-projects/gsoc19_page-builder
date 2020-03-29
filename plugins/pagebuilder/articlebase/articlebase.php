@@ -19,14 +19,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgPagebuilderArticleBase extends CMSPlugin
 {
 	/**
-	 * Load plugin language files automatically
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Set basic php code for template overrides
 	 *
 	 * @param   string  $context  Indicates the type of the rendered element
@@ -38,7 +30,7 @@ class PlgPagebuilderArticleBase extends CMSPlugin
 	 */
 	public function onPageBuilderBeforeRenderElement($context, $data)
 	{
-		if ($context !== 'template_overrides')
+		if (!$this->checkContext($context, $data))
 		{
 			return '';
 		}
@@ -64,5 +56,34 @@ class PlgPagebuilderArticleBase extends CMSPlugin
 			$user    = Factory::getUser();
 			$info    = $params->get(\'info_block_position\', 0);
 		?>';
+	}
+
+	/**
+	 * Check if this plugin code intended to render
+	 *
+	 * @param   string $context  the current purpose
+	 * @param   array  $data     additional data for the rendering
+	 *
+	 * @return boolean
+	 * @since 4.0
+	 */
+	private function checkContext($context, $data)
+	{
+		if (array_key_exists('file', $data))
+		{
+			$fileName = base64_decode($data['file']);
+
+			if (strpos($fileName, 'article') === false)
+			{
+				return false;
+			}
+		}
+
+		if ($context !== 'com_templates.template')
+		{
+			return false;
+		}
+
+		return true;
 	}
 }

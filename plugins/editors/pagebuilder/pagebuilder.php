@@ -68,11 +68,16 @@ class PlgEditorPagebuilder extends CMSPlugin
 			$id = $name;
 		}
 
-		$readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
-		$input    = JFactory::getApplication()->input;
-		$option   = $input->get('option', '');
-		$view     = $input->get('view', '');
-		$context  = $option . '.' . $view;
+		$renderUrl = 'index.php?option=com_ajax&group=pagebuilder&plugin=rendering&format=raw&method=post';
+		$context  = $this->getContext();
+		$renderUrl .= "&context=$context";
+		$file = $this->app->input->get('file', '');
+
+		if (!empty($file))
+		{
+			$renderUrl .= "&file=$file";
+			$params['file'] = $file;
+		}
 
 		HTMLHelper::_('script', 'media/plg_editors_pagebuilder/js/pagebuilder.js');
 		HTMLHelper::_('stylesheet', 'media/plg_editors_pagebuilder/css/pagebuilder.css');
@@ -80,18 +85,30 @@ class PlgEditorPagebuilder extends CMSPlugin
 		// Activate elements to use them in the editor
 		PluginHelper::importPlugin('pagebuilder');
 		$pluginElements = Factory::getApplication()->triggerEvent(
-			'onPageBuilderAddElement', array($context, 'params')
+			'onPageBuilderAddElement', array($context, $params)
 		);
+
+		// Give the editor only not empty elements
+		$elements = array_filter($pluginElements,
+			function ($value)
+			{
+				return count($value);
+			}
+		);
+
+		// Reindexing for JS arrays
+		$elements = array_values($elements);
 
 		$decodedContent = htmlspecialchars_decode($content);
 		preg_match('/<!--{pagebuilder-elements:(\[.*])}-->/U', $decodedContent, $matches);
 		$value = $matches ? $matches[1] : '';
 
 		$options = array(
-			'elements'  => $pluginElements,
+			'context'   => $context,
+			'elements'  => $elements,
+			'file'      => $file,
 			'id'        => $id,
 			'initValue' => $value,
-			'renderUrl' => 'index.php?option=com_ajax&group=pagebuilder&plugin=rendering&format=raw&method=post',
 			'images'    => array(
 				// Images to select new elements
 				'row12'   => HTMLHelper::_('image', 'media/plg_editors_pagebuilder/images/row_12.png', 'row12'),
@@ -101,15 +118,47 @@ class PlgEditorPagebuilder extends CMSPlugin
 				'row444'  => HTMLHelper::_('image', 'media/plg_editors_pagebuilder/images/row_4_4_4.png', 'row444'),
 				'row363'  => HTMLHelper::_('image', 'media/plg_editors_pagebuilder/images/row_3_6_3.png', 'row363'),
 				'row3333' => HTMLHelper::_('image', 'media/plg_editors_pagebuilder/images/row_3_3_3_3.png', 'row3333'),
-			)
+			),
+			'renderUrl' => $renderUrl,
 		);
 
 		$this->includeLanguageStrings();
 		Factory::getDocument()->addScriptOptions('editor_pagebuilder', $options);
 
+		$readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
+
 		return '<div id="pagebuilder"></div>'
 			. '<input type="textarea" class="hidden" name="' . $name . '" id="' . $id . '" value="' . $value . '" ' .
 			$readonly . '/>';
+	}
+
+	/**
+	 * Searches for the current context and returns a comma separated string with all valid contexts
+	 *
+	 * @return string
+	 * @throws Exception
+	 * @since 4.0
+	 */
+	private function getContext()
+	{
+		$input    = JFactory::getApplication()->input;
+		$option   = $input->get('option', '');
+		$view     = $input->get('view', '');
+
+		$context = '';
+		$current = $option . '.' . $view;
+
+		if (strpos($this->params->get('layout'), $current) !== false)
+		{
+			$context .= 'layout,';
+		}
+
+		if (strpos($this->params->get('content'), $current) !== false)
+		{
+			$context .= 'content,';
+		}
+
+		return '*,' . $context . $current;
 	}
 
 	/**

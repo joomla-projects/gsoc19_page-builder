@@ -30,7 +30,7 @@ class PlgPagebuilderItemTitle extends CMSPlugin
 	 * Add container element which can have every other element as child
 	 *
 	 * @param   string  $context  Where the Page Builder is called
-	 * @param   array  $params  Data for the element
+	 * @param   array   $params   Data for the element
 	 *
 	 * @return  array   data for the element inside the editor
 	 *
@@ -38,6 +38,11 @@ class PlgPagebuilderItemTitle extends CMSPlugin
 	 */
 	public function onPageBuilderAddElement($context, $params)
 	{
+		if ($context !== 'com_templates.template')
+		{
+			return array();
+		}
+
 		Text::script('PLG_PAGEBUILDER_ITEM_TITLE_NAME');
 
 		return array(

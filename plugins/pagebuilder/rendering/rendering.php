@@ -32,8 +32,9 @@ class PlgPagebuilderRendering extends CMSPlugin
 		$input = $app->input;
 		$jsonElements  = $input->json->getRaw();
 
-		$context = 'template_overrides';
-		$data = array();
+		$context = $input->get('context', '');
+		$file = $input->get('file', '');
+		$data = empty($file) ? array() : array('file' => $file);
 
 		// Create a code base, before the elements will be rendered
 		$starts = $app->triggerEvent('onPageBuilderBeforeRenderElement', array($context, $data));

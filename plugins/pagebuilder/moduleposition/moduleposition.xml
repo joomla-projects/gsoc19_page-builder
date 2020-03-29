@@ -16,4 +16,27 @@
 		<language tag="en-GB">en-GB.plg_pagebuilder_moduleposition.ini</language>
 		<language tag="en-GB">en-GB.plg_pagebuilder_moduleposition.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldpath="plugins/editors/pagebuilder">
+				<field
+					name="context"
+					type="context"
+					label="PLG_PAGEBUILDER_MODULEPOSITION_CONTEXT_LABEL"
+					default="*"
+				/>
+				<field
+					name="extensions"
+					type="folderlist"
+					default=""
+					label="PLG_PAGEBUILDER_MODULEPOSITION_EXTENSIONS_LABEL"
+					directory="administrator"
+					recursive="true"
+					multiple="true"
+					hide_default="true"
+					folderFilter="^com_|mod_"
+				/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>
