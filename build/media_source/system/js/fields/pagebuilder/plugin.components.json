@@ -1,0 +1,11 @@
+{
+	"Devices": {
+		"basename": "Devices",
+		"path": "./components/settings/devices.vue",
+		"props": {
+
+		}
+	}
+}
+
+
