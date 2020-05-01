@@ -13,7 +13,7 @@
 		<filename plugin="itemtitle">itemtitle.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_pagebuilder_item_title.ini</language>
-		<language tag="en-GB">en-GB.plg_pagebuilder_item_title.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_pagebuilder_itemtitle.ini</language>
+		<language tag="en-GB">en-GB.plg_pagebuilder_itemtitle.sys.ini</language>
 	</languages>
 </extension>

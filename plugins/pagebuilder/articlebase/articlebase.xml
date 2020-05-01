@@ -13,7 +13,7 @@
 		<filename plugin="articlebase">articlebase.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_pagebuilder_article_base.ini</language>
-		<language tag="en-GB">en-GB.plg_pagebuilder_article_base.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_pagebuilder_articlebase.ini</language>
+		<language tag="en-GB">en-GB.plg_pagebuilder_articlebase.sys.ini</language>
 	</languages>
 </extension>
