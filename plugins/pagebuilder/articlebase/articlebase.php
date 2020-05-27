@@ -79,7 +79,7 @@ class PlgPagebuilderArticleBase extends CMSPlugin
 			}
 		}
 
-		if ($context !== 'com_templates.template')
+		if (strpos($context, 'com_templates.template') === false)
 		{
 			return false;
 		}

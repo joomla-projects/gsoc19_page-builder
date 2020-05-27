@@ -38,7 +38,7 @@ class PlgPagebuilderItemTitle extends CMSPlugin
 	 */
 	public function onPageBuilderAddElement($context, $params)
 	{
-		if ($context !== 'com_templates.template')
+		if (strpos($context, 'com_templates.template') === false)
 		{
 			return array();
 		}
