@@ -100,7 +100,7 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 			return true;
 		}
 
-		$extensions = $this->params->get('extensions');
+		$extensions = $this->params->get('extensions', []);
 
 		foreach ($extensions as $extension)
 		{
