@@ -1,3 +1,5 @@
+NOTE - This repository has been archived for now. This can be reopend at any point when we want to work on that project again.
+
 Joomla! CMS™ [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon) [![Reviewed by Hound](https://img.shields.io/badge/Reviewed_by-Hound-8E64B0.svg)](https://houndci.com)
 ====================
 
