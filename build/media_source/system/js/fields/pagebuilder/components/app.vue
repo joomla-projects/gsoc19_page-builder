@@ -12,7 +12,7 @@
 		</div>
 
 		<div class="topbar row">
-			<div class="col-8">
+			<div class="col-9">
 				<devices></devices>
 			</div>
 			<div class="col">
@@ -73,7 +73,7 @@
         const deviceOrder = Object.keys(this.resolution);
         const activeIndex = deviceOrder.indexOf(this.activeDevice);
         const styles = {
-          'min-width': activeIndex === 0 ? 0 : this.resolution[this.activeDevice],
+          'min-width': '300px',
           'max-width': activeIndex === deviceOrder.length - 1 ? '100%' : this.resolution[deviceOrder[activeIndex + 1]],
         };
 

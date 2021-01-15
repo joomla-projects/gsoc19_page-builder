@@ -7,7 +7,7 @@
 			</button>
 		</li>
 		<li class="nav-item">
-			<span id="device-desc" class="nav-link"></span>
+			<h5><span id="device-desc" class="nav-link"></span></h5>
 		</li>
 	</ul>
 </template>
