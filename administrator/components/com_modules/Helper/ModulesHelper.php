@@ -5,6 +5,7 @@
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ *
  */
 
 namespace Joomla\Component\Modules\Administrator\Helper;
@@ -32,7 +33,7 @@ abstract class ModulesHelper
 	public static function getStateOptions()
 	{
 		// Build the filter options.
-		$options   = array();
+		$options   = [];
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JPUBLISHED'));
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JUNPUBLISHED'));
 		$options[] = HTMLHelper::_('select.option', '-2', Text::_('JTRASHED'));
@@ -49,11 +50,60 @@ abstract class ModulesHelper
 	public static function getClientOptions()
 	{
 		// Build the filter options.
-		$options   = array();
+		$options   = [];
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
 
 		return $options;
+	}
+
+	/**
+	 * Get a list of modules positions which are defined / used in the pagebuilder
+	 *
+	 * @param   int  $clientId  The client ID the template styles belong to
+	 *
+	 * @return  array  A list of positions
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getLayoutBuilderPositions(int $clientId): array
+	{
+		$customPosNames = [];
+		$db             = Factory::getDbo();
+		$query          = $db->getQuery(true)
+			->select($db->quoteName('params'))
+			->from($db->quoteName('#__template_styles'))
+			->where($db->quoteName('client_id') . ' = ' . $clientId);
+
+		$db->setQuery($query);
+
+		$list = $db->loadObjectList();
+
+		foreach ($list as $param)
+		{
+			$params = json_decode($param->params, true);
+
+			if ($params['grid'] ?? false)
+			{
+				$paramsGridConf = json_decode($params['grid'], true);
+
+				array_walk_recursive(
+					$paramsGridConf,
+					static function ($value, $key) use (&$customPosNames) {
+						if ($key === 'position_name')
+						{
+							$customPosNames[] = [
+								'value'   => $value,
+								'text'    => $value,
+								'disable' => false
+							];
+						}
+					}
+				);
+			}
+		}
+
+		return $customPosNames;
 	}
 
 	/**
@@ -84,7 +134,8 @@ abstract class ModulesHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()
+				->enqueueMessage($e->getMessage(), 'error');
 
 			return;
 		}
@@ -176,15 +227,15 @@ abstract class ModulesHelper
 
 		$db->setQuery($query);
 		$modules = $db->loadObjectList();
-		$lang = Factory::getLanguage();
+		$lang    = Factory::getLanguage();
 
 		foreach ($modules as $i => $module)
 		{
 			$extension = $module->value;
-			$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
-			$source = $path . "/modules/$extension";
-				$lang->load("$extension.sys", $path, null, false, true)
-			||	$lang->load("$extension.sys", $source, null, false, true);
+			$path      = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
+			$source    = $path . "/modules/$extension";
+			$lang->load("$extension.sys", $path, null, false, true)
+			|| $lang->load("$extension.sys", $source, null, false, true);
 			$modules[$i]->text = Text::_($module->text);
 		}
 
@@ -202,7 +253,7 @@ abstract class ModulesHelper
 	 */
 	public static function getAssignmentOptions($clientId)
 	{
-		$options = array();
+		$options   = array();
 		$options[] = HTMLHelper::_('select.option', '0', 'COM_MODULES_OPTION_MENU_ALL');
 		$options[] = HTMLHelper::_('select.option', '-', 'COM_MODULES_OPTION_MENU_NONE');
 
@@ -238,20 +289,20 @@ abstract class ModulesHelper
 		if (!$loaded)
 		{
 			$lang->load('tpl_' . $template . '.sys', $path, null, false, false)
-			||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
-			||	$lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
-			||	$lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
+			|| $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, null, false, false)
+			|| $lang->load('tpl_' . $template . '.sys', $path, $lang->getDefault(), false, false)
+			|| $lang->load('tpl_' . $template . '.sys', $path . '/templates/' . $template, $lang->getDefault(), false, false);
 		}
 
 		$langKey = strtoupper('TPL_' . $template . '_POSITION_' . $position);
-		$text = Text::_($langKey);
+		$text    = Text::_($langKey);
 
 		// Avoid untranslated strings
 		if (!self::isTranslatedText($langKey, $text))
 		{
 			// Modules component translation
 			$langKey = strtoupper('COM_MODULES_POSITION_' . $position);
-			$text = Text::_($langKey);
+			$text    = Text::_($langKey);
 
 			// Avoid untranslated strings
 			if (!self::isTranslatedText($langKey, $text))
@@ -297,7 +348,7 @@ abstract class ModulesHelper
 			$text = $value;
 		}
 
-		$option = new \stdClass;
+		$option        = new \stdClass;
 		$option->value = $value;
 		$option->text  = $text;
 
@@ -316,7 +367,7 @@ abstract class ModulesHelper
 	 */
 	public static function createOptionGroup($label = '', $options = array())
 	{
-		$group = array();
+		$group          = array();
 		$group['value'] = $label;
 		$group['text']  = $label;
 		$group['items'] = $options;

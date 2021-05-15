@@ -8,11 +8,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
- * Plugin to add a moduleposition element to the pagebuilder
+ * Plugin to add a module position element to the layout builder
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -27,54 +28,87 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Add moduleposition element which can have every other element as child
+	 * Load a list of used module positions.
 	 *
-	 * @param   array  $params  Data for the element
+	 * @return  array  List of used module positions.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function loadValidModulePositions(): array
+	{
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('modules.position'))
+			->from($db->quoteName('#__modules', 'modules'))
+			->innerJoin(
+				$db->quoteName('#__extensions', 'extensions'),
+				$db->quoteName('modules.module') . ' = ' . $db->quoteName('extensions.name') .
+				' AND ' . $db->quoteName('extensions.client_id') . ' = 0'
+			)
+			->order($db->quoteName('position') . ' ASC');
+
+		$results   = $db->setQuery($query)
+			->loadObjectList();
+		$positions = [];
+
+		array_walk($results,
+			static function ($result) use (&$positions) {
+				$position = $result->position;
+
+				$positions[$position] = $position ?? 'NONE';
+			}
+		);
+
+		return $positions;
+	}
+
+	/**
+	 * Add moduleposition element which can have every other element as child
 	 *
 	 * @return  array   data for the element inside the editor
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAddElement($params)
+	public function onAddElement(): array
 	{
 		Text::script('PLG_PAGEBUILDER_MODULEPOSITION_NAME');
 
-		$chromeValues = array(
-			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_NONE') => '',
-			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_HTML5') => 'html5',
-			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_HORZ') => 'horz',
+		$chromeValues = [
+			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_NONE')    => '',
+			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_HTML5')   => 'html5',
+			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_HORZ')    => 'horz',
 			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_OUTLINE') => 'outline',
 			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_ROUNDED') => 'rounded',
-			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_TABLE') => 'table',
-			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_XHTML') => 'xhtml',
-		);
+			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_TABLE')   => 'table',
+			Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME_XHTML')   => 'xhtml',
+		];
 
-		return array(
+		return [
 			'title'       => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
 			'description' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_DESC'),
 			'id'          => 'moduleposition',
-			'parent'      => array('root', 'grid', 'container', 'column'),
+			'parent'      => ['root', 'grid', 'container', 'column'],
 			'children'    => false,
 			'component'   => false,
 			'message'     => false,
-			'config'  => array(
-				'position_name' => array(
-					'value' => '',
-					'type' => 'text',
-					'required' => true,
-					'show' => true,
-					'label' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_POSITION_NAME'),
+			'config'      => [
+				'position_name' => [
+					'value'       => $this->loadValidModulePositions(),
+					'type'        => 'inputselect',
+					'required'    => true,
+					'show'        => true,
+					'label'       => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_POSITION_NAME'),
 					'placeholder' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_ENTER_NAME')
-				),
-				'module_chrome' => array(
-					'value' => $chromeValues,
-					'type' => 'select',
+				],
+				'module_chrome' => [
+					'value'    => $chromeValues,
+					'type'     => 'select',
 					'required' => false,
-					'show' => true,
-					'label' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME')
-				)
-			)
-		);
+					'show'     => true,
+					'label'    => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_CONFIG_CHROME')
+				]
+			]
+		];
 	}
 
 	/**
@@ -87,11 +121,11 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onRenderPagebuilderElement($context, $data)
+	public function onRenderPagebuilderElement(string $context, array $data): array
 	{
 		if ($context !== 'com_template.pagebuilder.moduleposition')
 		{
-			return array();
+			return [];
 		}
 
 		$html = '<jdoc:include';
@@ -105,12 +139,12 @@ class PlgPagebuilderModuleposition extends CMSPlugin
 
 		$html .= ' />';
 
-		return array(
-			'title' => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
+		return [
+			'title'  => Text::_('PLG_PAGEBUILDER_MODULEPOSITION_NAME'),
 			'config' => $data->options,
-			'id'    => 'moduleposition',
-			'start' => $html,
-			'end'   => null
-		);
+			'id'     => 'moduleposition',
+			'start'  => $html,
+			'end'    => null
+		];
 	}
 }

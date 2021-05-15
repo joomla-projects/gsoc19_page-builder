@@ -27,26 +27,24 @@ use Joomla\CMS\Plugin\PluginHelper;
  * @var   boolean  $readonly        Is this field read only?
  * @var   string   $value           Value attribute of the field.
  */
-extract($displayData);
+extract($displayData, EXTR_OVERWRITE);
 
 // Add JavaScript
-HTMLHelper::_('script', 'media/system/js/fields/pagebuilder/pagebuilder.js');
+HTMLHelper::_('script', 'media/system/js/fields/pagebuilder/pagebuilder.js', [], ['type' => 'module']);
 
 // Add stylesheet
 HTMLHelper::_('stylesheet', 'media/system/css/fields/pagebuilder.css');
 
 // Include plugins for pagebuilder elements like container or columns
 PluginHelper::importPlugin('pagebuilder');
-$pluginElements = Factory::getApplication()->triggerEvent(
-	'onAddElement', array('param')
-);
+$pluginElements = Factory::getApplication()->triggerEvent('onAddElement');
 
-$options = array(
+$options = [
 	'disabled' => $disabled,
 	'elements' => $pluginElements,
 	'id' => $id,
 	// Images to select new elements
-	'images' => array(
+	'images' => [
 		'row12'   => HTMLHelper::_('image', 'media/system/images/pagebuilder/row_12.png', 'row12'),
 		'row84'   => HTMLHelper::_('image', 'media/system/images/pagebuilder/row_8_4.png', 'row84'),
 		'row66'   => HTMLHelper::_('image', 'media/system/images/pagebuilder/row_6_6.png', 'row66'),
@@ -54,9 +52,9 @@ $options = array(
 		'row444'  => HTMLHelper::_('image', 'media/system/images/pagebuilder/row_4_4_4.png', 'row444'),
 		'row363'  => HTMLHelper::_('image', 'media/system/images/pagebuilder/row_3_6_3.png', 'row363'),
 		'row3333' => HTMLHelper::_('image', 'media/system/images/pagebuilder/row_3_3_3_3.png', 'row3333'),
-	),
+	],
 	'readonly' => $readonly
-);
+];
 
 Factory::getDocument()->addScriptOptions('system.pagebuilder', $options);
 

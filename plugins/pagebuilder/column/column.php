@@ -29,13 +29,11 @@ class PlgPagebuilderColumn extends CMSPlugin
 	/**
 	 * Add column element which can be a child of grids
 	 *
-	 * @param   array  $params  Data for the element
-	 *
 	 * @return  array   data for the element inside the editor
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAddElement($params)
+	public function onAddElement(): array
 	{
 		Text::script('PLG_PAGEBUILDER_COLUMN_NAME');
 
