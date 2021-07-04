@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="4.0" type="plugin" group="pagebuilder" method="upgrade">
-	<name>plg_pagebuilder_grid</name>
+	<name>plg_pagebuilder_paragraph</name>
 	<author>Joomla! Project</author>
 	<creationDate>June 2019</creationDate>
 	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
@@ -8,13 +8,13 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
-	<description>PLG_PAGEBUILDER_GRID_XML_DESCRIPTION</description>
+	<description>PLG_PAGEBUILDER_PARAGRAPH_XML_DESCRIPTION</description>
 	<files>
-		<filename plugin="grid">grid.php</filename>
+		<filename plugin="paragraph">paragraph.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_pagebuilder_grid.ini</language>
-		<language tag="en-GB">en-GB.plg_pagebuilder_grid.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_pagebuilder_paragraph.ini</language>
+		<language tag="en-GB">en-GB.plg_pagebuilder_paragraph.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -22,8 +22,8 @@
 				<field
 						name="context"
 						type="context"
-						label="PLG_PAGEBUILDER_GRID_CONTEXT_LABEL"
-						default="*"
+						label="PLG_PAGEBUILDER_PARAGRAPH_CONTEXT_LABEL"
+						default="content"
 				/>
 			</fieldset>
 		</fields>

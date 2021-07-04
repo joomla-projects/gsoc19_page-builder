@@ -29,14 +29,22 @@ class PlgPagebuilderGrid extends CMSPlugin
 	/**
 	 * Add grid element which can have every other element as child
 	 *
+     * @param   string  $context  Where the Page Builder is called
 	 * @param   array  $params  Data for the element
 	 *
 	 * @return  array   data for the element inside the editor
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAddElement($params)
+	public function onPageBuilderAddElement($context, $params)
 	{
+		$configContext = $this->params->get('context');
+
+		if (strpos($context, $configContext) === false)
+		{
+			return array();
+		}
+
 		Text::script('PLG_PAGEBUILDER_GRID_NAME');
 
 		return array(
@@ -60,9 +68,9 @@ class PlgPagebuilderGrid extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onRenderPagebuilderElement($context, $data)
+	public function onPageBuilderRenderElement($context, $data)
 	{
-		if ($context !== 'com_template.pagebuilder.grid')
+		if ($context !== 'grid')
 		{
 			return array();
 		}

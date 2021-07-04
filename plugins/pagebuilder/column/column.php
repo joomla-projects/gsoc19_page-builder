@@ -29,14 +29,22 @@ class PlgPagebuilderColumn extends CMSPlugin
 	/**
 	 * Add column element which can be a child of grids
 	 *
+     * @param   string  $context  Where the Page Builder is called
 	 * @param   array  $params  Data for the element
 	 *
 	 * @return  array   data for the element inside the editor
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAddElement($params)
+	public function onPageBuilderAddElement($context, $params)
 	{
+		$configContext = $this->params->get('context');
+
+		if (strpos($context, $configContext) === false)
+		{
+			return array();
+		}
+
 		Text::script('PLG_PAGEBUILDER_COLUMN_NAME');
 
 		return array(
@@ -60,9 +68,9 @@ class PlgPagebuilderColumn extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onRenderPagebuilderElement($context, $data)
+	public function onPageBuilderRenderElement($context, $data)
 	{
-		if ($context !== 'com_template.pagebuilder.column')
+		if ($context !== 'column')
 		{
 			return array();
 		}

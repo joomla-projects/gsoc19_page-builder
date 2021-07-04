@@ -16,4 +16,16 @@
 		<language tag="en-GB">en-GB.plg_pagebuilder_column.ini</language>
 		<language tag="en-GB">en-GB.plg_pagebuilder_column.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic" addfieldpath="plugins/editors/pagebuilder">
+				<field
+						name="context"
+						type="context"
+						label="PLG_PAGEBUILDER_COLUMN_CONTEXT_LABEL"
+						default="*"
+				/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

@@ -12,11 +12,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
- * Plugin to add a container element to the pagebuilder
+ * Plugin to add a paragraph element to the pagebuilder
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgPagebuilderContainer extends CMSPlugin
+class PlgPagebuilderParagraph extends CMSPlugin
 {
 	/**
 	 * Load plugin language files automatically
@@ -27,10 +27,10 @@ class PlgPagebuilderContainer extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Add container element which can have every other element as child
+	 * Add paragraph element which can have every other element as child
 	 *
 	 * @param   string  $context  Where the Page Builder is called
-	 * @param   array  $params  Data for the element
+	 * @param   array   $params   Data for the element
 	 *
 	 * @return  array   data for the element inside the editor
 	 *
@@ -45,32 +45,28 @@ class PlgPagebuilderContainer extends CMSPlugin
 			return array();
 		}
 
-		Text::script('PLG_PAGEBUILDER_CONTAINER_NAME');
+		Text::script('PLG_PAGEBUILDER_PARAGRAPH_NAME');
 
 		return array(
-			'title'       => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
-			'description' => Text::_('PLG_PAGEBUILDER_CONTAINER_DESC'),
-			'id'          => 'container',
-			'parent'      => array('root', 'column'),
-			'children'    => true,
-			'component'   => true,
-			'message'     => true,
-			'config'      => [
-				'fluid' => [
-					'type' => 'select',
-					'value' => [
-						Text::_('JYES') => 1,
-						Text::_('JNO') => 0
-					],
-					'label' => Text::_('PLG_PAGEBUILDER_CONTAINER_FLUID'),
-					'default' => 0
-				]
-			]
+			'title'       => Text::_('PLG_PAGEBUILDER_PARAGRAPH_NAME'),
+			'description' => Text::_('PLG_PAGEBUILDER_PARAGRAPH_DESC'),
+			'id'          => 'paragraph',
+			'parent'      => array('root', 'container', 'grid', 'column'),
+			'children'    => false,
+			'component'   => false,
+			'message'     => false,
+			'config'      => array(
+				'text' => array(
+					'type' => 'text',
+					'label' => Text::_('PLG_PAGEBUILDER_PARAGRAPH_TEXT'),
+					'default' => ''
+				)
+			)
 		);
 	}
 
 	/**
-	 * Get rendering options for frontend templates
+	 * Get rendering options for content
 	 *
 	 * @param   string  $context  Indicates the type of the rendered element
 	 * @param   array   $data     Options set in pagebuilder editor like classes, size etc.
@@ -81,21 +77,16 @@ class PlgPagebuilderContainer extends CMSPlugin
 	 */
 	public function onPageBuilderRenderElement($context, $data)
 	{
-		if ($context !== 'container')
+		if ($context !== 'paragraph')
 		{
 			return array();
 		}
 
-		$html = '<div ';
-		$classes = array('container');
+		$html = '<p ';
+		$classes = array('paragraph');
 
 		if (isset($data->options))
 		{
-			if (!empty($data->options->fluid))
-			{
-				$classes = array('container-fluid');
-			}
-
 			if (!empty($data->options->class))
 			{
 				$classes[] = $data->options->class;
@@ -104,13 +95,14 @@ class PlgPagebuilderContainer extends CMSPlugin
 
 		$html .= ' class="' . implode(' ', $classes) . '"';
 		$html .= '>';
+		$html .= $data->options->text;
 
 		return array(
-			'title' => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
+			'title' => Text::_('PLG_PAGEBUILDER_PARAGRAPH_NAME'),
 			'config' => $data->options,
-			'id'    => 'container',
+			'id'    => 'paragraph',
 			'start' => $html,
-			'end'   => '</div>'
+			'end'   => '</p>'
 		);
 	}
 }

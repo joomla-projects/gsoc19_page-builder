@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgPagebuilderContainer extends CMSPlugin
+class PlgPagebuilderItemTitle extends CMSPlugin
 {
 	/**
 	 * Load plugin language files automatically
@@ -30,7 +30,7 @@ class PlgPagebuilderContainer extends CMSPlugin
 	 * Add container element which can have every other element as child
 	 *
 	 * @param   string  $context  Where the Page Builder is called
-	 * @param   array  $params  Data for the element
+	 * @param   array   $params   Data for the element
 	 *
 	 * @return  array   data for the element inside the editor
 	 *
@@ -38,34 +38,22 @@ class PlgPagebuilderContainer extends CMSPlugin
 	 */
 	public function onPageBuilderAddElement($context, $params)
 	{
-		$configContext = $this->params->get('context');
-
-		if (strpos($context, $configContext) === false)
+		if (strpos($context, 'com_templates.template') === false)
 		{
 			return array();
 		}
 
-		Text::script('PLG_PAGEBUILDER_CONTAINER_NAME');
+		Text::script('PLG_PAGEBUILDER_ITEM_TITLE_NAME');
 
 		return array(
-			'title'       => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
-			'description' => Text::_('PLG_PAGEBUILDER_CONTAINER_DESC'),
-			'id'          => 'container',
+			'title'       => Text::_('PLG_PAGEBUILDER_ITEM_TITLE_NAME'),
+			'description' => Text::_('PLG_PAGEBUILDER_ITEM_TITLE_DESC'),
+			'id'          => 'itemtitle',
 			'parent'      => array('root', 'column'),
-			'children'    => true,
-			'component'   => true,
-			'message'     => true,
-			'config'      => [
-				'fluid' => [
-					'type' => 'select',
-					'value' => [
-						Text::_('JYES') => 1,
-						Text::_('JNO') => 0
-					],
-					'label' => Text::_('PLG_PAGEBUILDER_CONTAINER_FLUID'),
-					'default' => 0
-				]
-			]
+			'children'    => false,
+			'component'   => false,
+			'message'     => false,
+			'config'      => array()
 		);
 	}
 
@@ -81,36 +69,41 @@ class PlgPagebuilderContainer extends CMSPlugin
 	 */
 	public function onPageBuilderRenderElement($context, $data)
 	{
-		if ($context !== 'container')
+		if ($context !== 'itemtitle')
 		{
 			return array();
 		}
 
-		$html = '<div ';
-		$classes = array('container');
+		$classes = array('itemtitle');
 
 		if (isset($data->options))
 		{
-			if (!empty($data->options->fluid))
-			{
-				$classes = array('container-fluid');
-			}
-
 			if (!empty($data->options->class))
 			{
 				$classes[] = $data->options->class;
 			}
 		}
 
-		$html .= ' class="' . implode(' ', $classes) . '"';
-		$html .= '>';
+		$html = '<div class="' . implode(' ', $classes) . '">
+			<h2 itemprop="headline">
+				<?php echo $this->escape($this->item->title); ?>
+			</h2>
+			<?php if ($this->item->condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
+				<span class="badge badge-warning"><?php echo Text::_("JUNPUBLISHED"); ?></span>
+			<?php endif; ?>
+			<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
+				<span class="badge badge-warning"><?php echo Text::_("JNOTPUBLISHEDYET"); ?></span>
+			<?php endif; ?>
+			<?php if (!is_null($this->item->publish_down) && (strtotime($this->item->publish_down) < strtotime(Factory::getDate()))) : ?>
+				<span class="badge badge-warning"><?php echo Text::_("JEXPIRED"); ?></span>
+			<?php endif; ?>';
 
 		return array(
-			'title' => Text::_('PLG_PAGEBUILDER_CONTAINER_NAME'),
+			'title'  => Text::_('PLG_PAGEBUILDER_ITEM_TITLE_NAME'),
 			'config' => $data->options,
-			'id'    => 'container',
-			'start' => $html,
-			'end'   => '</div>'
+			'id'     => 'itemtitle',
+			'start'  => $html,
+			'end'    => '</div>'
 		);
 	}
 }

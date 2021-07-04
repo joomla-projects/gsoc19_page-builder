@@ -68,8 +68,8 @@ $this->addStyleDeclaration($css);
 	. ($itemid ? ' itemid-' . $itemid : '')
 	. ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<!-- This renders the elements on the webpage -->
-	<?php echo RenderHelper::renderElements($pageGrid); ?>
+
+	<?php echo $pageGrid; ?>
 
 </body>
 </html>

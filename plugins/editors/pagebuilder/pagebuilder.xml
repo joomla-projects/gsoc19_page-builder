@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="editors" method="upgrade">
+	<name>plg_editors_pagebuilder</name>
+	<creationDate>February 2020</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>4.0.0</version>
+	<description>PLG_PAGEBUILDER_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="pagebuilder">pagebuilder.php</filename>
+		<filename>contexts.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_editors_pagebuilder.ini</language>
+		<language tag="en-GB">en-GB.plg_editors_pagebuilder.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="layout"
+					type="text"
+					label="PLG_PAGEBUILDER_CONTEXT_LAYOUT_LABEL"
+					description="PLG_PAGEBUILDER_CONTEXT_LAYOUT_DESC"
+					default="com_templates.view,com_templates.templates"
+				/>
+				<field
+					name="content"
+					type="text"
+					label="PLG_PAGEBUILDER_CONTEXT_CONTENT_LABEL"
+					description="PLG_PAGEBUILDER_CONTEXT_CONTENT_DESC"
+					default="com_content.article,com_modules.module"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
